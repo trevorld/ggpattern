@@ -1,0 +1,91 @@
+Package: ggpattern
+Type: Package
+Title: Geoms with Patterns
+Version: 0.1.0
+Authors@R: person("Mike", "FC", email = "mikefc@coolbutuseless.com",
+                  role = c("aut", "cre"))
+Description: Geoms with patterns for ggplot2.
+URL: http://github.com/coolbutuseless/ggpattern, https://coolbutuseless.github.io/package/ggpattern/index.html 
+BugReports: URL: http://github.com/coolbutuseless/ggpattern/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Published: 2020-04-01
+Imports:
+    ggplot2,
+    scales,
+    grid,
+    glue,
+    rlang,
+    tibble,
+    gridGeometry,
+    sf,
+    png,
+    magick,
+    memoise
+Collate: 
+    'aaa-ggplot2-compat-plyr.R'
+    'aaa-ggplot2-ggplot-global.R'
+    'aaa-ggplot2-performance.R'
+    'aaa-ggplot2-scale-manual.R'
+    'aaa-ggplot2-utilities-grid.R'
+    'aaa-ggplot2-utilities-matrix.R'
+    'aaa-ggplot2-utilities.R'
+    'aab-utils.R'
+    'geom-.R'
+    'geom-rect.R'
+    'geom-bar.R'
+    'geom-bin2d.R'
+    'geom-boxplot.R'
+    'geom-col.R'
+    'geom-crossbar.R'
+    'geom-ribbon.R'
+    'geom-density.R'
+    'geom-polygon.R'
+    'geom-map.R'
+    'geom-sf.R'
+    'geom-tile.R'
+    'geom-violin.R'
+    'ggpattern-package.R'
+    'pattern-array-gradient.R'
+    'pattern-array-image.R'
+    'pattern-array-magick-pattern.R'
+    'pattern-array-magick-plasma.R'
+    'pattern-array-placeholder.R'
+    'pattern-array.R'
+    'pattern-circle.R'
+    'pattern-crosshatch-sf.R'
+    'pattern-none.R'
+    'pattern-stripe-sf.R'
+    'pattern.R'
+    'polygon_df.R'
+    'scale-pattern-alpha.R'
+    'scale-pattern-brewer.R'
+    'scale-pattern-colour.R'
+    'scale-pattern-gradient.R'
+    'scale-pattern-grey.R'
+    'scale-pattern-hue.R'
+    'scale-pattern-linetype.R'
+    'scale-pattern-shape.R'
+    'scale-pattern-size.R'
+    'scale-pattern-viridis.R'
+    'scale-pattern.R'
+    'utils-magick-fill.R'
+    'utils-magick-pattern.R'
+    'utils-magick-plasma.R'
+    'utils-magick-read.R'
+    'utils-magick.R'
+    'viewport.R'
+    'zxx.r'
+Suggests: 
+    knitr,
+    rmarkdown,
+    dplyr,
+    reshape2,
+    maps,
+    testthat (>= 2.1.0),
+    ambient,
+    gganimate,
+    readr
+VignetteBuilder: knitr

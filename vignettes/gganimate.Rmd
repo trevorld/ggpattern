@@ -1,0 +1,72 @@
+---
+title: "Animating Patterns with gganimate"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Animating Patterns with gganimate}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 4
+)
+
+library(gganimate)
+library(ggpattern)
+```
+
+
+Using `gganimate` with `ggpattern`
+------------------------------------------------------------------------------
+
+This is a very simple proof-of-concept of animating a ggpattern with gganimate.
+
+
+
+```{r}
+library(gganimate)
+library(ggpattern)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a dataset with 2 different states
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+df1 <- data.frame(time = 1, offset = 0    , trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2), stringsAsFactors = FALSE)
+df2 <- data.frame(time = 2, offset = 0.045, trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2), stringsAsFactors = FALSE)
+df  <- rbind(df1, df2)
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Plot the two different states and transition between them.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+p <- ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      pattern_fill    = trt, 
+      pattern_xoffset = I(offset), 
+      pattern_yoffset = I(-offset)
+    ), 
+    colour          = 'black', 
+    fill            = 'white',
+    pattern_density = 0.5,
+    pattern_angle   = 45
+  ) +
+  theme_bw() +
+  labs(title = "ggpattern + gganimate") + 
+  theme(legend.position = 'none') + 
+  coord_fixed(ratio = 1/2) 
+
+p <- p + transition_states(time, transition_length = 2,
+                    state_length = 0, wrap = FALSE)
+
+animate(p, nframes = 60, fps = 20)
+```
+
+
+Future
+------------------------------------------------------------------------------
+
+* Include more examples
+

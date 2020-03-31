@@ -1,0 +1,168 @@
+---
+title: "Pattern Magick - Parameters and Examples"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Pattern Magick - Parameters and Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 6
+)
+```
+
+```{r setup}
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(ggpattern)
+})
+```
+
+
+`pattern = 'magick'` - filling a geom with pattern from `imagemagick`
+------------------------------------------------------------------------------
+
+`imagemagick` has the ability to create pixel-based patterns.  This pattern uses
+those pixel patterns to fill the geom.
+
+
+
+`pattern = 'magick'` options
+------------------------------------------------------------------------------
+
+| Aesthetic                  | Description                        | Default   |
+|----------------------------|------------------------------------|-----------|
+| `pattern_type`             | Image scaling type                 | 'fit'     |
+| `pattern_fill`             | Colour                             | 'grey20'  |
+| `pattern_scale`            | Extra scaling                      | 1         |
+| `pattern_filter`           | Filter to use when scaling         | 'box    ' |
+| `pattern_alpha`            | Alpha                              | 1         |
+| `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
+| `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
+
+
+`pattern = 'magick'` - `pattern_type` options
+------------------------------------------------------------------------------
+
+Patterns have been scaled (using `pattern_scale`) to make them more visible for this vignette.
+
+Note that these are all pixel patterns and will always look blocky.
+
+```{r fig.width=7, fig.height = 12, echo = TRUE}
+df1 <- tibble(
+  x    = rep(1:6, 9),
+  y    = rep(1:9, each=6),
+  name = ggpattern::magick_pattern_names
+)
+
+
+ggplot(df1) + 
+  geom_tile_pattern(
+    aes(x, y, pattern_type = I(name)),
+    pattern       = 'magick',
+    pattern_scale = 1.5,
+    pattern_fill  = 'white', 
+    width         = 0.9, 
+    height        = 0.9
+  ) + 
+  geom_label(aes(x+0.4, y+0.4, label = name), hjust = 1, vjust = 1) + 
+  theme_void() + 
+  labs(
+    title = "All the possible magick pattern names"
+  ) +
+  coord_fixed(1)
+```
+
+
+
+
+Example: `pattern = 'magick'` - Transparent patterns
+------------------------------------------------------------------------------
+
+```{r}
+df1 <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
+
+ggplot(df1, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      pattern_type = trt, 
+      pattern_fill = trt
+    ),
+    pattern       = 'magick',
+    pattern_key_scale_factor = 0.7,
+    fill          = 'white',
+    colour        = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='magick'"
+  ) +
+  theme(legend.key.size = unit(2, 'cm')) +
+  scale_pattern_type_discrete(choices = c('bricks', 'fishscales', 'right45')) +
+  coord_fixed(ratio = 1/2)
+```
+
+
+Example: `pattern = 'magick'` - Transparent patterns (2)
+------------------------------------------------------------------------------
+
+```{r}
+ggplot(mtcars) +
+  geom_density_pattern(
+    aes(
+      x             = mpg,
+      pattern_fill  = as.factor(cyl),
+      pattern_type  = as.factor(cyl)
+    ),
+    pattern      = 'magick',
+    pattern_scale = 2
+  ) +
+  theme_bw(15) +
+  theme(legend.key.size = unit(2, 'cm')) +
+  labs(
+    title    = "ggpattern::geom_density_pattern()",
+    subtitle = "pattern='magick'"
+  ) +
+  scale_pattern_type_discrete(choices = magick_pattern_names) +
+  coord_fixed(ratio = 80)
+```
+
+
+Example: `pattern = 'magick'` - Pie chart
+------------------------------------------------------------------------------
+
+
+```{r}
+df2 <- data.frame(
+  group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
+  value = c(10, 20, 30, 40)
+)
+
+ggplot(df2, aes(x="", y = value, pattern_angle = group))+
+  geom_bar_pattern(
+    aes(pattern_type = group, pattern_fill = group),
+    pattern                  = 'magick',
+    pattern_scale            = 2,
+    width                    = 1,
+    stat                     = "identity",
+    fill                     = 'white',
+    colour                   = 'black',
+    pattern_aspect_ratio     = 1,
+    pattern_density          = 0.3
+  ) +
+  coord_polar("y", start=0) +
+  theme_void(20) +
+  theme(legend.key.size = unit(2, 'cm')) +
+  scale_pattern_type_discrete(choices = magick_pattern_stripe_names) +
+  labs(
+    title    = "ggpattern::geom_bar_pattern()",
+    subtitle = "pattern='magick'"
+  ) 
+```

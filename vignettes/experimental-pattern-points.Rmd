@@ -1,0 +1,311 @@
+---
+title: "Experimental Pattern - Points"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Experimental Pattern - Points}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 6
+)
+
+suppressPackageStartupMessages({
+  library(rlang)
+  library(ggplot2)
+  library(sf)
+  library(grid)
+  library(ggpattern)
+})
+```
+
+
+
+Introduction to the geometry-based `hex` pattern
+------------------------------------------------------------------------------
+
+
+The pattern is an attempt to create a structured pattern of point elements using
+only geometry elements.  The plotted points correspond to the plotting shapes used in 
+`geom_point` and using `base` plotting.
+
+
+
+Create the `points` pattern function
+------------------------------------------------------------------------------
+
+All geometry-based pattern creation functions must:
+
+1. Have the exact function signature: `function(params, boundary_df, aspect_ratio, legend)`
+2. Return a grid grob object
+
+
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Create a pointsGrob object for a set of points
+#'
+#' Use 'sf' to help with the point in polygon intersections.
+#'
+#' \itemize{
+#'   \item{make grid to cover entire space}
+#'   \item{rotate points into position}
+#'   \item{create expanded boundary by r}
+#'   \item{create contracted boundary by r}
+#'   \item{remove all points outside the expanded boundary}
+#'   \item{remove all points within contracted boundary -> internal points}
+#'   \item{any remaining points become part of the intersection grob}
+#'   \item{total points = treeGrob( internal_internal, intersection_points)}
+#' }
+#'
+#' @param boundary_df polygon_df data.frame
+#' @param angle angle of orientation (degrees)
+#' @param spacing spacing in grid 'npc' coordinates. Usually in range [0, 1]
+#' @param density fill fraction. Number in range [0, 1]
+#' @param xoffset,yoffset offset the pattern creation origin.
+#' @param aspect_ratio aspect_ratio
+#' @param params params from the geom
+#'
+#' @return A grid::pointsGrob
+#'
+#' @import grid
+#' @import sf
+#' @import grid
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create_points_grob <- function(boundary_df, params, angle=0, spacing=0.1, density=0.3,
+                                xoffset=0, yoffset=0,
+                                aspect_ratio) {
+
+  angle <- angle %% 90
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Calculate radius
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  r <- spacing * density / 2
+  if (aspect_ratio > 1) {
+    r <- r * aspect_ratio
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Things get dicey at the boundaries, especially when there is very large
+  # or small aspect ratio.   Include this fudge factor in buffering the
+  # boundary to ensure that all partially ntersecting points are kept
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  fudge_factor <- aspect_ratio
+  if (fudge_factor < 1) {
+    fudge_factor <- 1/fudge_factor
+  }
+
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Generate a square grid of points
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  rff <- r * fudge_factor
+  yff <- 1 / aspect_ratio * 1
+
+  yff <- max(yff, 2)
+
+
+  point_coords <- expand.grid(
+    x = seq(-rff    , yff+rff, spacing),
+    y = seq(-yff-rff, yff+rff, spacing)
+  )
+
+  if (nrow(point_coords) == 0) {
+    return(grid::nullGrob())
+  }
+
+  point_coords   <- rotate_polygon_df(point_coords, angle, aspect_ratio)
+  point_coords$y <- point_coords$y * aspect_ratio
+
+  points_sf    <- sf::st_multipoint(as.matrix(point_coords))
+
+  boundary_sf   <- convert_polygon_df_to_polygon_sf(boundary_df, buffer_dist =  0)
+  expanded_sf   <- convert_polygon_df_to_polygon_sf(boundary_df, buffer_dist =  r * fudge_factor)
+  contracted_sf <- convert_polygon_df_to_polygon_sf(boundary_df, buffer_dist = -r * fudge_factor)
+
+  all_points_sf      <- sf::st_intersection(expanded_sf, points_sf)
+  interior_points_sf <- sf::st_intersection(contracted_sf, all_points_sf)
+  exterior_points_sf <- sf::st_difference(all_points_sf, contracted_sf)
+
+  interior_points_mat <- as.matrix(interior_points_sf)
+  exterior_points_mat <- as.matrix(exterior_points_sf)
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Create a grob for the internal points
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (is.null(interior_points_mat) || nrow(interior_points_mat) == 0) {
+    interior_points_grob <- nullGrob()
+  } else {
+    interior_points_grob <- grid::pointsGrob(
+      x    = interior_points_mat[,1],
+      y    = interior_points_mat[,2],
+      pch  = params$pattern_shape,
+      size = unit(1, 'char'),
+      gp   = gpar(
+        fill = scales::alpha(params$pattern_fill  , params$pattern_alpha),
+        col  = scales::alpha(params$pattern_colour, params$pattern_alpha),
+        lwd  = params$pattern_size,
+        lty  = params$pattern_linetype
+      )
+    )
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Create a grob for the intersecting points that don't lie
+  # completely in the region.
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (is.null(exterior_points_mat) || nrow(exterior_points_mat) == 0) {
+    exterior_points_grob <- nullGrob()
+  } else {
+    exterior_points_grob <- grid::pointsGrob(
+      x    = exterior_points_mat[,1],
+      y    = exterior_points_mat[,2],
+      pch  = params$pattern_shape,
+      size = unit(1, 'char'),
+      gp   = gpar(
+        fill = 'red', #scales::alpha(params$pattern_fill  , params$pattern_alpha),
+        col  = 'green', #scales::alpha(params$pattern_colour, params$pattern_alpha),
+        lwd  = params$pattern_size,
+        lty  = params$pattern_linetype
+      )
+    )
+
+  }
+
+
+  grid::grobTree(
+    interior_points_grob#,
+    # exterior_points_grob
+  )
+}
+```
+
+
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Create an array of noise using the 'ambient' package
+#'
+#' @param params aesthetic parameters passed from the geom e.g. 'pattern_fill', 
+#'        'pattern_frequency' etc.
+#' @param boundary_df is a data.frame of (x, y) coordinates of the boundary of
+#"        the geom to be filled.
+#' @param aspect_ratio this is the best guess of the current aspect ratio of the
+#'        viewport into which the geometry is being drawn
+#' @param legend logical. If the request to create a pattern comes during 
+#'        creation of the legend, then this is TRUE, otherwise FALSE
+#'
+#' @return a grid grob object containing the pattern
+#'
+#' @import ambient
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create_pattern_points <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
+
+  stopifnot(is_polygon_df(boundary_df))
+
+  boundary_grob <- convert_polygon_df_to_polygon_grob(boundary_df)
+  bbox          <- calculate_bbox_polygon_df(boundary_df)
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Create an SF object with points covering the entire viewpoint
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  points_grob <- create_points_grob(
+    boundary_df  = boundary_df,
+    params       = params,
+    angle        = params$pattern_angle,
+    spacing      = params$pattern_spacing,
+    density      = params$pattern_density,
+    xoffset      = params$pattern_xoffset,
+    yoffset      = params$pattern_yoffset,
+    aspect_ratio = aspect_ratio
+  )
+
+  points_grob
+}
+```
+
+
+Let `{ggpattern}` know that there's an external pattern function it can use
+------------------------------------------------------------------------------
+
+A global option (`ggpattern_geometry_funcs`) is a named list which contains 
+geometry-based patten creating functions to use outside of `ggpattern`.
+
+The **name** used in this list corresponds to the `pattern` name used with 
+the geom - in this case we will be using `pattern = 'points'`.
+
+
+```{r}
+options(ggpattern_geometry_funcs = list(points = create_pattern_points))
+```
+
+
+Use this `points` pattern
+------------------------------------------------------------------------------
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create some data to plot
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+df <- data.frame(
+  trt     = c("a", "b", "c"), 
+  outcome = c(2.3, 1.9, 3.2)
+)
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a ggplot using this pattern
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+p <- ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      pattern_shape  = trt, 
+      pattern_angle  = trt, 
+      pattern_colour = trt
+    ), 
+    pattern          = 'points',
+    pattern_spacing  = 0.02,
+    colour           = 'black', 
+    pattern_density  = 0.15, 
+    fill             = 'white',
+    pattern_option_1 = 0.1
+  ) +
+  theme_bw() +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern = 'points'"
+  ) +
+  theme(legend.position = 'none') +
+  scale_pattern_angle_discrete(range = c(0, 30)) + 
+  coord_fixed(ratio = 1/2)
+
+p
+```
+
+
+
+
+Future
+------------------------------------------------------------------------------
+
+* Figure out some sizes of all the possible shapes so that the code can correctly 
+  calculate the buffer around the boundary and ensure the shape doesn't overlap
+* Manually create grid or `{sf}` polygon objects which recreate the shape - this 
+  way we could use `gridGeometry::polyclipGrob` to clip the shapes at the boundary.
+    * This looks like a lot of manual work.  Could perhaps raid the `{grid}` package
+      and find the source for how the shapes are drawn and just clone that?
+* All the drawn shapes are slightly different sizes, so it's difficult to write
+  code to ensure that any drawn shape lies totally within the boundary.
+* Legends are still funky
+* Because points aren't polygons, `gridGeometry::polyclipGrob` will not clip
+  a shape to a boundary.  so each shape is either drawn or not drawn, and there
+  is currently no way to generate a partial shape that intersects the boundary.
+
+
+

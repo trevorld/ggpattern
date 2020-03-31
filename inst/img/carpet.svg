@@ -1,0 +1,21 @@
+<svg width="840" height="600" viewBox="0 0 840 600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect fill="#DF5F18" x="0" y="0" width="100%" height="100%" />
+  <defs>
+    <pattern id="motif" width="140" height="200" patternUnits="userSpaceOnUse">
+      <g stroke-width="20" stroke="black">
+        <polygon points="70,140 104.64,120 104.64,80 70,60 35.36,80 35.36,120 70,140" fill="#981F24" />
+        <polygon points="0,220 34.64,200 34.64,160 0,140 -34.64,160 -34.64,200 0,220" fill="#981F24" />
+        <polygon points="140,220 174.64,200 174.64,160 140,140 105.36,160 105.36,200 140,220" fill="#981F24" />
+        <polygon points="0,20 34.64,0 34.64,-40 0,-60 -34.64,-40 -34.64,0 0,20" fill="#981F24" />
+        <polygon points="140,20 174.64,0 174.64,-40 140,-60 105.36,-40 105.36,0 140,20" fill="#981F24" />
+        <polygon points="0,60 69.28,20 69.28,-60 0,-100 -69.28,-60 -69.28,20 0,60" fill="none" />
+        <polygon points="140,60 209.28,20 209.28,-60 140,-100 70.72,-60 70.72,20 140,60" fill="none" />
+        <line stroke-width="22" x1="70" y1="140" x2="70" y2="200" />
+        <line x1="0" y1="60" x2="0" y2="140" />
+        <line x1="140" y1="60" x2="140" y2="140" />
+      </g>
+      <animateTransform attributeName="patternTransform" from="0 0" to="0 200" type="translate" dur="5" repeatCount="indefinite" />
+    </pattern>
+  </defs>
+  <rect fill="url('#motif')" x="0" y="0" width="100%" height="100%" />
+</svg>

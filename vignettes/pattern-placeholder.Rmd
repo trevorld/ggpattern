@@ -1,0 +1,218 @@
+---
+title: "Pattern Placeholder - Parameters and Examples"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Pattern Placeholder - Parameters and Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>",
+fig.width = 6,
+fig.height = 5
+)
+```
+
+```{r setup}
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(ggpattern)
+})
+```
+
+
+`placeholder` - Filling with an image placeholder
+------------------------------------------------------------------------------
+
+Array-based patterns allow the user to specify an RGBA that should be displayed 
+in the geom.
+
+Getting the correct sized image such that it takes up the full space without 
+being distorted can be a time-consuming task.
+
+The **placeholder** pattern takes out this drudgery by fetching exactly the correct
+sized image to fit the space.  These images come from image placeholder sites
+which are most often used by web-developers as a stand-in for a final image 
+while they are developing a new site.
+
+
+`placeholder` options
+------------------------------------------------------------------------------
+
+| Aesthetic                  | Description                        | Default   |
+|----------------------------|------------------------------------|-----------|
+| `pattern_type`             | Image source                       | 'kitten'  |
+| `pattern_alpha`            | Alpha                              | 1         |
+| `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
+| `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
+
+
+`placeholder` option `pattern_type`
+------------------------------------------------------------------------------
+
+The following is a list of all the `pattern_type` values which are valid. If
+unspecified or unknown, then `ggpattern` will use `pattern_type = 'kitten'`.
+
+If you would like only greyscale images, append `bw` to the name, e.g. to 
+display only black and white kittens use `pattern_type = 'kittenbw'`.
+
+Click the link to see an example of each placeholder generator
+
+* 'kitten'         - [kitten](https://placekitten.com/400/300)
+* 'picsum'         - [random picture from picsum](https://picsum.photos/400/300)
+* 'murray'         - [bill murray](http://www.fillmurray.com/400/300)
+* 'cage'           - [nicholas cage](https://www.placecage.com/400/300)
+* 'bear'           - [bears](https://placebear.com/400/300)
+* 'seagal'         - [steven seagal](https://www.stevensegallery.com/400/300)
+* 'placeholder'    - [placeholder.com](https://via.placeholder.com/400x300.png)
+* 'dummy'          - [image showing dimensions](https://dummyimage.com/400x300)
+* 'flickr'         - [random picture from flickr](https://loremflickr.com/400/300)
+* 'beard'          - [beards](http://placebeard.it/400/300)
+* 'lorempixel'     - [lorempixel](http://lorempixel.com/400/300)
+* 'placeimg'       - [random pic from placeimg.com](http://placeimg.com/400/300/any)
+* 'keanu'          - [Keanu](https://placekeanu.com/400/300)
+
+All placeholder names are available in `ggpattern::placeholder_names`.
+
+
+Example Data
+------------------------------------------------------------------------------
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Simple testing data
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+df1 <- tibble(
+  trt     = c("a", "b", "c"), 
+  outcome = c(2.3, 1.9, 3.2)
+)
+```
+
+
+Example: `pattern = 'placeholder'` - `pattern_type = 'murray'` 
+------------------------------------------------------------------------------
+
+```{r}
+
+ggplot(df1, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt), 
+    pattern      = 'placeholder', 
+    pattern_type = 'murray',
+    colour       = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='murray'"
+  ) +
+  theme(legend.position = 'none') +
+  coord_fixed(ratio = 1/2)
+```
+
+
+
+Example: `pattern = 'placeholder'` - `pattern_type = 'murray'` with `pattern_alpha`
+------------------------------------------------------------------------------
+
+```{r}
+ggplot(df1, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt), 
+    pattern       = 'placeholder', 
+    pattern_type  = 'murray',
+    pattern_alpha = 0.5,
+    colour        = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='murray'"
+  ) +
+  theme(legend.key.size = unit(1.5, 'cm')) +
+  coord_fixed(ratio = 1/2)
+```
+
+
+
+Example: `pattern = 'placeholder'` - `pattern_type = 'picsum'`  
+------------------------------------------------------------------------------
+
+```{r}
+ggplot(mtcars) +
+  geom_density_pattern(
+    aes(x = mpg, group = as.factor(cyl)),
+    pattern      = 'placeholder',
+    pattern_type = 'picsum'
+  ) +
+  theme_bw(15) +
+  theme(legend.position = 'none') +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='picsum'"
+  ) +
+  coord_fixed(ratio = 80)
+```
+
+
+
+
+Example: `pattern = 'placeholder'` - `pattern_type = 'dummy'` 
+------------------------------------------------------------------------------
+
+
+
+```{r}
+ggplot(df1, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt), 
+    pattern       = 'placeholder', 
+    pattern_type  = 'dummy',
+    colour        = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='dummy'"
+  ) +
+  theme(legend.position = 'none') +
+  coord_fixed(ratio = 1/2)
+```
+
+
+
+Example: `pattern = 'placeholder'` - `pattern_type = 'kitten'` 
+------------------------------------------------------------------------------
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Example data for pie chart
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+df2 <- tibble(
+  group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
+  value = c(10, 20, 30, 40)
+)
+
+
+ggplot(df2, aes(x="", y = value, pattern_angle = group))+
+  geom_bar_pattern(
+    pattern      = 'placeholder',
+    pattern_type = 'kitten',
+    pattern_aspect_ratio = 1,
+    width        = 1,
+    stat         = "identity",
+    colour       = 'white',
+    size         = 2
+  ) +
+  coord_polar("y", start=0) +
+  theme_void(15) +
+  theme(legend.position = 'none') +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='kitten'"
+  ) 
+```

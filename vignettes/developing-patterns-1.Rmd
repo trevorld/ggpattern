@@ -1,0 +1,266 @@
+---
+title: "Developing Patterns (1) - Pattern Overview"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Developing Patterns (1) - Pattern Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+library(ggpattern)
+```
+
+
+Developing Patterns - overview
+------------------------------------------------------------------------------
+
+To develop a pattern for use with `ggpattern` you will need to:
+
+1. Decide whether this is a geometry-based pattern or an array-based pattern.
+2. Create a function with the required arguments and return value
+3. Use `options()` to let `ggpattern` know that a certain pattern name should be
+   delegated to your function.
+
+### Table of Contents
+
+* [The two pattern classes](#classes)
+* [List of all pattern aesthetics](#aes)
+* [Aesthetic use by pattern](#aes-by-pattern)
+* [Geometry-based pattern functions](#geometry-based)
+* [Array-based pattern functions](#array-based)
+* [The `polygon_df` data.frame format](#polygon_df)
+* [Specifying user pattern functions for ggpattern](#user-funcs)
+* [Next steps](#next-steps)
+
+
+
+
+
+<a name="classes"></a> Pattern Classification - geometry-based and array-based
+------------------------------------------------------------------------------
+
+There are only 2 high-level classes of pattern supported by `ggpattern` - geometry-based
+and array-based.
+
+**Geometry-based** patterns create a series of geometry objects and trim
+them (using `sf:st_intersection()`, `polyclipGrob` etc) to be within the boundary
+of the geom. For example, the 'stripes'
+pattern in `ggpattern` is a series of equally spaced rectangular polygons.
+
+**Array-based** patterns are RGBA image arrays.  Any supplied image will be 
+processed by `ggpattern` to ensure it is masked to only apply to the area 
+within the geom's boundary.
+
+
+
+<a name="aes"></a> Aesthetics - Descriptions and Defaults
+------------------------------------------------------------------------------
+
+
+<details open = "true">
+<summary> Aesthetic summary - click to open/close </summary>
+
+| aesthetic                | description                                   | default    | possible values                    |
+|--------------------------|-----------------------------------------------|------------|------------------------------------|
+| `pattern`                  | Name of the pattern to draw                   | 'stripe'   | stripe, crosshatch, circle, image, placeholder, magick, gradient, plasma        |
+| `pattern_type`             | Generic control option                        | NA         | pattern-dependent                  |
+| `pattern_subtype`          | Generic control option                        | NA         | pattern-dependent                  |
+| `pattern_alpha`            | Alpha                                         | 1          | value in range [0, 1] (npc units)  |
+| `pattern_linetype`         | Stroke linetype                               | 1          | linetype                           |
+| `pattern_size`             | Stroke linewidth                              | 1          | linewidth                          |
+| `pattern_shape`            | Plotting shape                                | 1          | shapes                             |
+| `pattern_colour`           | Stroke colour                                 | 'grey20'   | colour                             |
+| `pattern_fill`             | Fill colour                                   | 'grey80'   | colour                             |
+| `pattern_fill2`            | Second fill colour                            | '#4169E1'  | colour                             |
+| `pattern_angle`            | Rotation angle                                | 30         | angle in degrees                   |
+| `pattern_density`          | Approx. fraction of area the pattern fills    | 0.2        | value in range [0, 1] (fraction)   |
+| `pattern_spacing`          | Spacing between repetitions of pattern        | 0.05       | value in range [0, 1] (npc units)  |
+| `pattern_xoffset`          | Shift pattern along x axis                    | 0          | value in range [0, 1] (npc units)  |
+| `pattern_yoffset`          | Shift pattern along y axis                    | 0          | value in range [0, 1] (npc units)  |
+| `pattern_aspect_ratio`     | Aspect ratio adjustment                       | NA         | usual range [0.01, 10]             |
+| `pattern_key_scale_factor` | Scale factor for pattern in legend            | 1          |                                    |
+| `pattern_filename`         | Image filename/URL                            | ''         | Filename/URL                       |
+| `pattern_gravity`          | Image placement                               | 'center'   | `ggpattern::magick_gravity_names`  |
+| `pattern_filter`           | Image scaling filter                          | 'lanczos'  | `ggpattern::magick_filter_names`   |
+| `pattern_scale`            | Scale                                         | 1          | Multiplier                         |
+| `pattern_orientation`      | Orientation                                   | 'vertical' | 'vertical', 'horizontal', 'radial' |
+| `pattern_phase`            | Phase                                         | 0          |                                    |
+| `pattern_frequency`        | Frequency                                     | 0.1        |                                    |
+| `pattern_option_1 - 5`     | Generic options for expansion                 | 0          |                                    |
+
+</summary>
+</details>
+
+<a name="aes-by-pattern"></a> Aesthetics Usage by Pattern 
+------------------------------------------------------------------------------
+
+<details open = "true">
+<summary> Aesthetic Usage-by-Pattern - click to open/close </summary>
+
+* The geometry-based patterns share a common set of aesthetics. The geometry-based
+  patterns are 
+    * `stripe`
+    * `crosshatch`
+    * `circle`
+
+| aesthetic                | geometry-based | image | placeholder | magick | gradient | plasma |
+|--------------------------|----------------|-------|-------------|--------|----------|--------|
+| pattern                  | Y              | Y     | Y           | Y      | Y        | Y      |
+| pattern_type             |                | Y     | Y           |        |          | Y      |
+| pattern_subtype          |                |       |             |        |          |        |
+| pattern_alpha            | Y              | Y     | Y           | Y      | Y        | Y      |
+| pattern_linetype         | Y              |       |             |        |          |        |
+| pattern_size             | Y              |       |             |        |          |        |
+| pattern_shape            | Y              |       |             |        |          |        |
+| pattern_colour           | Y              |       |             |        |          |        |
+| pattern_fill             | Y              |       |             | Y      | Y        | Y      |
+| pattern_fill2            |                |       |             |        | Y        |        |
+| pattern_angle            | Y              |       |             |        |          |        |
+| pattern_density          | Y              |       |             |        |          |        |
+| pattern_spacing          | Y              |       |             |        |          |        |
+| pattern_xoffset          | Y              |       |             |        |          |        |
+| pattern_yoffset          | Y              |       |             |        |          |        |
+| pattern_aspect_ratio     | Y              | Y     | Y           | Y      |          | Y      |
+| pattern_key_scale_factor | Y              | Y     | Y           | Y      | Y        | Y      |
+| pattern_filename         |                | Y     |             |        |          |        |
+| pattern_gravity          |                | Y     |             |        |          |        |
+| pattern_filter           |                | Y     |             | Y      |          |        |
+| pattern_scale            |                | Y     |             | Y      |          | Y      |
+| pattern_orientation      |                |       |             |        | Y        |        |
+| pattern_phase            |                |       |             |        |          |        |
+| pattern_frequency        |                |       |             |        |          |        |
+| pattern_option_1 - 5     |                |       |             |        |          |        |
+
+
+There are a number of  aesthetics which are part of the package, but not currently used in any patterns: `pattern_subtype`, 
+`pattern_phase`, `pattern_frequency` and `pattern_option_1` through to `pattern_option_5`.  These may be useful for
+developing patterns outside of the package.
+
+</summary>
+</details>
+
+
+<a name="geometry-based"></a> Geometry-based pattern functions - Formal Arguments and Return Values
+------------------------------------------------------------------------------
+
+All geometry-based pattern creation functions must:
+
+1. Have the exact function signature: `function(params, boundary_df, aspect_ratio, legend)`
+    * `params` - parameters from the geom (the aesthetics) e.g `pattern_fill`
+    * `boundary_df` - data.frame containing polygon information i.e. The `polygon_df` format.
+    * `aspect_ratio` - the best guess that `ggpattern` is able to make as to the
+      aspect ratio of the **viewport** in which this pattern is being rendered.
+    * `legend` logical value to indicate whether or not this function is being called
+      to render a key legend or the in-place geom fill.
+2. Return a grid grob object. This can be any valid grob including a `grid::grobTree()`
+
+
+List of geometry-based patterns in `ggpattern`:
+
+* stripe
+* crosshatch
+* circle
+
+
+<a name="array-based"></a> Array-based pattern functions - Formal Arguments and Return Values
+------------------------------------------------------------------------------
+
+All array-based pattern creation functions must:
+
+1. Have the exact function signature: `function(width, height, params, legend)`
+    * `width,height` - dimensions of the bounding box of the geom area
+    * `params` - parameters from the geom (the aesthetics) e.g `pattern_fill`
+    * `legend` logical value to indicate whether or not this function is being called
+      to render a key legend or the in-place geom fill.
+2. Return a 3D array of RGBA values (all values in the range [0, 1]).
+
+
+List of array-based patterns in `ggpattern`:
+
+* image
+* placeholder
+* gradient
+* plasma
+* magick
+
+
+<a name="polygon_df"></a> The `polygon_df` data.frame format
+------------------------------------------------------------------------------
+
+The `polygon_df` is a very simple data.frame format to contain polygon values.  This is
+used to pass the coordinates of the geom boundary from the geom to the
+pattern generating function.
+
+It contains only 'x' and 'y' columns for the coordinates, and an 'id' column 
+used to signify which polygon the coordinates belong to.
+
+The following `polygon_df` data.frame contains 2 polygons:
+
+```{r echo = FALSE}
+x <- readr::read_csv("
+x,  y,  id
+0,  0,   1
+1,  0,   1
+1,  1,   1
+0,  1,   1
+0,  0,   2
+2,  0,   2
+2,  1,   2
+0,  1,   2
+")
+
+knitr::kable(x, caption = "example data in 'polygon_df' format")
+```
+
+
+Limitations of the 'polygon_df' format:
+
+* There is no support for polygons with holes.
+
+
+
+<a name="user-funcs"></a> Associating a function with  `ggpattern` pattern name
+------------------------------------------------------------------------------
+
+There are two global `option()` values which can be set - one for geometry-based 
+patterns, and the other for array-based patterns.
+
+The global values should point to a named list, where the names are the pattern 
+names you want to use within `ggpattern`, and the the named values are the
+actual functions.
+
+
+```{r eval = FALSE}
+options(ggpattern_array_funcs    = list(your_pattern_name = your_pattern_function))
+options(ggpattern_geometry_funcs = list(your_pattern_name = your_pattern_function))
+```
+
+
+
+
+
+<a name="next-steps"></a>Next Steps
+------------------------------------------------------------------------------
+
+* Vignette [Developing Patterns (2) - Writing a geometry-based  pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-2.html)
+* Vignette [Developing Patterns (3) - Writing an array-based  pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-3.html)
+* `ggpattern` also includes some experimental patterns of varying completeness and 
+   complexity:
+    * [hexagons](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-hex-1.html) - geometry-based pattern
+    * [ambient noise](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-ambient.html) - array-based pattern
+    * [points](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-points.html) - geometry-based pattern
+
+
+
+
+
+
+
+
+
+

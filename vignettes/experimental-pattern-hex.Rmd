@@ -1,0 +1,254 @@
+---
+title: "Experimental Pattern - Hex"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Experimental Pattern - Hex}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.height = 6,
+  fig.width = 8
+)
+```
+
+```{r setup}
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(sf)
+  library(grid)
+  library(ggpattern)
+})
+```
+
+
+Introduction to the geometry-based `hex` pattern
+------------------------------------------------------------------------------
+
+
+The pattern is an attempt to create a structured pattern of hex elements using
+only geometry elements.
+
+
+Create the `hex` pattern function
+------------------------------------------------------------------------------
+
+All geometry-based pattern creation functions must:
+
+1. Have the exact function signature: `function(params, boundary_df, aspect_ratio, legend)`
+2. Return a grid grob object
+
+
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Create an array of noise using the 'ambient' package
+#'
+#' @param params aesthetic parameters passed from the geom e.g. 'pattern_fill', 
+#'        'pattern_frequency' etc.
+#' @param boundary_df is a data.frame of (x, y) coordinates of the boundary of
+#"        the geom to be filled.
+#' @param aspect_ratio this is the best guess of the current aspect ratio of the
+#'        viewport into which the geometry is being drawn
+#' @param legend logical. If the request to create a pattern comes during 
+#'        creation of the legend, then this is TRUE, otherwise FALSE
+#'
+#' @return a grid grob object containing the pattern
+#'
+#' @import ambient
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create_pattern_hex <- function(params, boundary_df, aspect_ratio,
+                               legend = FALSE) {
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Pre-scale + rotate the boundary boundary
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  boundary_df$y <- boundary_df$y /  aspect_ratio
+  boundary_df   <- rotate_polygon_df(boundary_df, params$pattern_angle, aspect_ratio)
+
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # 1. Convert the geometry boundary into an 'sf' object
+  # 2. Make a hexagonal grid using `sf::st_make_grid()`
+  # 3. Keep only the hexes within the boundary
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  boundary_sf        <- convert_polygon_df_to_polygon_sf(boundary_df)
+  hex_sfc            <- st_make_grid(boundary_sf, cellsize = params$pattern_spacing, square = FALSE, flat_topped = FALSE)
+  hex_within_area_sf <- st_intersection(hex_sfc, boundary_sf)
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Convert the multipolygon sf object containing hexes into a standard
+  # polygon_df format.
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  polys <- lapply(
+    seq_along(hex_within_area_sf),
+    function(idx) {
+      mat <- as.matrix(hex_within_area_sf[[idx]])
+      mat <- head(mat, -1)
+      cbind(mat, idx)
+    }
+  )
+  polys <- do.call(rbind, polys)
+  polys <- as.data.frame(polys)
+  polys <- setNames(polys, c('x', 'y', 'id'))
+
+  hex_within_area_df   <- polys
+
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Calculate the linewidth to simulate increases in density.
+  # convert the 'npc' cellsize into native coordinates, and then set the
+  # linewidth to be a fraction of that size
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  cell_size <- as.numeric(grid::convertWidth(unit(params$pattern_spacing, 'npc'), 'native'))
+  lwd <- params$pattern_density * cell_size
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Rotate the pattern into its final position
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hex_within_area_df <- rotate_polygon_df(hex_within_area_df, -params$pattern_angle, aspect_ratio)
+  hex_within_area_df$y <- hex_within_area_df$y * aspect_ratio
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # return early if there are no hexes in the area
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (is.null(hex_within_area_df) || nrow(hex_within_area_df) == 0) {
+    return(grid::nullGrob())
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Create a polygonGrob all all the hexes and clipped hexes
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hex_grob <- grid::polygonGrob(
+    x = unit(hex_within_area_df$x, "npc"),
+    y = unit(hex_within_area_df$y, "npc"),
+    id = hex_within_area_df$id,
+    gp = gpar(
+      col     = scales::alpha(params$pattern_fill, params$pattern_alpha),
+      fill    = NA,
+      lwd     = lwd,
+      lty     = params$pattern_linetype,
+      lineend = 'square'
+    )
+  )
+
+  hex_grob
+}
+
+```
+
+
+Let `{ggpattern}` know that there's an external pattern function it can use
+------------------------------------------------------------------------------
+
+A global option (`ggpattern_geometry_funcs`) is a named list which contains 
+grid creating functions to use outside of `ggpattern`.
+
+The **name** used in this list corresponds to the `pattern` name used with 
+the geom - in this case we will be using `pattern = 'hex'`.
+
+
+```{r}
+options(ggpattern_geometry_funcs = list(hex = create_pattern_hex))
+```
+
+
+Use this `hex` pattern
+------------------------------------------------------------------------------
+
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create some data to plot
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+df <- data.frame(
+  trt     = c("a", "b", "c"), 
+  outcome = c(2.3, 1.9, 3.2)
+)
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a ggplot using this pattern
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+p <- ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      pattern_fill  = trt,
+      pattern_angle = trt
+    ),
+    pattern         = 'hex', 
+    pattern_spacing = 0.02, 
+    pattern_density = 0.1,
+    pattern_alpha   = 1, 
+    fill            = 'white', 
+    colour          = NA
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern = 'hex'"
+  ) +
+  theme(legend.position = 'none') +
+  scale_pattern_angle_discrete(range = c(0, 30)) + 
+  coord_fixed(ratio = 1/2)
+
+p
+```
+
+
+Use this `hex` pattern - thicker lines
+------------------------------------------------------------------------------
+
+Because of the way `sf::st_intersection()` works, the boundary of the geom gets
+inextricably linked into the pattern.  
+
+Unlike all other patterns, this means that as the pattern changes, the representation
+of the *boundary* also changes.
+
+In this example, the thicker lines for the internal hexes, also mean thicker lines
+for the rectangular boundary.
+
+I don't really like how this is different from all other patterns.
+
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a ggplot using this pattern
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+p <- ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(pattern_fill = trt),
+    pattern         = 'hex', 
+    pattern_spacing = 0.02, 
+    pattern_angle   = 0, 
+    pattern_density = 0.5,
+    pattern_alpha   = 1, 
+    fill            = 'white', 
+    colour          = NA
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern = 'hex'"
+  ) +
+  theme(legend.position = 'none') +
+  coord_fixed(ratio = 1/2)
+
+p
+```
+
+
+
+
+Future
+------------------------------------------------------------------------------
+
+* intersection with border looks terrible at large stroke width.  If that problem
+  could be worked out, then this would be a useful addition to the package.
+* when rendered as small hexes, there isn't a significant advantage over 
+ `pattern = 'magick'` with `pattern_type = 'hexagons'`
+

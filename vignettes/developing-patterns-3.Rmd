@@ -1,0 +1,197 @@
+
+---
+title: "Developing Patterns (3) - Writing an array-based  pattern"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Developing Patterns (3) - Writing an array-based  pattern}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>",
+fig.width = 8,
+fig.height = 6
+)
+
+library(ggplot2)
+library(ggpattern)
+```
+
+```{r setup}
+library(ggplot2)
+library(ggpattern)
+```
+
+
+Introduction
+------------------------------------------------------------------------------
+
+This vignette shows how to:
+
+* write a `create_pattern()` function of the correct signature for a array-based pattern
+* Instruct `{ggpattern}` on where to find this user defined pattern
+
+### Table of Contents
+
+* [Write a function with the correct arguments](#write)
+* [Instruct ggpattern on how to use the pattern functon](#instruct)
+* [Example](#example)
+* [Next steps](#next-steps)
+
+
+
+<a name="write"></a> Write the array-based pattern function
+------------------------------------------------------------------------------
+
+
+All array-based pattern creation functions must:
+
+1. Have the exact function signature: `function(width, height, params, legend)`
+    * `width,height` - dimensions of the bounding box of the geom area
+    * `params` - parameters from the geom (the aesthetics) e.g `pattern_fill`
+    * `legend` logical value to indicate whether or not this function is being called
+      to render a key legend or the in-place geom fill.
+2. Return a 3D array of RGBA values (all values in the range [0, 1]).
+
+
+Parameters for this pattern:
+
+* `pattern_type` is used to distinguish between source data for the pattern 
+
+
+**Note**: This pattern exploits vector recyling in the creation of the RGBA array, 
+and as dimensions change the alignment of the R, G, B and A planes will not 
+remain in a fixed relationship.  Thus if you change the shape of the rendered image,
+you will change the nature of the pattern.
+
+```{r}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Create an array of texture
+#'
+#' @param width,height area dimensions
+#' @param params aesthetic parameters passed from the geom e.g. 'pattern_fill', 
+#'        'pattern_frequency' etc.
+#' @param legend logical. If the request to create a pattern comes during 
+#'        creation of the legend, then this is TRUE, otherwise FALSE
+#'
+#' @return an RGBA numeric array with dimensions [height, width, 4]
+#'
+#' @import ambient
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create_pattern_simple <- function(width, height, params, legend) {
+  
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Ensure the selected pattern is sane.
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  choice <- params$pattern_type
+  if (is.null(choice) || is.na(choice) || !is.character(choice)) {
+    choice <- 'a'
+  }
+  
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Choose the values with which to fill the array
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  values <- switch(
+    choice,
+    a = rep(c(0, 1, 0, 1, 1, 0, 0, 1, 1, 1), each = 3),
+    b = rep(c(1, 0, 0, 1, 0.5, 0.5, 1, 1, 0, 0, 0, 0, 0, 0.5), each = 7),
+    c = rep(seq(0, 1, 0.05), each = 7),
+    rep(c(0, 1, 0, 1, 1, 0, 0, 1, 1, 1), each = 3)
+  )
+  
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # Create an RGBA array of the requested dimensions
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  simple_array <- array(values, dim = c(height, width, 4))
+  
+  simple_array
+}
+```
+
+
+
+<a name="instruct"></a> Let `{ggpattern}` know that there's an external pattern function it can use
+------------------------------------------------------------------------------
+
+A global option (`ggpattern_geometry_funcs`) is a named list which contains 
+geometry-based pattern creating functions to use outside of `ggpattern`.
+
+The **name** used in this list corresponds to the `pattern` name used with 
+the geom - in this case we will be using `pattern = 'simple'`.
+
+
+```{r}
+options(ggpattern_array_funcs = list(simple = create_pattern_simple))
+```
+
+
+<a name="example"></a> Use this `simple` pattern
+------------------------------------------------------------------------------
+
+
+```{r}
+df <- data.frame(
+  trt     = c("a", "b", "c"), 
+  outcome = c(2.3, 1.9, 3.2)
+)
+
+
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      fill         = trt,
+      pattern_type = trt
+    ),
+    colour          = 'black',
+    pattern         = 'simple',
+    pattern_size    = 3
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern = 'simple'"
+  ) +
+  scale_pattern_type_discrete(choices = c('a', 'b', 'c')) + 
+  theme(legend.position = 'none') +
+  coord_fixed(ratio = 1/2)
+```
+
+
+<a name="example"></a> Use this `simple` pattern
+------------------------------------------------------------------------------
+
+```{r}
+ggplot(mtcars) +
+  geom_density_pattern(
+    aes(
+      x            = mpg, 
+      pattern_type = as.factor(cyl)
+    ), 
+    fill    = 'white', 
+    pattern = 'simple'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern = 'simple'"
+  ) +
+  theme(legend.key.size = unit(1.5, 'cm')) +
+  scale_pattern_type_discrete(choices = c('a', 'b', 'c')) + 
+  theme(legend.position = 'none') +
+  coord_fixed(ratio = 100)
+```
+
+
+<a name="next-steps"></a>Next Steps
+------------------------------------------------------------------------------
+
+* Vignette [Developing Patterns (2) - Writing a geometry-based  pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-2.html)
+* Vignette [Developing Patterns (3) - Writing an array-based  pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-3.html)
+* `ggpattern` also includes some experimental patterns of varying completeness and 
+   complexity:
+    * [hexagons](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-hex-1.html) - geometry-based pattern
+    * [ambient noise](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-ambient.html) - array-based pattern
+    * [points](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-points.html) - geometry-based pattern

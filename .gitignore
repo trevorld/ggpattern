@@ -1,0 +1,12 @@
+.DS_Store
+.Rhistory
+*.Rproj
+.Rproj.user
+*.swp
+working
+*.txt
+inst/doc
+doc
+Meta
+working
+pkgdown
