@@ -45,7 +45,9 @@ if (FALSE) {
   system(command)
 }
 
-
+if (FALSE) {
+  # ffmpeg -framerate 1/2 -pattern_type glob -i '*.png' -c:v libx264 -pix_fmt yuv420p -s 800x600 ../../../ggpattern-annex/demo.mp4
+}
 ```
 
 # ggpattern <img src="man/figures/logo.png" align="right" width="300" />
@@ -283,4 +285,5 @@ These are patterns that aren't quite ready for prime-time.  Feel free to steal t
 
 * Possibly add  geoms from third-party sources e.g.
     * `geom_circle()` and `geom_voronoi()` from [ggforce](https://github.com/thomasp85/ggforce)
-* A technical vignette on how array-based patterns are implemented.
+* A vignette on how array-based patterns are implemented.
+* A vignette on why aspect ratio is hard to get right. 

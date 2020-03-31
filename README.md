@@ -270,4 +270,5 @@ steal the code and extend to suit your needs.
   - Possibly add geoms from third-party sources e.g.
       - `geom_circle()` and `geom_voronoi()` from
         [ggforce](https://github.com/thomasp85/ggforce)
-  - A technical vignette on how array-based patterns are implemented.
+  - A vignette on how array-based patterns are implemented.
+  - A vignette on why aspect ratio is hard to get right.
