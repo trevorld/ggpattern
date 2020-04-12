@@ -28,7 +28,7 @@ pattern_aesthetics <- aes(
   pattern_aspect_ratio     = NA,
   pattern_key_scale_factor = 1,
 
-  pattern_filename         = system.file('img', 'Rlogo.png', package = 'png'),
+  pattern_filename         = '',
   pattern_gravity          = 'center',   # magick::gravity_types()
   pattern_filter           = '',  # magick::filter_types()
   pattern_scale            = 1,
