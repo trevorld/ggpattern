@@ -4,3 +4,4 @@
 ^working$
 ^pkgdown$
 ^data-raw$
+^\.github$

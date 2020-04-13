@@ -5,7 +5,8 @@
 
 <!-- badges: start -->
 
-![](http://img.shields.io/badge/cool-useless-green.svg)
+![](http://img.shields.io/badge/cool-useless-green.svg) [![R build
+status](https://github.com/coolbutuseless/ggpattern/workflows/R-CMD-check/badge.svg)](https://github.com/coolbutuseless/ggpattern/actions)
 <!-- badges: end -->
 
 <span style="font-size: xx-large; font-weight: normal;">`ggpattern`
