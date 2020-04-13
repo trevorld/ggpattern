@@ -15,5 +15,5 @@ jobs:
           remotes::install_bioc("EBImage")
         shell: Rscript {0}
       - name: Check
-        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--ignore-vignettes", "--no-build-vignettes"), error_on = "error")
         shell: Rscript {0}
