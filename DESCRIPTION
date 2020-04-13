@@ -87,5 +87,6 @@ Suggests:
     testthat (>= 2.1.0),
     ambient,
     gganimate,
-    readr
+    readr,
+    mapproj
 VignetteBuilder: knitr
