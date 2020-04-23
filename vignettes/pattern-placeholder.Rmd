@@ -93,7 +93,7 @@ df1 <- tibble(
 ```
 
 
-Example: `pattern = 'placeholder'` - `pattern_type = 'murray'` 
+Example: `pattern = 'placeholder'` - `pattern_type = 'bear'` 
 ------------------------------------------------------------------------------
 
 ```{r}
@@ -102,13 +102,13 @@ ggplot(df1, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt), 
     pattern      = 'placeholder', 
-    pattern_type = 'murray',
+    pattern_type = 'bear',
     colour       = 'black'
   ) +
   theme_bw(15) +
   labs(
     title    = "ggpattern::geom_col_pattern()",
-    subtitle = "pattern='placeholder', pattern_type='murray'"
+    subtitle = "pattern='placeholder', pattern_type='bear'"
   ) +
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1/2)
@@ -116,7 +116,7 @@ ggplot(df1, aes(trt, outcome)) +
 
 
 
-Example: `pattern = 'placeholder'` - `pattern_type = 'murray'` with `pattern_alpha`
+Example: `pattern = 'placeholder'` - `pattern_type = 'bear'` with `pattern_alpha`
 ------------------------------------------------------------------------------
 
 ```{r}
@@ -124,14 +124,14 @@ ggplot(df1, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt), 
     pattern       = 'placeholder', 
-    pattern_type  = 'murray',
+    pattern_type  = 'bear',
     pattern_alpha = 0.5,
     colour        = 'black'
   ) +
   theme_bw(15) +
   labs(
     title    = "ggpattern::geom_col_pattern()",
-    subtitle = "pattern='placeholder', pattern_type='murray'"
+    subtitle = "pattern='placeholder', pattern_type='bear'"
   ) +
   theme(legend.key.size = unit(1.5, 'cm')) +
   coord_fixed(ratio = 1/2)

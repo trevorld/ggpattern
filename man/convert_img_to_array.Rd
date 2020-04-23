@@ -4,18 +4,14 @@
 \alias{convert_img_to_array}
 \title{Convert a magick image to an RGBA array.}
 \usage{
-convert_img_to_array(img, transpose = TRUE)
+convert_img_to_array(img)
 }
 \arguments{
 \item{img}{magick image}
-
-\item{transpose}{transpose the array. default TRUE. Image magick data array
-is a transponed representation of the data. Always need to transponse
-it to get it the right way up in array format}
 }
 \value{
-RGBA array
+RGBA array with all values in range [0, 1]
 }
 \description{
-Convert a magick image to an RGBA array.
+This will promote gray or RGB images to RGBA arrays.
 }

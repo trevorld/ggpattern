@@ -1,17 +1,17 @@
 Package: ggpattern
 Type: Package
 Title: Geoms with Patterns
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Mike", "FC", email = "mikefc@coolbutuseless.com",
                   role = c("aut", "cre"))
 Description: Geoms with patterns for ggplot2.
 URL: http://github.com/coolbutuseless/ggpattern, https://coolbutuseless.github.io/package/ggpattern/index.html 
-BugReports: URL: http://github.com/coolbutuseless/ggpattern/issues
+BugReports: http://github.com/coolbutuseless/ggpattern/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
-Published: 2020-04-01
+Published: 2020-04-23
 Imports:
     ggplot2,
     scales,

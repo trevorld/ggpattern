@@ -39,24 +39,23 @@ convert_r_colour_to_magick_colour <- function(col) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Convert a magick image to an RGBA array.
 #'
-#' @param img magick image
-#' @param transpose  transpose the array. default TRUE. Image magick data array
-#'        is a transponed representation of the data. Always need to transponse
-#'        it to get it the right way up in array format
+#' This will promote gray or RGB images to RGBA arrays.
 #'
-#' @return RGBA array
+#' @param img magick image
+#'
+#' @return RGBA array with all values in range [0, 1]
 #'
 #' @import magick
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-convert_img_to_array <- function(img, transpose = TRUE) {
+convert_img_to_array <- function(img) {
 
   stopifnot(inherits(img, 'magick-image'))
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # extract the RGB array from that image
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  arr <- magick::as_EBImage(img)@.Data
+  arr <- as.numeric(magick::image_data(img))
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # If this is a grey image (i.e. a 2d matrix), then promote it
@@ -84,9 +83,9 @@ convert_img_to_array <- function(img, transpose = TRUE) {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Transpose the image if requested.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  if (transpose) {
-    arr <- aperm(arr, c(2, 1, 3))
-  }
+  # if (transpose) {
+  #   arr <- aperm(arr, c(2, 1, 3))
+  # }
 
   arr
 }
