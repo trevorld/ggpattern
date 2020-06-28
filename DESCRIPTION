@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: Geoms with Patterns
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: person("Mike", "FC", email = "mikefc@coolbutuseless.com",
                   role = c("aut", "cre"))
 Description: Geoms with patterns for ggplot2.

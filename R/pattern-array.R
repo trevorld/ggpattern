@@ -85,6 +85,13 @@ create_pattern_array <- function(params, boundary_df, aspect_ratio, legend, type
 
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  # check for issues e.g. Zero area regions
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  if (any(is.nan(scaled_boundary_df$x)) || any(is.nan(scaled_boundary_df$y))) {
+    return(grid::nullGrob())
+  }
+
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Fetch an image of the required dimensions.
   # Create a mask of the required dimensions from the scaled boundary_df
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
