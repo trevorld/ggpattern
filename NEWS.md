@@ -1,4 +1,9 @@
 
+
+# ggpattern 0.1.3  2020-06-28
+
+* Support POLYGON in `geom_sf_pattern()` (Issue #5)
+
 # ggpattern 0.1.2  2020-06-28
 
 * Fix issue with attempts to fill an area with a pattern when it has zero area. (Issue #9)

@@ -155,7 +155,7 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   pattern_grobs_list <- list()
   for (idx in seq(nrow(x))) {
-    if (inherits(x$geometry[[idx]], 'MULTIPOLYGON')) {
+    if (inherits(x$geometry[[idx]], 'MULTIPOLYGON') || inherits(x$geometry[[idx]], 'POLYGON')) {
       boundary_df        <- convert_polygon_sf_to_polygon_df(x$geometry[[idx]])
       boundary_dfs       <- list(boundary_df)
       all_params         <- x[idx,]
