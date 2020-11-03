@@ -156,6 +156,7 @@ GeomRibbonPattern <- ggproto(
       outline.type,
       both = munched_lines$id + rep(c(0, max(ids, na.rm = TRUE)), each = length(ids)),
       upper = munched_lines$id + rep(c(0, NA), each = length(ids)),
+      none = munched_lines$id + rep(c(NA, NA), each = length(ids)),
       abort(glue("invalid outline.type: {outline.type}"))
     )
     g_lines <- polylineGrob(
@@ -184,7 +185,7 @@ geom_area_pattern <- function(mapping = NULL, data = NULL, stat = "identity",
                               position = "stack", na.rm = FALSE, orientation = NA,
                               show.legend = NA, inherit.aes = TRUE, ...,
                               outline.type = "upper") {
-  outline.type <- match.arg(outline.type, c("both", "upper", "legacy"))
+  outline.type <- match.arg(outline.type, c("both", "upper", "legacy", "none"))
 
   layer(
     data = data,
