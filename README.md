@@ -19,18 +19,36 @@ probably the best way to get started.
 
 ## Feature Summary
 
-  - Custom versions of (almost) all the **geoms** from ggplot2 which
+-   Custom versions of (almost) all the **geoms** from ggplot2 which
     have a region which can be filled.
-  - A suite of **aesthetics** for controlling the pattern appearance
+-   A suite of **aesthetics** for controlling the pattern appearance
     (e.g. `pattern_alpha`)
-  - The ability to include **user-defined patterns**
+-   The ability to include **user-defined patterns**
 
 ## Installation
 
 You can install the development version from
-[GitHub](https://github.com/coolbutuseless/ggpattern) with:
+[GitHub](https://github.com/coolbutuseless/ggpattern) with the
+instructions below.
+
+Note: there are a lot of dependencies. Please ensure these are installed
+first before attempting to install `ggpattern`. By doing so, this will
+make any issues during installation clearer, leading to more meaningful
+bug reporting.
 
 ``` r
+install.packages('ggplot2')
+install.packages('scales')
+install.packages('grid')
+install.packages('glue')
+install.packages('rlang')
+install.packages('tibble')
+install.packages('gridGeometry')
+install.packages('sf')
+install.packages('png')
+install.packages('magick')
+install.packages('memoise')
+
 # install.packages("remotes")
 remotes::install_github("coolbutuseless/ggpattern")
 ```
@@ -42,10 +60,9 @@ remotes::install_github("coolbutuseless/ggpattern")
 2.  Use the `{ggpattern}` version of the geom
     e.g. `ggpattern::geom_col_pattern()` instead of
     `ggplot2::geom_col()`
-3.  Set the aesthetic `pattern` to your choice of pattern e.g `pattern =
-    'stripe'`, and set other options using `pattern_*` aesthetics
-
-<!-- end list -->
+3.  Set the aesthetic `pattern` to your choice of pattern e.g
+    `pattern = 'stripe'`, and set other options using `pattern_*`
+    aesthetics
 
 ``` r
 df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
@@ -71,7 +88,6 @@ ggplot(df) +
 # Gallery
 
 <div>
-
 <a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html#geom-bar-pattern-"><img width="45%" src="man/figures/readme/gallery-bar-array.jpg" />
 </a>
 <a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html#b-w-example"><img width="45%" src="man/figures/readme/gallery-bar-bw.jpg" />
@@ -88,8 +104,8 @@ ggplot(df) +
 </a>
 <a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html#geom-rect-pattern-"><img width="45%" src="man/figures/readme/gallery-rect-array.jpg" />
 </a>
-
 <div>
+
 
 
 # Feature Details
@@ -106,12 +122,13 @@ and [image-based/array-based
 patterns](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html).
 
 <details>
-
-<summary> <span style="color: blue;"> Click to show/hide list of
-supported geoms </span> </summary>
+<summary>
+<span style="color: blue;"> Click to show/hide list of supported geoms
+</span>
+</summary>
 
 | ggplot2        | ggpattern               |
-| -------------- | ----------------------- |
+|----------------|-------------------------|
 | geom\_area     | geom\_area\_pattern     |
 | geom\_bar      | geom\_bar\_pattern      |
 | geom\_bin2d    | geom\_bin2d\_pattern    |
@@ -144,12 +161,13 @@ pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-
 or see the individual vignettes for each pattern.
 
 <details>
-
-<summary> <span style="color: blue;"> Click to show/hide list of new
-aesthetics </span> </summary>
+<summary>
+<span style="color: blue;"> Click to show/hide list of new aesthetics
+</span>
+</summary>
 
 | aesthetic                  | description                                | default    | possible values                                                          |
-| -------------------------- | ------------------------------------------ | ---------- | ------------------------------------------------------------------------ |
+|----------------------------|--------------------------------------------|------------|--------------------------------------------------------------------------|
 | `pattern`                  | Name of the pattern to draw                | ‘stripe’   | stripe, crosshatch, circle, image, placeholder, magick, gradient, plasma |
 | `pattern_type`             | Generic control option                     | NA         | pattern-dependent                                                        |
 | `pattern_subtype`          | Generic control option                     | NA         | pattern-dependent                                                        |
@@ -177,7 +195,6 @@ aesthetics </span> </summary>
 | `pattern_option_1 - 5`     | Generic options for expansion              | 0          |                                                                          |
 
 </summary>
-
 </details>
 
 ## User-Defined Patterns
@@ -202,37 +219,37 @@ Noise](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-
 
 #### General examples
 
-  - [geom gallery (geometry-based
+-   [geom gallery (geometry-based
     patterns)](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html)
     Examples of every geom filled with the geometry-based patterns
     (i.e. ‘stripe’, ‘crosshatch’, ‘circle’)
-  - [geom gallery (array-based
+-   [geom gallery (array-based
     patterns)](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html)
     Examples of every geom filled with the array-based patterns
     (i.e. ‘image’, ‘magick’, ‘gradient’, ‘plasma’, ‘placeholder’)
 
 #### Exploration of pattern parameters and appearance
 
-  - Geometry-based patterns
-      - [Common aesthetics for geometry-based
+-   Geometry-based patterns
+    -   [Common aesthetics for geometry-based
         patterns](https://coolbutuseless.github.io/package/ggpattern/articles/geometry-based-pattern-parameters.html)
-      - [stripes](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html)
-      - [crosshatch](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-crosshatch.html)
-      - [circles](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-circle.html)
-  - Array-based patterns
-      - [image](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-image.html)
-      - [placeholder](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-placeholder.html)
-      - [gradient](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-gradient.html)
-      - [plasma](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-plasma.html)
-      - [magick](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-magick.html)
+    -   [stripes](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html)
+    -   [crosshatch](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-crosshatch.html)
+    -   [circles](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-circle.html)
+-   Array-based patterns
+    -   [image](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-image.html)
+    -   [placeholder](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-placeholder.html)
+    -   [gradient](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-gradient.html)
+    -   [plasma](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-plasma.html)
+    -   [magick](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-magick.html)
 
 #### Developing your own pattern
 
-  - [Devloping Patterns 1 - Pattern
+-   [Devloping Patterns 1 - Pattern
     Overview](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-1.html)
-  - [Devloping Patterns 2 - Geometry-based
+-   [Devloping Patterns 2 - Geometry-based
     pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-2.html)
-  - [Devloping Patterns 3 - Array-based
+-   [Devloping Patterns 3 - Array-based
     pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-3.html)
 
 #### Experimental patterns
@@ -240,36 +257,36 @@ Noise](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-
 These are patterns that aren’t quite ready for prime-time. Feel free to
 steal the code and extend to suit your needs.
 
-  - [Point
+-   [Point
     filling](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-points.html)
-  - [Hex
+-   [Hex
     pattern](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-hex.html)
-  - [Ambient
+-   [Ambient
     Noise](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-ambient.html)
 
 #### Other examples
 
-  - [gganimate](https://coolbutuseless.github.io/package/ggpattern/articles/gganimate.html)
+-   [gganimate](https://coolbutuseless.github.io/package/ggpattern/articles/gganimate.html)
 
 # Limitations
 
-  - Nearly always need to use `coord_fixed()` to ensure the aspect ratio
+-   Nearly always need to use `coord_fixed()` to ensure the aspect ratio
     is calculated correctly. Use `pattern_aspect_ratio` to override the
     internal calculation, of for occasions where you can’t use
     `coord_fixed()` because a different `coord_*()` is used.
-  - Legend rendering for patterns is still not great.
-      - Use `pattern_key_scale_factor` to adjust legend appearance.
-  - The Rstudio output device can be quite slow for plots with lots of
+-   Legend rendering for patterns is still not great.
+    -   Use `pattern_key_scale_factor` to adjust legend appearance.
+-   The Rstudio output device can be quite slow for plots with lots of
     patterns. It is often faster to save directly to PNG or PDF and view
     that.
-  - Self intersecting geometry can be an issue.  
-  - Non-linear coordinate systems have not been tested.
-  - Polygons with holes are not supported
+-   Self intersecting geometry can be an issue.  
+-   Non-linear coordinate systems have not been tested.
+-   Polygons with holes are not supported
 
 # ToDo
 
-  - Possibly add geoms from third-party sources e.g.
-      - `geom_circle()` and `geom_voronoi()` from
+-   Possibly add geoms from third-party sources e.g.
+    -   `geom_circle()` and `geom_voronoi()` from
         [ggforce](https://github.com/thomasp85/ggforce)
-  - A vignette on how array-based patterns are implemented.
-  - A vignette on why aspect ratio is hard to get right.
+-   A vignette on how array-based patterns are implemented.
+-   A vignette on why aspect ratio is hard to get right.

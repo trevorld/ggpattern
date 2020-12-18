@@ -73,9 +73,25 @@ probably the best way to get started.
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/coolbutuseless/ggpattern) with:
+You can install the development version from [GitHub](https://github.com/coolbutuseless/ggpattern) with the instructions below.
+
+Note: there are a lot of dependencies. Please ensure these are installed first
+before attempting to install `ggpattern`.  By doing so, this will make any
+issues during installation clearer, leading to more meaningful bug reporting.
 
 ``` r
+install.packages('ggplot2')
+install.packages('scales')
+install.packages('grid')
+install.packages('glue')
+install.packages('rlang')
+install.packages('tibble')
+install.packages('gridGeometry')
+install.packages('sf')
+install.packages('png')
+install.packages('magick')
+install.packages('memoise')
+
 # install.packages("remotes")
 remotes::install_github("coolbutuseless/ggpattern")
 ```
