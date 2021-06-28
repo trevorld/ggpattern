@@ -17,5 +17,6 @@ test_that("geometry patterns work as expected", {
 
     expect_doppelganger("circle", pattern_ggplot("circle"))
     expect_doppelganger("crosshatch", pattern_ggplot("crosshatch"))
+    expect_doppelganger("none", pattern_ggplot("none"))
     expect_doppelganger("stripe", pattern_ggplot("stripe"))
 })

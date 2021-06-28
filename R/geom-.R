@@ -23,7 +23,7 @@ pattern_aesthetics <- aes(
   pattern_shape            = 1,
   pattern_colour           = 'grey20',
   pattern_fill             = 'grey80',
-  pattern_fill2            = '#4169E1',
+  pattern_fill2            = NA,
 
   pattern_aspect_ratio     = NA,
   pattern_key_scale_factor = 1,
@@ -156,7 +156,7 @@ create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_d
   key_aspect_ratio <- key_native_x/key_native_y
   scale_factor <- scale_factor / key_aspect_ratio
 
-  this_params <- data
+  this_params <- fill_default_params(data)
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Scale the pattern parameters such that when they're drawn in the key,

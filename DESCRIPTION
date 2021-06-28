@@ -13,16 +13,16 @@ RoxygenNote: 7.1.1
 Published: 2020-04-23
 Imports:
     ggplot2,
-    scales,
-    grid,
     glue,
-    rlang,
-    tibble,
-    gridGeometry,
-    sf,
-    png,
+    grid,
+    gridpattern,
     magick,
-    memoise
+    memoise,
+    png,
+    rlang,
+    scales,
+    sf,
+    tibble
 Collate: 
     'aaa-ggplot2-compat-plyr.R'
     'aaa-ggplot2-ggplot-global.R'
@@ -53,10 +53,6 @@ Collate:
     'pattern-array-magick-plasma.R'
     'pattern-array-placeholder.R'
     'pattern-array.R'
-    'pattern-circle.R'
-    'pattern-crosshatch-sf.R'
-    'pattern-none.R'
-    'pattern-stripe-sf.R'
     'pattern.R'
     'polygon_df.R'
     'scale-pattern-alpha.R'
@@ -77,6 +73,7 @@ Collate:
     'utils-magick.R'
     'viewport.R'
     'zxx.r'
+    'zzz.R'
 Suggests: 
     knitr,
     rmarkdown,

@@ -1,7 +1,25 @@
+gridpattern_pattern <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
+    args <- as.list(params)
+    args <- args[grep("^pattern", names(args))]
+    args <- c(args, as.list(boundary_df))
+    args$prefix <- ""
+    args$legend <- legend
+    do.call(gridpattern::patternGrob, args)
+}
 
+fill_default_params <- function(params) {
+    pat <- params$pattern
+    if (is.na(params$pattern_fill2)) {
+        params$pattern_fill2 <- switch(pat,
+                                       crosshatch = params$pattern_fill,
+                                       weave = params$pattern_fill,
+                                       '#4169E1')
+    }
+    params
+}
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# list of functions to handle the core 'grid' based patterns
+# list of functions to handle the core 'array' based patterns
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 array_pattern_funcs <- list(
   image       = img_read_as_array_wrapper     ,
@@ -11,18 +29,15 @@ array_pattern_funcs <- list(
   plasma      = create_magick_plasma_as_array
 )
 
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# list of functions to handle the core 'grid' based patterns
+# list of functions to handle the core 'geometry' based patterns
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 grid_pattern_funcs <- list(
-  none       = create_pattern_none,
-  stripe     = create_pattern_stripes_via_sf,
-  crosshatch = create_pattern_crosshatch_via_sf,
-  circle     = create_pattern_circles
+  circle     = gridpattern_pattern,
+  crosshatch = gridpattern_pattern,
+  none       = gridpattern_pattern,
+  stripe     = gridpattern_pattern
 )
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Try and get an aspect ratio from the context of the plot
@@ -47,7 +62,6 @@ get_aspect_ratio_from_context <- function(coord, panel_params) {
   aspect_ratio_from_context
 }
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Generate all the pattern grobs for this geom
 #'
@@ -63,7 +77,7 @@ create_pattern_grobs <- function(all_params, boundary_dfs, aspect_ratio) {
   # There should be one row in the 'all_params' data.frame for each polygon
   # There should be the matching 'id' for the polygon in the 'boundary_dfs'
   pattern_grobs <- lapply(seq(nrow(all_params)), function(i) {
-    params      <- all_params[i,]
+    params      <- fill_default_params(all_params[i,])
     boundary_df <- boundary_dfs[[i]]
 
     # print(params)

@@ -14,6 +14,7 @@
 #' @return rasterGrob
 #'
 #' @import grid
+#' @noRd
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 create_pattern_array <- function(params, boundary_df, aspect_ratio, legend, type = 'image') {
 
