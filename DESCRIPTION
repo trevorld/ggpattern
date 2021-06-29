@@ -10,7 +10,6 @@ BugReports: http://github.com/coolbutuseless/ggpattern/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.1.1
-Published: 2020-04-23
 Imports:
     ggplot2,
     glue,
@@ -21,7 +20,20 @@ Imports:
     scales,
     sf,
     tibble
-Remotes: trevorld/gridpattern
+Suggests: 
+    ambient,
+    dplyr,
+    gganimate,
+    knitr,
+    mapproj,
+    maps,
+    readr,
+    reshape2,
+    rmarkdown,
+    testthat (>= 2.1.0),
+    vdiffr
+Remotes: github::trevorld/gridpattern
+VignetteBuilder: knitr
 Collate: 
     'aaa-ggplot2-compat-plyr.R'
     'aaa-ggplot2-ggplot-global.R'
@@ -61,16 +73,3 @@ Collate:
     'scale-pattern.R'
     'zxx.r'
     'zzz.R'
-Suggests: 
-    ambient,
-    dplyr,
-    gganimate,
-    knitr,
-    mapproj,
-    maps,
-    readr,
-    reshape2,
-    rmarkdown,
-    testthat (>= 2.1.0),
-    vdiffr
-VignetteBuilder: knitr
