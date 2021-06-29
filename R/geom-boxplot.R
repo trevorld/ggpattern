@@ -87,7 +87,7 @@ GeomBoxplotPattern <- ggproto(
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Hack needed so that legend/key drawing knows something about sizing
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    self$aspect_ratio <- get_aspect_ratio_from_context(coord, panel_params)
+    self$aspect_ratio <- get_aspect_ratio()
 
     common <- list(
       colour = data$colour,

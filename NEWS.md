@@ -3,16 +3,32 @@
 ## Breaking changes
 
 {ggpattern} now uses {gridpattern} to generate pattern grobs.
-This means there are minor tweaks to visual behavior.  To exactly restore
-the original appearance of {ggpattern} graphs one may need to tweak 
-the 'pattern_density', 'pattern_spacing', 'pattern_xoffset', 
-and/or 'pattern_yoffset' aesthetics:
+This means there are minor tweaks to visual behavior:
 
 * 'pattern_spacing', 'pattern_xoffset', and 'pattern_yoffset'
   are now interpreted as 'spnc' units instead of 'npc' units.
-* the center of the pattern "grid" is now the center of the viewport
+  and the center of the pattern "grid" is now the center of the viewport.
+  To exactly restore the original appearance of 
+  {ggpattern} "geometry" patterns one may need to tweak 
+  the 'pattern_density', 'pattern_spacing', 'pattern_xoffset', 
+  and/or 'pattern_yoffset' aesthetics.
+* The resolution of "array" patterns should be close
+  but not identical to before.  
+  In particular placeholder images will likely be different.
+* Custom {ggpattern} patterns can no longer use the same name as a
+  {ggpattern} / {gridpattern} builtin pattern and an error will
+  be thrown if you try to do so.
 
 ## New features
+
+* {ggpattern} now supports all patterns provided by {gridpattern}.
+  In particular {gridpattern} provides the following "new" patterns:
+
+  * "ambient" (the suggested package `{ambient}` must be installed)
+  * "pch"
+  * "polygon_tiling"
+  * "regular_polygon"
+  * "weave"
 
 * 'pattern_fill2' can now be used to set the fill for the vertical lines
   in the 'crosshatch' pattern.  

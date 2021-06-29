@@ -159,7 +159,7 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
       boundary_df        <- convert_polygon_sf_to_polygon_df(x$geometry[[idx]])
       boundary_dfs       <- list(boundary_df)
       all_params         <- x[idx,]
-      aspect_ratio       <- get_aspect_ratio_from_context(coord=x, panel_params = panel_params)
+      aspect_ratio       <- get_aspect_ratio()
       pattern_grobs      <- create_pattern_grobs(all_params, boundary_dfs, aspect_ratio)
       pattern_grobs_list <- append(pattern_grobs_list, list(pattern_grobs))
     }

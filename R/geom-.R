@@ -44,9 +44,6 @@ pattern_aesthetics <- aes(
   pattern_option_5         = 0
 )
 
-
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Utils for debugging viewports
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,7 +63,7 @@ print_vp_tree <- function() {
       "-------------- ",
       sprintf("%20s", vp$name),
       "  ",
-      round(get_aspect_ratio_from_current_viewport(), 3)
+      round(get_aspect_ratio(), 3)
     )
     tmat <- grid::current.transform()
     print(tmat)
@@ -100,7 +97,6 @@ verboseGrob <- function(name = "Viewport Tree") {
     nullGrob()
   }, list=list(name = name))
 }
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Create the patterned area to be used in the legend key
@@ -166,36 +162,14 @@ create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_d
   this_params$pattern_xoffset <- this_params$pattern_xoffset * scale_factor
   this_params$pattern_yoffset <- this_params$pattern_yoffset * scale_factor
 
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Check if the user has supplied a function to render this pattern
-  # If so, get the function render the grobs and return, otherwise check
-  # the grid patterns and the 'img' patterns to find the matching pattern
-  # generating function
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  pattern_name <- as.character(this_params$pattern)
-
-  user_geometry_funcs <- getOption('ggpattern_geometry_funcs')
-  user_array_funcs    <- getOption('ggpattern_array_funcs')
-
-  if (pattern_name %in% names(user_geometry_funcs)) {
-    func <- user_geometry_funcs[[pattern_name]]
-    pattern_grob <- func(params = this_params, boundary_df = boundary_df, aspect_ratio = key_aspect_ratio, legend = TRUE)
-  } else if (pattern_name %in% names(user_array_funcs)) {
-    pattern_grob <- create_pattern_array(params = this_params, boundary_df = boundary_df, aspect_ratio = key_aspect_ratio, type = pattern_name, legend = TRUE)
-  } else if (pattern_name %in% names(grid_pattern_funcs)) {
-    func <- grid_pattern_funcs[[pattern_name]]
-    pattern_grob <- func(params = this_params, boundary_df = boundary_df, aspect_ratio = key_aspect_ratio, legend = TRUE)
-  } else if (pattern_name %in% names(array_pattern_funcs)) {
-    pattern_grob <- create_pattern_array(params = this_params, boundary_df = boundary_df, aspect_ratio = key_aspect_ratio, type = pattern_name, legend = TRUE)
-  } else {
-    warn("ggpattern - pattern not supported: ", deparse(pattern_name))
-    pattern_grob <- grid::nullGrob()
+  if (is.null(this_params$pattern_res) || is.na(this_params$pattern_res)) {
+    native <- as.numeric(grid::convertWidth(unit(1, "npc"), "native"))
+    inches <- as.numeric(grid::convertWidth(unit(1, "npc"), "in"))
+    this_params$pattern_res <- 1.3 * scale_factor * native / inches
   }
 
-
-  pattern_grob
+  gridpattern_pattern(this_params, boundary_df, key_aspect_ratio, legend = TRUE)
 }
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Key glyphs for legends

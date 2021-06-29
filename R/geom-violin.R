@@ -51,7 +51,7 @@ GeomViolinPattern <- ggproto(
 
     # Need to calculate aspect ratio here for compatibility with key drawing.
     args <- list(...)
-    self$aspect_ratio <- get_aspect_ratio_from_context(args$coord, args$panel_params)
+    self$aspect_ratio <- get_aspect_ratio()
 
     data <- flip_data(data, flipped_aes)
     # Find the points for the line to go all the way around

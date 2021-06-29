@@ -98,7 +98,7 @@ GeomMapPattern <- ggproto(
     # Create the pattern grobs given the current params for every element
     # (given in all_params), and the boundary_dfs of all the elements
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    aspect_ratio <- get_aspect_ratio_from_context(coord, panel_params)
+    aspect_ratio <- get_aspect_ratio()
     pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, aspect_ratio)
 
 

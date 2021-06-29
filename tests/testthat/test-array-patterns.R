@@ -20,6 +20,9 @@ test_that("array patterns work as expected", {
     expect_doppelganger("placeholder", pattern_ggplot("placeholder"))
     # plasma pattern is random
     # expect_doppelganger("plasma", pattern_ggplot("image"))
+    skip_if_not_installed("ambient")
+    set.seed(42)
+    expect_doppelganger("ambient", pattern_ggplot("ambient"))
 })
 
 test_that("image pattern work as expected", {

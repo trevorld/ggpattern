@@ -63,7 +63,7 @@ GeomCrossbarPattern <- ggproto(
 
   draw_panel = function(self, data, panel_params, coord, fatten = 2.5, width = NULL, flipped_aes = FALSE) {
 
-    self$aspect_ratio <- get_aspect_ratio_from_context(coord, panel_params)
+    self$aspect_ratio <- get_aspect_ratio()
 
     data <- flip_data(data, flipped_aes)
 

@@ -15,51 +15,15 @@ fill_default_params <- function(params) {
                                        weave = params$pattern_fill,
                                        '#4169E1')
     }
+    if (pat == "regular_polygon" && is.numeric(params$pattern_shape))
+        params$pattern_shape <- "convex6"
     params
 }
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# list of functions to handle the core 'array' based patterns
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-array_pattern_funcs <- list(
-  image       = img_read_as_array_wrapper     ,
-  placeholder = fetch_placeholder_array       ,
-  gradient    = create_gradient_as_array      ,
-  magick      = create_magick_pattern_as_array,
-  plasma      = create_magick_plasma_as_array
-)
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# list of functions to handle the core 'geometry' based patterns
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-grid_pattern_funcs <- list(
-  circle     = gridpattern_pattern,
-  crosshatch = gridpattern_pattern,
-  none       = gridpattern_pattern,
-  stripe     = gridpattern_pattern
-)
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Try and get an aspect ratio from the context of the plot
-#'
-#' @param coord current "Coord"
-#' @param panel_params panel params
-#'
-#' @return Aspect ratio
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-get_aspect_ratio_from_context <- function(coord, panel_params) {
-  if (!is.null(get_aspect_ratio_from_coord(coord, panel_params))) {
-    aspect_ratio_from_context <- get_aspect_ratio_from_coord(coord, panel_params)
-    # message("aspect_ratio_from_coord: ", round(aspect_ratio_from_context, 3))
-  } else if (!is.null(get_aspect_ratio_from_current_viewport())) {
-    aspect_ratio_from_context <- get_aspect_ratio_from_current_viewport()
-    # message("aspect_ratio_from_viewport: ", round(aspect_ratio_from_context, 3))
-  } else {
-    message("create_pattern_grobs() - aspect ratio failure. using 1")
-    aspect_ratio_from_context <- 1
-  }
-
-  aspect_ratio_from_context
+get_aspect_ratio <- function() {
+    width <- as.numeric(convertWidth(unit(1, "npc"), "in"))
+    height <- as.numeric(convertHeight(unit(1, "npc"), "in"))
+    aspect_ratio <-  width / height
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,51 +44,20 @@ create_pattern_grobs <- function(all_params, boundary_dfs, aspect_ratio) {
     params      <- fill_default_params(all_params[i,])
     boundary_df <- boundary_dfs[[i]]
 
-    # print(params)
-    # message("create_pattern_grobs(): ", params$pattern)
-    # flush.console()
-
-    if (is.null(params$pattern) || is.na(params$pattern) ||
-        params$pattern %in% c('NA', '')) {
-      return(NULL)
-    }
-
     par <- params$pattern_aspect_ratio
     if (!is.null(par) && !is.na(par)) {
       aspect_ratio  <- par
     }
-    # message("Final AspectRatio: ", aspect_ratio)
 
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Check if the user has supplied a function to render this pattern
-    # If so, get the function render the grobs and return, otherwise check
-    # the grid patterns and the 'img' patterns to find the matching pattern
-    # generating function
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    pattern_name <- as.character(params$pattern)
-
-    user_geometry_funcs <- getOption('ggpattern_geometry_funcs')
-    user_array_funcs    <- getOption('ggpattern_array_funcs')
-
-    if (pattern_name %in% names(user_geometry_funcs)) {
-      pattern_func <- user_geometry_funcs[[pattern_name]]
-      pattern_grob <- pattern_func(params = params, boundary_df = boundary_df, aspect_ratio = aspect_ratio)
-    } else if (pattern_name %in% names(user_array_funcs)) {
-      pattern_grob <- create_pattern_array(params = params, boundary_df = boundary_df, aspect_ratio = aspect_ratio, type = pattern_name, legend = FALSE)
-    } else if (pattern_name %in% names(grid_pattern_funcs)) {
-      pattern_func <- grid_pattern_funcs[[pattern_name]]
-      pattern_grob <- pattern_func(params = params, boundary_df = boundary_df, aspect_ratio = aspect_ratio)
-    } else if (pattern_name %in% names(array_pattern_funcs)) {
-      pattern_grob <- create_pattern_array(params = params, boundary_df = boundary_df, aspect_ratio = aspect_ratio, type = pattern_name, legend = FALSE)
-    } else {
-      warn("create_pattern_grobs() - pattern not supported: ", deparse(pattern_name))
-      pattern_grob <- grid::nullGrob()
+    if (is.null(params$pattern_res) || is.na(params$pattern_res)) {
+        width <- diff(range(boundary_df$x))
+        native <- as.numeric(grid::convertWidth(unit(width, "npc"), "native"))
+        inches <- as.numeric(grid::convertWidth(unit(width, "npc"), "in"))
+        params$pattern_res <- 1.14 * native / inches
     }
 
-    pattern_grob
-
+    gridpattern_pattern(params, boundary_df, aspect_ratio, legend = FALSE)
   })
-
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Wrap the list of pattern grob objects into a grobTree

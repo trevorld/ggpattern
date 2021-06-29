@@ -122,7 +122,7 @@ GeomRectPattern <- ggplot2::ggproto(
       # Create the pattern grobs given the current params for every element
       # (given in coords), and the boundary_dfs of all the elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      self$aspect_ratio <- get_aspect_ratio_from_context(coord, panel_params)
+      self$aspect_ratio <- get_aspect_ratio()
       pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, self$aspect_ratio)
 
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
