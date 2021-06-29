@@ -284,13 +284,13 @@ df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 p <- ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     pattern      = 'placeholder',
-    pattern_type = 'murray',
+    pattern_type = 'bear',
     colour       = 'black'
   ) +
   theme_bw(18) +
   labs(
     title = "ggpattern::geom_col_pattern()",
-    subtitle = "pattern = 'placeholder', pattern_type = 'murray'"
+    subtitle = "pattern = 'placeholder', pattern_type = 'bear'"
   ) + 
   theme(legend.position = 'none') +  
   coord_fixed(ratio = 1/2)
