@@ -36,6 +36,9 @@ This means there are minor tweaks to visual behavior:
 
 ## Bug fixes and minor improvements
 
+* 'pattern_alpha' default is now `NA` (preserve any alpha transparency in
+  `pattern_fill`, `pattern_fill2`, and `pattern_colour` colors) rather than `1`
+  (set them fully opaque).
 * 'circle' pattern can now be adjusted by 'pattern_xoffset' and 'pattern_yoffset'
 
 # ggpattern 0.1.3  2020-06-28
