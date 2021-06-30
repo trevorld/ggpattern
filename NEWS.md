@@ -26,6 +26,11 @@ This means there are minor tweaks to visual behavior:
 * `create_gradient_img()`
 * `fetch_placeholder_img()`
 * `fill_area_with_img()`
+
+## Deprecated features
+
+{ggpattern} now deprecates the following data/functions:
+
 * `magick_filter_names`, instead use `magick::filter_types()`
 * `magick_gravity_names`, instead use `magick::gravity_types()`
 * `magick_pattern_intensity_names`, instead use `gridpattern::names_magick_intensity`

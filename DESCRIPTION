@@ -25,6 +25,7 @@ Suggests:
     dplyr,
     gganimate,
     knitr,
+    magick,
     mapproj,
     maps,
     readr,
