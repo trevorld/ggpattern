@@ -46,7 +46,7 @@ while they are developing a new site.
 | Aesthetic                  | Description                        | Default   |
 |----------------------------|------------------------------------|-----------|
 | `pattern_type`             | Image source                       | 'kitten'  |
-| `pattern_alpha`            | Alpha                              | 1         |
+| `pattern_alpha`            | Alpha                              | NA        |
 | `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 

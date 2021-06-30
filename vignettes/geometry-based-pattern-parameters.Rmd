@@ -27,16 +27,12 @@ library(ggpattern)
 Geometry-based patterns
 -------------------------------------------------------------------------------
 
-The included geometry-based patterns ('stripe', 'crosshatch', 'circle') all use
-the same set of aesthetics.
-
-
 `pattern_density`
 -------------------------------------------------------------------------------
 
 Given the same locations for the pattern elements, changing the `pattern_density`
 changes how far the elements extend towards their neighbours.  It is a fraction, 
-and usually requires values in the range [0, 1]
+and usually requires values in the range [0, 1].  Not settable in the "polygon_tiling" pattern.
 
 ```{r echo=FALSE}
 density  <- c(0.01, 0.04, 0.1, 0.2, 0.4, 0.7)

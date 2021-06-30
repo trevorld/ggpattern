@@ -41,7 +41,7 @@ for this pattern, these arrays are coloured and used to fill the geom.
 |----------------------------|------------------------------------|-----------|
 | `pattern_fill`             | Noise colour                       | 'grey80'  |
 | `pattern_scale`            | Extra scaling                      | 1         |
-| `pattern_alpha`            | Alpha                              | 1         |
+| `pattern_alpha`            | Alpha                              | NA        |
 | `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 
