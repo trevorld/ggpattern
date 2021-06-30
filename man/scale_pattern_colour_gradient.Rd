@@ -119,8 +119,8 @@ scale_pattern_fill2_gradientn(
 
 \item{space, ..., na.value, aesthetics}{See \code{scales::seq_gradient_pal}, \code{scale_colour_hue}, \code{ggplot2::continuous_scale}}
 
-\item{guide}{Type of legend. Use `"colourbar"` for continuous
-colour bar, or `"legend"` for discrete colour legend.}
+\item{guide}{Type of legend. Use \code{"colourbar"} for continuous
+colour bar, or \code{"legend"} for discrete colour legend.}
 
 \item{mid}{colour for mid point}
 
@@ -138,7 +138,7 @@ to map an arbitrary range to between 0 and 1.}
 See \code{ggplot2::scale_colour_gradient()} for more information
 }
 \details{
-`scale_*_gradient` creates a two colour gradient (low-high),
-`scale_*_gradient2` creates a diverging colour gradient (low-mid-high),
-`scale_*_gradientn` creates a n-colour gradient.
+\verb{scale_*_gradient} creates a two colour gradient (low-high),
+\verb{scale_*_gradient2} creates a diverging colour gradient (low-mid-high),
+\verb{scale_*_gradientn} creates a n-colour gradient.
 }

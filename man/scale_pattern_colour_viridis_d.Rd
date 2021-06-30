@@ -88,20 +88,20 @@ scale_pattern_fill2_viridis_c(
 )
 }
 \arguments{
-\item{...}{Other arguments passed on to [discrete_scale()],
-[continuous_scale()], or [binned_scale] to control name, limits, breaks,
-  labels and so forth.}
+\item{...}{Other arguments passed on to \code{\link[=discrete_scale]{discrete_scale()}},
+\code{\link[=continuous_scale]{continuous_scale()}}, or \link{binned_scale} to control name, limits, breaks,
+labels and so forth.}
 
 \item{begin, end, alpha, direction, option, values, space, na.value, guide}{See \code{ggplot2::scale_colour_viridis_d} for more information}
 
 \item{aesthetics}{Character string or vector of character strings listing the
 name(s) of the aesthetic(s) that this scale works with. This can be useful, for
-example, to apply colour settings to the `colour` and `fill` aesthetics at the
-same time, via `aesthetics = c("colour", "fill")`.}
+example, to apply colour settings to the \code{colour} and \code{fill} aesthetics at the
+same time, via \code{aesthetics = c("colour", "fill")}.}
 }
 \description{
-The `viridis` scales provide colour maps that are perceptually uniform in both
+The \code{viridis} scales provide colour maps that are perceptually uniform in both
 colour and black-and-white. They are also designed to be perceived by viewers
 with common forms of colour blindness. See also
-<https://bids.github.io/colormap/>.
+\url{https://bids.github.io/colormap/}.
 }

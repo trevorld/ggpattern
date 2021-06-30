@@ -15,13 +15,13 @@ remove_missing(df, na.rm = FALSE, vars = names(df), name = "", finite = FALSE)
 
 \item{name}{Optional function name to improve error message.}
 
-\item{finite}{If `TRUE`, will also remove non-finite values.}
+\item{finite}{If \code{TRUE}, will also remove non-finite values.}
 }
 \description{
-Remove all non-complete rows, with a warning if `na.rm = FALSE`.
+Remove all non-complete rows, with a warning if \code{na.rm = FALSE}.
 ggplot is somewhat more accommodating of missing values than R generally.
 For those stats which require complete data, missing values will be
-automatically removed with a warning. If `na.rm = TRUE` is supplied
+automatically removed with a warning. If \code{na.rm = TRUE} is supplied
 to the statistic, the warning will be suppressed.
 }
 \keyword{internal}

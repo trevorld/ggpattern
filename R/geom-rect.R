@@ -16,9 +16,9 @@
 #' \item{\strong{\code{pattern_colour       }}}{ Colour used for strokes and points. default: 'black'}
 #' \item{\strong{\code{pattern_fill         }}}{ Fill colour. default: 'black'}
 #' \item{\strong{\code{pattern_angle        }}}{ Orientation of the pattern in degrees. default: 45}
-#' \item{\strong{\code{pattern_density      }}}{ Approximate fill fraction of the pattern. Usually in range [0, 1], but can be higher. default: 0.2}
+#' \item{\strong{\code{pattern_density      }}}{ Approximate fill fraction of the pattern. Usually in range \[0, 1], but can be higher. default: 0.2}
 #' \item{\strong{\code{pattern_spacing      }}}{ Spacing of the pattern as a fraction of the plot size. default: 0.05}
-#' \item{\strong{\code{pattern_xoffset,pattern_yoffset}}}{Offset the origin of the pattern. Range [0, 1]. default: 0.  Use this to slightly shift the origin of the pattern. For most patterns, the user should limit the offset value to be less than the pattern spacing.}
+#' \item{\strong{\code{pattern_xoffset,pattern_yoffset}}}{Offset the origin of the pattern. Range \[0, 1]. default: 0.  Use this to slightly shift the origin of the pattern. For most patterns, the user should limit the offset value to be less than the pattern spacing.}
 #' \item{\strong{\code{pattern_alpha        }}}{ Alpha transparency for pattern. default: 1}
 #' \item{\strong{\code{pattern_linetype     }}}{ Stroke linetype. default: 1}
 #' \item{\strong{\code{pattern_size         }}}{ Stroke line width. default: 1}

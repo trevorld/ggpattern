@@ -3,7 +3,7 @@
 #' Sequential grey colour scales
 #'
 #' Based on [gray.colors()]. This is black and white equivalent
-#' of [scale_patterncolour_gradient()].
+#' of [scale_pattern_colour_gradient()].
 #'
 #' @param ...,start,end,na.value,aesthetics See
 #'        \code{ggplot2::scale_colour_grey} for more information

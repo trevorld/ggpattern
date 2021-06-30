@@ -36,6 +36,6 @@ scale_pattern_fill2_grey(
 \code{ggplot2::scale_colour_grey} for more information}
 }
 \description{
-Based on [gray.colors()]. This is black and white equivalent
-of [scale_patterncolour_gradient()].
+Based on \code{\link[=gray.colors]{gray.colors()}}. This is black and white equivalent
+of \code{\link[=scale_pattern_colour_gradient]{scale_pattern_colour_gradient()}}.
 }

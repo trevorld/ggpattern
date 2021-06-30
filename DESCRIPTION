@@ -9,6 +9,7 @@ URL: http://github.com/coolbutuseless/ggpattern, https://coolbutuseless.github.i
 BugReports: http://github.com/coolbutuseless/ggpattern/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
     ggplot2,
@@ -57,6 +58,7 @@ Collate:
     'geom-sf.R'
     'geom-tile.R'
     'geom-violin.R'
+    'ggpattern-deprecated.R'
     'ggpattern-package.R'
     'pattern.R'
     'polygon_df.R'
