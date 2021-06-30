@@ -22,6 +22,7 @@ This means there are minor tweaks to visual behavior:
 {ggpattern} no longer provides the following objects:
 
 * `convert_img_to_array()`
+* `convert_polygon_df_to_alpha_channel()`
 * `create_gradient_img()`
 * `fetch_placeholder_img()`
 * `fill_area_with_img()`

@@ -40,7 +40,6 @@ Collate:
     'aaa-ggplot2-performance.R'
     'aaa-ggplot2-scale-manual.R'
     'aaa-ggplot2-utilities-grid.R'
-    'aaa-ggplot2-utilities-matrix.R'
     'aaa-ggplot2-utilities.R'
     'aab-utils.R'
     'geom-.R'

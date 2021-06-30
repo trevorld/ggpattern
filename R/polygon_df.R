@@ -184,56 +184,6 @@ rotate_polygon_df <- function(polygon_df, angle, aspect_ratio) {
   polygon_df
 }
 
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Convert a polygon to an alpha mask
-#'
-#' Alpha values of 1 correspond to pixels within the polygon, all other
-#' values will be zero.
-#'
-#' @param polygon_df polygon_df object
-#' @param width,height dimensions of the alpha channel matrix to return
-#'
-#' @return numeric matrix with all values with 0 or 1
-#'
-#' @import png
-#' @importFrom grDevices dev.off png
-#' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-convert_polygon_df_to_alpha_channel <- function(polygon_df, width, height) {
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Convert the polygon to an actual grob, coloured 'black'
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  gp <- gpar(fill = 'black')
-  boundary_grob <- convert_polygon_df_to_polygon_grob(polygon_df, gp=gp)
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Save the grob as an image of the given size
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  png_file <- tempfile(fileext = ".png")
-  png(png_file, width=width, height=height)
-  grid.draw(boundary_grob)
-  dev.off()
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Load the file and convert o a numeric matrix with values 0/1 depending
-  # on whether the pixel is white or black.
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  alpha_channel <- png::readPNG(png_file)
-  alpha_channel <- alpha_channel[,,1] < 0.5
-  storage.mode(alpha_channel) <- 'numeric'
-
-  # t(alpha_channel)
-  alpha_channel
-}
-
-
-
-
-
-
 if (FALSE) {
   polygon_df <- create_polygon_df(x=c(0, 0.3, 0.3, 0,  0.5, 0.9, 0.9, 0.5),
                                     y=c(0, 0, 0.3, 0.3,  0.5, 0.5, 0.9, 0.9),
@@ -250,5 +200,3 @@ if (FALSE) {
   plot.new()
   grid.draw(grob)
 }
-
-
