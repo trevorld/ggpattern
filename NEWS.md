@@ -19,6 +19,19 @@ This means there are minor tweaks to visual behavior:
   {ggpattern} / {gridpattern} builtin pattern and an error will
   be thrown if you try to do so.
 
+{ggpattern} no longer provides the following objects:
+
+* `convert_img_to_array()`
+* `create_gradient_img()`
+* `fetch_placeholder_img()`
+* `fill_area_with_img()`
+* `magick_filter_names`, instead use `magick::filter_types()`
+* `magick_gravity_names`, instead use `magick::gravity_types()`
+* `magick_pattern_intensity_names`, instead use `gridpattern::names_magick_intensity`
+* `magick_pattern_names`, instead use `gridpattern::names_magick`
+* `magick_pattern_stripe_names`, instead use `gridpattern::names_magick_stripe`
+* `placeholder_names`, instead use `gridpattern::names_placeholder`
+
 ## New features
 
 * {ggpattern} now supports all patterns provided by {gridpattern}.
@@ -33,13 +46,15 @@ This means there are minor tweaks to visual behavior:
 * 'pattern_fill2' can now be used to set the fill for the vertical lines
   in the 'crosshatch' pattern.  
   By default, if unset,  it uses 'pattern_fill' (#35).
+* 'circle' pattern can now be adjusted by 'pattern_type' and 'pattern_subtype'.
+  See `help("grid.pattern_circle", package = "gridpattern")` for more info.
 
 ## Bug fixes and minor improvements
 
 * 'pattern_alpha' default is now `NA` (preserve any alpha transparency in
   `pattern_fill`, `pattern_fill2`, and `pattern_colour` colors) rather than `1`
   (set them fully opaque).
-* 'circle' pattern can now be adjusted by 'pattern_xoffset' and 'pattern_yoffset'
+* 'circle' pattern can now be adjusted by 'pattern_xoffset' and 'pattern_yoffset'.
 
 # ggpattern 0.1.3  2020-06-28
 
