@@ -93,7 +93,7 @@ GeomBoxplotPattern <- ggproto(
       colour = data$colour,
       size = data$size,
       linetype = data$linetype,
-      fill = alpha(data$fill, data$alpha),
+      fill = scales::alpha(data$fill, data$alpha),
       group = data$group
     )
 

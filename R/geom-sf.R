@@ -128,9 +128,9 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   })
   alpha <- x$alpha %||% defaults$alpha[type_ind]
   col   <- x$colour %||% defaults$colour[type_ind]
-  col[is_point | is_line] <- alpha(col[is_point | is_line], alpha[is_point | is_line])
+  col[is_point | is_line] <- scales::alpha(col[is_point | is_line], alpha[is_point | is_line])
   fill       <- x$fill %||% defaults$fill[type_ind]
-  fill       <- alpha(fill, alpha)
+  fill       <- scales::alpha(fill, alpha)
   size       <- x$size %||% defaults$size[type_ind]
   point_size <- ifelse(is_collection, x$size %||% defaults$point_size[type_ind], size)
   stroke     <- (x$stroke %||% defaults$stroke[1]) * .stroke / 2

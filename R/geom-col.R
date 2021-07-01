@@ -50,7 +50,7 @@ GeomColPattern <- ggproto(
   non_missing_aes = c("xmin", "xmax", "ymin", "ymax"),
 
   setup_params = function(data, params) {
-    params$flipped_aes <- has_flipped_aes(data, params)
+    params$flipped_aes <- ggplot2::has_flipped_aes(data, params)
     params
   },
 

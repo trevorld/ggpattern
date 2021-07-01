@@ -1,18 +1,6 @@
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This file was copied (mostly untouched) from ggplot2 v3.3.0.9000
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#' @export
-#' @examples
-#' \dontrun{
-#' ggplot(mpg, aes(displ, hwy)) +
-#'   geom_point(alpha = 0.5, colour = "blue")
-#'
-#' ggplot(mpg, aes(displ, hwy)) +
-#'   geom_point(colour = alpha("blue", 0.5))
-#' }
-scales::alpha
 
 "%||%" <- function(a, b) {
   if (!is.null(a)) a else b
@@ -162,24 +150,6 @@ is_complete <- function(x) {
     !is.na(x)
   }
 }
-
-
-#' Used in examples to illustrate when errors should occur.
-#'
-#' @param expr code to evaluate.
-#' @export
-#' @keywords internal
-#' @examples
-#' should_stop(stop("Hi!"))
-#' should_stop(should_stop("Hi!"))
-should_stop <- function(expr) {
-  res <- try(print(force(expr)), TRUE)
-  if (!inherits(res, "try-error")) {
-    abort("No error!")
-  }
-  invisible()
-}
-
 
 #' A waiver object.
 #'

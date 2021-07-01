@@ -145,7 +145,7 @@ GeomRectPattern <- ggplot2::ggproto(
             just          = c("left", "top"),
             gp = grid::gpar(
               col      = NA,
-              fill     = alpha(coords$fill, coords$alpha),
+              fill     = scales::alpha(coords$fill, coords$alpha),
               lwd      = coords$size * .pt,
               lty      = coords$linetype,
               linejoin = linejoin,

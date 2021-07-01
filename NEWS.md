@@ -19,11 +19,15 @@ This means there are minor tweaks to visual behavior:
   {ggpattern} / {gridpattern} builtin pattern and an error will
   be thrown if you try to do so.
 
+The following functions are no longer exported by {ggpattern}:
+
+
 ## Deprecated features
 
 {ggpattern} now deprecates the following data/functions,
 they may be removed in a future version of {ggpattern}:
 
+* `alpha()`, instead use `scales::alpha()`
 * `convert_img_to_array()`
 * `convert_polygon_df_to_alpha_channel()`
 * `create_gradient_img()`
@@ -35,6 +39,7 @@ they may be removed in a future version of {ggpattern}:
 * `magick_pattern_names`, instead use `gridpattern::names_magick`
 * `magick_pattern_stripe_names`, instead use `gridpattern::names_magick_stripe`
 * `placeholder_names`, instead use `gridpattern::names_placeholder`
+* `should_stop()`, instead use `ggplot2::should_stop()`
 
 ## New features
 

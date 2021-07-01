@@ -110,7 +110,7 @@ GeomRibbonPattern <- ggproto(
       munched$x, munched$y, id = munched$id,
       default.units = "native",
       gp = gpar(
-        fill = alpha(aes$fill, aes$alpha),
+        fill = scales::alpha(aes$fill, aes$alpha),
         col  = if (identical(outline.type, "legacy")) aes$colour else NA
       )
     )
@@ -230,7 +230,7 @@ GeomAreaPattern <- ggproto(
   required_aes = c("x", "y"),
 
   setup_params = function(data, params) {
-    params$flipped_aes <- has_flipped_aes(data, params, ambiguous = TRUE)
+    params$flipped_aes <- ggplot2::has_flipped_aes(data, params, ambiguous = TRUE)
     params
   },
 

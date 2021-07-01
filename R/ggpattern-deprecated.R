@@ -18,10 +18,13 @@
 #' @param type `magick` type
 #' @param gravity `magick` gravity
 #' @param filter `magick` filter
+#' @param colour Colour
 #' @param colour1 Colour
 #' @param colour2 Colour
+#' @param alpha Alpha transparency value
 #' @param orientation Orientation
 #' @param scale Scale
+#' @param expr R expression
 #' @examples
 #'     suppressWarnings({
 #'       print(magick_filter_names)
@@ -52,6 +55,20 @@ NULL
 
 #' @export placeholder_names
 NULL
+
+#' @rdname ggpattern-deprecated
+#' @export
+alpha <- function(colour, alpha = NA) {
+    .Deprecated("scales::alpha()")
+    scales::alpha(colour, alpha)
+}
+
+#' @rdname ggpattern-deprecated
+#' @export
+should_stop <- function(expr) {
+    .Deprecated("ggplot2::should_stop()")
+    ggplot2::should_stop(expr)
+}
 
 #' @rdname ggpattern-deprecated
 #' @export

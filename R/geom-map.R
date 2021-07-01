@@ -113,7 +113,7 @@ GeomMapPattern <- ggproto(
         id = grob_id,
         gp = gpar(
           col  = data$colour,
-          fill = alpha(data$fill, data$alpha),
+          fill = scales::alpha(data$fill, data$alpha),
           lwd  = data$size * .pt
         )
       ),

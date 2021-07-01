@@ -221,7 +221,7 @@ draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = 1) {
     height = unit(1, "npc"), #- unit(lwd, "mm"),
     gp = gpar(
       col      = data$colour %||% NA,
-      fill     = alpha(data$fill %||% "grey20", data$alpha),
+      fill     = scales::alpha(data$fill %||% "grey20", data$alpha),
       lty      = data$linetype %||% 1,
       lwd      = lwd,
       linejoin = params$linejoin %||% "mitre",
@@ -264,7 +264,7 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = 1) {
     rectGrob(height = 0.5, width = 0.75),
     gp = gpar(
       col = data$colour %||% "grey20",
-      fill = alpha(data$fill %||% "white", data$alpha),
+      fill = scales::alpha(data$fill %||% "white", data$alpha),
       lwd = (data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
@@ -277,7 +277,7 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = 1) {
     linesGrob(c(0.125, 0.875), 0.5),
     gp = gpar(
       col = data$colour %||% "grey20",
-      fill = alpha(data$fill %||% "white", data$alpha),
+      fill = scales::alpha(data$fill %||% "white", data$alpha),
       lwd = (data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
@@ -323,7 +323,7 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = 1) {
     rectGrob(height = 0.5, width = 0.75),
     gp = gpar(
       col = data$colour %||% "grey20",
-      fill = alpha(data$fill %||% "white", data$alpha),
+      fill = scales::alpha(data$fill %||% "white", data$alpha),
       lwd = (data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
@@ -333,7 +333,7 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = 1) {
     linesGrob(c(0.125, 0.875), 0.5),
     gp = gpar(
       col = data$colour %||% "grey20",
-      fill = alpha(data$fill %||% "white", data$alpha),
+      fill = scales::alpha(data$fill %||% "white", data$alpha),
       lwd = (data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )

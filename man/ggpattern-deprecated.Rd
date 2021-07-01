@@ -8,6 +8,8 @@
 \alias{magick_pattern_names}
 \alias{magick_pattern_stripe_names}
 \alias{placeholder_names}
+\alias{alpha}
+\alias{should_stop}
 \alias{convert_polygon_df_to_alpha_channel}
 \alias{convert_img_to_array}
 \alias{create_gradient_img}
@@ -15,6 +17,10 @@
 \alias{fill_area_with_img}
 \title{Deprecated data/functions}
 \usage{
+alpha(colour, alpha = NA)
+
+should_stop(expr)
+
 convert_polygon_df_to_alpha_channel(polygon_df, width, height)
 
 convert_img_to_array(img)
@@ -40,6 +46,12 @@ fill_area_with_img(
 )
 }
 \arguments{
+\item{colour}{Colour}
+
+\item{alpha}{Alpha transparency value}
+
+\item{expr}{R expression}
+
 \item{polygon_df}{polygon df}
 
 \item{width}{Width}

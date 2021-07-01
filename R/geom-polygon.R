@@ -95,7 +95,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
             id = munched$group,
             gp = grid::gpar(
               col  = first_rows$colour,
-              fill = alpha(first_rows$fill, first_rows$alpha),
+              fill = scales::alpha(first_rows$fill, first_rows$alpha),
               lwd  = first_rows$size * .pt,
               lty  = first_rows$linetype
             )
@@ -163,7 +163,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
             rule = rule,
             gp = grid::gpar(
               col  = NA,
-              fill = alpha(first_rows$fill, first_rows$alpha),
+              fill = scales::alpha(first_rows$fill, first_rows$alpha),
               lwd  = first_rows$size * .pt,
               lty  = first_rows$linetype
             )
