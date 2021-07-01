@@ -94,11 +94,13 @@ convert_polygon_df_to_polygon_grob <- function(polygon_df, default.units = 'npc'
 #'
 #' @return sf polygon object
 #'
-#' @import sf
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 convert_polygon_df_to_polygon_sf <- function(polygon_df, buffer_dist = 0) {
 
+  if (!requireNamespace("sf"))
+      abort(c("Suggested package {sf} must be installed",
+              i = 'Install using `install.packages("sf")`'))
   if (is.null(polygon_df) || nrow(polygon_df) < 3 ||
       anyNA(polygon_df$x) || anyNA(polygon_df$y)) {
     return(sf::st_polygon())
@@ -140,10 +142,12 @@ convert_polygon_df_to_polygon_sf <- function(polygon_df, buffer_dist = 0) {
 #'
 #' @return polygon_df data.frame object
 #'
-#' @import sf
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 convert_polygon_sf_to_polygon_df <- function(mp) {
+  if (!requireNamespace("sf"))
+      abort(c("Suggested package {sf} must be installed",
+              i = 'Install using `install.packages("sf")`'))
   mat <- as.matrix(mp)
 
   if (inherits(mp, 'POLYGON')) {

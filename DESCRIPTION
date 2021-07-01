@@ -16,10 +16,8 @@ Imports:
     glue,
     grid,
     gridpattern (>= 0.2.0-1),
-    png,
     rlang,
     scales,
-    sf
 Suggests: 
     ambient,
     dplyr,
@@ -29,8 +27,10 @@ Suggests:
     mapproj,
     maps,
     memoise,
+    png,
     readr,
     rmarkdown,
+    sf (>= 0.7-3),
     testthat (>= 2.1.0),
     vdiffr
 Remotes: github::trevorld/gridpattern

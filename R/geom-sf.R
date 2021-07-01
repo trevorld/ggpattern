@@ -93,6 +93,9 @@ default_aesthetics <- function(type) {
 
 # ggpattern note: panel params added to arguments
 sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.rm = TRUE, panel_params) {
+  if (!requireNamespace("sf"))
+      abort(c("Suggested package {sf} must be installed",
+              i = 'Install using `install.packages("sf")`'))
   type <- sf_types[sf::st_geometry_type(x$geometry)]
   is_point <- type == "point"
   is_line <- type == "line"
