@@ -19,8 +19,7 @@ Imports:
     png,
     rlang,
     scales,
-    sf,
-    tibble
+    sf
 Suggests: 
     ambient,
     dplyr,

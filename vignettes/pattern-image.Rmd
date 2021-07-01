@@ -87,13 +87,14 @@ seamless3 <- system.file("img", "seamless3.jpg"   , package="ggpattern")
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Plotting data
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df1 <- tibble(
+df1 <- data.frame(
   trt      = c("a", "b", "c"), 
   outcome  = c(2.3, 1.9, 3.2),
   gravity  = c('South', 'North', 'West'),
   filltype = c('squish', 'fit' , 'expand'),
   scale    = c(1, 2, 0.5),
-  filename = c(logo_filename, magpie_filename, bug_filename)
+  filename = c(logo_filename, magpie_filename, bug_filename),
+  stringsAsFactors = FALSE
 )
 ```
 

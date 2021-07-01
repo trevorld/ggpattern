@@ -368,8 +368,10 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Data frame for a polyagon
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-polygon_df <- dplyr::tibble(
-  angle = seq(0, 2*pi, length.out = 7) + pi/6,
+
+angle <- seq(0, 2*pi, length.out = 7) + pi/6
+polygon_df <- data.frame(
+  angle = angle,
   x     = cos(angle),
   y     = sin(angle)
 )

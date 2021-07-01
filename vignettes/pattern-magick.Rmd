@@ -55,10 +55,11 @@ Patterns have been scaled (using `pattern_scale`) to make them more visible for 
 Note that these are all pixel patterns and will always look blocky.
 
 ```{r fig.width=7, fig.height = 12, echo = TRUE}
-df1 <- tibble(
+df1 <- data.frame(
   x    = rep(1:6, 9),
   y    = rep(1:9, each=6),
-  name = gridpattern::names_magick
+  name = gridpattern::names_magick,
+  stringsAsFactors = FALSE
 )
 
 

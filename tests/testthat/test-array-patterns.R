@@ -33,13 +33,14 @@ test_that("image pattern work as expected", {
     magpie_filename <- system.file("img", "magpie.jpg", package="ggpattern")
     bug_filename    <- system.file("img", "bug.jpg"   , package="ggpattern")
 
-    df1 <- tibble(
+    df1 <- data.frame(
       trt      = c("a", "b", "c"),
       outcome  = c(2.3, 1.9, 3.2),
       gravity  = c('South', 'North', 'West'),
       filltype = c('squish', 'fit' , 'expand'),
       scale    = c(1, 2, 0.5),
-      filename = c(logo_filename, magpie_filename, bug_filename)
+      filename = c(logo_filename, magpie_filename, bug_filename),
+      stringsAsFactors = FALSE
     )
 
     expect_doppelganger("image_logo_none", {

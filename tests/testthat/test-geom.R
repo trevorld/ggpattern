@@ -4,7 +4,7 @@ test_that("geometry patterns work as expected", {
     library("vdiffr")
 
     expect_doppelganger("bar", {
-        ggplot(mpg, aes(class)) +
+        ggplot(ggplot2::mpg, aes(class)) +
           geom_bar_pattern(
             aes(
               pattern = class,
@@ -33,7 +33,7 @@ test_that("geometry patterns work as expected", {
     }))
 
     expect_doppelganger("boxplot", {
-        ggplot(mpg, aes(class, hwy)) +
+        ggplot(ggplot2::mpg, aes(class, hwy)) +
             geom_boxplot_pattern(
                  aes(
                      pattern      = class,
@@ -109,8 +109,9 @@ test_that("geometry patterns work as expected", {
     })
 
     expect_doppelganger("polygon", {
-      polygon_df <- dplyr::tibble(
-        angle = seq(0, 2*pi, length.out = 7) + pi/6,
+      angle <- seq(0, 2*pi, length.out = 7) + pi/6
+      polygon_df <- data.frame(
+        angle = angle,
         x     = cos(angle),
         y     = sin(angle)
       )
