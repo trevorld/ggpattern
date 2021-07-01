@@ -1,5 +1,6 @@
 context("geometry")
 test_that("geometry patterns work as expected", {
+    skip_on_ci()
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
@@ -24,13 +25,3 @@ test_that("geometry patterns work as expected", {
     expect_doppelganger("stripe", pattern_ggplot("stripe"))
     expect_doppelganger("weave", pattern_ggplot("weave"))
 })
-
-    df <- data.frame(trt = c("a", "b", "c"),
-                     outcome = c(2.3, 1.9, 3.2))
-
-        ggplot(df, aes(trt, outcome)) +
-            geom_col_pattern(aes(fill=trt),
-                             colour='black',
-                             pattern = "regular_polygon") +
-            theme_bw() +
-            labs(title = "regular_polygon")

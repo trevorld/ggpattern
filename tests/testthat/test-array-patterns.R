@@ -1,5 +1,6 @@
 context("array")
 test_that("array patterns work as expected", {
+    skip_on_ci()
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
@@ -17,7 +18,8 @@ test_that("array patterns work as expected", {
 
     expect_doppelganger("gradient", pattern_ggplot("gradient"))
     expect_doppelganger("magick", pattern_ggplot("magick"))
-    expect_doppelganger("placeholder", pattern_ggplot("placeholder"))
+    # "placeholder" patterns are not that stable
+    # expect_doppelganger("placeholder", pattern_ggplot("placeholder"))
     # plasma pattern is random
     # expect_doppelganger("plasma", pattern_ggplot("image"))
     skip_if_not_installed("ambient")
@@ -26,6 +28,7 @@ test_that("array patterns work as expected", {
 })
 
 test_that("image pattern work as expected", {
+    skip_on_ci()
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
