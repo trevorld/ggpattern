@@ -9,12 +9,12 @@
 \alias{magick_pattern_stripe_names}
 \alias{placeholder_names}
 \alias{alpha}
+\alias{flip_data}
+\alias{flipped_names}
 \alias{has_flipped_aes}
 \alias{gg_dep}
 \alias{remove_missing}
 \alias{should_stop}
-\alias{flip_data}
-\alias{flipped_names}
 \alias{convert_polygon_df_to_alpha_channel}
 \alias{convert_img_to_array}
 \alias{create_gradient_img}
@@ -23,6 +23,10 @@
 \title{Deprecated data/functions}
 \usage{
 alpha(colour, alpha = NA)
+
+flip_data(data, flip = NULL)
+
+flipped_names(flip = FALSE)
 
 has_flipped_aes(
   data,
@@ -39,10 +43,6 @@ gg_dep(version, msg)
 remove_missing(df, na.rm = FALSE, vars = names(df), name = "", finite = FALSE)
 
 should_stop(expr)
-
-flip_data(data, flip = NULL)
-
-flipped_names(flip = FALSE)
 
 convert_polygon_df_to_alpha_channel(polygon_df, width, height)
 
@@ -75,6 +75,8 @@ fill_area_with_img(
 existing alpha values are preserved.}
 
 \item{data}{The layer data}
+
+\item{flip}{Logical. Is the layer flipped.}
 
 \item{params}{The parameters of the \code{Stat}/\code{Geom}. Only the \code{orientation}
 parameter will be used.}
@@ -112,8 +114,6 @@ the continuous one correspond to the main orientation?}
 \item{finite}{If \code{TRUE}, will also remove non-finite values.}
 
 \item{expr}{code to evaluate.}
-
-\item{flip}{Logical. Is the layer flipped.}
 
 \item{polygon_df}{polygon df}
 

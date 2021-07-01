@@ -22,12 +22,6 @@
 #' @param colour2 Colour
 #' @param orientation Orientation
 #' @param scale Scale
-#' @inheritParams ggplot2::flip_data
-#' @inheritParams ggplot2::gg_dep
-#' @inheritParams ggplot2::has_flipped_aes
-#' @inheritParams ggplot2::remove_missing
-#' @inheritParams ggplot2::should_stop
-#' @inheritParams scales::alpha
 #' @examples
 #'     suppressWarnings({
 #'       print(magick_filter_names)
@@ -60,6 +54,7 @@ NULL
 NULL
 
 #' @rdname ggpattern-deprecated
+#' @inheritParams scales::alpha
 #' @export
 alpha <- function(colour, alpha = NA) {
     .Deprecated("scales::alpha()")
@@ -67,235 +62,60 @@ alpha <- function(colour, alpha = NA) {
 }
 
 #' @rdname ggpattern-deprecated
+#' @inheritParams ggplot2::flip_data
+#' @export
+flip_data <- function(data, flip = NULL) {
+  .Deprecated("ggplot2::flip_data()")
+  ggplot2::flip_data(data = data, flip = flip)
+}
+
+#' @rdname ggpattern-deprecated
+#' @inheritParams ggplot2::flipped_names
+#' @export
+flipped_names <- function(flip = FALSE) {
+  .Deprecated("ggplot2::flipped_names()")
+  ggplot2::flipped_names(flip = flip)
+}
+
+#' @rdname ggpattern-deprecated
+#' @inheritParams ggplot2::has_flipped_aes
 #' @export
 has_flipped_aes <- function(data, params = list(), main_is_orthogonal = NA,
                             range_is_orthogonal = NA, group_has_equal = FALSE,
                             ambiguous = FALSE, main_is_continuous = FALSE) {
-  # Is orientation already encoded in data?
-  if (!is.null(data$flipped_aes)) {
-    not_na <- which(!is.na(data$flipped_aes))
-    if (length(not_na) != 0) {
-      return(data$flipped_aes[[not_na[1L]]])
-    }
-  }
-
-  # Is orientation requested in the params
-  if (!is.null(params$orientation) && !is.na(params$orientation)) {
-    return(params$orientation == "y")
-  }
-
-  x <- data$x %||% params$x
-  y <- data$y %||% params$y
-  xmin <- data$xmin %||% params$xmin
-  ymin <- data$ymin %||% params$ymin
-  xmax <- data$xmax %||% params$xmax
-  ymax <- data$ymax %||% params$ymax
-
-  # Does a single x or y aesthetic corespond to a specific orientation
-  if (!is.na(main_is_orthogonal) && xor(is.null(x), is.null(y))) {
-    return(is.null(y) == main_is_orthogonal)
-  }
-
-  has_x <- !is.null(x)
-  has_y <- !is.null(y)
-
-  # Does a provided range indicate an orientation
-  if (!is.na(range_is_orthogonal)) {
-    if (!is.null(ymin) || !is.null(ymax)) {
-      return(!range_is_orthogonal)
-    }
-    if (!is.null(xmin) || !is.null(xmax)) {
-      return(range_is_orthogonal)
-    }
-  }
-
-  # If ambiguous orientation = NA will give FALSE
-  if (ambiguous && (is.null(params$orientation) || is.na(params$orientation))) {
-    return(FALSE)
-  }
-
-  # Is there a single actual discrete position
-  y_is_int <- is.integer(y)
-  x_is_int <- is.integer(x)
-  if (xor(y_is_int, x_is_int)) {
-    return(y_is_int != main_is_continuous)
-  }
-
-  # Does each group have a single x or y value
-  if (group_has_equal) {
-    if (has_x) {
-      if (length(x) == 1) return(FALSE)
-      x_groups <- vapply(split(data$x, data$group), function(x) length(unique(x)), integer(1))
-      if (all(x_groups == 1)) {
-        return(FALSE)
-      }
-    }
-    if (has_y) {
-      if (length(y) == 1) return(TRUE)
-      y_groups <- vapply(split(data$y, data$group), function(x) length(unique(x)), integer(1))
-      if (all(y_groups == 1)) {
-        return(TRUE)
-      }
-    }
-  }
-
-  # give up early
-  if (!has_x && !has_y) {
-    return(FALSE)
-  }
-
-  # Both true discrete. give up
-  if (y_is_int && x_is_int) {
-    return(FALSE)
-  }
-  # Is there a single discrete-like position
-  y_is_int <- if (has_y) isTRUE(all.equal(y, round(y))) else FALSE
-  x_is_int <- if (has_x) isTRUE(all.equal(x, round(x))) else FALSE
-  if (xor(y_is_int, x_is_int)) {
-    return(y_is_int != main_is_continuous)
-  }
-  # Is one of the axes a single value
-  if (all(x == 1)) {
-    return(main_is_continuous)
-  }
-  if (all(y == 1)) {
-    return(!main_is_continuous)
-  }
-  # If both are discrete like, which have most 0 or 1-spaced values
-  y_diff <- diff(sort(y))
-  x_diff <- diff(sort(x))
-
-  if (y_is_int && x_is_int) {
-    return((sum(x_diff <= 1) < sum(y_diff <= 1)) != main_is_continuous)
-  }
-
-  y_diff <- y_diff[y_diff != 0]
-  x_diff <- x_diff[x_diff != 0]
-
-  # If none are discrete is either regularly spaced
-  y_is_regular <- if (has_y && length(y_diff) != 0) all((y_diff / min(y_diff)) %% 1 < .Machine$double.eps) else FALSE
-  x_is_regular <- if (has_x && length(x_diff) != 0) all((x_diff / min(x_diff)) %% 1 < .Machine$double.eps) else FALSE
-  if (xor(y_is_regular, x_is_regular)) {
-    return(y_is_regular != main_is_continuous)
-  }
-  # default to no
-  FALSE
+    .Deprecated("ggplot2::has_flipped_aes()")
+    ggplot2::has_flipped_aes(data = data, params = params,
+                             main_is_orthogonal = main_is_orthogonal,
+                             range_is_orthogonal = range_is_orthogonal,
+                             group_has_equal = group_has_equal,
+                             ambiguous = ambiguous,
+                             main_is_continuous = main_is_continuous)
 }
 
 #' @rdname ggpattern-deprecated
+#' @inheritParams ggplot2::gg_dep
 #' @export
 gg_dep <- function(version, msg) {
   .Deprecated("ggplot2::gg_dep()")
-  v <- as.package_version(version)
-  cv <- utils::packageVersion("ggplot2")
-  text <- "{msg} (Defunct; last used in version {version})"
-
-  # If current major number is greater than last-good major number, or if
-  #  current minor number is more than 1 greater than last-good minor number,
-  #  give error.
-  if (cv[[1,1]] > v[[1,1]]  ||  cv[[1,2]] > v[[1,2]] + 1) {
-    abort(glue(text))
-
-  # If minor number differs by one, give warning
-  } else if (cv[[1,2]] > v[[1,2]]) {
-    warn(glue(text))
-
-  # If only subminor number is greater, give message
-  } else if (cv[[1,3]] > v[[1,3]]) {
-    message(glue(text))
-  }
-
-  invisible()
+  ggplot2::gg_dep(version = version, msg = msg)
 }
 
 #' @rdname ggpattern-deprecated
+#' @inheritParams ggplot2::remove_missing
 #' @export
 remove_missing <- function(df, na.rm = FALSE, vars = names(df), name = "",
                            finite = FALSE) {
-  if (!is.logical(na.rm)) {
-    abort("`na.rm` must be logical")
-  }
-
-  missing <- detect_missing(df, vars, finite)
-
-  if (any(missing)) {
-    df <- df[!missing, ]
-    if (!na.rm) {
-      if (name != "") name <- paste(" (", name, ")", sep = "")
-      str <- if (finite) "non-finite" else "missing"
-      warning_wrap(
-        "Removed ", sum(missing), " rows containing ", str, " values", name, "."
-      )
-    }
-  }
-  df
-}
-detect_missing <- function(df, vars, finite = FALSE) {
-  vars <- intersect(vars, names(df))
-  !cases(df[, vars, drop = FALSE], if (finite) is_finite else is_complete)
-}
-is_complete <- function(x) {
-  if (typeof(x) == "list") {
-    !vapply(x, is.null, logical(1))
-  } else {
-    !is.na(x)
-  }
-}
-# Wrapper around is.finite to handle list cols
-is_finite <- function(x) {
-  if (typeof(x) == "list") {
-    !vapply(x, is.null, logical(1))
-  } else {
-    is.finite(x)
-  }
+  .Deprecated("ggplot2::remove_missing()")
+  ggplot2::remove_missing(df = df, na.rm = na.rm, vars = vars, name = name,
+                          finite = finite)
 }
 
 #' @rdname ggpattern-deprecated
+#' @inheritParams ggplot2::should_stop
 #' @export
 should_stop <- function(expr) {
     .Deprecated("ggplot2::should_stop()")
     ggplot2::should_stop(expr)
-}
-
-#' @rdname ggpattern-deprecated
-#' @export
-flip_data <- function(data, flip = NULL) {
-  flip <- flip %||% any(data$flipped_aes) %||% FALSE
-  if (isTRUE(flip)) {
-    names(data) <- switch_orientation(names(data))
-  }
-  data
-}
-switch_orientation <- function(aesthetics) {
-  # We should have these as globals somewhere
-  x <- ggplot_global$x_aes
-  y <- ggplot_global$y_aes
-  x_aes <- match(aesthetics, x)
-  x_aes_pos <- which(!is.na(x_aes))
-  y_aes <- match(aesthetics, y)
-  y_aes_pos <- which(!is.na(y_aes))
-  if (length(x_aes_pos) > 0) {
-    aesthetics[x_aes_pos] <- y[x_aes[x_aes_pos]]
-  }
-  if (length(y_aes_pos) > 0) {
-    aesthetics[y_aes_pos] <- x[y_aes[y_aes_pos]]
-  }
-  aesthetics
-}
-
-#' @rdname ggpattern-deprecated
-#' @export
-flipped_names <- function(flip = FALSE) {
-  .Deprecated("ggplot2::flipped_names()")
-  x_aes <- ggplot_global$x_aes
-  y_aes <- ggplot_global$y_aes
-  if (flip) {
-    ret <- as.list(c(y_aes, x_aes))
-  } else {
-    ret <- as.list(c(x_aes, y_aes))
-  }
-  names(ret) <- c(x_aes, y_aes)
-  ret
 }
 
 #' @rdname ggpattern-deprecated

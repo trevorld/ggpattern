@@ -51,6 +51,25 @@ cases <- function(x, fun) {
     rowSums(as.matrix(ok)) == ncol(x)
   }
 }
+detect_missing <- function(df, vars, finite = FALSE) {
+  vars <- intersect(vars, names(df))
+  !cases(df[, vars, drop = FALSE], if (finite) is_finite else is_complete)
+}
+is_complete <- function(x) {
+  if (typeof(x) == "list") {
+    !vapply(x, is.null, logical(1))
+  } else {
+    !is.na(x)
+  }
+}
+# Wrapper around is.finite to handle list cols
+is_finite <- function(x) {
+  if (typeof(x) == "list") {
+    !vapply(x, is.null, logical(1))
+  } else {
+    is.finite(x)
+  }
+}
 
 #' A waiver object.
 #'
