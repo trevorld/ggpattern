@@ -8,7 +8,60 @@
 \alias{magick_pattern_names}
 \alias{magick_pattern_stripe_names}
 \alias{placeholder_names}
+\alias{convert_polygon_df_to_alpha_channel}
+\alias{convert_img_to_array}
+\alias{create_gradient_img}
+\alias{fetch_placeholder_img}
+\alias{fill_area_with_img}
 \title{Deprecated data/functions}
+\usage{
+convert_polygon_df_to_alpha_channel(polygon_df, width, height)
+
+convert_img_to_array(img)
+
+create_gradient_img(
+  width = 100,
+  height = 100,
+  colour1 = "red",
+  colour2 = "blue",
+  orientation = "vertical"
+)
+
+fetch_placeholder_img(width = 100, height = 100, type = "kitten")
+
+fill_area_with_img(
+  img,
+  width,
+  height,
+  type = "squish",
+  gravity = "Center",
+  filter = "lanczos",
+  scale = 1
+)
+}
+\arguments{
+\item{polygon_df}{polygon df}
+
+\item{width}{Width}
+
+\item{height}{Height}
+
+\item{img}{\code{magick} image}
+
+\item{colour1}{Colour}
+
+\item{colour2}{Colour}
+
+\item{orientation}{Orientation}
+
+\item{type}{\code{magick} type}
+
+\item{gravity}{\code{magick} gravity}
+
+\item{filter}{\code{magick} filter}
+
+\item{scale}{Scale}
+}
 \description{
 These data/functions are Deprecated in this release of ggpattern,
 they will be marked as Defunct and removed in a future version.

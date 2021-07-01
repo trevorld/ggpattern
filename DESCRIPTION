@@ -29,6 +29,7 @@ Suggests:
     magick,
     mapproj,
     maps,
+    memoise,
     readr,
     reshape2,
     rmarkdown,

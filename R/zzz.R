@@ -1,5 +1,6 @@
 #' @import scales
 #' @importFrom utils tail
+#' @importFrom grDevices col2rgb dev.off png rgb
 NULL
 
 deprecated <- function(new, old) {
@@ -8,7 +9,12 @@ deprecated <- function(new, old) {
     invisible(NULL)
 }
 
+img_read_memoised <- img_read
+
 .onLoad <- function(libname, pkgname) {
+    if (requireNamespace("memoise"))
+        img_read_memoised <<- memoise::memoise(img_read)
+
     ns <- asNamespace(pkgname)
     makeActiveBinding("magick_filter_names",
                       function() {
