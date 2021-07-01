@@ -5,3 +5,4 @@
 ^pkgdown$
 ^data-raw$
 ^\.github$
+^\.covrignore$

@@ -65,7 +65,7 @@ GeomCrossbarPattern <- ggproto(
 
     self$aspect_ratio <- get_aspect_ratio()
 
-    data <- flip_data(data, flipped_aes)
+    data <- ggplot2::flip_data(data, flipped_aes)
 
     middle <- transform(data, x = xmin, xend = xmax, yend = y, size = size * fatten, alpha = NA)
 
@@ -123,8 +123,8 @@ GeomCrossbarPattern <- ggproto(
         box[[varname]] <- data[[varname]]
       }
     }
-    box <- flip_data(box, flipped_aes)
-    middle <- flip_data(middle, flipped_aes)
+    box <- ggplot2::flip_data(box, flipped_aes)
+    middle <- ggplot2::flip_data(middle, flipped_aes)
 
     ggname("geom_crossbar", gTree(children = gList(
       GeomPolygonPattern$draw_panel(box, panel_params, coord),

@@ -69,14 +69,14 @@ GeomBarPattern <- ggproto(
 
   setup_data = function(data, params) {
     data$flipped_aes <- params$flipped_aes
-    data <- flip_data(data, params$flipped_aes)
+    data <- ggplot2::flip_data(data, params$flipped_aes)
     data$width <- data$width %||%
       params$width %||% (resolution(data$x, FALSE) * 0.9)
     data <- transform(data,
                       ymin = pmin(y, 0), ymax = pmax(y, 0),
                       xmin = x - width / 2, xmax = x + width / 2, width = NULL
     )
-    flip_data(data, params$flipped_aes)
+    ggplot2::flip_data(data, params$flipped_aes)
   },
 
   draw_panel = function(self, data, panel_params, coord, width = NULL, flipped_aes = FALSE) {

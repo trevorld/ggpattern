@@ -67,7 +67,7 @@ GeomRibbonPattern <- ggproto(
   # Where the magic happens
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   draw_group = function(self, data, panel_params, coord, na.rm = FALSE, flipped_aes = FALSE, outline.type = "both") {
-    data <- flip_data(data, flipped_aes)
+    data <- ggplot2::flip_data(data, flipped_aes)
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group), ]
 
@@ -102,7 +102,7 @@ GeomRibbonPattern <- ggproto(
       id = c(ids, rev(ids))
     ))
 
-    positions <- flip_data(positions, flipped_aes)
+    positions <- ggplot2::flip_data(positions, flipped_aes)
 
     munched <- coord_munch(coord, positions, panel_params)
 
@@ -236,9 +236,9 @@ GeomAreaPattern <- ggproto(
 
   setup_data = function(data, params) {
     data$flipped_aes <- params$flipped_aes
-    data <- flip_data(data, params$flipped_aes)
+    data <- ggplot2::flip_data(data, params$flipped_aes)
     data <- transform(data[order(data$PANEL, data$group, data$x), ], ymin = 0, ymax = y)
-    flip_data(data, params$flipped_aes)
+    ggplot2::flip_data(data, params$flipped_aes)
   }
 )
 

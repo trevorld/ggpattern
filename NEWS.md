@@ -19,9 +19,6 @@ This means there are minor tweaks to visual behavior:
   {ggpattern} / {gridpattern} builtin pattern and an error will
   be thrown if you try to do so.
 
-The following functions are no longer exported by {ggpattern}:
-
-
 ## Deprecated features
 
 {ggpattern} now deprecates the following data/functions,
@@ -33,12 +30,17 @@ they may be removed in a future version of {ggpattern}:
 * `create_gradient_img()`
 * `fetch_placeholder_img()`
 * `fill_area_with_img()`
+* `flip_data()`, instead use `ggplot2::flip_data()`
+* `flipped_names()`, instead use `ggplot2::flipped_names()`
+* `gg_dep()`, instead use `ggplot2::gg_dep()`
+* `has_flipped_aes()`, instead use `ggplot2::has_flipped_aes()`
 * `magick_filter_names`, instead use `magick::filter_types()`
 * `magick_gravity_names`, instead use `magick::gravity_types()`
 * `magick_pattern_intensity_names`, instead use `gridpattern::names_magick_intensity`
 * `magick_pattern_names`, instead use `gridpattern::names_magick`
 * `magick_pattern_stripe_names`, instead use `gridpattern::names_magick_stripe`
 * `placeholder_names`, instead use `gridpattern::names_placeholder`
+* `remove_missing()`, instead use `ggplot2::remove_missing()`
 * `should_stop()`, instead use `ggplot2::should_stop()`
 
 ## New features

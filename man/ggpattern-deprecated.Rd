@@ -9,7 +9,12 @@
 \alias{magick_pattern_stripe_names}
 \alias{placeholder_names}
 \alias{alpha}
+\alias{has_flipped_aes}
+\alias{gg_dep}
+\alias{remove_missing}
 \alias{should_stop}
+\alias{flip_data}
+\alias{flipped_names}
 \alias{convert_polygon_df_to_alpha_channel}
 \alias{convert_img_to_array}
 \alias{create_gradient_img}
@@ -19,7 +24,25 @@
 \usage{
 alpha(colour, alpha = NA)
 
+has_flipped_aes(
+  data,
+  params = list(),
+  main_is_orthogonal = NA,
+  range_is_orthogonal = NA,
+  group_has_equal = FALSE,
+  ambiguous = FALSE,
+  main_is_continuous = FALSE
+)
+
+gg_dep(version, msg)
+
+remove_missing(df, na.rm = FALSE, vars = names(df), name = "", finite = FALSE)
+
 should_stop(expr)
+
+flip_data(data, flip = NULL)
+
+flipped_names(flip = FALSE)
 
 convert_polygon_df_to_alpha_channel(polygon_df, width, height)
 
@@ -46,11 +69,51 @@ fill_area_with_img(
 )
 }
 \arguments{
-\item{colour}{Colour}
+\item{colour}{colour}
 
-\item{alpha}{Alpha transparency value}
+\item{alpha}{new alpha level in [0,1].  If alpha is \code{NA},
+existing alpha values are preserved.}
 
-\item{expr}{R expression}
+\item{data}{The layer data}
+
+\item{params}{The parameters of the \code{Stat}/\code{Geom}. Only the \code{orientation}
+parameter will be used.}
+
+\item{main_is_orthogonal}{If only \code{x} or \code{y} are present do they correspond
+to the main orientation or the reverse. E.g. If \code{TRUE} and \code{y} is present
+it is not flipped. If \code{NA} this check will be ignored.}
+
+\item{range_is_orthogonal}{If \code{xmin}/\code{xmax} or \code{ymin}/\code{ymax} is present do
+they correspond to the main orientation or reverse. If \code{NA} this check will
+be ignored.}
+
+\item{group_has_equal}{Is it expected that grouped data has either a single
+\code{x} or \code{y} value that will correspond to the orientation.}
+
+\item{ambiguous}{Is the layer ambiguous in its mapping by nature. If so, it
+will only be flipped if \code{params$orientation == "y"}}
+
+\item{main_is_continuous}{If there is a discrete and continuous axis, does
+the continuous one correspond to the main orientation?}
+
+\item{version}{The last version of ggplot2 where this function was good
+(in other words, the last version where it was not deprecated).}
+
+\item{msg}{The message to print.}
+
+\item{df}{data.frame}
+
+\item{na.rm}{If true, will suppress warning message.}
+
+\item{vars}{Character vector of variables to check for missings in}
+
+\item{name}{Optional function name to improve error message.}
+
+\item{finite}{If \code{TRUE}, will also remove non-finite values.}
+
+\item{expr}{code to evaluate.}
+
+\item{flip}{Logical. Is the layer flipped.}
 
 \item{polygon_df}{polygon df}
 
