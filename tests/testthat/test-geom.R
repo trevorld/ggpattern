@@ -250,7 +250,6 @@ test_that("geom_map_pattern() works as expected", {
       library(maps)
 
       crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
-      crimesm <- reshape2::melt(crimes, id = 1)
 
       states_map <- map_data("state")
       ggplot(crimes, aes(map_id = state)) +
