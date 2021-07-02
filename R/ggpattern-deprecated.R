@@ -11,7 +11,9 @@
 #  \item{For `magick_pattern_stripe_names` use `gridpattern::names_magick_stripe`.}
 #  \item{For `placeholder_names` use `gridpattern::names_placeholder`.}
 #' }
-#' @param polygon_df polygon df
+#' @param polygon_df polygon_df data.frame
+#' @param angle angle in degrees
+#' @param aspect_ratio aspect ratio
 #' @param width Width
 #' @param height Height
 #' @param img `magick` image
@@ -53,6 +55,19 @@ NULL
 #' @export placeholder_names
 NULL
 
+## exported polygon_df() friends
+
+#' @rdname ggpattern-deprecated
+#' @export
+calculate_bbox_polygon_df <- function(polygon_df) {
+  .Deprecated(msg = 'calculate_bbox_polygon_df() is deprecated')
+  stopifnot(is_polygon_df(polygon_df))
+
+  x <- range(polygon_df$x)
+  y <- range(polygon_df$y)
+  c(x[1], y[1], x[2], y[2])
+}
+
 #' @rdname ggpattern-deprecated
 #' @export
 convert_polygon_df_to_alpha_channel <- function(polygon_df, width, height) {
@@ -83,6 +98,25 @@ convert_polygon_df_to_alpha_channel <- function(polygon_df, width, height) {
   # t(alpha_channel)
   alpha_channel
 }
+
+#' @rdname ggpattern-deprecated
+#' @export
+rotate_polygon_df <- function(polygon_df, angle, aspect_ratio) {
+  .Deprecated(msg = 'rotate_polygon_df() is deprecated')
+
+  angle <- angle * pi/180
+
+  new_x <- polygon_df$x * cos(angle) - polygon_df$y * sin(angle)
+  new_y <- polygon_df$x * sin(angle) + polygon_df$y * cos(angle)
+
+  polygon_df$x <- new_x
+  polygon_df$y <- new_y
+
+  polygon_df
+}
+
+
+## exported 'array' pattern friends
 
 #' @rdname ggpattern-deprecated
 #' @export

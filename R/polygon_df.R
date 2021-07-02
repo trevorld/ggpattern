@@ -1,5 +1,3 @@
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Create a \code{polygon_df} object from the given coordinates
 #'
@@ -36,25 +34,6 @@ is_polygon_df <- function(x) {
   is.null(x) ||
     (is.data.frame(x) && all(c('x', 'y', 'id') %in% names(x)))
 }
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Calculate the bounding box of a polygon_df object
-#'
-#' @param polygon_df polygon_df data.frame
-#'
-#' @return 4-element numeric vector of \code{c(xmin, ymin, xmax, ymax)}
-#' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-calculate_bbox_polygon_df <- function(polygon_df) {
-
-  stopifnot(is_polygon_df(polygon_df))
-
-  x <- range(polygon_df$x)
-  y <- range(polygon_df$y)
-  c(x[1], y[1], x[2], y[2])
-}
-
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Convert a \code{polygon_df} to \code{grid::polygonGrob} object
@@ -165,28 +144,6 @@ convert_polygon_sf_to_polygon_df <- function(mp) {
   create_polygon_df(x=mat[,1], y=mat[,2], id=id)
 }
 
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Simple 2D rotation of a polygon about the origin
-#'
-#' @param polygon_df polygon data.frame
-#' @param angle angle in degrees
-#' @param aspect_ratio aspect ratio
-#'
-#' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-rotate_polygon_df <- function(polygon_df, angle, aspect_ratio) {
-
-  angle <- angle * pi/180
-
-  new_x <- polygon_df$x * cos(angle) - polygon_df$y * sin(angle)
-  new_y <- polygon_df$x * sin(angle) + polygon_df$y * cos(angle)
-
-  polygon_df$x <- new_x
-  polygon_df$y <- new_y
-
-  polygon_df
-}
 
 if (FALSE) {
   polygon_df <- create_polygon_df(x=c(0, 0.3, 0.3, 0,  0.5, 0.9, 0.9, 0.5),

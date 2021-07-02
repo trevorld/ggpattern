@@ -8,14 +8,20 @@
 \alias{magick_pattern_names}
 \alias{magick_pattern_stripe_names}
 \alias{placeholder_names}
+\alias{calculate_bbox_polygon_df}
 \alias{convert_polygon_df_to_alpha_channel}
+\alias{rotate_polygon_df}
 \alias{convert_img_to_array}
 \alias{create_gradient_img}
 \alias{fetch_placeholder_img}
 \alias{fill_area_with_img}
 \title{Deprecated data/functions}
 \usage{
+calculate_bbox_polygon_df(polygon_df)
+
 convert_polygon_df_to_alpha_channel(polygon_df, width, height)
+
+rotate_polygon_df(polygon_df, angle, aspect_ratio)
 
 convert_img_to_array(img)
 
@@ -40,11 +46,15 @@ fill_area_with_img(
 )
 }
 \arguments{
-\item{polygon_df}{polygon df}
+\item{polygon_df}{polygon_df data.frame}
 
 \item{width}{Width}
 
 \item{height}{Height}
+
+\item{angle}{angle in degrees}
+
+\item{aspect_ratio}{aspect ratio}
 
 \item{img}{\code{magick} image}
 

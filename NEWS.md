@@ -36,6 +36,7 @@ are no longer exported by {ggpattern}:
 {ggpattern} now deprecates the following data/functions,
 they may be removed in a future version of {ggpattern}:
 
+* `calculate_bbox_polygon_df()`
 * `convert_img_to_array()`
 * `convert_polygon_df_to_alpha_channel()`
 * `create_gradient_img()`
@@ -47,6 +48,7 @@ they may be removed in a future version of {ggpattern}:
 * `magick_pattern_names`, instead use `gridpattern::names_magick`
 * `magick_pattern_stripe_names`, instead use `gridpattern::names_magick_stripe`
 * `placeholder_names`, instead use `gridpattern::names_placeholder`
+* `rotate_polygon_df()`
 
 ## New features
 
