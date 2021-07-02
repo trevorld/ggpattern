@@ -2,8 +2,10 @@ Package: ggpattern
 Type: Package
 Title: Geoms with Patterns
 Version: 0.2.0
-Authors@R: person("Mike", "FC", email = "mikefc@coolbutuseless.com",
-                  role = c("aut", "cre"))
+Authors@R: c(person("Mike", "FC", email = "mikefc@coolbutuseless.com",
+                    role = c("aut", "cre"))
+             person("Trevor L", "Davis", role = "aut"),
+             person("ggplot2 authors", role = "cph"))
 Description: Geoms with patterns for ggplot2.
 URL: http://github.com/coolbutuseless/ggpattern, https://coolbutuseless.github.io/package/ggpattern/index.html 
 BugReports: http://github.com/coolbutuseless/ggpattern/issues
