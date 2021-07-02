@@ -3,7 +3,7 @@ Type: Package
 Title: Geoms with Patterns
 Version: 0.2.0
 Authors@R: c(person("Mike", "FC", email = "mikefc@coolbutuseless.com",
-                    role = c("aut", "cre"))
+                    role = c("aut", "cre")),
              person("Trevor L", "Davis", role = "aut"),
              person("ggplot2 authors", role = "cph"))
 Description: Geoms with patterns for ggplot2.
