@@ -70,18 +70,6 @@ is_finite <- function(x) {
     is.finite(x)
   }
 }
-
-#' A waiver object.
-#'
-#' A waiver is a "flag" object, similar to `NULL`, that indicates the
-#' calling function should just use the default value.  It is used in certain
-#' functions to distinguish between displaying nothing (`NULL`) and
-#' displaying a default value calculated elsewhere (`waiver()`)
-#'
-#' @export
-#' @keywords internal
-waiver <- function() structure(list(), class = "waiver")
-
 is.waive <- function(x) inherits(x, "waiver")
 
 binned_pal <- function(palette) {
