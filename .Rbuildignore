@@ -4,6 +4,8 @@
 ^LICENSE.md$
 ^working$
 ^pkgdown$
+^docs$
 ^data-raw$
 ^\.github$
 ^\.covrignore$
+^_pkgdown.yml$
