@@ -30,23 +30,33 @@ get_aspect_ratio <- function() {
 #' Generate all the pattern grobs for this geom
 #'
 #' @param all_params parameters for all the elements
-#' @param boundary_dfs boundary_df objects for each of the elements
+#' @param boundaries boundary_df objects for each of the elements
+#'                   and/or grid grobs to use as a clipping path
 #' @param aspect_ratio aspect ratio
 #'
 #' @return grobTree containing all the pattern grobs
+#' @noRd
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-create_pattern_grobs <- function(all_params, boundary_dfs, aspect_ratio) {
+create_pattern_grobs <- function(all_params, boundaries, aspect_ratio) {
 
   # There might be a number of polygons coming in.
   # There should be one row in the 'all_params' data.frame for each polygon
-  # There should be the matching 'id' for the polygon in the 'boundary_dfs'
+  # There should be the matching 'id' for the polygon in the 'boundaries'
   pattern_grobs <- lapply(seq(nrow(all_params)), function(i) {
     params      <- fill_default_params(all_params[i,])
-    boundary_df <- boundary_dfs[[i]]
+    boundary <- boundaries[[i]]
 
     par <- params$pattern_aspect_ratio
     if (!is.null(par) && !is.na(par)) {
       aspect_ratio  <- par
+    }
+
+    if (is.grob(boundary)) {
+        boundary_df <- convert_grob_to_polygon_df(boundary)
+    } else if (is_polygon_df(boundary)) {
+        boundary_df <- boundary
+    } else {
+        abort("boundary must either be a grob or 'polygon_df'")
     }
 
     if (is.null(params$pattern_res) || is.na(params$pattern_res)) {
@@ -56,7 +66,15 @@ create_pattern_grobs <- function(all_params, boundary_dfs, aspect_ratio) {
         params$pattern_res <- 1.14 * native / inches
     }
 
-    gridpattern_pattern(params, boundary_df, aspect_ratio, legend = FALSE)
+    grob <- gridpattern_pattern(params, boundary_df, aspect_ratio, legend = FALSE)
+    if (is.grob(boundary)) {
+        if (inherits(grob, "clipping_path")) {
+            grob <- editGrob(grob, clipper = boundary)
+        } else {
+            grob <- gridpattern::clippingPathGrob(grob, boundary)
+        }
+    }
+    grob
   })
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

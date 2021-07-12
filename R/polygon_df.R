@@ -64,6 +64,15 @@ convert_polygon_df_to_polygon_grob <- function(polygon_df, default.units = 'npc'
   )
 }
 
+convert_grob_to_polygon_df <- function(grob) {
+    boundary_points <- grobPoints(grob, closed = TRUE)
+    x <- sapply(boundary_points, function(x) x$x)
+    y <- sapply(boundary_points, function(x) x$y)
+    x <- convertX(unit(x, "in"), "npc", valueOnly = TRUE)
+    y <- convertX(unit(y, "in"), "npc", valueOnly = TRUE)
+    indices <- grDevices::chull(x, y)
+    create_polygon_df(x[indices], y[indices])
+}
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Convert a \code{polygon_df} to an \code{sf} POLYGON/MULTIPOLYGON
