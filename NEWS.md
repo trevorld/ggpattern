@@ -66,6 +66,20 @@ they may be removed in a future version of {ggpattern}:
   By default, if unset,  it uses 'pattern_fill' (#35).
 * 'circle' pattern can now be adjusted by 'pattern_type' and 'pattern_subtype'.
   See `help("grid.pattern_circle", package = "gridpattern")` for more info.
+* 'gradient' pattern can now use grid gradient feature introduced in R v4.1.0
+  if `options(ggpattern_use_R4.1_gradients = TRUE)`.
+* The following package options can now be set by `options()`:
+
+  * `ggpattern_use_R4.1_clipping` If `TRUE` use the grid clipping path feature introduced in R v4.1.0
+                    else do a `rasterGrob` approximation of the clipped pattern.
+  * `ggpattern_use_R4.1_features` If `TRUE` sets the default for all the other
+                    `ggpattern_use_R4.1_*` options arguments to `TRUE`.
+  * `ggpattern_use_R4.1_gradients` If `TRUE` use the grid gradient feature introduced in R v4.1.0
+                    else do a `rasterGrob` approximation of the gradient pattern.
+  * `ggpattern_use_R4.1_masks` If `TRUE` use the grid mask feature introduced in R v4.1.0.
+                    Available for use in custom patterns.
+  * `ggpattern_use_R4.1_patterns` If `TRUE` use the grid pattern feature introduced in R v4.1.0.
+                    Available for use in custom patterns.
 
 ## Bug fixes and minor improvements
 

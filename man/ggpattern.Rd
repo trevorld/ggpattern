@@ -3,7 +3,55 @@
 \docType{package}
 \name{ggpattern}
 \alias{ggpattern}
-\title{ggpattern: A package of geoms with parameterised pattern fills}
+\alias{ggpattern-package}
+\title{ggpattern: Geoms with Patterns}
 \description{
-ggpattern: A package of geoms with parameterised pattern fills
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
+Geoms with patterns for ggplot2.
 }
+\section{Package options}{
+
+The following \code{ggpattern} options may be set globally via \code{\link[base:options]{base::options()}}:
+\describe{
+\item{ggpattern_array_funcs}{Set custom \dQuote{array} pattern functions.}
+\item{ggpattern_geometry_funcs}{Set custom \dQuote{geometry} pattern functions.}
+\item{ggpattern_use_R4.1_clipping}{If \code{TRUE} use the grid clipping path feature introduced in R v4.1.0
+else do a \code{rasterGrob} approximation of the clipped pattern.}
+\item{ggpattern_use_R4.1_features}{If \code{TRUE} sets the default for all the other
+\verb{ggpattern_use_R4.1_*} options arguments to \code{TRUE}.}
+\item{ggpattern_use_R4.1_gradients}{If \code{TRUE} use the grid gradient feature introduced in R v4.1.0
+else do a \code{rasterGrob} approximation of the gradient pattern.}
+\item{ggpattern_use_R4.1_masks}{If \code{TRUE} use the grid mask feature introduced in R v4.1.0.
+Available for use in writing custom patterns.}
+\item{ggpattern_use_R4.1_patterns}{If \code{TRUE} use the grid pattern feature introduced in R v4.1.0.
+Available for use in writing custom patterns.}
+}
+Note to use the R v4.1.0 features one needs R be (at least) version 4.1 and not all graphic devices
+support any/all these features.  See \url{https://www.stat.auckland.ac.nz/~paul/Reports/GraphicsEngine/definitions/definitions.html} for more information on the R v4.1.0 grid features.
+}
+
+\seealso{
+Useful links:
+\itemize{
+  \item \url{http://github.com/coolbutuseless/ggpattern}
+  \item \url{https://coolbutuseless.github.io/package/ggpattern/index.html}
+  \item Report bugs at \url{http://github.com/coolbutuseless/ggpattern/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Mike FC \email{mikefc@coolbutuseless.com}
+
+Authors:
+\itemize{
+  \item Trevor L Davis
+}
+
+Other contributors:
+\itemize{
+  \item ggplot2 authors [copyright holder]
+}
+
+}
+\keyword{internal}
