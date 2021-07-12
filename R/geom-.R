@@ -102,6 +102,7 @@ verboseGrob <- function(name = "Viewport Tree") {
 #' Create the patterned area to be used in the legend key
 #' @inheritParams  draw_key_polygon_pattern
 #' @param boundary_df the boundary of the pattern in npc coordinates
+#' @noRd
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_df) {
 

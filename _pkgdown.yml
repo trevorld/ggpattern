@@ -16,10 +16,8 @@ reference:
     contents:
         - matches("polygon_df")
   - title: "pattern grob creators"
-    desc: "various functions mainly intented for internal development"
+    desc: "various functions mainly intended for internal development"
     contents:
-        - create_key_pattern_grob
-        - create_pattern_grobs
         - draw_key_polygon_pattern
   - title: "Deprecated functions"
     desc: "Deprecated functions that may be removed in a future version"
