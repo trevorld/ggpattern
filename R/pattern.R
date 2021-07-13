@@ -1,9 +1,10 @@
 gridpattern_pattern <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
     args <- as.list(params)
-    args <- args[grep("^pattern", names(args))]
-    args <- c(args, as.list(boundary_df))
     args$prefix <- ""
     args$legend <- legend
+    args$x <- boundary_df$x
+    args$y <- boundary_df$y
+    args$id <- boundary_df$id
     do.call(gridpattern::patternGrob, args)
 }
 
