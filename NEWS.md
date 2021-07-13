@@ -59,6 +59,7 @@ they may be removed in a future version of {ggpattern}:
   * "pch"
   * "polygon_tiling"
   * "regular_polygon"
+  * "text"
   * "weave"
 
 * 'pattern_fill2' can now be used to set the fill for the vertical lines
