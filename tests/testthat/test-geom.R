@@ -228,6 +228,7 @@ test_that("geometry patterns work as expected", {
 })
 
 test_that("geom_sf_pattern() works as expected", {
+    skip_on_ci()
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
@@ -242,6 +243,7 @@ test_that("geom_sf_pattern() works as expected", {
 })
 
 test_that("geom_map_pattern() works as expected", {
+    skip_on_ci()
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
