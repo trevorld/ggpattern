@@ -78,7 +78,7 @@ GeomBoxplotPattern <- ggproto(
                         outlier.size = 1.5, outlier.stroke = 0.5,
                         outlier.alpha = NULL,
                         notch = FALSE, notchwidth = 0.5, varwidth = FALSE, flipped_aes = FALSE) {
-    data <- flip_data(data, flipped_aes)
+    data <- ggplot2::flip_data(data, flipped_aes)
     # this may occur when using geom_boxplot(stat = "identity")
     if (nrow(data) != 1) {
       abort("Can't draw more than one boxplot per group. Did you forget aes(group = ...)?")
@@ -87,13 +87,13 @@ GeomBoxplotPattern <- ggproto(
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Hack needed so that legend/key drawing knows something about sizing
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    self$aspect_ratio <- get_aspect_ratio_from_context(coord, panel_params)
+    self$aspect_ratio <- get_aspect_ratio()
 
     common <- list(
       colour = data$colour,
       size = data$size,
       linetype = data$linetype,
-      fill = alpha(data$fill, data$alpha),
+      fill = scales::alpha(data$fill, data$alpha),
       group = data$group
     )
 
@@ -107,7 +107,7 @@ GeomBoxplotPattern <- ggproto(
       ),
       common
     ), n = 2)
-    whiskers <- flip_data(whiskers, flipped_aes)
+    whiskers <- ggplot2::flip_data(whiskers, flipped_aes)
 
     box <- new_data_frame(c(
       list(
@@ -131,7 +131,7 @@ GeomBoxplotPattern <- ggproto(
     }
 
 
-    box <- flip_data(box, flipped_aes)
+    box <- ggplot2::flip_data(box, flipped_aes)
 
     if (!is.null(data$outliers) && length(data$outliers[[1]] >= 1)) {
       outliers <- new_data_frame(list(
@@ -145,7 +145,7 @@ GeomBoxplotPattern <- ggproto(
         fill = NA,
         alpha = outlier.alpha %||% data$alpha[1]
       ), n = length(data$outliers[[1]]))
-      outliers <- flip_data(outliers, flipped_aes)
+      outliers <- ggplot2::flip_data(outliers, flipped_aes)
 
       outliers_grob <- GeomPoint$draw_panel(outliers, panel_params, coord)
     } else {

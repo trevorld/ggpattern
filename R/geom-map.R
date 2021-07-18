@@ -98,7 +98,7 @@ GeomMapPattern <- ggproto(
     # Create the pattern grobs given the current params for every element
     # (given in all_params), and the boundary_dfs of all the elements
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    aspect_ratio <- get_aspect_ratio_from_context(coord, panel_params)
+    aspect_ratio <- get_aspect_ratio()
     pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, aspect_ratio)
 
 
@@ -113,7 +113,7 @@ GeomMapPattern <- ggproto(
         id = grob_id,
         gp = gpar(
           col  = data$colour,
-          fill = alpha(data$fill, data$alpha),
+          fill = scales::alpha(data$fill, data$alpha),
           lwd  = data$size * .pt
         )
       ),
@@ -133,7 +133,6 @@ if (FALSE) {
   library(maps)
 
   crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
-  crimesm <- reshape2::melt(crimes, id = 1)
 
   states_map <- map_data("state")
   ggplot(crimes, aes(map_id = state)) +

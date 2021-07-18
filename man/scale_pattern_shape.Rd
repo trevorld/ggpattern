@@ -18,15 +18,15 @@ scale_pattern_shape_continuous(...)
 \arguments{
 \item{...}{other arguments passed to discrete_scale()}
 
-\item{solid}{Should the shapes be solid, `TRUE`, or hollow,
-`FALSE`?}
+\item{solid}{Should the shapes be solid, \code{TRUE}, or hollow,
+\code{FALSE}?}
 }
 \description{
-`scale_pattern_shape` maps discrete variables to six easily discernible shapes.
+\code{scale_pattern_shape} maps discrete variables to six easily discernible shapes.
 If you have more than six levels, you will get a warning message, and the
 seventh and subsequence levels will not appear on the plot. Use
-[scale_pattern_shape_manual()] to supply your own values. You can not map
-a continuous variable to shape unless `scale_pattern_shape_binned()` is used. Still,
+\code{\link[=scale_pattern_shape_manual]{scale_pattern_shape_manual()}} to supply your own values. You can not map
+a continuous variable to shape unless \code{scale_pattern_shape_binned()} is used. Still,
 as shape has no inherent order, this use is not advised..
 }
 \details{

@@ -46,7 +46,7 @@ while they are developing a new site.
 | Aesthetic                  | Description                        | Default   |
 |----------------------------|------------------------------------|-----------|
 | `pattern_type`             | Image source                       | 'kitten'  |
-| `pattern_alpha`            | Alpha                              | 1         |
+| `pattern_alpha`            | Alpha                              | NA        |
 | `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 
@@ -86,12 +86,12 @@ Example Data
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Simple testing data
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df1 <- tibble(
+df1 <- data.frame(
   trt     = c("a", "b", "c"), 
-  outcome = c(2.3, 1.9, 3.2)
+  outcome = c(2.3, 1.9, 3.2),
+  stringsAsFactors = FALSE
 )
 ```
-
 
 Example: `pattern = 'placeholder'` - `pattern_type = 'bear'` 
 ------------------------------------------------------------------------------
@@ -192,11 +192,10 @@ Example: `pattern = 'placeholder'` - `pattern_type = 'kitten'`
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Example data for pie chart
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df2 <- tibble(
+df2 <- data.frame(
   group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
   value = c(10, 20, 30, 40)
 )
-
 
 ggplot(df2, aes(x="", y = value, pattern_angle = group))+
   geom_bar_pattern(

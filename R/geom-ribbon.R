@@ -67,7 +67,7 @@ GeomRibbonPattern <- ggproto(
   # Where the magic happens
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   draw_group = function(self, data, panel_params, coord, na.rm = FALSE, flipped_aes = FALSE, outline.type = "both") {
-    data <- flip_data(data, flipped_aes)
+    data <- ggplot2::flip_data(data, flipped_aes)
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group), ]
 
@@ -102,7 +102,7 @@ GeomRibbonPattern <- ggproto(
       id = c(ids, rev(ids))
     ))
 
-    positions <- flip_data(positions, flipped_aes)
+    positions <- ggplot2::flip_data(positions, flipped_aes)
 
     munched <- coord_munch(coord, positions, panel_params)
 
@@ -110,7 +110,7 @@ GeomRibbonPattern <- ggproto(
       munched$x, munched$y, id = munched$id,
       default.units = "native",
       gp = gpar(
-        fill = alpha(aes$fill, aes$alpha),
+        fill = scales::alpha(aes$fill, aes$alpha),
         col  = if (identical(outline.type, "legacy")) aes$colour else NA
       )
     )
@@ -141,7 +141,7 @@ GeomRibbonPattern <- ggproto(
     # Create the pattern grobs given the current params for every element
     # (given in all_params), and the boundary_dfs of all the elements
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    self$aspect_ratio  <- get_aspect_ratio_from_context(coord, panel_params)
+    self$aspect_ratio  <- get_aspect_ratio()
     pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, self$aspect_ratio)
 
     if (identical(outline.type, "legacy")) {
@@ -230,15 +230,15 @@ GeomAreaPattern <- ggproto(
   required_aes = c("x", "y"),
 
   setup_params = function(data, params) {
-    params$flipped_aes <- has_flipped_aes(data, params, ambiguous = TRUE)
+    params$flipped_aes <- ggplot2::has_flipped_aes(data, params, ambiguous = TRUE)
     params
   },
 
   setup_data = function(data, params) {
     data$flipped_aes <- params$flipped_aes
-    data <- flip_data(data, params$flipped_aes)
+    data <- ggplot2::flip_data(data, params$flipped_aes)
     data <- transform(data[order(data$PANEL, data$group, data$x), ], ymin = 0, ymax = y)
-    flip_data(data, params$flipped_aes)
+    ggplot2::flip_data(data, params$flipped_aes)
   }
 )
 

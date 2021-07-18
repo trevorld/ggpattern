@@ -50,7 +50,7 @@ images and SVGs are supported.
 | `pattern_scale`            | Extra scaling                      | 1         |
 | `pattern_gravity`          | Position of image within area      | 'center'  |
 | `pattern_filter`           | Filter to use when scaling         | 'lanczos' |
-| `pattern_alpha`            | Alpha                              | 1         |
+| `pattern_alpha`            | Alpha                              | NA        |
 | `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 
@@ -87,13 +87,14 @@ seamless3 <- system.file("img", "seamless3.jpg"   , package="ggpattern")
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Plotting data
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-df1 <- tibble(
+df1 <- data.frame(
   trt      = c("a", "b", "c"), 
   outcome  = c(2.3, 1.9, 3.2),
   gravity  = c('South', 'North', 'West'),
   filltype = c('squish', 'fit' , 'expand'),
   scale    = c(1, 2, 0.5),
-  filename = c(logo_filename, magpie_filename, bug_filename)
+  filename = c(logo_filename, magpie_filename, bug_filename),
+  stringsAsFactors = FALSE
 )
 ```
 

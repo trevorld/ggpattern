@@ -32,13 +32,14 @@ The crosshatch pattern
 | aesthetic                | description                                   | default   | possible values                   |
 |--------------------------|-----------------------------------------------|-----------|-----------------------------------|
 | pattern_colour           | Stroke colour                                 | 'grey20'  | colour                            |
-| pattern_fill             | Fill colour                                   | 'grey80'  | colour                            |
+| pattern_fill             | Fill colour of 'horizontal' lines             | 'grey80'  | colour                            |
+| pattern_fill2            | Fill colour of 'vertical' lines               | NA        | colour                            |
 | pattern_angle            | Rotation angle                                | 30        | angle in degrees                  |
 | pattern_density          | Approx. fraction of area the pattern fills    | 0.2       | value in range [0, 1] (fraction)  |
-| pattern_spacing          | Spacing between repetitions of pattern        | 0.05      | value in range [0, 1] (npc units) |
-| pattern_xoffset          | Shift pattern along x axis                    | 0         | value in range [0, 1] (npc units) |
-| pattern_yoffset          | Shift pattern along y axis                    | 0         | value in range [0, 1] (npc units) |
-| pattern_alpha            | Alpha                                         | 1         | value in range [0, 1] (npc units) |
+| pattern_spacing          | Spacing between repetitions of pattern        | 0.05      | value in range [0, 1] (snpc units) |
+| pattern_xoffset          | Shift pattern along x axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern_yoffset          | Shift pattern along y axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
 | pattern_linetype         | Stroke linetype                               | 1         | linetype                          |
 | pattern_size             | Stroke linewidth                              | 1         | linewidth                         |
 

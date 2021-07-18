@@ -42,7 +42,7 @@ those pixel patterns to fill the geom.
 | `pattern_fill`             | Colour                             | 'grey20'  |
 | `pattern_scale`            | Extra scaling                      | 1         |
 | `pattern_filter`           | Filter to use when scaling         | 'box    ' |
-| `pattern_alpha`            | Alpha                              | 1         |
+| `pattern_alpha`            | Alpha                              | NA        |
 | `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 
@@ -55,10 +55,11 @@ Patterns have been scaled (using `pattern_scale`) to make them more visible for 
 Note that these are all pixel patterns and will always look blocky.
 
 ```{r fig.width=7, fig.height = 12, echo = TRUE}
-df1 <- tibble(
+df1 <- data.frame(
   x    = rep(1:6, 9),
   y    = rep(1:9, each=6),
-  name = ggpattern::magick_pattern_names
+  name = gridpattern::names_magick,
+  stringsAsFactors = FALSE
 )
 
 
@@ -130,7 +131,7 @@ ggplot(mtcars) +
     title    = "ggpattern::geom_density_pattern()",
     subtitle = "pattern='magick'"
   ) +
-  scale_pattern_type_discrete(choices = magick_pattern_names) +
+  scale_pattern_type_discrete(choices = gridpattern::names_magick) +
   coord_fixed(ratio = 80)
 ```
 
@@ -160,7 +161,7 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
   coord_polar("y", start=0) +
   theme_void(20) +
   theme(legend.key.size = unit(2, 'cm')) +
-  scale_pattern_type_discrete(choices = magick_pattern_stripe_names) +
+  scale_pattern_type_discrete(choices = gridpattern::names_magick_stripe) +
   labs(
     title    = "ggpattern::geom_bar_pattern()",
     subtitle = "pattern='magick'"

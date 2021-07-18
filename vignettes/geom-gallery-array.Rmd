@@ -157,7 +157,7 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 
 ## pie graph with `geom_bar_pattern()`
 
-* See `ggpattern::magick_pattern_names` for a list of all image based patterns from `imagemagick`
+* See `gridpattern::names_magick` for a list of all image based patterns from `imagemagick`
 
 ```{r}
 df <- data.frame(
@@ -218,7 +218,7 @@ p <- ggplot(diamonds, aes(x, y)) +
   ) +
   theme_bw(18) +
   theme(legend.position = 'none') + 
-  scale_pattern_type_continuous(choices = ggpattern::magick_pattern_intensity_names[15:21]) +
+  scale_pattern_type_continuous(choices = gridpattern::names_magick_intensity[15:21]) +
   labs(
     title = "ggpattern::geom_bin2d_pattern()",
     subtitle = "pattern = 'magick'"
@@ -284,13 +284,13 @@ df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 p <- ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     pattern      = 'placeholder',
-    pattern_type = 'murray',
+    pattern_type = 'bear',
     colour       = 'black'
   ) +
   theme_bw(18) +
   labs(
     title = "ggpattern::geom_col_pattern()",
-    subtitle = "pattern = 'placeholder', pattern_type = 'murray'"
+    subtitle = "pattern = 'placeholder', pattern_type = 'bear'"
   ) + 
   theme(legend.position = 'none') +  
   coord_fixed(ratio = 1/2)
@@ -392,7 +392,6 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 library(maps)
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
-crimesm <- reshape2::melt(crimes, id = 1)
 
 states_map <- map_data("state")
 
@@ -416,7 +415,7 @@ p <- ggplot(crimes, aes(map_id = state)) +
     title = "ggpattern::geom_map_pattern()",
     subtitle = "pattern = 'magick'"
   ) + 
-    scale_pattern_type_discrete(choices = ggpattern::magick_pattern_names) +
+    scale_pattern_type_discrete(choices = gridpattern::names_magick) +
     theme(legend.position = 'none')
 
 p
@@ -436,8 +435,10 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Data frame for a polyagon
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-polygon_df <- dplyr::tibble(
-  angle = seq(0, 2*pi, length.out = 7) + pi/6,
+
+angle <- seq(0, 2*pi, length.out = 7) + pi/6
+polygon_df <- data.frame(
+  angle = angle,
   x     = cos(angle),
   y     = sin(angle)
 )
@@ -571,7 +572,7 @@ p <- ggplot(nc) +
   theme_bw(15) + 
   # theme(legend.key.size = unit(1.5, 'cm')) +
   theme(legend.position = 'none') +
-  scale_pattern_type_discrete(choices = ggpattern::magick_pattern_names) + 
+  scale_pattern_type_discrete(choices = gridpattern::names_magick) + 
   labs(
     title = "ggpattern::geom_sf_pattern()",
     subtitle = "pattern = 'placeholder', pattern_type = 'keanu'"

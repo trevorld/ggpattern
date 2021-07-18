@@ -67,10 +67,10 @@ within the geom's boundary.
 
 | aesthetic                | description                                   | default    | possible values                    |
 |--------------------------|-----------------------------------------------|------------|------------------------------------|
-| `pattern`                  | Name of the pattern to draw                   | 'stripe'   | stripe, crosshatch, circle, image, placeholder, magick, gradient, plasma        |
+| `pattern`                  | Name of the pattern to draw                   | 'stripe'   | `gridpattern::names_pattern`       |
 | `pattern_type`             | Generic control option                        | NA         | pattern-dependent                  |
 | `pattern_subtype`          | Generic control option                        | NA         | pattern-dependent                  |
-| `pattern_alpha`            | Alpha                                         | 1          | value in range [0, 1] (npc units)  |
+| `pattern_alpha`            | Alpha                                         | 1          | value in range [0, 1] or `NA`      |
 | `pattern_linetype`         | Stroke linetype                               | 1          | linetype                           |
 | `pattern_size`             | Stroke linewidth                              | 1          | linewidth                          |
 | `pattern_shape`            | Plotting shape                                | 1          | shapes                             |
@@ -78,15 +78,15 @@ within the geom's boundary.
 | `pattern_fill`             | Fill colour                                   | 'grey80'   | colour                             |
 | `pattern_fill2`            | Second fill colour                            | '#4169E1'  | colour                             |
 | `pattern_angle`            | Rotation angle                                | 30         | angle in degrees                   |
-| `pattern_density`          | Approx. fraction of area the pattern fills    | 0.2        | value in range [0, 1] (fraction)   |
-| `pattern_spacing`          | Spacing between repetitions of pattern        | 0.05       | value in range [0, 1] (npc units)  |
-| `pattern_xoffset`          | Shift pattern along x axis                    | 0          | value in range [0, 1] (npc units)  |
-| `pattern_yoffset`          | Shift pattern along y axis                    | 0          | value in range [0, 1] (npc units)  |
+| `pattern_density`          | Approx. fraction of area the pattern fills    | 0.2        | value in range [0, 1]              |
+| `pattern_spacing`          | Spacing between repetitions of pattern        | 0.05       | value in range [0, 1] (snpc units) |
+| `pattern_xoffset`          | Shift pattern along x axis                    | 0          | value in range [0, 1] (snpc units) |
+| `pattern_yoffset`          | Shift pattern along y axis                    | 0          | value in range [0, 1] (snpc units) |
 | `pattern_aspect_ratio`     | Aspect ratio adjustment                       | NA         | usual range [0.01, 10]             |
 | `pattern_key_scale_factor` | Scale factor for pattern in legend            | 1          |                                    |
 | `pattern_filename`         | Image filename/URL                            | ''         | Filename/URL                       |
-| `pattern_gravity`          | Image placement                               | 'center'   | `ggpattern::magick_gravity_names`  |
-| `pattern_filter`           | Image scaling filter                          | 'lanczos'  | `ggpattern::magick_filter_names`   |
+| `pattern_gravity`          | Image placement                               | 'center'   | `magick::gravity_types`            |
+| `pattern_filter`           | Image scaling filter                          | 'lanczos'  | `magick::filter_types`             |
 | `pattern_scale`            | Scale                                         | 1          | Multiplier                         |
 | `pattern_orientation`      | Orientation                                   | 'vertical' | 'vertical', 'horizontal', 'radial' |
 | `pattern_phase`            | Phase                                         | 0          |                                    |
@@ -102,40 +102,89 @@ within the geom's boundary.
 <details open = "true">
 <summary> Aesthetic Usage-by-Pattern - click to open/close </summary>
 
-* The geometry-based patterns share a common set of aesthetics. The geometry-based
-  patterns are 
-    * `stripe`
-    * `crosshatch`
-    * `circle`
+| aesthetic                | circle | pch | polygon_tiling | regular_polygon |
+|--------------------------|----------------|-------|-------------|-------------|
+| pattern                  | Y              |  Y    |  Y          |  Y          |
+| pattern_type             | Y              |  Y    |  Y          |  Y          |
+| pattern_subtype          | Y              |  Y    |             |  Y          |
+| pattern_alpha            | Y              |  Y    |             |  Y          |
+| pattern_linetype         | Y              |  Y    |  Y          |  Y          |
+| pattern_size             | Y              |  Y    |  Y          |  Y          |
+| pattern_shape            |                |  Y    |             |  Y          |
+| pattern_colour           | Y              |  Y    |  Y          |  Y          |
+| pattern_fill             | Y              |  Y    |  Y          |  Y          |
+| pattern_fill2            |                |       |             |             |
+| pattern_angle            | Y              |  Y    |  Y          |  Y          |
+| pattern_density          | Y              |  Y    |             |  Y          |
+| pattern_spacing          | Y              |  Y    |  Y          |  Y          |
+| pattern_xoffset          | Y              |  Y    |  Y          |  Y          |
+| pattern_yoffset          | Y              |  Y    |  Y          |  Y          |
+| pattern_aspect_ratio     | Y              |  Y    |  Y          |  Y          |
+| pattern_key_scale_factor | Y              |  Y    |  Y          |  Y          |
+| pattern_filename         |                |       |             |             |
+| pattern_gravity          |                |       |             |             |
+| pattern_filter           |                |       |             |             |
+| pattern_scale            |                |       |             |             |
+| pattern_orientation      |                |       |             |             |
+| pattern_phase            |                |       |             |             |
+| pattern_frequency        |                |       |             |             |
+| pattern_option_1 - 5     |                |       |             |             |
 
-| aesthetic                | geometry-based | image | placeholder | magick | gradient | plasma |
-|--------------------------|----------------|-------|-------------|--------|----------|--------|
-| pattern                  | Y              | Y     | Y           | Y      | Y        | Y      |
-| pattern_type             |                | Y     | Y           |        |          | Y      |
-| pattern_subtype          |                |       |             |        |          |        |
-| pattern_alpha            | Y              | Y     | Y           | Y      | Y        | Y      |
-| pattern_linetype         | Y              |       |             |        |          |        |
-| pattern_size             | Y              |       |             |        |          |        |
-| pattern_shape            | Y              |       |             |        |          |        |
-| pattern_colour           | Y              |       |             |        |          |        |
-| pattern_fill             | Y              |       |             | Y      | Y        | Y      |
-| pattern_fill2            |                |       |             |        | Y        |        |
-| pattern_angle            | Y              |       |             |        |          |        |
-| pattern_density          | Y              |       |             |        |          |        |
-| pattern_spacing          | Y              |       |             |        |          |        |
-| pattern_xoffset          | Y              |       |             |        |          |        |
-| pattern_yoffset          | Y              |       |             |        |          |        |
-| pattern_aspect_ratio     | Y              | Y     | Y           | Y      |          | Y      |
-| pattern_key_scale_factor | Y              | Y     | Y           | Y      | Y        | Y      |
-| pattern_filename         |                | Y     |             |        |          |        |
-| pattern_gravity          |                | Y     |             |        |          |        |
-| pattern_filter           |                | Y     |             | Y      |          |        |
-| pattern_scale            |                | Y     |             | Y      |          | Y      |
-| pattern_orientation      |                |       |             |        | Y        |        |
-| pattern_phase            |                |       |             |        |          |        |
-| pattern_frequency        |                |       |             |        |          |        |
-| pattern_option_1 - 5     |                |       |             |        |          |        |
+| aesthetic                | stripe | crosshatch | weave |
+|--------------------------|----------------|-------|-------------|
+| pattern                  | Y              |  Y    |  Y          |
+| pattern_type             |                |       |  Y          |
+| pattern_subtype          |                |       |  Y          |
+| pattern_alpha            | Y              |  Y    |  Y          |
+| pattern_linetype         | Y              |  Y    |  Y          |
+| pattern_size             | Y              |  Y    |  Y          |
+| pattern_shape            |                |       |             |
+| pattern_colour           | Y              |  Y    |  Y          |
+| pattern_fill             | Y              |  Y    |  Y          |
+| pattern_fill2            |                |  Y    |  Y          |
+| pattern_angle            | Y              |  Y    |  Y          |
+| pattern_density          | Y              |  Y    |  Y          |
+| pattern_spacing          | Y              |  Y    |  Y          |
+| pattern_xoffset          | Y              |  Y    |  Y          |
+| pattern_yoffset          | Y              |  Y    |  Y          |
+| pattern_aspect_ratio     | Y              |  Y    |  Y          |
+| pattern_key_scale_factor | Y              |  Y    |  Y          |
+| pattern_filename         |                |       |             |
+| pattern_gravity          |                |       |             |
+| pattern_filter           |                |       |             |
+| pattern_scale            |                |       |             |
+| pattern_orientation      |                |       |             |
+| pattern_phase            |                |       |             |
+| pattern_frequency        |                |       |             |
+| pattern_option_1 - 5     |                |       |             |
 
+| aesthetic                | ambient | image | placeholder | magick | gradient | plasma |
+|--------------------------|-------|-------|-------------|--------|----------|--------|
+| pattern                  | Y     | Y     | Y           | Y      | Y        | Y      |
+| pattern_type             | Y     | Y     | Y           |        |          | Y      |
+| pattern_subtype          |       |       |             |        |          |        |
+| pattern_alpha            | Y     | Y     | Y           | Y      | Y        | Y      |
+| pattern_linetype         |       |       |             |        |          |        |
+| pattern_size             |       |       |             |        |          |        |
+| pattern_shape            |       |       |             |        |          |        |
+| pattern_colour           |       |       |             |        |          |        |
+| pattern_fill             | Y     |       |             | Y      | Y        | Y      |
+| pattern_fill2            | Y     |       |             |        | Y        |        |
+| pattern_angle            |       |       |             |        |          |        |
+| pattern_density          |       |       |             |        |          |        |
+| pattern_spacing          |       |       |             |        |          |        |
+| pattern_xoffset          |       |       |             |        |          |        |
+| pattern_yoffset          |       |       |             |        |          |        |
+| pattern_aspect_ratio     | Y     | Y     | Y           | Y      |          | Y      |
+| pattern_key_scale_factor | Y     | Y     | Y           | Y      | Y        | Y      |
+| pattern_filename         |       | Y     |             |        |          |        |
+| pattern_gravity          |       | Y     |             |        |          |        |
+| pattern_filter           |       | Y     |             | Y      |          |        |
+| pattern_scale            |       | Y     |             | Y      |          | Y      |
+| pattern_orientation      |       |       |             |        | Y        |        |
+| pattern_phase            |       |       |             |        |          |        |
+| pattern_frequency        |       |       |             |        |          |        |
+| pattern_option_1 - 5     |       |       |             |        |          |        |
 
 There are a number of  aesthetics which are part of the package, but not currently used in any patterns: `pattern_subtype`, 
 `pattern_phase`, `pattern_frequency` and `pattern_option_1` through to `pattern_option_5`.  These may be useful for
@@ -162,9 +211,13 @@ All geometry-based pattern creation functions must:
 
 List of geometry-based patterns in `ggpattern`:
 
-* stripe
-* crosshatch
 * circle
+* crosshatch
+* pch
+* polygon_tiling
+* regular_polygon
+* stripe
+* weave
 
 
 <a name="array-based"></a> Array-based pattern functions - Formal Arguments and Return Values
@@ -182,11 +235,12 @@ All array-based pattern creation functions must:
 
 List of array-based patterns in `ggpattern`:
 
-* image
-* placeholder
+* ambient
 * gradient
-* plasma
+* image
 * magick
+* placeholder
+* plasma
 
 
 <a name="polygon_df"></a> The `polygon_df` data.frame format

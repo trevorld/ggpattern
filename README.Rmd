@@ -85,17 +85,13 @@ install.packages('scales')
 install.packages('grid')
 install.packages('glue')
 install.packages('rlang')
-install.packages('tibble')
-install.packages('gridGeometry')
 install.packages('sf')
 install.packages('png')
-install.packages('magick')
-install.packages('memoise')
 
 # install.packages("remotes")
+remotes::install_github("trevorld/gridpattern")
 remotes::install_github("coolbutuseless/ggpattern")
 ```
-
 
 ## Quickstart
 

@@ -107,15 +107,15 @@ A global option (`ggpattern_array_funcs`) is a named list which contains
 array creating functions to use outside of `ggpattern`.
 
 The **name** used in this list corresponds to the `pattern` name used with 
-the geom - in this case we will be using `pattern = 'ambient'`.
+the geom - in this case we will be using `pattern = 'ambient2'`.
 
 
 ```{r}
-options(ggpattern_array_funcs = list(ambient = create_pattern_ambient))
+options(ggpattern_array_funcs = list(ambient2 = create_pattern_ambient))
 ```
 
 
-Use this `ambient` pattern
+Use this `ambient2` pattern
 ------------------------------------------------------------------------------
 
 * ambient noise takes two colours which will be passed in via the parameters:
@@ -146,7 +146,7 @@ ggplot(df, aes(trt, outcome)) +
   theme_bw(15) +
   labs(
     title    = "ggpattern::geom_density_pattern()",
-    subtitle = "pattern = 'ambient'"
+    subtitle = "pattern = 'ambient2'"
   ) +
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1/2)
@@ -165,7 +165,7 @@ ggplot(mtcars) +
       pattern_fill  = as.factor(cyl), 
       pattern_fill2 = as.factor(cyl)
     ), 
-    pattern = 'ambient'
+    pattern = 'ambient2'
   ) +
   theme_bw(15) +
   theme(legend.key.size = unit(2, 'cm')) + 
@@ -173,7 +173,7 @@ ggplot(mtcars) +
   scale_pattern_fill2_brewer(palette = 'Dark2' , direction =  1) + 
   labs(
     title    = "ggpattern::geom_density_pattern()",
-    subtitle = "pattern = 'ambient'"
+    subtitle = "pattern = 'ambient2'"
   ) 
 ```
 

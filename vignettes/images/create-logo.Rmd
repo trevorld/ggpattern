@@ -33,8 +33,9 @@ Creating the hex logo for `ggpattern`
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Data frame for a polygon
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-polygon_df <- tibble(
-  angle = seq(0, 2*pi, length.out = 7) + pi/6,
+angle <- seq(0, 2*pi, length.out = 7) + pi/6
+polygon_df <- data.frame(
+  angle = angle,
   x     = cos(angle),
   y     = sin(angle)
 )

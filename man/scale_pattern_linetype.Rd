@@ -15,7 +15,7 @@ scale_pattern_linetype_discrete(..., na.value = "blank")
 \arguments{
 \item{...}{see \code{ggplot2::scale_linetype} for more information}
 
-\item{na.value}{The linetype to use for `NA` values.}
+\item{na.value}{The linetype to use for \code{NA} values.}
 }
 \description{
 Default line types based on a set supplied by Richard Pearson,

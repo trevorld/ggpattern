@@ -93,6 +93,9 @@ default_aesthetics <- function(type) {
 
 # ggpattern note: panel params added to arguments
 sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.rm = TRUE, panel_params) {
+  if (!requireNamespace("sf"))
+      abort(c("Suggested package {sf} must be installed",
+              i = 'Install using `install.packages("sf")`'))
   type <- sf_types[sf::st_geometry_type(x$geometry)]
   is_point <- type == "point"
   is_line <- type == "line"
@@ -128,9 +131,9 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   })
   alpha <- x$alpha %||% defaults$alpha[type_ind]
   col   <- x$colour %||% defaults$colour[type_ind]
-  col[is_point | is_line] <- alpha(col[is_point | is_line], alpha[is_point | is_line])
+  col[is_point | is_line] <- scales::alpha(col[is_point | is_line], alpha[is_point | is_line])
   fill       <- x$fill %||% defaults$fill[type_ind]
-  fill       <- alpha(fill, alpha)
+  fill       <- scales::alpha(fill, alpha)
   size       <- x$size %||% defaults$size[type_ind]
   point_size <- ifelse(is_collection, x$size %||% defaults$point_size[type_ind], size)
   stroke     <- (x$stroke %||% defaults$stroke[1]) * .stroke / 2
@@ -159,7 +162,7 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
       boundary_df        <- convert_polygon_sf_to_polygon_df(x$geometry[[idx]])
       boundary_dfs       <- list(boundary_df)
       all_params         <- x[idx,]
-      aspect_ratio       <- get_aspect_ratio_from_context(coord=x, panel_params = panel_params)
+      aspect_ratio       <- get_aspect_ratio()
       pattern_grobs      <- create_pattern_grobs(all_params, boundary_dfs, aspect_ratio)
       pattern_grobs_list <- append(pattern_grobs_list, list(pattern_grobs))
     }

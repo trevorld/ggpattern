@@ -1,5 +1,3 @@
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Create a \code{polygon_df} object from the given coordinates
 #'
@@ -37,25 +35,6 @@ is_polygon_df <- function(x) {
     (is.data.frame(x) && all(c('x', 'y', 'id') %in% names(x)))
 }
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Calculate the bounding box of a polygon_df object
-#'
-#' @param polygon_df polygon_df data.frame
-#'
-#' @return 4-element numeric vector of \code{c(xmin, ymin, xmax, ymax)}
-#' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-calculate_bbox_polygon_df <- function(polygon_df) {
-
-  stopifnot(is_polygon_df(polygon_df))
-
-  x <- range(polygon_df$x)
-  y <- range(polygon_df$y)
-  c(x[1], y[1], x[2], y[2])
-}
-
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Convert a \code{polygon_df} to \code{grid::polygonGrob} object
 #'
@@ -85,6 +64,15 @@ convert_polygon_df_to_polygon_grob <- function(polygon_df, default.units = 'npc'
   )
 }
 
+convert_grob_to_polygon_df <- function(grob) {
+    boundary_points <- grobPoints(grob, closed = TRUE)
+    x <- sapply(boundary_points, function(x) x$x)
+    y <- sapply(boundary_points, function(x) x$y)
+    x <- convertX(unit(x, "in"), "npc", valueOnly = TRUE)
+    y <- convertX(unit(y, "in"), "npc", valueOnly = TRUE)
+    indices <- grDevices::chull(x, y)
+    create_polygon_df(x[indices], y[indices])
+}
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Convert a \code{polygon_df} to an \code{sf} POLYGON/MULTIPOLYGON
@@ -94,11 +82,13 @@ convert_polygon_df_to_polygon_grob <- function(polygon_df, default.units = 'npc'
 #'
 #' @return sf polygon object
 #'
-#' @import sf
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 convert_polygon_df_to_polygon_sf <- function(polygon_df, buffer_dist = 0) {
 
+  if (!requireNamespace("sf"))
+      abort(c("Suggested package {sf} must be installed",
+              i = 'Install using `install.packages("sf")`'))
   if (is.null(polygon_df) || nrow(polygon_df) < 3 ||
       anyNA(polygon_df$x) || anyNA(polygon_df$y)) {
     return(sf::st_polygon())
@@ -140,10 +130,12 @@ convert_polygon_df_to_polygon_sf <- function(polygon_df, buffer_dist = 0) {
 #'
 #' @return polygon_df data.frame object
 #'
-#' @import sf
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 convert_polygon_sf_to_polygon_df <- function(mp) {
+  if (!requireNamespace("sf"))
+      abort(c("Suggested package {sf} must be installed",
+              i = 'Install using `install.packages("sf")`'))
   mat <- as.matrix(mp)
 
   if (inherits(mp, 'POLYGON')) {
@@ -162,78 +154,6 @@ convert_polygon_sf_to_polygon_df <- function(mp) {
 }
 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Simple 2D rotation of a polygon about the origin
-#'
-#' @param polygon_df polygon data.frame
-#' @param angle angle in degrees
-#' @param aspect_ratio aspect ratio
-#'
-#' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-rotate_polygon_df <- function(polygon_df, angle, aspect_ratio) {
-
-  angle <- angle * pi/180
-
-  new_x <- polygon_df$x * cos(angle) - polygon_df$y * sin(angle)
-  new_y <- polygon_df$x * sin(angle) + polygon_df$y * cos(angle)
-
-  polygon_df$x <- new_x
-  polygon_df$y <- new_y
-
-  polygon_df
-}
-
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Convert a polygon to an alpha mask
-#'
-#' Alpha values of 1 correspond to pixels within the polygon, all other
-#' values will be zero.
-#'
-#' @param polygon_df polygon_df object
-#' @param width,height dimensions of the alpha channel matrix to return
-#'
-#' @return numeric matrix with all values with 0 or 1
-#'
-#' @import png
-#' @importFrom grDevices dev.off png
-#' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-convert_polygon_df_to_alpha_channel <- function(polygon_df, width, height) {
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Convert the polygon to an actual grob, coloured 'black'
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  gp <- gpar(fill = 'black')
-  boundary_grob <- convert_polygon_df_to_polygon_grob(polygon_df, gp=gp)
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Save the grob as an image of the given size
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  png_file <- tempfile(fileext = ".png")
-  png(png_file, width=width, height=height)
-  grid.draw(boundary_grob)
-  dev.off()
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Load the file and convert o a numeric matrix with values 0/1 depending
-  # on whether the pixel is white or black.
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  alpha_channel <- png::readPNG(png_file)
-  alpha_channel <- alpha_channel[,,1] < 0.5
-  storage.mode(alpha_channel) <- 'numeric'
-
-  # t(alpha_channel)
-  alpha_channel
-}
-
-
-
-
-
-
 if (FALSE) {
   polygon_df <- create_polygon_df(x=c(0, 0.3, 0.3, 0,  0.5, 0.9, 0.9, 0.5),
                                     y=c(0, 0, 0.3, 0.3,  0.5, 0.5, 0.9, 0.9),
@@ -250,5 +170,3 @@ if (FALSE) {
   plot.new()
   grid.draw(grob)
 }
-
-

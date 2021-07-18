@@ -1,0 +1,29 @@
+reference:
+  - title: "Geom functions"
+    desc: "patterned geom functions to use with {ggplot2}"
+    contents:
+        - starts_with("geom")
+  - title: "Scale functions"
+    desc: "patterned scale functions to use with {ggplot2}"
+    contents:
+        - starts_with("scale")
+  - title: "Geom ggproto objects"
+    desc: "Geom ggproto objects that developers could theoretically extend"
+    contents:
+        - starts_with("Geom")
+  - title: "polygon_df functions"
+    desc: "polygon_df functions mainly intended for internal development"
+    contents:
+        - matches("polygon_df")
+  - title: "pattern grob creators"
+    desc: "various functions mainly intended for internal development"
+    contents:
+        - draw_key_polygon_pattern
+  - title: "Deprecated functions"
+    desc: "Deprecated functions that may be removed in a future version"
+    contents:
+        - ggpattern-deprecated
+  - title: "ggpattern package"
+    desc: "High level package description"
+    contents:
+        - ggpattern
