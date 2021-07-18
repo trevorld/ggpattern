@@ -24,7 +24,7 @@ test_that("geometry patterns work as expected", {
 
     suppressWarnings( # Removed 478 rows containing non-finite values (stat_bin2d)
     expect_doppelganger("bin2d", {
-        ggplot(diamonds, aes(x, y)) +
+        ggplot(ggplot2::diamonds, aes(x, y)) +
             xlim(4, 10) + ylim(4, 10) +
             geom_bin2d_pattern(aes(pattern_spacing = ..density..),
                                fill = 'white', bins = 6, colour = 'black', size = 1) +
