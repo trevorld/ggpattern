@@ -7,6 +7,4 @@ assignees: ''
 
 ---
 
-**Feature request**
-
 Please enter here your feature request.  Thanks!
