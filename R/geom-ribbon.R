@@ -1,7 +1,5 @@
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @usage NULL
-#' @rdname geom_rect_pattern
+#' @rdname geom-docs
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_ribbon_pattern <- function(mapping = NULL, data = NULL,
@@ -174,10 +172,8 @@ GeomRibbonPattern <- ggproto(
 
 )
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @usage NULL
-#' @rdname geom_rect_pattern
+#' @rdname geom-docs
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_area_pattern <- function(mapping = NULL, data = NULL, stat = "identity",

@@ -1,8 +1,5 @@
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @usage NULL
-#' @rdname geom_rect_pattern
+#' @rdname geom-docs
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_sf_pattern <- function(mapping = aes(), data = NULL, stat = "sf",

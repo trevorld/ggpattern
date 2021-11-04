@@ -1,10 +1,8 @@
 #' @include geom-polygon.R
 NULL
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @usage NULL
-#' @rdname geom_rect_pattern
+#' @rdname geom-docs
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_map_pattern <- function(mapping = NULL, data = NULL,
