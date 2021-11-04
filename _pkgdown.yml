@@ -1,4 +1,8 @@
 reference:
+  - title: "ggpattern package"
+    desc: "High level package description"
+    contents:
+        - ggpattern
   - title: "Geom functions"
     desc: "patterned geom functions to use with {ggplot2}"
     contents:
@@ -23,7 +27,3 @@ reference:
     desc: "Deprecated functions that may be removed in a future version"
     contents:
         - ggpattern-deprecated
-  - title: "ggpattern package"
-    desc: "High level package description"
-    contents:
-        - ggpattern
