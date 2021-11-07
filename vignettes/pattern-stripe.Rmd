@@ -1,10 +1,10 @@
 ---
-title: "Pattern Stripe - Parameters and Examples"
+title: "Patterns Stripe, Wave, Crosshatch, Weave - Parameters and Examples"
 output: 
   rmarkdown::html_vignette:
   toc: true
 vignette: >
-  %\VignetteIndexEntry{Pattern Stripe - Parameters and Examples}
+  %\VignetteIndexEntry{Patterns Stripe, Wave, Crosshatch, Weave - Parameters and Examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,9 +25,12 @@ suppressPackageStartupMessages({
 })
 ```
 
-## Introduction `pattern = 'stripe'`
+## Introduction to the 'stripe', 'wave', 'crosshatch' and 'weave' patterns
 
-The stripe pattern
+* The 'stripe' pattern draws a set of (horizontal) **straight** lines.  
+* The 'wave' pattern draws a set of (horizontal) **wavy** lines.
+* The 'crosshatch' pattern draws a set of vertical lines on top of a set of horizontal lines.
+* The 'weave' pattern draws a set of vertical lines interlaced with a set of horizontal lines.
 
 ## Pattern Parameters
 
@@ -43,12 +46,13 @@ The stripe pattern
 | pattern_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
 | pattern_linetype         | Stroke linetype                               | 1         | linetype                          |
 | pattern_size             | Stroke linewidth                              | 1         | linewidth                         |
-
+| pattern_type             | Pattern type                                  | NA        | See [wave](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_wave.html) and [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern_weave.html) pattern documentation |
+| pattern_subtype          | Pattern subtype                               | NA        | See [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern_weave.html) pattern documentation |
+| pattern_frequency        | Frequency                                     | 0.1       | Frequency of waves in 'wave' pattern |
 
 There are also a number of parameters for extra control of legend sizing and
 aspect ratio adjustments. See the 'Pattern Parameters - Common' for more 
 information.
-
 
 ## Data
 
@@ -59,7 +63,6 @@ df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 df
 ```
 
-
 ## Vanilla ggplot2
 
 ```{r}
@@ -69,55 +72,40 @@ ggplot(df, aes(trt, outcome)) +
   labs(title = "Plain ggplot2")
 ```
 
-
-
 ## Use the `{ggpattern}` geom
 
 * Use `ggpattern::geom_col_pattern()` instead of `ggplot2::geom_col()`.
-* Set `pattern = 'stripe'`
-
-
+* Set `pattern = 'stripe'` 
+* Default legends in `ggplot2` are usually too small to show off an example of
+  the pattern, so it will usually be necessary to increase the key size.
+  
 ```{r}
 ggplot(df, aes(trt, outcome)) +
-  geom_col_pattern(aes(fill=trt),colour='black', pattern = 'stripe') +
+  geom_col_pattern(aes(fill=trt),colour='black',
+                   pattern='stripe') +
   theme_bw() +
-  labs(title = "ggpattern")
-```
-
-
-## Use `coord_fixed()` 
-
-Due to the underlying nature of `grid` graphics and how `ggplot2` sets up a plot, 
-it is essential to use `coord_fixed()` in order to achieve consistent looking 
-patterns.   Without a fixed coordinate system, then `ggpattern` has to make 
-guesses on some sizes, and patterns may look askew e.g. 90 degree angles in patterns
-may no longer appear properly!
-
-
-```{r}
-ggplot(df, aes(trt, outcome)) +
-  geom_col_pattern(aes(fill=trt),colour='black', pattern = 'stripe') +
-  theme_bw() +
-  labs(title = "ggpattern + coord_fixed()") + 
-  coord_fixed(ratio = 1/2)
-```
-
-
-## Bigger Legend Keys 
-
-Default legends in `ggplot2` are usually too small to show off an example of
-the pattern, so it will usually be necessary to increase the key size.
-
-
-```{r}
-ggplot(df, aes(trt, outcome)) +
-  geom_col_pattern(aes(fill=trt),colour='black', pattern = 'stripe') +
-  theme_bw() +
-  labs(title = "ggpattern + coord_fixed()") + 
-  coord_fixed(ratio = 1/2) + 
+  labs(title = "ggpattern") +
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
 
+## Mixing patterns
+
+* Often we'll want to mix patterns.  
+  To get the legend right we'll often want to set them with a pattern scale function
+  like 'pattern_scale_manual()' instead of simply setting them with the 'pattern' aesthetic.
+* Here we'll use the 'stripe' pattern and 'wave' pattern.
+* The 'wave' pattern supports two subtypes: 'triangle' waves (default) have a zig-zag appearance
+  whereas 'sine' waves have a curvy appearance.
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(aes(fill=trt, pattern=trt, pattern_type=trt),colour='black') + 
+  theme_bw() +
+  labs(title = "Use 'stripe' and 'wave' patterns") + 
+  theme(legend.key.size = unit(1.5, 'cm')) +
+  scale_pattern_manual(values=c('stripe', 'wave', 'wave')) +
+  scale_pattern_type_manual(values=c(NA, 'triangle', 'sine'))
+```
 
 ## The Density Aesthetic
 
@@ -129,17 +117,35 @@ In the following plot the density of striping is increased to 50% of the fill ar
 ```{r}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
-    aes(fill=trt),
+    aes(fill=trt, pattern=trt),
     colour          = 'black', 
-    pattern         = 'stripe',
     pattern_density = 0.5
   ) +
   theme_bw() +
   labs(title = "Fixed density of 0.5 (50% of the fill area)") + 
-  coord_fixed(ratio = 1/2) + 
+  scale_pattern_manual(values=c('stripe', 'crosshatch', 'weave')) +
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
 
+## Weave types
+
+The 'weave' pattern supports a rich set of weave types and subtypes including irregular 'matt', 'twill' (including 'herringbone' and 'zigzag' variations), and 'satin' weaves .  See the [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern_weave.html) pattern documentation for more information.
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(pattern_fill2=trt, pattern_type=trt),
+    pattern = 'weave',
+    colour          = 'black', 
+    pattern_density = 1.0,
+    pattern_fill = 'grey',
+    pattern_key_scale_factor = 0.5,
+  ) +
+  theme_bw() +
+  labs(title = "Some 'weave' types") + 
+  scale_pattern_type_manual(values=c('plain', 'twill', 'satin')) +
+  theme(legend.key.size = unit(1.5, 'cm'))
+```
 
 ## The Density Aesthetic as a Mapped Aesthetic
 
@@ -210,18 +216,3 @@ ggplot(df, aes(trt, outcome)) +
   scale_pattern_fill_viridis_d() + 
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
-
-
-
-
-## Technical Bits
-
-* Stripes are implemented as long thin polygons which are clipped to the boundaries of 
-  the elements of the geom.
-* The clipping of the stripe polygons is done by creating the stripes as `{sf}` objects, 
-  performing an `sf::st_intersection()` with the element boundary, and then converting 
-  the clipped stripes back into a `grid::polygonGrob()`.
-* If lines had been used for the stripes, then there would be visual artefacts 
-  where the stripe intersects the boundary because the `lineend` graphic parameter
-  can only be `square`, `round` etc, and cannot conform to the actual shape of the 
-  element boundary.

@@ -9,3 +9,5 @@
 ^\.github$
 ^\.covrignore$
 ^_pkgdown.yml$
+^doc$
+^Meta$
