@@ -39,7 +39,11 @@ pattern_aesthetics <- aes(
   pattern_option_2         = 0,
   pattern_option_3         = 0,
   pattern_option_4         = 0,
-  pattern_option_5         = 0
+  pattern_option_5         = 0,
+
+  pattern_grid             = 'square',
+  pattern_rot              = 0,
+  pattern_res              = NA
 )
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

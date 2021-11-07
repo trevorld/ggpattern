@@ -1,3 +1,18 @@
+# ggpattern 0.3.0
+
+## New features
+
+* {ggpattern} now supports the following aesthetics (but doesn't provide any scales) (#45):
+
+    * `pattern_grid`: Supported by most "geometry" patterns.
+      Default is "square" while "hex" and "hex\_circle" allow hexagonal layouts.
+    * `pattern_res`: Supported by "array" patterns.
+      Allow user to explicitly set resolution of image-based patterns.
+    * `pattern_rot`: Used by "pch", "regular\_polygon", "rose", and "text" patterns 
+      to rotate symbol within pattern.
+      'rot' is parameter used in `grid:textGrob()` to indicate rotation and
+      `pattern_angle` already used to rotate entire pattern.
+
 # ggpattern 0.2.0
 
 ## Breaking changes
