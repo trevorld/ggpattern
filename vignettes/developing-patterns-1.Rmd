@@ -130,33 +130,33 @@ within the geom's boundary.
 | pattern_frequency        |                |       |             |             |
 | pattern_option_1 - 5     |                |       |             |             |
 
-| aesthetic                | stripe | crosshatch | weave |
-|--------------------------|----------------|-------|-------------|
-| pattern                  | Y              |  Y    |  Y          |
-| pattern_type             |                |       |  Y          |
-| pattern_subtype          |                |       |  Y          |
-| pattern_alpha            | Y              |  Y    |  Y          |
-| pattern_linetype         | Y              |  Y    |  Y          |
-| pattern_size             | Y              |  Y    |  Y          |
-| pattern_shape            |                |       |             |
-| pattern_colour           | Y              |  Y    |  Y          |
-| pattern_fill             | Y              |  Y    |  Y          |
-| pattern_fill2            |                |  Y    |  Y          |
-| pattern_angle            | Y              |  Y    |  Y          |
-| pattern_density          | Y              |  Y    |  Y          |
-| pattern_spacing          | Y              |  Y    |  Y          |
-| pattern_xoffset          | Y              |  Y    |  Y          |
-| pattern_yoffset          | Y              |  Y    |  Y          |
-| pattern_aspect_ratio     | Y              |  Y    |  Y          |
-| pattern_key_scale_factor | Y              |  Y    |  Y          |
-| pattern_filename         |                |       |             |
-| pattern_gravity          |                |       |             |
-| pattern_filter           |                |       |             |
-| pattern_scale            |                |       |             |
-| pattern_orientation      |                |       |             |
-| pattern_phase            |                |       |             |
-| pattern_frequency        |                |       |             |
-| pattern_option_1 - 5     |                |       |             |
+| aesthetic                | stripe  | wave | crosshatch | weave |
+|--------------------------|---------|------|------------|-------|
+| pattern                  | Y       |  Y   |     Y      |   Y   |
+| pattern_type             |         |  Y   |            |   Y   |
+| pattern_subtype          |         |      |            |   Y   |
+| pattern_alpha            | Y       |  Y   |     Y      |   Y   |
+| pattern_linetype         | Y       |  Y   |     Y      |   Y   |
+| pattern_size             | Y       |  Y   |     Y      |   Y   |
+| pattern_shape            |         |      |            |       |
+| pattern_colour           | Y       |  Y   |     Y      |   Y   |
+| pattern_fill             | Y       |  Y   |     Y      |   Y   |
+| pattern_fill2            |         |      |     Y      |   Y   |
+| pattern_angle            | Y       |  Y   |     Y      |   Y   |
+| pattern_density          | Y       |  Y   |     Y      |   Y   |
+| pattern_spacing          | Y       |  Y   |     Y      |   Y   |
+| pattern_xoffset          | Y       |  Y   |     Y      |   Y   |
+| pattern_yoffset          | Y       |  Y   |     Y      |   Y   |
+| pattern_aspect_ratio     | Y       |  Y   |     Y      |   Y   |
+| pattern_key_scale_factor | Y       |  Y   |     Y      |   Y   |
+| pattern_filename         |         |      |            |       |
+| pattern_gravity          |         |      |            |       |
+| pattern_filter           |         |      |            |       |
+| pattern_scale            |         |      |            |       |
+| pattern_orientation      |         |      |            |       |
+| pattern_phase            |         |      |            |       |
+| pattern_frequency        |         |  Y   |            |       |
+| pattern_option_1 - 5     |         |      |            |       |
 
 | aesthetic                | ambient | image | placeholder | magick | gradient | plasma |
 |--------------------------|-------|-------|-------------|--------|----------|--------|
