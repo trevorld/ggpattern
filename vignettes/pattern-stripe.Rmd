@@ -1,10 +1,10 @@
 ---
-title: "Patterns Stripe, Wave, Crosshatch, Weave - Parameters and Examples"
+title: "Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples"
 output: 
   rmarkdown::html_vignette:
   toc: true
 vignette: >
-  %\VignetteIndexEntry{Patterns Stripe, Wave, Crosshatch, Weave - Parameters and Examples}
+  %\VignetteIndexEntry{Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,7 +25,7 @@ suppressPackageStartupMessages({
 })
 ```
 
-## Introduction to the 'stripe', 'wave', 'crosshatch' and 'weave' patterns
+## Introduction to the 'stripe', 'wave', 'crosshatch', and 'weave' patterns
 
 * The 'stripe' pattern draws a set of (horizontal) **straight** lines.  
 * The 'wave' pattern draws a set of (horizontal) **wavy** lines.
@@ -36,19 +36,19 @@ suppressPackageStartupMessages({
 
 | aesthetic                | description                                   | default   | possible values                   |
 |--------------------------|-----------------------------------------------|-----------|-----------------------------------|
-| pattern_colour           | Stroke colour                                 | 'grey20'  | colour                            |
-| pattern_fill             | Fill colour                                   | 'grey80'  | colour                            |
-| pattern_angle            | Rotation angle                                | 30        | angle in degrees                  |
-| pattern_density          | Approx. fraction of area the pattern fills    | 0.2       | value in range [0, 1] (fraction)  |
-| pattern_spacing          | Spacing between repetitions of pattern        | 0.05      | value in range [0, 1] (snpc units) |
-| pattern_xoffset          | Shift pattern along x axis                    | 0         | value in range [0, 1] (snpc units) |
-| pattern_yoffset          | Shift pattern along y axis                    | 0         | value in range [0, 1] (snpc units) |
-| pattern_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
-| pattern_linetype         | Stroke linetype                               | 1         | linetype                          |
-| pattern_size             | Stroke linewidth                              | 1         | linewidth                         |
-| pattern_type             | Pattern type                                  | NA        | See [wave](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_wave.html) and [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern_weave.html) pattern documentation |
-| pattern_subtype          | Pattern subtype                               | NA        | See [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern_weave.html) pattern documentation |
-| pattern_frequency        | Frequency                                     | 0.1       | Frequency of waves in 'wave' pattern |
+| pattern\_colour           | Stroke colour                                 | 'grey20'  | colour                            |
+| pattern\_fill             | Fill colour                                   | 'grey80'  | colour                            |
+| pattern\_angle            | Rotation angle                                | 30        | angle in degrees                  |
+| pattern\_density          | Approx. fraction of area the pattern fills    | 0.2       | value in range [0, 1] (fraction)  |
+| pattern\_spacing          | Spacing between repetitions of pattern        | 0.05      | value in range [0, 1] (snpc units) |
+| pattern\_xoffset          | Shift pattern along x axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern\_yoffset          | Shift pattern along y axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern\_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
+| pattern\_linetype         | Stroke linetype                               | 1         | linetype                          |
+| pattern\_size             | Stroke linewidth                              | 1         | linewidth                         |
+| pattern\_type             | Pattern type                                  | NA        | See [wave](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_wave.html) and [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern\_weave.html) pattern documentation |
+| pattern\_subtype          | Pattern subtype                               | NA        | See [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern\_weave.html) pattern documentation |
+| pattern\_frequency        | Frequency                                     | 0.1       | Frequency of waves in 'wave' pattern |
 
 There are also a number of parameters for extra control of legend sizing and
 aspect ratio adjustments. See the 'Pattern Parameters - Common' for more 
@@ -158,7 +158,6 @@ ggplot(df, aes(trt, outcome)) +
   ) +
   theme_bw() +
   labs(title = "Aesthetic Mapping of 'trt' to Density") + 
-  coord_fixed(ratio = 1/2) + 
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
 
@@ -179,7 +178,6 @@ ggplot(df, aes(trt, outcome)) +
   ) +
   theme_bw() +
   labs(title = "Aesthetic Mapping of 'trt' to Density") + 
-  coord_fixed(ratio = 1/2) + 
   theme(legend.key.size = unit(1.5, 'cm')) + 
   scale_pattern_density_manual(values = c(a = 0.1, b=0.3, c=0.5))
 ```
@@ -196,7 +194,6 @@ ggplot(df, aes(trt, outcome)) +
   ) +
   theme_bw() +
   labs(title = "Aesthetic Mapping of 'trt' to Spacing") + 
-  coord_fixed(ratio = 1/2) + 
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
 
@@ -212,7 +209,6 @@ ggplot(df, aes(trt, outcome)) +
   ) +
   theme_bw() +
   labs(title = "Aesthetic Mapping of 'trt' to Pattern Fill") + 
-  coord_fixed(ratio = 1/2) + 
   scale_pattern_fill_viridis_d() + 
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
