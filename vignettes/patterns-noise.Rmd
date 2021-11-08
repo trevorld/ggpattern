@@ -1,0 +1,262 @@
+---
+title: "Patterns 'gradient', 'ambient', 'plasma' - Parameters and Examples"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Patterns 'gradient', 'ambient', 'plasma' - Parameters and Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 6
+)
+```
+
+```{r setup}
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(ggpattern)
+})
+```
+
+## Introduction to the 'gradient', 'ambient', and 'plasma' patterns
+
+* The 'gradient' pattern fills the geom with color gradients.
+  This pattern either depends on the R package `{magick}`
+  or a graphics device and version of R that supports the
+  new R 4.1 gradient feature.
+* The 'plasma' pattern uses Imagemagick (`magick`) to generate some 
+  fractal noise arrays which are coloured and used to fill the geom.
+  This pattern depends on the R package `{magick}`.
+* The `{ambient}` package offers a way of creating multiple different types of 
+  noise as a matrix of values.  The 'ambient' pattern maps this noise 
+  to a colour gradient between two user-specified colours.
+
+## Pattern Parameters
+
+| aesthetic                  | description                           | default   |
+|----------------------------|---------------------------------------|-----------|
+| `pattern_fill`             | Noise colour                          | 'grey80'  |
+| `pattern_fill2`            | Second colour ('ambient', 'gradient') | '#4169E1' |
+| `pattern_scale`            | Extra scaling                         | 1         |
+| `pattern_alpha`            | Alpha                                 | NA        |
+| `pattern_type`             | Type of noise ('ambient')             | 'simplex' |
+| `pattern_frequency`        | Granularity of features in noise      | 0.1       |
+| `pattern_aspect_ratio`     | Override aspect ratio                 | NA        |
+| `pattern_key_scale_factor` | Additional scale factor for legend    | 1         |
+
+## Example Data
+
+```{r}
+df <- data.frame(
+  trt     = c("a", "b", "c"), 
+  outcome = c(2.3, 1.9, 3.2)
+)
+```
+
+## Example: `pattern = 'plasma'` - With `pattern_alpha`
+
+```{r}
+if (require("magick")) {
+
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      fill         = trt,
+      pattern_fill = trt
+    ),
+    fill          = NA,
+    pattern       = 'plasma',
+    pattern_alpha = 1,
+    pattern_scale = 2,
+    colour        = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='plasma'"
+  ) +
+  theme(legend.key.size = unit(1.5, 'cm'))
+
+}
+```
+
+```{r}
+if (require("magick")) {
+
+ggplot(mtcars) +
+  geom_density_pattern(
+    aes(
+      x             = mpg,
+      pattern_fill  = as.factor(cyl)
+    ),
+    pattern      = 'plasma',
+    pattern_alpha = 0.7
+  ) +
+  theme_bw(15) +
+  theme(legend.position = 'none') +
+  labs(
+    title    = "ggpattern::geom_density_pattern()",
+    subtitle = "pattern='plasma'"
+  )
+
+}
+```
+
+Example: `pattern_type = 'gradient'` - Fade to white
+------------------------------------------------------------------------------
+
+```{r}
+if (require("magick")) {
+
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      pattern_fill        = trt,
+      pattern_orientation = trt
+    ), 
+    pattern       = 'gradient', 
+    pattern_fill2 = 'white', 
+    colour        = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern = 'gradient'"
+  ) +
+  theme(
+    legend.key.size = unit(1.5, 'cm')
+  )
+
+}
+```
+
+
+Example: `pattern_type = 'gradient'` - Fade to dark blue
+------------------------------------------------------------------------------
+
+```{r}
+if (require("magick")) {
+
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      pattern_fill        = trt,
+      pattern_orientation = trt
+    ), 
+    pattern       = 'gradient', 
+    pattern_fill2 = '#445566', 
+    colour        = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern = 'gradient'"
+  ) +
+  theme(
+    legend.key.size = unit(1.5, 'cm')
+  )
+
+}
+```
+
+
+Example: `pattern_type = 'gradient'` - Fade to transparent
+------------------------------------------------------------------------------
+
+```{r}
+if (require("magick")) {
+
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(
+      pattern_fill        = trt,
+      pattern_orientation = trt
+    ), 
+    pattern       = 'gradient', 
+    pattern_fill2 = NA, 
+    fill          = NA,
+    colour        = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern = 'gradient'"
+  ) +
+  theme(legend.key.size = unit(1.5, 'cm'))
+
+}
+```
+
+## Example: `pattern_type = 'gradient'` - Non-rectangular geom
+
+```{r}
+if (require("magick")) {
+
+ggplot(mtcars) +
+  geom_density_pattern(
+    aes(
+      x = mpg, 
+      pattern_fill = as.factor(cyl),
+      pattern_orientation = as.factor(cyl)
+    ), 
+    pattern       = 'gradient',
+    pattern_fill2 = NA, 
+    fill          = NA
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_density_pattern()",
+    subtitle = "pattern = 'gradient'"
+  ) +
+  theme(legend.key.size = unit(1.5, 'cm'))
+
+}
+```
+
+## Example: `pattern_type = 'ambient'
+
+```{r}
+if (require("ambient")) {
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(pattern_fill = trt),
+    pattern       = 'ambient', 
+    pattern_fill2 = 'white',
+    colour        = NA, 
+    fill          = NA
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_density_pattern()",
+    subtitle = "pattern = 'ambient'"
+  ) +
+  theme(legend.position = 'none')
+}
+```
+
+```{r}
+if (require("ambient")) {
+ggplot(mtcars) +
+  geom_density_pattern(
+    aes(
+      x = mpg, 
+      pattern_fill  = as.factor(cyl), 
+      pattern_fill2 = as.factor(cyl)
+    ), 
+    pattern = 'ambient'
+  ) +
+  theme_bw(15) +
+  theme(legend.key.size = unit(2, 'cm')) + 
+  scale_pattern_fill_brewer (palette = 'Accent', direction =  1) + 
+  scale_pattern_fill2_brewer(palette = 'Dark2' , direction =  1) + 
+  labs(
+    title    = "ggpattern::geom_density_pattern()",
+    subtitle = "pattern = 'ambient'"
+  ) 
+}
+```

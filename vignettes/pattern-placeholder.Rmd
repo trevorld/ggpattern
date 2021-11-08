@@ -72,7 +72,7 @@ Click the link to see an example of each placeholder generator
 * 'dummy'          - [image showing dimensions](https://dummyimage.com/400x300)
 * 'flickr'         - [random picture from flickr](https://loremflickr.com/400/300)
 * 'beard'          - [beards](http://placebeard.it/400/300)
-* 'lorempixel'     - [lorempixel](http://lorempixel.com/400/300)
+* 'lorempixel'     - [lorempixel](http://lorempixel.com/400/300/)
 * 'placeimg'       - [random pic from placeimg.com](http://placeimg.com/400/300/any)
 * 'keanu'          - [Keanu](https://placekeanu.com/400/300)
 

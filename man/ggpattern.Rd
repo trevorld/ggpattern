@@ -34,9 +34,9 @@ support any/all these features.  See \url{https://www.stat.auckland.ac.nz/~paul/
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://github.com/coolbutuseless/ggpattern}
+  \item \url{https://github.com/coolbutuseless/ggpattern}
   \item \url{https://coolbutuseless.github.io/package/ggpattern/index.html}
-  \item Report bugs at \url{http://github.com/coolbutuseless/ggpattern/issues}
+  \item Report bugs at \url{https://github.com/coolbutuseless/ggpattern/issues}
 }
 
 }

@@ -1,18 +1,18 @@
 Package: ggpattern
 Type: Package
 Title: Geoms with Patterns
-Version: 0.3.0-2
+Version: 0.3.0-3
 Authors@R: c(person("Mike", "FC", email = "mikefc@coolbutuseless.com",
                     role = c("aut", "cre")),
              person("Trevor L", "Davis", role = "aut"),
              person("ggplot2 authors", role = "cph"))
 Description: Geoms with patterns for ggplot2.
-URL: http://github.com/coolbutuseless/ggpattern, https://coolbutuseless.github.io/package/ggpattern/index.html 
-BugReports: http://github.com/coolbutuseless/ggpattern/issues
+URL: https://github.com/coolbutuseless/ggpattern, https://coolbutuseless.github.io/package/ggpattern/index.html 
+BugReports: https://github.com/coolbutuseless/ggpattern/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Imports:
     ggplot2,
     glue,
