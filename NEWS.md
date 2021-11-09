@@ -1,5 +1,24 @@
 # ggpattern 0.3.0
 
+## Breaking changes
+
+{ggpattern} removes the following data/functions
+which were deprecated in a previous version of {ggpattern}:
+
+* `calculate_bbox_polygon_df()`
+* `convert_img_to_array()`
+* `convert_polygon_df_to_alpha_channel()`
+* `create_gradient_img()`
+* `fetch_placeholder_img()`
+* `fill_area_with_img()`
+* `magick_filter_names`, instead use `magick::filter_types()`
+* `magick_gravity_names`, instead use `magick::gravity_types()`
+* `magick_pattern_intensity_names`, instead use `gridpattern::names_magick_intensity`
+* `magick_pattern_names`, instead use `gridpattern::names_magick`
+* `magick_pattern_stripe_names`, instead use `gridpattern::names_magick_stripe`
+* `placeholder_names`, instead use `gridpattern::names_placeholder`
+* `rotate_polygon_df()`
+
 ## New features
 
 * {ggpattern} now supports the following aesthetics (but doesn't provide any scales) (#45):

@@ -27,3 +27,7 @@ reference:
     desc: "Deprecated functions that may be removed in a future version"
     contents:
         - ggpattern-deprecated
+  - title: "Defunct functions"
+    desc: "Defunct functions that were removed from a previous version"
+    contents:
+        - ggpattern-deprecated
