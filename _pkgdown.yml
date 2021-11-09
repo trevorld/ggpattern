@@ -18,7 +18,11 @@ reference:
   - title: "polygon_df functions"
     desc: "polygon_df functions mainly intended for internal development"
     contents:
-        - matches("polygon_df")
+        - create_polygon_df
+        - convert_polygon_df_to_polygon_grob
+        - convert_polygon_df_to_polygon_sf
+        - convert_polygon_sf_to_polygon_df
+        - is_polygon_df
   - title: "pattern grob creators"
     desc: "various functions mainly intended for internal development"
     contents:
@@ -30,4 +34,4 @@ reference:
   - title: "Defunct functions"
     desc: "Defunct functions that were removed from a previous version"
     contents:
-        - ggpattern-deprecated
+        - ggpattern-defunct

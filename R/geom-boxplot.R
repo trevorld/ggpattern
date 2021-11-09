@@ -56,14 +56,8 @@ geom_boxplot_pattern <- function(mapping = NULL, data = NULL,
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' GeomBoxplotPattern
-#'
-#' @rdname ggplot2-ggproto
+#' @rdname ggpattern-ggproto
 #' @format NULL
-#' @usage NULL
-#' @export
-#' @import ggplot2
-#' @import grid
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GeomBoxplotPattern <- ggproto(

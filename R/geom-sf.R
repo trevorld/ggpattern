@@ -25,16 +25,8 @@ geom_sf_pattern <- function(mapping = aes(), data = NULL, stat = "sf",
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' GeomSfPattern
-#'
-#' @rdname ggplot2-ggproto
+#' @rdname ggpattern-ggproto
 #' @format NULL
-#' @usage NULL
-#' @export
-#' @import ggplot2
-#' @import grid
-#' @import rlang
-#' @importFrom stats setNames
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GeomSfPattern <- ggproto(

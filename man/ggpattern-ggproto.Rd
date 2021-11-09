@@ -5,6 +5,7 @@
 \docType{data}
 \name{GeomRectPattern}
 \alias{GeomRectPattern}
+\alias{ggpattern-ggproto}
 \alias{GeomBarPattern}
 \alias{GeomBoxplotPattern}
 \alias{GeomColPattern}
@@ -17,15 +18,15 @@
 \alias{GeomSfPattern}
 \alias{GeomTilePattern}
 \alias{GeomViolinPattern}
-\title{GeomRectPattern}
-\description{
+\title{Geom ggproto objects}
+\usage{
 GeomRectPattern
 
 GeomBarPattern
 
 GeomBoxplotPattern
 
-GeomPolygonPattern
+GeomColPattern
 
 GeomCrossbarPattern
 
@@ -44,5 +45,11 @@ GeomSfPattern
 GeomTilePattern
 
 GeomViolinPattern
+}
+\description{
+Geom ggproto objects that could be extended to create a new geom.
+}
+\seealso{
+\link[ggplot2:ggplot2-ggproto]{ggplot2::Geom}
 }
 \keyword{datasets}

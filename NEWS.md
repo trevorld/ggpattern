@@ -21,7 +21,7 @@ which were deprecated in a previous version of {ggpattern}:
 
 ## New features
 
-* {ggpattern} now supports the following aesthetics (but doesn't provide any scales) (#45):
+* {ggpattern} now supports the following aesthetics (but currently doesn't provide any scales) (#45):
 
     * `pattern_grid`: Supported by most "geometry" patterns.
       Default is "square" while "hex" and "hex\_circle" allow hexagonal layouts.
