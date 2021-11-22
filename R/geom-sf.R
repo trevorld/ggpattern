@@ -148,11 +148,15 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   pattern_grobs_list <- list()
   for (idx in seq(nrow(x))) {
     if (inherits(x$geometry[[idx]], 'MULTIPOLYGON') || inherits(x$geometry[[idx]], 'POLYGON')) {
-      boundary_df        <- convert_polygon_sf_to_polygon_df(x$geometry[[idx]])
-      boundary_dfs       <- list(boundary_df)
+      # boundary_df      <- convert_polygon_sf_to_polygon_df(x$geometry[[idx]])
+      boundary_grob      <- sf::st_as_grob(x$geometry[[idx]])
+      boundary_grob <- editGrob(boundary_grob,
+                                x = unit(as.numeric(boundary_grob$x), "npc"),
+                                y = unit(as.numeric(boundary_grob$y), "npc"))
+      boundary_grobs     <- list(boundary_grob)
       all_params         <- x[idx,]
       aspect_ratio       <- get_aspect_ratio()
-      pattern_grobs      <- create_pattern_grobs(all_params, boundary_dfs, aspect_ratio)
+      pattern_grobs      <- create_pattern_grobs(all_params, boundary_grobs, aspect_ratio)
       pattern_grobs_list <- append(pattern_grobs_list, list(pattern_grobs))
     }
   }
@@ -166,15 +170,12 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   # Plot the {sf} geometry first, then plot the tree of pattern grobs
   # over the top.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  sf_grob <- sf::st_as_grob(x$geometry, pch = pch, gp = gp)
   grid::grobTree(
-    sf::st_as_grob(x$geometry, pch = pch, gp = gp),
+    sf_grob,
     pattern_grobs
   )
 }
-
-
-
-
 
 sf_types <- c(GEOMETRY = "other", POINT = "point", LINESTRING = "line",
               POLYGON = "other", MULTIPOINT = "point", MULTILINESTRING = "line",
@@ -183,26 +184,3 @@ sf_types <- c(GEOMETRY = "other", POINT = "point", LINESTRING = "line",
               MULTICURVE = "line", MULTISURFACE = "other", CURVE = "line",
               SURFACE = "other", POLYHEDRALSURFACE = "other", TIN = "other",
               TRIANGLE = "other")
-
-
-
-if (FALSE) {
-  library(ggplot2)
-  library(dplyr)
-
-  nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
-  nc <- nc %>% filter(between(CNTY_ID, 1820, 1830))
-
-
-  ggplot(nc) +
-    geom_sf_pattern(aes(pattern_spacing = AREA, pattern = NAME), fill = 'white') +
-    theme_bw() +
-    labs(title = "ggpattern::geom_sf()")
-}
-
-
-
-
-
-
-

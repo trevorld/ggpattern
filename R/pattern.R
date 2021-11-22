@@ -72,7 +72,7 @@ create_pattern_grobs <- function(all_params, boundaries, aspect_ratio) {
         if (inherits(grob, "clipping_path")) {
             grob <- editGrob(grob, clipper = boundary)
         } else {
-            grob <- gridpattern::clippingPathGrob(grob, boundary)
+            grob <- gridpattern::clippingPathGrob(grob, boundary, res = params$pattern_res)
         }
     }
     grob

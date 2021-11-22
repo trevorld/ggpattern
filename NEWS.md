@@ -34,7 +34,11 @@ which were deprecated in a previous version of {ggpattern}:
 
 ## Bug fixes and minor improvements
 
-* `geom_polygon_pattern()` now supports polygons with holes (#26).
+* `geom_polygon_pattern()` and `geom_sf_pattern()` now support polygons with holes (#26, #44).
+  If R 4.1 clipping features are not supported by the graphic device
+  (or the clipping feature is declined) we must use a raster image approximation of the pattern.
+  Resolution of the raster approximation can be adjusted by the `pattern_res` aesthetic
+  whose default in turn can be adjusted by the `"ggpattern_res"` global option.
 
 # ggpattern 0.2.0
 

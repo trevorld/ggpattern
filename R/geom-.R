@@ -43,7 +43,7 @@ pattern_aesthetics <- aes(
 
   pattern_grid             = 'square',
   pattern_rot              = 0,
-  pattern_res              = NA
+  pattern_res              = getOption("ggpattern_res", NA)
 )
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
