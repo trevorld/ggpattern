@@ -16,6 +16,8 @@ The following \code{ggpattern} options may be set globally via \code{\link[base:
 \describe{
 \item{ggpattern_array_funcs}{Set custom \dQuote{array} pattern functions.}
 \item{ggpattern_geometry_funcs}{Set custom \dQuote{geometry} pattern functions.}
+\item{ggpattern_res}{Set new default raster resolution default (pixels per inch)
+for the \code{pattern_res} aesthetic.}
 \item{ggpattern_use_R4.1_clipping}{If \code{TRUE} use the grid clipping path feature introduced in R v4.1.0
 else do a \code{rasterGrob} approximation of the clipped pattern.}
 \item{ggpattern_use_R4.1_features}{If \code{TRUE} sets the default for all the other

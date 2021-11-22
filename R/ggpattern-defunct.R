@@ -29,25 +29,25 @@ NULL
 #' @rdname ggpattern-defunct
 #' @export
 calculate_bbox_polygon_df <- function(polygon_df) {
-  .Defunct(msg = 'calculate_bbox_polygon_df() is deprecated')
+  .Defunct(msg = 'calculate_bbox_polygon_df() is defunct')
 }
 
 #' @rdname ggpattern-defunct
 #' @export
 convert_polygon_df_to_alpha_channel <- function(polygon_df, width, height) {
-  .Defunct(msg = 'convert_polygon_df_to_alpha_channel() is deprecated')
+  .Defunct(msg = 'convert_polygon_df_to_alpha_channel() is defunct')
 }
 
 #' @rdname ggpattern-defunct
 #' @export
 rotate_polygon_df <- function(polygon_df, angle, aspect_ratio) {
-  .Defunct(msg = 'rotate_polygon_df() is deprecated')
+  .Defunct(msg = 'rotate_polygon_df() is defunct')
 }
 
 #' @rdname ggpattern-defunct
 #' @export
 convert_img_to_array <- function(img) {
-  .Defunct(msg = 'convert_img_to_array() is deprecated')
+  .Defunct(msg = 'convert_img_to_array() is defunct')
 }
 
 #' @rdname ggpattern-defunct
@@ -57,13 +57,13 @@ create_gradient_img <- function(width       = 100,
                                 colour1     = 'red',
                                 colour2     = 'blue',
                                 orientation = 'vertical') {
-  .Defunct(msg = 'create_gradient_img() is deprecated')
+  .Defunct(msg = 'create_gradient_img() is defunct')
 }
 
 #' @rdname ggpattern-defunct
 #' @export
 fetch_placeholder_img <- function(width = 100, height = 100, type = 'kitten') {
-  .Defunct(msg = 'fetch_placeholder_img() is deprecated')
+  .Defunct(msg = 'fetch_placeholder_img() is defunct')
 }
 
 #' @rdname ggpattern-defunct
@@ -71,5 +71,5 @@ fetch_placeholder_img <- function(width = 100, height = 100, type = 'kitten') {
 fill_area_with_img <- function(img, width, height, type='squish',
                                gravity = 'Center', filter='lanczos',
                                scale = 1) {
-  .Defunct(msg = 'fill_area_with_img() is deprecated')
+  .Defunct(msg = 'fill_area_with_img() is defunct')
 }
