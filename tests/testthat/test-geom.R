@@ -134,6 +134,27 @@ test_that("geometry patterns work as expected", {
         theme(axis.title = element_blank())
     })
 
+    expect_doppelganger("polygon_hole", {
+      # example modified from {ggplot2} unit tests
+      tbl <- data.frame(
+        x = c(
+          0, 10, 10, 0,
+          20, 30, 30, 20,
+          22, 28, 28, 22
+        ),
+        y = c(
+          0, 0, 10, 10,
+          20, 20, 30, 30,
+          22, 22, 28, 28
+        ),
+        group = c(rep(1, 4), rep(2, 8)),
+        subgroup = c(rep(1, 8), rep(2, 4))
+      )
+
+      p <- ggplot(tbl, aes(x, y, group = group, subgroup = subgroup)) +
+        geom_polygon_pattern(fill="lightblue", color="black")
+    })
+
     expect_doppelganger("rect", {
         plot_df <- data.frame(
           xmin    = c(0, 10),

@@ -62,8 +62,8 @@ create_pattern_grobs <- function(all_params, boundaries, aspect_ratio) {
 
     if (is.null(params$pattern_res) || is.na(params$pattern_res)) {
         width <- diff(range(boundary_df$x))
-        native <- as.numeric(grid::convertWidth(unit(width, "npc"), "native"))
-        inches <- as.numeric(grid::convertWidth(unit(width, "npc"), "in"))
+        native <- grid::convertWidth(unit(width, "npc"), "native", valueOnly = TRUE)
+        inches <- grid::convertWidth(unit(width, "npc"), "in", valueOnly = TRUE)
         params$pattern_res <- 1.14 * native / inches
     }
 

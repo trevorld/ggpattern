@@ -64,14 +64,18 @@ convert_polygon_df_to_polygon_grob <- function(polygon_df, default.units = 'npc'
   )
 }
 
+# Create bounding box polygon df bounding grob
 convert_grob_to_polygon_df <- function(grob) {
     boundary_points <- grobPoints(grob, closed = TRUE)
-    x <- sapply(boundary_points, function(x) x$x)
-    y <- sapply(boundary_points, function(x) x$y)
+    xl <- sapply(boundary_points, function(x) x$x)
+    yl <- sapply(boundary_points, function(x) x$y)
+    x <- range(unlist(xl))
+    y <- range(unlist(yl))
     x <- convertX(unit(x, "in"), "npc", valueOnly = TRUE)
-    y <- convertX(unit(y, "in"), "npc", valueOnly = TRUE)
-    indices <- grDevices::chull(x, y)
-    create_polygon_df(x[indices], y[indices])
+    y <- convertY(unit(y, "in"), "npc", valueOnly = TRUE)
+    x <- c(x[1], x[1], x[2], x[2])
+    y <- c(y[1], y[2], y[2], y[1])
+    create_polygon_df(x, y)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

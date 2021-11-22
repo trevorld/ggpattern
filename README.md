@@ -237,18 +237,6 @@ Noise](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-
 -   [Devloping Patterns 3 - Array-based
     pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-3.html)
 
-#### Experimental patterns
-
-These are patterns that aren’t quite ready for prime-time. Feel free to
-steal the code and extend to suit your needs.
-
--   [Point
-    filling](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-points.html)
--   [Hex
-    pattern](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-hex.html)
--   [Ambient
-    Noise](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-ambient.html)
-
 #### Other examples
 
 -   [gganimate](https://coolbutuseless.github.io/package/ggpattern/articles/gganimate.html)
@@ -266,7 +254,6 @@ steal the code and extend to suit your needs.
     that.
 -   Self intersecting geometry can be an issue.  
 -   Non-linear coordinate systems have not been tested.
--   Polygons with holes are not supported
 
 # ToDo
 

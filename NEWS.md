@@ -32,6 +32,10 @@ which were deprecated in a previous version of {ggpattern}:
       'rot' is parameter used in `grid:textGrob()` to indicate rotation and
       `pattern_angle` already used to rotate entire pattern.
 
+## Bug fixes and minor improvements
+
+* `geom_polygon_pattern()` now supports polygons with holes (#26).
+
 # ggpattern 0.2.0
 
 ## Breaking changes
