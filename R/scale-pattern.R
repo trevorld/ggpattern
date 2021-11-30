@@ -924,6 +924,168 @@ scale_pattern_frequency_discrete <- function(..., range = NULL) {
   )
 }
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Scales for pattern_grid
+#'
+#' @param choices vector of values to choose from.
+#' @param name,breaks,labels,limits,trans,guide,... See
+#'        \code{ggplot2} documentation for more information on scales.
+#'
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_grid_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
+                                     limits = NULL, choices = c('square', 'hex'),
+                                     trans = 'identity', guide = 'legend') {
+
+
+  if (is.null(choices)) {
+     abort('scale_pattern_grid_continuous(): must specify "choices" argument')
+  }
+
+  ggplot2::continuous_scale(
+    aesthetics = 'pattern_grid',
+    scale_name = 'pattern_grid',
+    palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
+    name       = name,
+    breaks     = breaks,
+    labels     = labels,
+    limits     = limits,
+    trans      = trans,
+    guide      = guide)
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_grid_continuous
+#' @importFrom utils head
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_grid_discrete <- function(..., choices = c('square', 'hex'), guide = 'legend') {
+  force(range)
+
+  if (is.null(choices)) {
+     abort('scale_pattern_grid_discrete(): must specify "choices" argument')
+  }
+
+  ggplot2::discrete_scale(
+    aesthetics = 'pattern_grid',
+    scale_name = 'pattern_grid',
+    palette    = function(n) {
+      idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
+      choices[idx]
+    },
+    guide = guide,
+    ...
+  )
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Scales for pattern_res
+#'
+#' @param name,breaks,labels,limits,range,trans,guide,... See
+#'        \code{ggplot2} documentation for more information on scales.
+#'
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_res_continuous <- function(name   = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        range  = NULL,
+                                        trans  = 'identity',
+                                        guide  = 'legend') {
+
+
+  if (is.null(range)) {
+     abort('scale_pattern_res_continuous(): must specify "range" argument')
+  }
+
+  ggplot2::continuous_scale(
+    aesthetics = 'pattern_res',
+    scale_name = 'pattern_res',
+    palette    = scales::rescale_pal(range),
+    name       = name,
+    breaks     = breaks,
+    labels     = labels,
+    limits     = limits,
+    trans      = trans,
+    guide      = guide
+  )
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_res_continuous
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_res_discrete <- function(..., range = NULL) {
+  force(range)
+
+  if (is.null(range)) {
+     abort('scale_pattern_res_discrete(): must specify "range" argument')
+  }
+
+  ggplot2::discrete_scale(
+    aesthetics = 'pattern_res',
+    scale_name = 'pattern_res',
+    palette    = function(n) seq(range[1], range[2], length.out = n),
+    guide      = 'legend',
+    ...
+  )
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Scales for pattern_rot
+#'
+#' @param name,breaks,labels,limits,range,trans,guide,... See
+#'        \code{ggplot2} documentation for more information on scales.
+#'
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_rot_continuous <- function(name   = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        range  = c(0, 360),
+                                        trans  = 'identity',
+                                        guide  = 'legend') {
+
+
+  if (is.null(range)) {
+     abort('scale_pattern_rot_continuous(): must specify "range" argument')
+  }
+
+  ggplot2::continuous_scale(
+    aesthetics = 'pattern_rot',
+    scale_name = 'pattern_rot',
+    palette    = scales::rescale_pal(range),
+    name       = name,
+    breaks     = breaks,
+    labels     = labels,
+    limits     = limits,
+    trans      = trans,
+    guide      = guide
+  )
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_rot_continuous
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_rot_discrete <- function(..., range = c(0, 360)) {
+  force(range)
+
+  if (is.null(range)) {
+     abort('scale_pattern_rot_discrete(): must specify "range" argument')
+  }
+
+  ggplot2::discrete_scale(
+    aesthetics = 'pattern_rot',
+    scale_name = 'pattern_rot',
+    palette    = function(n) seq(range[1], range[2], length.out = n),
+    guide      = 'legend',
+    ...
+  )
+}
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Create your own discrete scale
 #'
@@ -1118,6 +1280,30 @@ scale_pattern_phase_manual <- function(..., values, breaks = waiver()) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_frequency_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_frequency', values, breaks, ...)
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_manual
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_grid_manual <- function(..., values, breaks = waiver()) {
+  manual_scale('pattern_grid', values, breaks, ...)
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_manual
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_res_manual <- function(..., values, breaks = waiver()) {
+  manual_scale('pattern_res', values, breaks, ...)
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_manual
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_rot_manual <- function(..., values, breaks = waiver()) {
+  manual_scale('pattern_rot', values, breaks, ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1476,6 +1662,51 @@ scale_pattern_phase_identity <- function(..., guide = 'none') {
 scale_pattern_frequency_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_frequency',
+    scale_name = 'identity',
+    palette    = identity_pal(),
+    ...,
+    guide      = guide,
+    super      = ScaleContinuousIdentity
+  )
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_identity
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_grid_identity <- function(..., guide = 'none') {
+  discrete_scale(
+    aesthetics = 'pattern_grid',
+    scale_name = 'identity',
+    palette    = identity_pal(),
+    ...,
+    guide      = guide,
+    super      = ScaleDiscreteIdentity
+  )
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_identity
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_res_identity <- function(..., guide = 'none') {
+  continuous_scale(
+    aesthetics = 'pattern_res',
+    scale_name = 'identity',
+    palette    = identity_pal(),
+    ...,
+    guide      = guide,
+    super      = ScaleContinuousIdentity
+  )
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_identity
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_rot_identity <- function(..., guide = 'none') {
+  continuous_scale(
+    aesthetics = 'pattern_rot',
     scale_name = 'identity',
     palette    = identity_pal(),
     ...,

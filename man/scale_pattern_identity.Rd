@@ -25,6 +25,9 @@
 \alias{scale_pattern_orientation_identity}
 \alias{scale_pattern_phase_identity}
 \alias{scale_pattern_frequency_identity}
+\alias{scale_pattern_grid_identity}
+\alias{scale_pattern_res_identity}
+\alias{scale_pattern_rot_identity}
 \alias{scale_pattern_color_identity}
 \title{Use values without scaling}
 \usage{
@@ -75,6 +78,12 @@ scale_pattern_orientation_identity(..., guide = "none")
 scale_pattern_phase_identity(..., guide = "none")
 
 scale_pattern_frequency_identity(..., guide = "none")
+
+scale_pattern_grid_identity(..., guide = "none")
+
+scale_pattern_res_identity(..., guide = "none")
+
+scale_pattern_rot_identity(..., guide = "none")
 }
 \arguments{
 \item{..., guide}{See \code{ggplot2} for documentation on identity scales.

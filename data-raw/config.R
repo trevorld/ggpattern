@@ -31,6 +31,10 @@ pattern_orientation      |             | discrete   | c('horizontal', 'vertical'
 
 pattern_phase            |             | continuous | NULL
 pattern_frequency        |             | continuous | NULL
+
+pattern_grid             |             | discrete   | c('square', 'hex')
+pattern_res              |             | continuous | NULL
+pattern_rot              |             | continuous | c(0, 360)
 ", trim_ws = TRUE, delim = "|")
 
 

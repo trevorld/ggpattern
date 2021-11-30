@@ -204,6 +204,9 @@ or see the individual vignettes for each pattern.
 | `pattern_phase`            | Phase                                         | 0          |                                    |
 | `pattern_frequency`        | Frequency                                     | 0.1        |                                    |
 | `pattern_option_1 - 5`     | Generic options for expansion                 | 0          |                                    |
+| `pattern_grid`             | Grid type                                     | 'square'   | 'square', 'hex', 'hex\_circle'     |
+| `pattern_res`              | Pattern resolution (pixels per inch)          | NA         | Resolution                         |
+| `pattern_rot`              | Shape rotation angle (within pattern)         | 0          | angle in degrees                   |
 
 </summary>
 </details>
