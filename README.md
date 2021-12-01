@@ -195,6 +195,7 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
     * [image](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-image.html)
     * [magick](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-magick.html)
     * [noise](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-noise.html)
+    * [placeholder](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-placeholder.html)
 
 #### Developing your own pattern
 

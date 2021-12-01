@@ -19,6 +19,15 @@ which were deprecated in a previous version of {ggpattern}:
 * `placeholder_names`, instead use `gridpattern::names_placeholder`
 * `rotate_polygon_df()`
 
+## Deprecated features
+
+{ggpattern} now deprecates the following data/functions,
+they may be removed in a future version of {ggpattern}:
+
+* `convert_polygon_df_to_polygon_grob()`
+* `convert_polygon_df_to_polygon_sf()`
+* `convert_polygon_sf_to_polygon_df()`
+
 ## New features
 
 * {ggpattern} now supports the following aesthetics (#45):

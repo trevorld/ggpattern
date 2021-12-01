@@ -148,7 +148,6 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   pattern_grobs_list <- list()
   for (idx in seq(nrow(x))) {
     if (inherits(x$geometry[[idx]], 'MULTIPOLYGON') || inherits(x$geometry[[idx]], 'POLYGON')) {
-      # boundary_df      <- convert_polygon_sf_to_polygon_df(x$geometry[[idx]])
       boundary_grob      <- sf::st_as_grob(x$geometry[[idx]])
       boundary_grob <- editGrob(boundary_grob,
                                 x = unit(as.numeric(boundary_grob$x), "npc"),

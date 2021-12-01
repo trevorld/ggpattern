@@ -15,17 +15,11 @@ reference:
     desc: "Geom ggproto objects that developers could theoretically extend"
     contents:
         - starts_with("Geom")
-  - title: "polygon_df functions"
-    desc: "polygon_df functions mainly intended for internal development"
+  - title: "New geom development functions"
+    desc: "various functions mainly intended for developing new geoms"
     contents:
         - create_polygon_df
-        - convert_polygon_df_to_polygon_grob
-        - convert_polygon_df_to_polygon_sf
-        - convert_polygon_sf_to_polygon_df
         - is_polygon_df
-  - title: "pattern grob creators"
-    desc: "various functions mainly intended for internal development"
-    contents:
         - draw_key_polygon_pattern
   - title: "Deprecated functions"
     desc: "Deprecated functions that may be removed in a future version"
