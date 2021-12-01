@@ -216,19 +216,7 @@ or see the individual vignettes for each pattern.
 Users can write their own pattern functions and ask `ggpattern` to use them, 
 without having to include the pattern in the package.
 
-See the vignettes on developing patterns (
-[1](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-1.html)
-[2](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-2.html),
-[3](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-3.html)
-) for how to do this, and see the vignettes on experimental patterns to see 
-this in action (
-[Point filling](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-points.html),
-[Hex pattern](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-hex.html),
-[Ambient Noise](https://coolbutuseless.github.io/package/ggpattern/articles/experimental-pattern-ambient.html)
-).
-
-
-
+See the vignette on developing patterns: [`vignette("developing-patterns", package = "ggpattern")`](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns.html).
 
 # Vignettes
 
@@ -242,20 +230,16 @@ this in action (
 * Geometry-based patterns
     * [Common aesthetics for geometry-based patterns](https://coolbutuseless.github.io/package/ggpattern/articles/geometry-based-pattern-parameters.html)
     * [stripes](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html)
-    * [crosshatch](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-crosshatch.html)
-    * [circles](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-circle.html)
+    * [points](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-points.html)
+
 * Array-based patterns
     * [image](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-image.html)
-    * [placeholder](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-placeholder.html)
-    * [gradient](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-gradient.html)
-    * [plasma](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-plasma.html)
     * [magick](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-magick.html)
+    * [noise](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-noise.html)
 
 #### Developing your own pattern
 
-* [Devloping Patterns 1 - Pattern Overview](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-1.html)
-* [Devloping Patterns 2 - Geometry-based pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-2.html)
-* [Devloping Patterns 3 - Array-based pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-3.html)
+* [Devloping Patterns](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns.html)
 
 #### Other examples
 
@@ -263,10 +247,7 @@ this in action (
 
 # Limitations
 
-* Nearly always need to use `coord_fixed()` to ensure the aspect ratio is
-  calculated correctly.  Use `pattern_aspect_ratio` to override the internal 
-  calculation, of for occasions where you can't use `coord_fixed()` because
-  a different `coord_*()` is used.
+* Use `pattern_aspect_ratio` to override the internal aspect ratio calculation.
 * Legend rendering for patterns is still not great.
     * Use `pattern_key_scale_factor` to adjust legend appearance.
 * The Rstudio output device can be quite slow for plots with lots of patterns. It is
@@ -278,5 +259,3 @@ this in action (
 
 * Possibly add  geoms from third-party sources e.g.
     * `geom_circle()` and `geom_voronoi()` from [ggforce](https://github.com/thomasp85/ggforce)
-* A vignette on how array-based patterns are implemented.
-* A vignette on why aspect ratio is hard to get right. 
