@@ -1,18 +1,24 @@
-
 suppressPackageStartupMessages({
   library(dplyr)
   library(glue)
 })
 
-
-
-template_cont_var_cont_aes <- "
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for {aes_name}
+template_cont_roxygen_first <- "
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Scales for continuous pattern aesthetics
 #'
 #' @param name,breaks,labels,limits,range,trans,guide,... See
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
+#' @name scale_continuous
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NULL
+
+"
+
+template_cont_var_cont_aes <- "
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_{aes_name}_continuous <- function(name   = waiver(),
@@ -47,7 +53,7 @@ scale_{aes_name}_continuous <- function(name   = waiver(),
 
 template_discrete_var_cont_aes <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_{aes_name}_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_{aes_name}_discrete <- function(..., range = {scale_default}) {{
@@ -69,15 +75,24 @@ scale_{aes_name}_discrete <- function(..., range = {scale_default}) {{
 
 "
 
-
-template_cont_var_discrete_aes <- "
+template_discrete_roxygen_first <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for {aes_name}
+#' Scales for discrete pattern aesthetics
 #'
 #' @param choices vector of values to choose from.
 #' @param name,breaks,labels,limits,trans,guide,... See
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
+#' @name scale_discrete
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NULL
+
+"
+
+
+template_cont_var_discrete_aes <- "
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_{aes_name}_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -106,7 +121,7 @@ scale_{aes_name}_continuous <- function(name = waiver(), breaks = waiver(), labe
 
 template_discrete_var_discrete_aes <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_{aes_name}_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,6 +152,9 @@ scale_{aes_name}_discrete <- function(..., choices = {scale_default}, guide = 'l
 source("data-raw/config.R")
 
 # sink("R/scale-pattern.R")
+
+cat(template_cont_roxygen_first)
+cat(template_discrete_roxygen_first)
 
 for (i in seq(nrow(ggpattern_aes))) {
   this_aes <- ggpattern_aes[i,]

@@ -6,13 +6,31 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Scales for continuous pattern aesthetics
+#'
+#' @param name,breaks,labels,limits,range,trans,guide,... See
+#'        \code{{ggplot2}} documentation for more information on scales.
+#'
+#' @name scale_continuous
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NULL
+
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern
+#' Scales for discrete pattern aesthetics
 #'
 #' @param choices vector of values to choose from.
 #' @param name,breaks,labels,limits,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
+#'        \code{{ggplot2}} documentation for more information on scales.
 #'
+#' @name scale_discrete
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NULL
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -37,7 +55,7 @@ scale_pattern_continuous <- function(name = waiver(), breaks = waiver(), labels 
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -61,12 +79,7 @@ scale_pattern_discrete <- function(..., choices = c('stripe', 'crosshatch', 'cir
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_type
-#'
-#' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_type_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -91,7 +104,7 @@ scale_pattern_type_continuous <- function(name = waiver(), breaks = waiver(), la
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_type_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -115,12 +128,7 @@ scale_pattern_type_discrete <- function(..., choices = NULL, guide = 'legend') {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_subtype
-#'
-#' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_subtype_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -145,7 +153,7 @@ scale_pattern_subtype_continuous <- function(name = waiver(), breaks = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_subtype_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -169,11 +177,7 @@ scale_pattern_subtype_discrete <- function(..., choices = NULL, guide = 'legend'
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_angle
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_angle_continuous <- function(name   = waiver(),
@@ -203,7 +207,7 @@ scale_pattern_angle_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_angle_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_angle_discrete <- function(..., range = c(0, 90)) {
@@ -223,11 +227,7 @@ scale_pattern_angle_discrete <- function(..., range = c(0, 90)) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_density
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_density_continuous <- function(name   = waiver(),
@@ -257,7 +257,7 @@ scale_pattern_density_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_density_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_density_discrete <- function(..., range = c(0, 0.5)) {
@@ -277,11 +277,7 @@ scale_pattern_density_discrete <- function(..., range = c(0, 0.5)) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_spacing
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_spacing_continuous <- function(name   = waiver(),
@@ -311,7 +307,7 @@ scale_pattern_spacing_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_spacing_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_spacing_discrete <- function(..., range = c(0.01, 0.1)) {
@@ -331,11 +327,7 @@ scale_pattern_spacing_discrete <- function(..., range = c(0.01, 0.1)) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_xoffset
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_xoffset_continuous <- function(name   = waiver(),
@@ -365,7 +357,7 @@ scale_pattern_xoffset_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_xoffset_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_xoffset_discrete <- function(..., range = c(0.01, 0.1)) {
@@ -385,11 +377,7 @@ scale_pattern_xoffset_discrete <- function(..., range = c(0.01, 0.1)) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_yoffset
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_yoffset_continuous <- function(name   = waiver(),
@@ -419,7 +407,7 @@ scale_pattern_yoffset_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_yoffset_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_yoffset_discrete <- function(..., range = c(0.01, 0.1)) {
@@ -439,11 +427,7 @@ scale_pattern_yoffset_discrete <- function(..., range = c(0.01, 0.1)) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_aspect_ratio
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_aspect_ratio_continuous <- function(name   = waiver(),
@@ -473,7 +457,7 @@ scale_pattern_aspect_ratio_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_aspect_ratio_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_aspect_ratio_discrete <- function(..., range = c(0.5, 2)) {
@@ -493,11 +477,7 @@ scale_pattern_aspect_ratio_discrete <- function(..., range = c(0.5, 2)) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_key_scale_factor
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_key_scale_factor_continuous <- function(name   = waiver(),
@@ -527,7 +507,7 @@ scale_pattern_key_scale_factor_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_key_scale_factor_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_key_scale_factor_discrete <- function(..., range = c(0.5, 2)) {
@@ -547,12 +527,7 @@ scale_pattern_key_scale_factor_discrete <- function(..., range = c(0.5, 2)) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_filename
-#'
-#' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_filename_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -577,7 +552,7 @@ scale_pattern_filename_continuous <- function(name = waiver(), breaks = waiver()
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_filename_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -601,12 +576,7 @@ scale_pattern_filename_discrete <- function(..., choices = NULL, guide = 'legend
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_filter
-#'
-#' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_filter_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -631,7 +601,7 @@ scale_pattern_filter_continuous <- function(name = waiver(), breaks = waiver(), 
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_filter_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -655,12 +625,7 @@ scale_pattern_filter_discrete <- function(..., choices = c('lanczos', 'box', 'sp
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_gravity
-#'
-#' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_gravity_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -685,7 +650,7 @@ scale_pattern_gravity_continuous <- function(name = waiver(), breaks = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_gravity_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -709,11 +674,7 @@ scale_pattern_gravity_discrete <- function(..., choices = c('center', 'north', '
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_scale
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_scale_continuous <- function(name   = waiver(),
@@ -743,7 +704,7 @@ scale_pattern_scale_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_scale_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_scale_discrete <- function(..., range = c(0.5, 2)) {
@@ -763,12 +724,7 @@ scale_pattern_scale_discrete <- function(..., range = c(0.5, 2)) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_orientation
-#'
-#' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_orientation_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -793,7 +749,7 @@ scale_pattern_orientation_continuous <- function(name = waiver(), breaks = waive
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_orientation_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -817,11 +773,7 @@ scale_pattern_orientation_discrete <- function(..., choices = c('horizontal', 'v
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_phase
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_phase_continuous <- function(name   = waiver(),
@@ -851,7 +803,7 @@ scale_pattern_phase_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_phase_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_phase_discrete <- function(..., range = NULL) {
@@ -871,11 +823,7 @@ scale_pattern_phase_discrete <- function(..., range = NULL) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_frequency
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_frequency_continuous <- function(name   = waiver(),
@@ -905,7 +853,7 @@ scale_pattern_frequency_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_frequency_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_frequency_discrete <- function(..., range = NULL) {
@@ -925,12 +873,7 @@ scale_pattern_frequency_discrete <- function(..., range = NULL) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_grid
-#'
-#' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_grid_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
@@ -955,7 +898,7 @@ scale_pattern_grid_continuous <- function(name = waiver(), breaks = waiver(), la
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_grid_continuous
+#' @rdname scale_discrete
 #' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -979,11 +922,7 @@ scale_pattern_grid_discrete <- function(..., choices = c('square', 'hex'), guide
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_res
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_res_continuous <- function(name   = waiver(),
@@ -1013,7 +952,7 @@ scale_pattern_res_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_res_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_res_discrete <- function(..., range = NULL) {
@@ -1033,11 +972,7 @@ scale_pattern_res_discrete <- function(..., range = NULL) {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Scales for pattern_rot
-#'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
-#'        \code{ggplot2} documentation for more information on scales.
-#'
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_rot_continuous <- function(name   = waiver(),
@@ -1067,7 +1002,7 @@ scale_pattern_rot_continuous <- function(name   = waiver(),
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_pattern_rot_continuous
+#' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_rot_discrete <- function(..., range = c(0, 360)) {
