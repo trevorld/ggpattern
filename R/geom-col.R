@@ -27,14 +27,8 @@ geom_col_pattern <- function(mapping = NULL, data = NULL,
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' GeomPolygonPattern
-#'
-#' @rdname ggplot2-ggproto
+#' @rdname ggpattern-ggproto
 #' @format NULL
-#' @usage NULL
-#' @export
-#' @import ggplot2
-#' @import grid
 #' @export
 #' @include geom-rect.R
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -69,14 +69,14 @@ geom_bar_pattern <- function(mapping = NULL, data = NULL,
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' GeomBarPattern
+#' Geom ggproto objects
 #'
-#' @rdname ggplot2-ggproto
+#' Geom ggproto objects that could be extended to create a new geom.
+#'
+#' @seealso [ggplot2::Geom]
+#'
+#' @name ggpattern-ggproto
 #' @format NULL
-#' @usage NULL
-#' @export
-#' @import ggplot2
-#' @import grid
 #' @export
 #' @include geom-rect.R
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

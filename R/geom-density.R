@@ -27,15 +27,8 @@ geom_density_pattern <- function(mapping = NULL, data = NULL,
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' GeomDensityPattern
-#'
-#' @rdname ggplot2-ggproto
+#' @rdname ggpattern-ggproto
 #' @format NULL
-#' @usage NULL
-#'
-#' @import ggplot2
-#' @import grid
-#'
 #' @include geom-ribbon.R
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

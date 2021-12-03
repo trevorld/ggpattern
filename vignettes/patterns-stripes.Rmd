@@ -1,0 +1,214 @@
+---
+title: "Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples"
+output: 
+  rmarkdown::html_vignette:
+  toc: true
+vignette: >
+  %\VignetteIndexEntry{Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7, 
+  fig.height = 4
+)
+```
+
+```{r setup}
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(ggpattern)
+})
+```
+
+## Introduction to the 'stripe', 'wave', 'crosshatch', and 'weave' patterns
+
+* The 'stripe' pattern draws a set of (horizontal) **straight** lines.  
+* The 'wave' pattern draws a set of (horizontal) **wavy** lines.
+* The 'crosshatch' pattern draws a set of vertical lines on top of a set of horizontal lines.
+* The 'weave' pattern draws a set of vertical lines interlaced with a set of horizontal lines.
+
+## Pattern Parameters
+
+| aesthetic                | description                                   | default   | possible values                   |
+|--------------------------|-----------------------------------------------|-----------|-----------------------------------|
+| pattern\_colour           | Stroke colour                                 | 'grey20'  | colour                            |
+| pattern\_fill             | Fill colour                                   | 'grey80'  | colour                            |
+| pattern\_angle            | Rotation angle                                | 30        | angle in degrees                  |
+| pattern\_density          | Approx. fraction of area the pattern fills    | 0.2       | value in range [0, 1] (fraction)  |
+| pattern\_spacing          | Spacing between repetitions of pattern        | 0.05      | value in range [0, 1] (snpc units) |
+| pattern\_xoffset          | Shift pattern along x axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern\_yoffset          | Shift pattern along y axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern\_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
+| pattern\_linetype         | Stroke linetype                               | 1         | linetype                          |
+| pattern\_size             | Stroke linewidth                              | 1         | linewidth                         |
+| pattern\_type             | Pattern type                                  | NA        | See [wave](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_wave.html) and [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern\_weave.html) pattern documentation |
+| pattern\_subtype          | Pattern subtype                               | NA        | See [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern\_weave.html) pattern documentation |
+| pattern\_frequency        | Frequency                                     | 0.1       | Frequency of waves in 'wave' pattern |
+
+There are also a number of parameters for extra control of legend sizing and
+aspect ratio adjustments. See the 'Pattern Parameters - Common' for more 
+information.
+
+## Data
+
+Standard data for all the example plots
+
+```{r}
+df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
+df
+```
+
+## Vanilla ggplot2
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col(aes(fill=trt),colour='black') +
+  theme_bw() +
+  labs(title = "Plain ggplot2")
+```
+
+## Use the `{ggpattern}` geom
+
+* Use `ggpattern::geom_col_pattern()` instead of `ggplot2::geom_col()`.
+* Set `pattern = 'stripe'` 
+* Default legends in `ggplot2` are usually too small to show off an example of
+  the pattern, so it will usually be necessary to increase the key size.
+  
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(aes(fill=trt),colour='black',
+                   pattern='stripe') +
+  theme_bw() +
+  labs(title = "ggpattern") +
+  theme(legend.key.size = unit(1.5, 'cm'))
+```
+
+## Mixing patterns
+
+* Often we'll want to mix patterns.  
+  To get the legend right we'll often want to set them with a pattern scale function
+  like 'pattern_scale_manual()' instead of simply setting them with the 'pattern' aesthetic.
+* Here we'll use the 'stripe' pattern and 'wave' pattern.
+* The 'wave' pattern supports two subtypes: 'triangle' waves (default) have a zig-zag appearance
+  whereas 'sine' waves have a curvy appearance.
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(aes(fill=trt, pattern=trt, pattern_type=trt),colour='black') + 
+  theme_bw() +
+  labs(title = "Use 'stripe' and 'wave' patterns") + 
+  theme(legend.key.size = unit(1.5, 'cm')) +
+  scale_pattern_manual(values=c('stripe', 'wave', 'wave')) +
+  scale_pattern_type_manual(values=c(NA, 'triangle', 'sine'))
+```
+
+## The Density Aesthetic
+
+The aesthetic `pattern_density` roughly corresponds to the fraction of the filled
+area which should be covered by the pattern.
+
+In the following plot the density of striping is increased to 50% of the fill area.
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill=trt, pattern=trt),
+    colour          = 'black', 
+    pattern_density = 0.5
+  ) +
+  theme_bw() +
+  labs(title = "Fixed density of 0.5 (50% of the fill area)") + 
+  scale_pattern_manual(values=c('stripe', 'crosshatch', 'weave')) +
+  theme(legend.key.size = unit(1.5, 'cm'))
+```
+
+## Weave types
+
+The 'weave' pattern supports a rich set of weave types and subtypes including irregular 'matt', 'twill' (including 'herringbone' and 'zigzag' variations), and 'satin' weaves .  See the [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern_weave.html) pattern documentation for more information.
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(pattern_fill2=trt, pattern_type=trt),
+    pattern = 'weave',
+    colour          = 'black', 
+    pattern_density = 1.0,
+    pattern_fill = 'grey',
+    pattern_key_scale_factor = 0.5,
+  ) +
+  theme_bw() +
+  labs(title = "Some 'weave' types") + 
+  scale_pattern_type_manual(values=c('plain', 'twill', 'satin')) +
+  theme(legend.key.size = unit(1.5, 'cm'))
+```
+
+## The Density Aesthetic as a Mapped Aesthetic
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt, pattern_density = trt),
+    colour          = 'black', 
+    pattern         = 'stripe'
+  ) +
+  theme_bw() +
+  labs(title = "Aesthetic Mapping of 'trt' to Density") + 
+  theme(legend.key.size = unit(1.5, 'cm'))
+```
+
+
+## The Density Aesthetic as a Mapped Aesthetic with Manual Scale
+
+
+`scale_pattern_density_manual()` can be used to manually control how the variable 
+is mapped to the density.
+
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt, pattern_density = trt),
+    colour          = 'black', 
+    pattern         = 'stripe'
+  ) +
+  theme_bw() +
+  labs(title = "Aesthetic Mapping of 'trt' to Density") + 
+  theme(legend.key.size = unit(1.5, 'cm')) + 
+  scale_pattern_density_manual(values = c(a = 0.1, b=0.3, c=0.5))
+```
+
+
+## The Spacing Aesthetic as a Mapped Aesthetic
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt, pattern_spacing = trt),
+    colour          = 'black', 
+    pattern         = 'stripe'
+  ) +
+  theme_bw() +
+  labs(title = "Aesthetic Mapping of 'trt' to Spacing") + 
+  theme(legend.key.size = unit(1.5, 'cm'))
+```
+
+
+## The Fill Aesthetic as a Mapped Aesthetic
+
+```{r}
+ggplot(df, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt, pattern_fill = trt),
+    colour          = 'black', 
+    pattern         = 'stripe'
+  ) +
+  theme_bw() +
+  labs(title = "Aesthetic Mapping of 'trt' to Pattern Fill") + 
+  scale_pattern_fill_viridis_d() + 
+  theme(legend.key.size = unit(1.5, 'cm'))
+```

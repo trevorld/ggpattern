@@ -3,6 +3,8 @@
 #'  \describe{
 #'    \item{ggpattern_array_funcs}{Set custom \dQuote{array} pattern functions.}
 #'    \item{ggpattern_geometry_funcs}{Set custom \dQuote{geometry} pattern functions.}
+#'    \item{ggpattern_res}{Set new default raster resolution default (pixels per inch)
+#'                         for the `pattern_res` aesthetic.}
 #'    \item{ggpattern_use_R4.1_clipping}{If `TRUE` use the grid clipping path feature introduced in R v4.1.0
 #'                          else do a `rasterGrob` approximation of the clipped pattern.}
 #'    \item{ggpattern_use_R4.1_features}{If `TRUE` sets the default for all the other

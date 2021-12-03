@@ -28,14 +28,8 @@ geom_crossbar_pattern <- function(mapping = NULL, data = NULL,
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' GeomCrossbarPattern
-#'
-#' @rdname ggplot2-ggproto
+#' @rdname ggpattern-ggproto
 #' @format NULL
-#' @usage NULL
-#' @export
-#' @import ggplot2
-#' @import grid
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GeomCrossbarPattern <- ggproto(

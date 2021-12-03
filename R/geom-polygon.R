@@ -27,14 +27,8 @@ geom_polygon_pattern <- function(mapping = NULL, data = NULL,
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' GeomPolygonPattern
-#'
-#' @rdname ggplot2-ggproto
+#' @rdname ggpattern-ggproto
 #' @format NULL
-#' @usage NULL
-#' @export
-#' @import ggplot2
-#' @import grid
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
@@ -107,8 +101,6 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
         abort("Polygons with holes requires R 3.6 or above")
       }
 
-      message("geom_polygon_pattern does not currently support polygons with holes. Expect some funky output instead.")
-
       # Sort by group to make sure that colors, fill, etc. come in same order
       munched <- munched[order(munched$group, munched$subgroup), ]
       id <- match(munched$subgroup, unique(munched$subgroup))
@@ -124,11 +116,10 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       stopifnot(!is.null(munched$group))
       polygons <- split(munched, munched$group)
-      boundary_dfs <- lapply(polygons, function(polygon) {
-        create_polygon_df(
-          x = polygon$x,
-          y = polygon$y
-        )
+      boundary_grobs <- lapply(polygons, function(polygon) {
+          grid::pathGrob(polygon$x, polygon$y,
+                         default.units = "npc",
+                         id = polygon$subgroup, rule = rule)
       })
 
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -141,7 +132,29 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       # (given in all_params), and the boundary_dfs of all the elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       self$aspect_ratio <- get_aspect_ratio()
-      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, self$aspect_ratio)
+      pattern_grobs <- create_pattern_grobs(all_params,
+                                            boundary_grobs,
+                                            self$aspect_ratio)
+
+      gp_fill <- grid::gpar(
+         col  = NA,
+         fill = scales::alpha(first_rows$fill, first_rows$alpha),
+         lwd  = first_rows$size * .pt,
+         lty  = first_rows$linetype
+       )
+      gp_border <- grid::gpar(
+          col  = first_rows$colour,
+          fill = NA,
+          lwd  = first_rows$size * .pt,
+          lty  = first_rows$linetype
+        )
+      path_grob_fn <- function(gp = gpar()) {
+          grid::pathGrob(
+            munched$x, munched$y, default.units = "native",
+            id = id, pathId = munched$group,
+            rule = rule,
+            gp = gp)
+      }
 
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Adapt the returned geom to always be a grobTree with the
@@ -152,47 +165,14 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       ggname(
         "geom_polygon",
         grid::grobTree(
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          # The area filled of the polygon
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          grid::pathGrob(
-            munched$x, munched$y, default.units = "native",
-            id = id, pathId = munched$group,
-            rule = rule,
-            gp = grid::gpar(
-              col  = NA,
-              fill = scales::alpha(first_rows$fill, first_rows$alpha),
-              lwd  = first_rows$size * .pt,
-              lty  = first_rows$linetype
-            )
-          ),
-
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          # The pattern fill
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          pattern_grobs,
-
-
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          # The edge of the polygon
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          grid::pathGrob(
-            munched$x, munched$y, default.units = "native",
-            id = id, pathId = munched$group,
-            rule = rule,
-            gp = grid::gpar(
-              col  = first_rows$colour,
-              fill = NA,
-              lwd  = first_rows$size * .pt,
-              lty  = first_rows$linetype
-            )
-          )
+          path_grob_fn(gp_fill), # area filled of the polygon
+          pattern_grobs, # the pattern fill
+          path_grob_fn(gp_border) # the edge of the polygon
         )
       )
     }
 
   },
-
 
   aspect_ratio = 1,
 

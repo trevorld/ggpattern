@@ -1,3 +1,54 @@
+# ggpattern 0.3.0
+
+## Breaking changes
+
+{ggpattern} removes the following data/functions
+which were deprecated in a previous version of {ggpattern}:
+
+* `calculate_bbox_polygon_df()`
+* `convert_img_to_array()`
+* `convert_polygon_df_to_alpha_channel()`
+* `create_gradient_img()`
+* `fetch_placeholder_img()`
+* `fill_area_with_img()`
+* `magick_filter_names`, instead use `magick::filter_types()`
+* `magick_gravity_names`, instead use `magick::gravity_types()`
+* `magick_pattern_intensity_names`, instead use `gridpattern::names_magick_intensity`
+* `magick_pattern_names`, instead use `gridpattern::names_magick`
+* `magick_pattern_stripe_names`, instead use `gridpattern::names_magick_stripe`
+* `placeholder_names`, instead use `gridpattern::names_placeholder`
+* `rotate_polygon_df()`
+
+## Deprecated features
+
+{ggpattern} now deprecates the following data/functions,
+they may be removed in a future version of {ggpattern}:
+
+* `convert_polygon_df_to_polygon_grob()`
+* `convert_polygon_df_to_polygon_sf()`
+* `convert_polygon_sf_to_polygon_df()`
+
+## New features
+
+* {ggpattern} now supports the following aesthetics (#45):
+
+    * `pattern_grid`: Supported by most "geometry" patterns.
+      Default is "square" while "hex" and "hex\_circle" allow hexagonal layouts.
+    * `pattern_res`: Supported by "array" patterns.
+      Allow user to explicitly set resolution of image-based patterns.
+    * `pattern_rot`: Used by "pch", "regular\_polygon", "rose", and "text" patterns 
+      to rotate symbol within pattern.
+      'rot' is parameter used in `grid:textGrob()` to indicate rotation and
+      `pattern_angle` already used to rotate entire pattern.
+
+## Bug fixes and minor improvements
+
+* `geom_polygon_pattern()` and `geom_sf_pattern()` now support polygons with holes (#26, #44).
+  If R 4.1 clipping features are not supported by the graphic device
+  (or the clipping feature is declined) we must use a raster image approximation of the pattern.
+  Resolution of the raster approximation can be adjusted by the `pattern_res` aesthetic
+  whose default in turn can be adjusted by the `"ggpattern_res"` global option.
+
 # ggpattern 0.2.0
 
 ## Breaking changes

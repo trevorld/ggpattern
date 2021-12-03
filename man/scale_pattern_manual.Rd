@@ -25,6 +25,9 @@
 \alias{scale_pattern_orientation_manual}
 \alias{scale_pattern_phase_manual}
 \alias{scale_pattern_frequency_manual}
+\alias{scale_pattern_grid_manual}
+\alias{scale_pattern_res_manual}
+\alias{scale_pattern_rot_manual}
 \alias{scale_pattern_color_manual}
 \title{Create your own discrete scale}
 \usage{
@@ -75,6 +78,12 @@ scale_pattern_orientation_manual(..., values, breaks = waiver())
 scale_pattern_phase_manual(..., values, breaks = waiver())
 
 scale_pattern_frequency_manual(..., values, breaks = waiver())
+
+scale_pattern_grid_manual(..., values, breaks = waiver())
+
+scale_pattern_res_manual(..., values, breaks = waiver())
+
+scale_pattern_rot_manual(..., values, breaks = waiver())
 }
 \arguments{
 \item{..., values, breaks}{See \code{ggplot2} for documentation on manual scales.

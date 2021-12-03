@@ -2,93 +2,33 @@
 % Please edit documentation in R/ggpattern-deprecated.R
 \name{ggpattern-deprecated}
 \alias{ggpattern-deprecated}
-\alias{magick_filter_names}
-\alias{magick_gravity_names}
-\alias{magick_pattern_intensity_names}
-\alias{magick_pattern_names}
-\alias{magick_pattern_stripe_names}
-\alias{placeholder_names}
-\alias{calculate_bbox_polygon_df}
-\alias{convert_polygon_df_to_alpha_channel}
-\alias{rotate_polygon_df}
-\alias{convert_img_to_array}
-\alias{create_gradient_img}
-\alias{fetch_placeholder_img}
-\alias{fill_area_with_img}
+\alias{convert_polygon_df_to_polygon_grob}
+\alias{convert_polygon_df_to_polygon_sf}
+\alias{convert_polygon_sf_to_polygon_df}
 \title{Deprecated data/functions}
 \usage{
-calculate_bbox_polygon_df(polygon_df)
-
-convert_polygon_df_to_alpha_channel(polygon_df, width, height)
-
-rotate_polygon_df(polygon_df, angle, aspect_ratio)
-
-convert_img_to_array(img)
-
-create_gradient_img(
-  width = 100,
-  height = 100,
-  colour1 = "red",
-  colour2 = "blue",
-  orientation = "vertical"
+convert_polygon_df_to_polygon_grob(
+  polygon_df,
+  default.units = "npc",
+  gp = gpar()
 )
 
-fetch_placeholder_img(width = 100, height = 100, type = "kitten")
+convert_polygon_df_to_polygon_sf(polygon_df, buffer_dist = 0)
 
-fill_area_with_img(
-  img,
-  width,
-  height,
-  type = "squish",
-  gravity = "Center",
-  filter = "lanczos",
-  scale = 1
-)
+convert_polygon_sf_to_polygon_df(mp)
 }
 \arguments{
-\item{polygon_df}{polygon_df data.frame}
+\item{polygon_df}{A \code{polygon_df} object}
 
-\item{width}{Width}
+\item{default.units}{See \code{\link[grid:grid.polygon]{grid::polygonGrob()}}.}
 
-\item{height}{Height}
+\item{gp}{See \code{\link[grid:grid.polygon]{grid::polygonGrob()}}.}
 
-\item{angle}{angle in degrees}
+\item{buffer_dist}{See \code{\link[sf:geos_unary]{sf::st_buffer()}}.}
 
-\item{aspect_ratio}{aspect ratio}
-
-\item{img}{\code{magick} image}
-
-\item{colour1}{Colour}
-
-\item{colour2}{Colour}
-
-\item{orientation}{Orientation}
-
-\item{type}{\code{magick} type}
-
-\item{gravity}{\code{magick} gravity}
-
-\item{filter}{\code{magick} filter}
-
-\item{scale}{Scale}
+\item{mp}{A \code{sf} package polygon object}
 }
 \description{
 These data/functions are Deprecated in this release of ggpattern,
 they will be marked as Defunct and removed in a future version.
-}
-\details{
-\enumerate{
-\item{For \code{magick_filter_names} use \code{magick::filter_types()} instead.}
-\item{For \code{magick_gravity_names} use \code{magick::gravity_types()} instead.}
-}
-}
-\examples{
-    suppressWarnings({
-      print(magick_filter_names)
-      print(magick_gravity_names)
-      print(magick_pattern_intensity_names)
-      print(magick_pattern_names)
-      print(magick_pattern_stripe_names)
-      print(placeholder_names)
-    })
 }
