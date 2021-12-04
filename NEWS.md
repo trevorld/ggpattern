@@ -1,3 +1,9 @@
+# ggpattern 0.3.2
+
+## Bug fixes and minor improvements
+
+* `geom_sf_pattern()` manually clips patterns to the viewport (#60).
+
 # ggpattern 0.3.1
 
 ## Breaking changes

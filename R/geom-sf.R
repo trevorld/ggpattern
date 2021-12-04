@@ -145,13 +145,17 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   # - accumulate all these pattern grobs into a grobTree
   # - attach this grobTree to the final returned object
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  sf_vp <- sf::st_polygon(list(matrix(c(0, 0, 0, 1, 1, 1, 1, 0, 0, 0), byrow=TRUE, ncol=2)))
   pattern_grobs_list <- list()
   for (idx in seq(nrow(x))) {
     if (inherits(x$geometry[[idx]], 'MULTIPOLYGON') || inherits(x$geometry[[idx]], 'POLYGON')) {
-      boundary_grob      <- sf::st_as_grob(x$geometry[[idx]])
-      boundary_grob <- editGrob(boundary_grob,
-                                x = unit(as.numeric(boundary_grob$x), "npc"),
-                                y = unit(as.numeric(boundary_grob$y), "npc"))
+      if(any(is.na(x[idx, c("xmin", "xmax", "ymin", "ymax")]))) # extends past viewport
+          boundary_grob      <- sf::st_as_grob(sf::st_intersection(x$geometry[[idx]], sf_vp),
+                                               default.units = "npc")
+      else
+          boundary_grob      <- sf::st_as_grob(x$geometry[[idx]], default.units = "npc")
+      if (inherits(boundary_grob, "null"))
+          next
       boundary_grobs     <- list(boundary_grob)
       all_params         <- x[idx,]
       aspect_ratio       <- get_aspect_ratio()
@@ -169,9 +173,9 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   # Plot the {sf} geometry first, then plot the tree of pattern grobs
   # over the top.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  sf_grob <- sf::st_as_grob(x$geometry, pch = pch, gp = gp)
+  grob_sf <- sf::st_as_grob(x$geometry, pch = pch, gp = gp)
   grid::grobTree(
-    sf_grob,
+    grob_sf,
     pattern_grobs
   )
 }
