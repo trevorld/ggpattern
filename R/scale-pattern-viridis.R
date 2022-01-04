@@ -15,6 +15,7 @@
 #'   name(s) of the aesthetic(s) that this scale works with. This can be useful, for
 #'   example, to apply colour settings to the `colour` and `fill` aesthetics at the
 #'   same time, via `aesthetics = c("colour", "fill")`.
+#' @return A [ggplot2::Scale] object.
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

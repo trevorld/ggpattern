@@ -7,6 +7,7 @@
 #' @param ... Additional parameters passed on to the scale type
 #' @param type One of "gradient" (the default) or "viridis" indicating the
 #'   colour scale to use
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_continuous <- function(...,

@@ -28,6 +28,9 @@ scale_pattern_fill2_continuous(
 \item{type}{One of "gradient" (the default) or "viridis" indicating the
 colour scale to use}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 See \code{ggplot2::scale_colour_continuous()} for more information
 }

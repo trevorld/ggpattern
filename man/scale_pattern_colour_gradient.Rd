@@ -134,6 +134,9 @@ this vector gives the position (between 0 and 1) for each colour in the
 \code{colours} vector. See \code{\link[scales:rescale]{rescale()}} for a convenience function
 to map an arbitrary range to between 0 and 1.}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 See \code{ggplot2::scale_colour_gradient()} for more information
 }

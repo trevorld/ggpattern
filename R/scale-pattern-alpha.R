@@ -8,6 +8,7 @@
 #'   or [discrete_scale()] as appropriate, to control name, limits,
 #'   breaks, labels and so forth.
 #' @param range Output range of alpha values. Must lie between 0 and 1.
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_alpha_continuous <- function(..., range = c(0.1, 1)) {

@@ -10,6 +10,7 @@ template_cont_roxygen_first <- "
 #' @param name,breaks,labels,limits,range,trans,guide,... See
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
+#' @return A [ggplot2::Scale] object.
 #' @name scale_continuous
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NULL
@@ -83,6 +84,7 @@ template_discrete_roxygen_first <- "
 #' @param name,breaks,labels,limits,trans,guide,... See
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
+#' @return A [ggplot2::Scale] object.
 #' @name scale_discrete
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NULL

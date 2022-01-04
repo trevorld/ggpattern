@@ -89,6 +89,9 @@ scale_pattern_rot_manual(..., values, breaks = waiver())
 \item{..., values, breaks}{See \code{ggplot2} for documentation on manual scales.
 e.g. \code{ggplot2::scale_colour_manual()}}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 Create your own discrete scale
 }

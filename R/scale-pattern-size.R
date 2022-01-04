@@ -5,6 +5,7 @@
 #' @param name,breaks,labels,limits,trans,guide See \code{ggplot2::scale_size} for more information
 #' @param range a numeric vector of length 2 that specifies the minimum and
 #'   maximum size of the plotting symbol after transformation.
+#' @return A [ggplot2::Scale] object.
 #'
 #' @export
 #-----------------------------------------------------------------------------

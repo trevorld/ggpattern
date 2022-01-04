@@ -8,6 +8,7 @@
 #'
 #' @param ... see \code{ggplot2::scale_linetype} for more information
 #' @param na.value The linetype to use for `NA` values.
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_linetype <- function(..., na.value = "blank") {

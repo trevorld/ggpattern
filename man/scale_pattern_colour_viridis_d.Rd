@@ -99,6 +99,9 @@ name(s) of the aesthetic(s) that this scale works with. This can be useful, for
 example, to apply colour settings to the \code{colour} and \code{fill} aesthetics at the
 same time, via \code{aesthetics = c("colour", "fill")}.}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 The \code{viridis} scales provide colour maps that are perceptually uniform in both
 colour and black-and-white. They are also designed to be perceived by viewers

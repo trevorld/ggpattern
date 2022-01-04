@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: Geoms with Patterns
-Version: 0.3.2-1
+Version: 0.3.2-2
 Authors@R: c(person("Mike", "FC", email = "mikefc@coolbutuseless.com",
                     role = c("aut", "cre")),
              person("Trevor L", "Davis", role = "aut"),

@@ -12,6 +12,7 @@ template_identity_roxygen_first <- "
 #' @param ...,guide See \\code{{ggplot2}} for documentation on identity scales.
 #'        e.g. \\code{{ggplot2::scale_alpha_identity()}}
 #'
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

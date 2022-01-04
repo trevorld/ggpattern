@@ -82,6 +82,9 @@ in the Palettes section.}
 
 \item{direction, type, aesthetics, values, space, na.value, guide}{See \code{ggplot2::scale_colour_brewer} for more information.}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 The \code{brewer} scales provides sequential, diverging and qualitative
 colour schemes from ColorBrewer. These are particularly well suited to

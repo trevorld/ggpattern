@@ -21,6 +21,9 @@ scale_pattern_shape_continuous(...)
 \item{solid}{Should the shapes be solid, \code{TRUE}, or hollow,
 \code{FALSE}?}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 \code{scale_pattern_shape} maps discrete variables to six easily discernible shapes.
 If you have more than six levels, you will get a warning message, and the

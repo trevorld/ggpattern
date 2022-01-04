@@ -14,6 +14,7 @@
 #' @param solid Should the shapes be solid, `TRUE`, or hollow,
 #'   `FALSE`?
 #' @param ... other arguments passed to discrete_scale()
+#' @return A [ggplot2::Scale] object.
 #'
 #' @export
 #-----------------------------------------------------------------------------

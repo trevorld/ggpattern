@@ -36,6 +36,7 @@
 #' @param ... Other arguments passed on to [discrete_scale()], [continuous_scale()],
 #'   or [binned_scale()], for `brewer`, `distiller`, and `fermenter` variants
 #'   respectively, to control name, limits, breaks, labels and so forth.
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_brewer <- function(..., type = "seq", palette = 1, direction = 1, aesthetics = "pattern_colour") {

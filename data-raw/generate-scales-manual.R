@@ -11,6 +11,7 @@ template_manual_roxygen_first <- "
 #'
 #' @param ...,values,breaks See \\code{{ggplot2}} for documentation on manual scales.
 #'        e.g. \\code{{ggplot2::scale_colour_manual()}}
+#' @return A [ggplot2::Scale] object.
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

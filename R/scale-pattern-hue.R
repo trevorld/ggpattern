@@ -12,6 +12,7 @@
 #'   example, to apply colour settings to the `colour` and `fill` aesthetics at the
 #'   same time, via `aesthetics = c("colour", "fill")`.
 #' @param h,c,l,h.start,direction,... See \code{ggplot2::scale_colour_hue}
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.start = 0,

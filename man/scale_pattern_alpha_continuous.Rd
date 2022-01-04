@@ -19,6 +19,9 @@ breaks, labels and so forth.}
 
 \item{range}{Output range of alpha values. Must lie between 0 and 1.}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 See \code{ggplot2::scale_alpha()} for details.
 }

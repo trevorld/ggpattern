@@ -35,6 +35,9 @@ scale_pattern_fill2_grey(
 \item{..., start, end, na.value, aesthetics}{See
 \code{ggplot2::scale_colour_grey} for more information}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 Based on \code{\link[=gray.colors]{gray.colors()}}. This is black and white equivalent
 of \code{\link[=scale_pattern_colour_gradient]{scale_pattern_colour_gradient()}}.

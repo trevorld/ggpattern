@@ -89,6 +89,9 @@ scale_pattern_rot_identity(..., guide = "none")
 \item{..., guide}{See \code{ggplot2} for documentation on identity scales.
 e.g. \code{ggplot2::scale_alpha_identity()}}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 Use values without scaling
 }

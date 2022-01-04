@@ -13,6 +13,7 @@
 #' @param name,breaks,labels,limits,range,trans,guide,... See
 #'        \code{{ggplot2}} documentation for more information on scales.
 #'
+#' @return A [ggplot2::Scale] object.
 #' @name scale_continuous
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NULL
@@ -25,6 +26,7 @@ NULL
 #' @param name,breaks,labels,limits,trans,guide,... See
 #'        \code{{ggplot2}} documentation for more information on scales.
 #'
+#' @return A [ggplot2::Scale] object.
 #' @name scale_discrete
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NULL
@@ -1026,6 +1028,7 @@ scale_pattern_rot_discrete <- function(..., range = c(0, 360)) {
 #'
 #' @param ...,values,breaks See \code{ggplot2} for documentation on manual scales.
 #'        e.g. \code{ggplot2::scale_colour_manual()}
+#' @return A [ggplot2::Scale] object.
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1247,6 +1250,7 @@ scale_pattern_rot_manual <- function(..., values, breaks = waiver()) {
 #' @param ...,guide See \code{ggplot2} for documentation on identity scales.
 #'        e.g. \code{ggplot2::scale_alpha_identity()}
 #'
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_identity <- function(..., guide = 'none') {

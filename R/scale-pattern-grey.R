@@ -7,6 +7,7 @@
 #'
 #' @param ...,start,end,na.value,aesthetics See
 #'        \code{ggplot2::scale_colour_grey} for more information
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_grey <- function(..., start = 0.2, end = 0.8, na.value = "red", aesthetics = "pattern_colour") {

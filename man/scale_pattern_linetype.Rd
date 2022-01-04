@@ -17,6 +17,9 @@ scale_pattern_linetype_discrete(..., na.value = "blank")
 
 \item{na.value}{The linetype to use for \code{NA} values.}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+}
 \description{
 Default line types based on a set supplied by Richard Pearson,
 University of Manchester. Continuous values can not be mapped to

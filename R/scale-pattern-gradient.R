@@ -12,6 +12,7 @@
 #' @param low,high Colours for low and high ends of the gradient.
 #' @param guide Type of legend. Use `"colourbar"` for continuous
 #'   colour bar, or `"legend"` for discrete colour legend.
+#' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
