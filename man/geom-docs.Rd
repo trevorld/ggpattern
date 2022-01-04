@@ -395,6 +395,9 @@ to the range of the data. If \code{FALSE}, don't trim the tails.}
 the tails). If "count", areas are scaled proportionally to the number of
 observations. If "width", all violins have the same maximum width.}
 }
+\value{
+A \link[ggplot2:ggplot2-ggproto]{ggplot2::Geom} object.
+}
 \description{
 All geoms in this package are identical to their counterparts in ggplot2 except
 that they can be filled with patterns.

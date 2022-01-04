@@ -32,6 +32,7 @@
 #' @inheritParams ggplot2::geom_ribbon
 #' @inheritParams ggplot2::geom_violin
 #' @rdname geom-docs
+#' @return A [ggplot2::Geom] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_bar_pattern <- function(mapping = NULL, data = NULL,
