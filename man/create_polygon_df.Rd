@@ -20,3 +20,8 @@ within each id are the same.  i.e. they may have to manulaly set a final
 point equal to the initial point if that is what their graphics system
 desires
 }
+\examples{
+  df <- create_polygon_df(x = c(0, 0, 1, 1), y = c(0, 1, 1, 0))
+  is_polygon_df(df)
+
+}

@@ -15,3 +15,7 @@ TRUE if object is polygon_df or NULL
 \description{
 Test if object is polygon_df or NULL
 }
+\examples{
+  df <- create_polygon_df(x = c(0, 0, 1, 1), y = c(0, 1, 1, 0))
+  is_polygon_df(df)
+}

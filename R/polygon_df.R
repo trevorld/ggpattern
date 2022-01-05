@@ -10,6 +10,9 @@
 #' @param id a numeric vector used to separate locations in x,y into multiple polygons
 #'
 #' @return data.frame with x, y, id columns.
+#' @examples
+#'   df <- create_polygon_df(x = c(0, 0, 1, 1), y = c(0, 1, 1, 0))
+#'   is_polygon_df(df)
 #'
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,6 +30,9 @@ create_polygon_df <- function(x, y, id = 1L) {
 #' @param x object
 #'
 #' @return TRUE if object is polygon_df or NULL
+#' @examples
+#'   df <- create_polygon_df(x = c(0, 0, 1, 1), y = c(0, 1, 1, 0))
+#'   is_polygon_df(df)
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 is_polygon_df <- function(x) {
