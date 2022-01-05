@@ -103,7 +103,7 @@ ggplot(df) +
   theme_bw(18) +
   theme(legend.position = 'none') + 
   labs(
-    title    = "ggpattern::geom_pattern_col()",
+    title    = "ggpattern::geom_col_pattern()",
     subtitle = "pattern = 'stripe'"
   ) +
   coord_fixed(ratio = 1/2)
