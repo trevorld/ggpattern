@@ -36,6 +36,34 @@
 #' @param ... Other arguments passed on to [discrete_scale()], [continuous_scale()],
 #'   or [binned_scale()], for `brewer`, `distiller`, and `fermenter` variants
 #'   respectively, to control name, limits, breaks, labels and so forth.
+#' @examples
+#'   if (require("ggplot2")) {
+#'     df <- data.frame(level = c("a", "b", "c", "d"),
+#'                      outcome = c(2.3, 1.9, 3.2, 1))
+#'     # discrete 'brewer' palette
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = level),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black'
+#'       ) +
+#'       theme_bw(18) +
+#'       scale_pattern_fill_brewer()
+#'     plot(gg)
+#'
+#'     # continuous 'distiller' palette
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = outcome),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black'
+#'       ) +
+#'       theme_bw(18) +
+#'       scale_pattern_fill_distiller()
+#'     plot(gg)
+#'   }
 #' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,7 +91,7 @@ scale_pattern_fill2_brewer <- function(..., type = "seq", palette = 1, direction
 #' @export
 #' @rdname scale_pattern_colour_brewer
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_colour_distiller <- function(..., type = "seq", palette = 1, direction = -1, values = NULL, space = "Lab", na.value = "grey50", guide = "colourbar", aesthetics = "pattern_colour") {
+scale_pattern_colour_distiller <- function(..., type = "seq", palette = 1, direction = -1, values = NULL, space = "Lab", na.value = "grey50", guide = guide_colourbar(available_aes = "pattern_colour"), aesthetics = "pattern_colour") {
   # warn about using a qualitative brewer palette to generate the gradient
   type <- match.arg(type, c("seq", "div", "qual"))
   if (type == "qual") {
@@ -79,7 +107,7 @@ scale_pattern_colour_distiller <- function(..., type = "seq", palette = 1, direc
 #' @export
 #' @rdname scale_pattern_colour_brewer
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_fill_distiller <- function(..., type = "seq", palette = 1, direction = -1, values = NULL, space = "Lab", na.value = "grey50", guide = "colourbar", aesthetics = "pattern_fill") {
+scale_pattern_fill_distiller <- function(..., type = "seq", palette = 1, direction = -1, values = NULL, space = "Lab", na.value = "grey50", guide = guide_colourbar(available_aes = "pattern_fill"), aesthetics = "pattern_fill") {
   type <- match.arg(type, c("seq", "div", "qual"))
   if (type == "qual") {
     warn("Using a discrete colour palette in a continuous scale.\n  Consider using type = \"seq\" or type = \"div\" instead")
@@ -92,7 +120,7 @@ scale_pattern_fill_distiller <- function(..., type = "seq", palette = 1, directi
 #' @export
 #' @rdname scale_pattern_colour_brewer
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_fill2_distiller <- function(..., type = "seq", palette = 1, direction = -1, values = NULL, space = "Lab", na.value = "grey50", guide = "colourbar", aesthetics = "pattern_fill2") {
+scale_pattern_fill2_distiller <- function(..., type = "seq", palette = 1, direction = -1, values = NULL, space = "Lab", na.value = "grey50", guide = guide_colourbar(available_aes = "pattern_fill2"), aesthetics = "pattern_fill2") {
   type <- match.arg(type, c("seq", "div", "qual"))
   if (type == "qual") {
     warn("Using a discrete colour palette in a continuous scale.\n  Consider using type = \"seq\" or type = \"div\" instead")

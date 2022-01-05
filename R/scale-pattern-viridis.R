@@ -15,6 +15,34 @@
 #'   name(s) of the aesthetic(s) that this scale works with. This can be useful, for
 #'   example, to apply colour settings to the `colour` and `fill` aesthetics at the
 #'   same time, via `aesthetics = c("colour", "fill")`.
+#' @examples
+#'   if (require("ggplot2")) {
+#'     df <- data.frame(level = c("a", "b", "c", "d"),
+#'                      outcome = c(2.3, 1.9, 3.2, 1))
+#'     # discrete 'viridis' palette
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = level),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black'
+#'       ) +
+#'       theme_bw(18) +
+#'       scale_pattern_fill_viridis_d()
+#'     plot(gg)
+#'
+#'     # continuous 'viridis' palette
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = outcome),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black'
+#'       ) +
+#'       theme_bw(18) +
+#'       scale_pattern_fill_viridis_c()
+#'     plot(gg)
+#'   }
 #' @return A [ggplot2::Scale] object.
 #'
 #' @export
@@ -64,7 +92,8 @@ scale_pattern_fill2_viridis_d <- function(..., alpha = 1, begin = 0, end = 1,
 scale_pattern_colour_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
                                    direction = 1, option = "D", values = NULL,
                                    space = "Lab", na.value = "grey50",
-                                   guide = "colourbar", aesthetics = "pattern_colour") {
+                                   guide = guide_colourbar(available_aes = "pattern_colour"),
+                                   aesthetics = "pattern_colour") {
   continuous_scale(
     aesthetics,
     "viridis_c",
@@ -86,7 +115,8 @@ scale_pattern_colour_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
 scale_pattern_fill_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
                                          direction = 1, option = "D", values = NULL,
                                          space = "Lab", na.value = "grey50",
-                                         guide = "colourbar", aesthetics = "pattern_fill") {
+                                         guide = guide_colourbar(available_aes = "pattern_fill"),
+                                         aesthetics = "pattern_fill") {
   continuous_scale(
     aesthetics,
     "viridis_c",
@@ -108,7 +138,8 @@ scale_pattern_fill_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
 scale_pattern_fill2_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
                                          direction = 1, option = "D", values = NULL,
                                          space = "Lab", na.value = "grey50",
-                                         guide = "colourbar", aesthetics = "pattern_fill2") {
+                                         guide = guide_colourbar(available_aes = "pattern_fill2"),
+                                         aesthetics = "pattern_fill2") {
   continuous_scale(
     aesthetics,
     "viridis_c",

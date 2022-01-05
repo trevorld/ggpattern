@@ -43,7 +43,7 @@ scale_pattern_colour_distiller(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_colour"),
   aesthetics = "pattern_colour"
 )
 
@@ -55,7 +55,7 @@ scale_pattern_fill_distiller(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill"),
   aesthetics = "pattern_fill"
 )
 
@@ -67,7 +67,7 @@ scale_pattern_fill2_distiller(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill2"),
   aesthetics = "pattern_fill2"
 )
 }
@@ -113,3 +113,32 @@ OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu, YlOrBr, YlOrRd}
 Modify the palette through the \code{palette} arguement.
 }
 
+\examples{
+  if (require("ggplot2")) {
+    df <- data.frame(level = c("a", "b", "c", "d"),
+                     outcome = c(2.3, 1.9, 3.2, 1))
+    # discrete 'brewer' palette
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = level),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      scale_pattern_fill_brewer()
+    plot(gg)
+
+    # continuous 'distiller' palette
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = outcome),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      scale_pattern_fill_distiller()
+    plot(gg)
+  }
+}

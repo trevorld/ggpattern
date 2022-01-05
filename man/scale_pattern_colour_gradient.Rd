@@ -21,7 +21,7 @@ scale_pattern_colour_gradient(
   high = "#56B1F7",
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_colour"),
   aesthetics = "pattern_colour"
 )
 
@@ -31,7 +31,7 @@ scale_pattern_fill_gradient(
   high = "#56B1F7",
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill"),
   aesthetics = "pattern_fill"
 )
 
@@ -41,7 +41,7 @@ scale_pattern_fill2_gradient(
   high = "#56B1F7",
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill2"),
   aesthetics = "pattern_fill2"
 )
 
@@ -53,7 +53,7 @@ scale_pattern_colour_gradient2(
   midpoint = 0,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_colour"),
   aesthetics = "pattern_colour"
 )
 
@@ -65,7 +65,7 @@ scale_pattern_fill_gradient2(
   midpoint = 0,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill"),
   aesthetics = "pattern_fill"
 )
 
@@ -77,7 +77,7 @@ scale_pattern_fill2_gradient2(
   midpoint = 0,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill2"),
   aesthetics = "pattern_fill2"
 )
 
@@ -87,7 +87,7 @@ scale_pattern_colour_gradientn(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_colour"),
   aesthetics = "pattern_colour",
   colors
 )
@@ -98,7 +98,7 @@ scale_pattern_fill_gradientn(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill"),
   aesthetics = "pattern_fill",
   colors
 )
@@ -109,7 +109,7 @@ scale_pattern_fill2_gradientn(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill2"),
   aesthetics = "pattern_fill2",
   colors
 )
@@ -144,4 +144,20 @@ See \code{ggplot2::scale_colour_gradient()} for more information
 \verb{scale_*_gradient} creates a two colour gradient (low-high),
 \verb{scale_*_gradient2} creates a diverging colour gradient (low-mid-high),
 \verb{scale_*_gradientn} creates a n-colour gradient.
+}
+\examples{
+  if (require("ggplot2")) {
+    df <- data.frame(level = c("a", "b", "c", "d"),
+                     outcome = c(2.3, 1.9, 3.2, 1))
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = outcome),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      scale_pattern_fill_gradient()
+    plot(gg)
+  }
 }

@@ -42,3 +42,19 @@ A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
 Based on \code{\link[=gray.colors]{gray.colors()}}. This is black and white equivalent
 of \code{\link[=scale_pattern_colour_gradient]{scale_pattern_colour_gradient()}}.
 }
+\examples{
+  if (require("ggplot2")) {
+    df <- data.frame(level = c("a", "b", "c", "d"),
+                     outcome = c(2.3, 1.9, 3.2, 1))
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = level),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      scale_pattern_fill_grey()
+    plot(gg)
+  }
+}

@@ -55,7 +55,7 @@ scale_pattern_colour_viridis_c(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_colour"),
   aesthetics = "pattern_colour"
 )
 
@@ -69,7 +69,7 @@ scale_pattern_fill_viridis_c(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill"),
   aesthetics = "pattern_fill"
 )
 
@@ -83,7 +83,7 @@ scale_pattern_fill2_viridis_c(
   values = NULL,
   space = "Lab",
   na.value = "grey50",
-  guide = "colourbar",
+  guide = guide_colourbar(available_aes = "pattern_fill2"),
   aesthetics = "pattern_fill2"
 )
 }
@@ -107,4 +107,33 @@ The \code{viridis} scales provide colour maps that are perceptually uniform in b
 colour and black-and-white. They are also designed to be perceived by viewers
 with common forms of colour blindness. See also
 \url{https://bids.github.io/colormap/}.
+}
+\examples{
+  if (require("ggplot2")) {
+    df <- data.frame(level = c("a", "b", "c", "d"),
+                     outcome = c(2.3, 1.9, 3.2, 1))
+    # discrete 'viridis' palette
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = level),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      scale_pattern_fill_viridis_d()
+    plot(gg)
+
+    # continuous 'viridis' palette
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = outcome),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      scale_pattern_fill_viridis_c()
+    plot(gg)
+  }
 }

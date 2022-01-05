@@ -3,6 +3,8 @@
 ## Bug fixes and minor improvements
 
 * `geom_sf_pattern()` manually clips patterns to the viewport (#60).
+* Continuous "pattern_colour", "pattern_fill", and "pattern_fill2" color scales'
+  default "colourbar" guide support should now work.
 
 # ggpattern 0.3.1
 

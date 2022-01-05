@@ -12,6 +12,21 @@
 #'   example, to apply colour settings to the `colour` and `fill` aesthetics at the
 #'   same time, via `aesthetics = c("colour", "fill")`.
 #' @param h,c,l,h.start,direction,... See \code{ggplot2::scale_colour_hue}
+#' @examples
+#'   if (require("ggplot2")) {
+#'     df <- data.frame(level = c("a", "b", "c", "d"),
+#'                      outcome = c(2.3, 1.9, 3.2, 1))
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = level),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black'
+#'       ) +
+#'       theme_bw(18) +
+#'       scale_pattern_fill_hue()
+#'     plot(gg)
+#'   }
 #' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

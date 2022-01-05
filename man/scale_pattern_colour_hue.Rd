@@ -62,3 +62,19 @@ This is the default colour scale for categorical variables. It maps each
 level to an evenly spaced hue on the colour wheel. It does not generate
 colour-blind safe palettes.
 }
+\examples{
+  if (require("ggplot2")) {
+    df <- data.frame(level = c("a", "b", "c", "d"),
+                     outcome = c(2.3, 1.9, 3.2, 1))
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = level),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      scale_pattern_fill_hue()
+    plot(gg)
+  }
+}

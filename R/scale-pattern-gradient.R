@@ -12,11 +12,28 @@
 #' @param low,high Colours for low and high ends of the gradient.
 #' @param guide Type of legend. Use `"colourbar"` for continuous
 #'   colour bar, or `"legend"` for discrete colour legend.
+#' @examples
+#'   if (require("ggplot2")) {
+#'     df <- data.frame(level = c("a", "b", "c", "d"),
+#'                      outcome = c(2.3, 1.9, 3.2, 1))
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = outcome),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black'
+#'       ) +
+#'       theme_bw(18) +
+#'       scale_pattern_fill_gradient()
+#'     plot(gg)
+#'   }
 #' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
-                                  na.value = "grey50", guide = "colourbar", aesthetics = "pattern_colour") {
+                                  na.value = "grey50",
+                                  guide = guide_colourbar(available_aes = "pattern_colour"),
+                                  aesthetics = "pattern_colour") {
   continuous_scale(aesthetics, "gradient", seq_gradient_pal(low, high, space),
     na.value = na.value, guide = guide, ...)
 }
@@ -26,7 +43,9 @@ scale_pattern_colour_gradient <- function(..., low = "#132B43", high = "#56B1F7"
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
-                                        na.value = "grey50", guide = "colourbar", aesthetics = "pattern_fill") {
+                                        na.value = "grey50",
+                                        guide = guide_colourbar(available_aes = "pattern_fill"),
+                                        aesthetics = "pattern_fill") {
   continuous_scale(aesthetics, "gradient", seq_gradient_pal(low, high, space),
                    na.value = na.value, guide = guide, ...)
 }
@@ -36,7 +55,9 @@ scale_pattern_fill_gradient <- function(..., low = "#132B43", high = "#56B1F7", 
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill2_gradient <- function(..., low = "#132B43", high = "#56B1F7", space = "Lab",
-                                        na.value = "grey50", guide = "colourbar", aesthetics = "pattern_fill2") {
+                                        na.value = "grey50",
+                                        guide = guide_colourbar(available_aes = "pattern_fill2"),
+                                        aesthetics = "pattern_fill2") {
   continuous_scale(aesthetics, "gradient", seq_gradient_pal(low, high, space),
                    na.value = na.value, guide = guide, ...)
 }
@@ -49,7 +70,8 @@ scale_pattern_fill2_gradient <- function(..., low = "#132B43", high = "#56B1F7",
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_gradient2 <- function(..., low = muted("red"), mid = "white", high = muted("blue"),
-                                   midpoint = 0, space = "Lab", na.value = "grey50", guide = "colourbar",
+                                   midpoint = 0, space = "Lab", na.value = "grey50",
+                                   guide = guide_colourbar(available_aes = "pattern_colour"),
                                    aesthetics = "pattern_colour") {
   continuous_scale(aesthetics, "gradient2",
     div_gradient_pal(low, mid, high, space), na.value = na.value, guide = guide, ...,
@@ -61,7 +83,8 @@ scale_pattern_colour_gradient2 <- function(..., low = muted("red"), mid = "white
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill_gradient2 <- function(..., low = muted("red"), mid = "white", high = muted("blue"),
-                                         midpoint = 0, space = "Lab", na.value = "grey50", guide = "colourbar",
+                                         midpoint = 0, space = "Lab", na.value = "grey50",
+                                         guide = guide_colourbar(available_aes = "pattern_fill"),
                                          aesthetics = "pattern_fill") {
   continuous_scale(aesthetics, "gradient2",
                    div_gradient_pal(low, mid, high, space), na.value = na.value, guide = guide, ...,
@@ -73,7 +96,8 @@ scale_pattern_fill_gradient2 <- function(..., low = muted("red"), mid = "white",
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill2_gradient2 <- function(..., low = muted("red"), mid = "white", high = muted("blue"),
-                                         midpoint = 0, space = "Lab", na.value = "grey50", guide = "colourbar",
+                                         midpoint = 0, space = "Lab", na.value = "grey50",
+                                         guide = guide_colourbar(available_aes = "pattern_fill2"),
                                          aesthetics = "pattern_fill2") {
   continuous_scale(aesthetics, "gradient2",
                    div_gradient_pal(low, mid, high, space), na.value = na.value, guide = guide, ...,
@@ -96,7 +120,8 @@ mid_rescaler <- function(mid) {
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_gradientn <- function(..., colours, values = NULL, space = "Lab", na.value = "grey50",
-                                   guide = "colourbar", aesthetics = "pattern_colour", colors) {
+                                   guide = guide_colourbar(available_aes = "pattern_colour"),
+                                   aesthetics = "pattern_colour", colors) {
   colours <- if (missing(colours)) colors else colours
 
   continuous_scale(aesthetics, "gradientn",
@@ -108,7 +133,8 @@ scale_pattern_colour_gradientn <- function(..., colours, values = NULL, space = 
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill_gradientn <- function(..., colours, values = NULL, space = "Lab", na.value = "grey50",
-                                         guide = "colourbar", aesthetics = "pattern_fill", colors) {
+                                         guide = guide_colourbar(available_aes = "pattern_fill"),
+                                         aesthetics = "pattern_fill", colors) {
   colours <- if (missing(colours)) colors else colours
 
   continuous_scale(aesthetics, "gradientn",
@@ -120,7 +146,8 @@ scale_pattern_fill_gradientn <- function(..., colours, values = NULL, space = "L
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill2_gradientn <- function(..., colours, values = NULL, space = "Lab", na.value = "grey50",
-                                         guide = "colourbar", aesthetics = "pattern_fill2", colors) {
+                                         guide = guide_colourbar(available_aes = "pattern_fill2"),
+                                         aesthetics = "pattern_fill2", colors) {
   colours <- if (missing(colours)) colors else colours
 
   continuous_scale(aesthetics, "gradientn",
