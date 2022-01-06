@@ -35,3 +35,25 @@ as shape has no inherent order, this use is not advised..
 \details{
 Scales for area or radius
 }
+\examples{
+  if (require("ggplot2")) {
+    # 'pch' pattern example
+    gg <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
+      geom_violin_pattern(aes(fill = as.factor(cyl),
+                              pattern_shape = as.factor(cyl)),
+        pattern = 'pch',
+        pattern_density = 0.3,
+        pattern_angle = 0,
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      theme(legend.position = 'none') +
+      scale_pattern_shape() +
+      labs(
+        title    = "ggpattern::geom_violin_pattern()",
+        subtitle = "pattern = 'pch'"
+      )
+    plot(gg)
+  }
+
+}
