@@ -25,3 +25,27 @@ Default line types based on a set supplied by Richard Pearson,
 University of Manchester. Continuous values can not be mapped to
 line types.
 }
+\examples{
+  if (require("ggplot2")) {
+    # 'stripe' pattern example
+    df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = level, pattern_linetype = level),
+        pattern_density = 0.6,
+        pattern_size = 1.5,
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black',
+        size = 1.5
+      ) +
+      theme_bw(18) +
+      theme(legend.position = 'none') +
+      scale_pattern_linetype() +
+      labs(
+        title    = "ggpattern::geom_col_pattern()",
+        subtitle = "pattern = 'stripe'"
+      )
+    plot(gg)
+  }
+}
