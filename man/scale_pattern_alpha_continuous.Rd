@@ -2,11 +2,14 @@
 % Please edit documentation in R/scale-pattern-alpha.R
 \name{scale_pattern_alpha_continuous}
 \alias{scale_pattern_alpha_continuous}
+\alias{scale_pattern_alpha}
 \alias{scale_pattern_alpha_discrete}
 \alias{scale_pattern_alpha_ordinal}
 \title{Alpha transparency scales}
 \usage{
 scale_pattern_alpha_continuous(..., range = c(0.1, 1))
+
+scale_pattern_alpha(..., range = c(0.1, 1))
 
 scale_pattern_alpha_discrete(...)
 
@@ -17,7 +20,29 @@ scale_pattern_alpha_ordinal(..., range = c(0.1, 1))
 or \code{\link[=discrete_scale]{discrete_scale()}} as appropriate, to control name, limits,
 breaks, labels and so forth.}
 
-\item{range}{Output range of alpha values. Must lie between 0 and 1.}
+\item{range}{Output range of alpha values. Must lie between 0 and 1.
+if (require("ggplot2")) {
+# 'stripe' pattern example
+df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
+gg <- ggplot(df) +
+geom_col_pattern(
+aes(level, outcome, pattern_fill = level, pattern_alpha = outcome),
+pattern_density = 0.6,
+pattern_size = 1.5,
+pattern = 'stripe',
+fill    = 'white',
+colour  = 'black',
+size = 1.5
+) +
+theme_bw(18) +
+theme(legend.position = 'none') +
+scale_pattern_alpha() +
+labs(
+title    = "ggpattern::geom_col_pattern()",
+subtitle = "pattern = 'stripe'"
+)
+plot(gg)
+}}
 }
 \value{
 A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.

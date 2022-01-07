@@ -7,6 +7,8 @@
   default "colourbar" guide support should now work.
 * `scale_pattern_size_continuous()` now uses "pattern_size" aesthetic 
   instead of "size" aesthetic in underlying `ggplot2::continuous_scale()` call.
+* We now export `scale_pattern_alpha()` which is an alias of
+  `scale_pattern_alpha_continuous()`.
 
 # ggpattern 0.3.1
 
