@@ -32,3 +32,25 @@ to be displayed in a legend. These functions are called \verb{draw_key_*()}, whe
 customized for individual geoms by providing a geom with the \code{key_glyph}
 argument (see \code{\link[=layer]{layer()}} or examples below.)
 }
+\examples{
+  if (require("ggplot2")) {
+
+    # 'stripe' pattern example
+    df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = level),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black',
+        key_glyph = draw_key_polygon_pattern
+      ) +
+      theme_bw(18) +
+      theme(legend.position = 'none') +
+      labs(
+        title    = "ggpattern::geom_col_pattern()",
+        subtitle = "pattern = 'stripe'"
+      )
+    plot(gg)
+  }
+}

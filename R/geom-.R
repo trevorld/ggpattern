@@ -190,6 +190,27 @@ create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_d
 #' @param aspect_ratio the geom's best guess at what the aspect ratio might be.
 #'
 #' @return A grid grob.
+#' @examples
+#'   if (require("ggplot2")) {
+#'
+#'     # 'stripe' pattern example
+#'     df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = level),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black',
+#'         key_glyph = draw_key_polygon_pattern
+#'       ) +
+#'       theme_bw(18) +
+#'       theme(legend.position = 'none') +
+#'       labs(
+#'         title    = "ggpattern::geom_col_pattern()",
+#'         subtitle = "pattern = 'stripe'"
+#'       )
+#'     plot(gg)
+#'   }
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = 1) {
