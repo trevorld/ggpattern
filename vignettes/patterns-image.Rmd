@@ -1,8 +1,8 @@
 ---
-title: "Pattern Image - Parameters and Examples"
+title: "Patterns 'image' and 'placeholder' - Parameters and Examples"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Pattern Image - Parameters and Examples}
+  %\VignetteIndexEntry{Patterns 'image' and 'placeholder' - Parameters and Examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -24,9 +24,7 @@ suppressPackageStartupMessages({
 })
 ```
 
-
-The `image` pattern - filling a geom with an image from file or URL
-------------------------------------------------------------------------------
+## The `image` pattern - filling a geom with an image from file or URL
 
 This pattern will load an image from a file or URL  (`pattern_filename`)
 and display it within the geom.
@@ -40,8 +38,7 @@ After expanding to cover the area, the image is then clipped to the boundary of 
 The files/URLs are loaded with `magick::image_read` which means that transparent
 images and SVGs are supported.
 
-`image` options
-------------------------------------------------------------------------------
+### `image` options
 
 | Aesthetic                  | Description                        | Default   |
 |----------------------------|------------------------------------|-----------|
@@ -62,13 +59,10 @@ images and SVGs are supported.
 | none           | position a single image in the region without attempting to scale to the bounding box size                                      | Yes             | Yes                         |
 | tile           | repeat the image to cover the bounding box.                                                                                     | Yes             |                             |
 
-
 Note: not all combinations of aesthetics are useful e.g. if `pattern_type = 'fit'` is specified, then
 `pattern_scale` has no effect.
 
-
-Example Data
-------------------------------------------------------------------------------
+### Example Data
 
 These examples use some of the built-in images in the `ggpattern` package.
 
@@ -102,18 +96,15 @@ df1 <- data.frame(
 knitr::kable(df1, caption = "Example Data")
 ```
 
-
-
-
-Example: `pattern = 'image'` - No Attempt at filling the area (`pattern_type = 'none'`)
-------------------------------------------------------------------------------
+### Example: `pattern = 'image'` - No Attempt at filling the area (`pattern_type = 'none'`)
 
 If `pattern_type = 'none'` then no attempt is made at snugly filling the area.
 Instead a single copy of the image is scaled (`pattern_scale`) and 
 placed (`pattern_gravity`) in the geom area.
 
-
 ```{r}
+if (require("magick")) {
+
 ggplot(df1, aes(trt, outcome)) +
   geom_col_pattern(
     aes(
@@ -133,11 +124,11 @@ ggplot(df1, aes(trt, outcome)) +
   ) +
   theme(legend.key.size = unit(1.5, 'cm')) +
   coord_fixed(ratio = 1/2)
+
+}
 ```
 
-
-Example: `pattern = 'image'` - Covering the area (`pattern_type = 'fit', 'squish', 'expand'`)
-------------------------------------------------------------------------------
+### Example: `pattern = 'image'` - Covering the area (`pattern_type = 'fit', 'squish', 'expand'`)
 
 In the plot below, 3 different methods are used to cover the area of the geom. From 
 left-to-right:
@@ -150,6 +141,8 @@ left-to-right:
   to the left side of the geom.
 
 ```{r}
+if (require("magick")) {
+
 ggplot(df1, aes(trt, outcome)) +
   geom_col_pattern(
     aes(
@@ -170,12 +163,11 @@ ggplot(df1, aes(trt, outcome)) +
   # theme(legend.key.size = unit(1.5, 'cm')) +
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1/2)
+
+}
 ```
 
-
-
-Example: `pattern = 'image'` - Tiling (`pattern_type = 'tile'`)
-------------------------------------------------------------------------------
+### Example: `pattern = 'image'` - Tiling (`pattern_type = 'tile'`)
 
 When tiled, the image is replicated in order to cover the entire area of the geom.
 In this example, `pattern_scale` is also applied to the image so that it appears at
@@ -183,6 +175,8 @@ different sizes.
 
 
 ```{r}
+if (require("magick")) {
+
 ggplot(df1, aes(trt, outcome)) +
   geom_col_pattern(
     aes(
@@ -203,17 +197,17 @@ ggplot(df1, aes(trt, outcome)) +
   # theme(legend.key.size = unit(1.5, 'cm')) +
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1/2)
+
+}
 ```
 
-
-
-
-Example: `pattern = 'image'` - Tiling with seamless patterns
-------------------------------------------------------------------------------
+### Example: `pattern = 'image'` - Tiling with seamless patterns
 
 By choosing a seamlessly tiling image, then a tiled fill will not have visible discontinuities.
 
 ```{r}
+if (require("magick")) {
+
 ggplot(mtcars) +
   geom_density_pattern(
     aes(
@@ -231,14 +225,15 @@ ggplot(mtcars) +
   ) +
   scale_pattern_filename_manual(values = c(`4` = seamless1, `6` = seamless2, `8` = seamless3)) +
   coord_fixed(ratio = 80)
+
+}
 ```
 
-
-
-Example: `pattern = 'image'` - Tiling with seamless patterns (with scaling)
-------------------------------------------------------------------------------
+### Example: `pattern = 'image'` - Tiling with seamless patterns (with scaling)
 
 ```{r}
+if (require("magick")) {
+
 ggplot(mtcars) +
   geom_density_pattern(
     aes(
@@ -257,12 +252,11 @@ ggplot(mtcars) +
   ) +
   scale_pattern_filename_manual(values = c(`4` = seamless1, `6` = seamless2, `8` = seamless3)) +
   coord_fixed(ratio = 80)
+
+}
 ```
 
-
-
-Example: `pattern = 'image'` - Tiling with fit to width (of element bounding box)
-------------------------------------------------------------------------------
+### Example: `pattern = 'image'` - Tiling with fit to width (of element bounding box)
 
 In a common case, the image to be tiled should be first scaled to
 the width of the bar to be tiled and then tiling appears like a vertical stacking.
@@ -272,6 +266,8 @@ Specify `pattern_scale = -1` to fit the width of the geom, and `pattern_scale = 
 fit the height of the geom.
 
 ```{r}
+if (require("magick")) {
+
 ggplot(df1, aes(trt, outcome)) +
   geom_col_pattern(
     aes(
@@ -291,5 +287,172 @@ ggplot(df1, aes(trt, outcome)) +
   ) +
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1)
+
+}
 ```
 
+## `placeholder` - Filling with an image placeholder
+
+Array-based patterns allow the user to specify an RGBA that should be displayed 
+in the geom.
+
+Getting the correct sized image such that it takes up the full space without 
+being distorted can be a time-consuming task.
+
+The **placeholder** pattern takes out this drudgery by fetching exactly the correct
+sized image to fit the space.  These images come from image placeholder sites
+which are most often used by web-developers as a stand-in for a final image 
+while they are developing a new site.
+
+
+### `placeholder` options
+
+| Aesthetic                  | Description                        | Default   |
+|----------------------------|------------------------------------|-----------|
+| `pattern_type`             | Image source                       | 'kitten'  |
+| `pattern_alpha`            | Alpha                              | NA        |
+| `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
+| `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
+
+### `placeholder` option `pattern_type`
+
+The following is a list of all the `pattern_type` values which are valid. If
+unspecified or unknown, then `ggpattern` will use `pattern_type = 'kitten'`.
+
+If you would like only greyscale images, append `bw` to the name, e.g. to 
+display only black and white kittens use `pattern_type = 'kittenbw'`.
+
+Click the link to see an example of each placeholder generator
+
+* 'kitten'         - [kitten](https://placekitten.com/400/300)
+* 'picsum'         - [random picture from picsum](https://picsum.photos/400/300)
+* 'murray'         - [bill murray](http://www.fillmurray.com/400/300)
+* 'cage'           - [nicholas cage](https://www.placecage.com/400/300)
+* 'bear'           - [bears](https://placebear.com/400/300)
+* 'seagal'         - [steven seagal](https://www.stevensegallery.com/400/300)
+* 'placeholder'    - [placeholder.com](https://via.placeholder.com/400x300.png)
+* 'dummy'          - [image showing dimensions](https://dummyimage.com/400x300)
+* 'flickr'         - [random picture from flickr](https://loremflickr.com/400/300)
+* 'beard'          - [beards](http://placebeard.it/400/300)
+* 'lorempixel'     - [lorempixel](http://lorempixel.com/400/300/)
+* 'placeimg'       - [random pic from placeimg.com](http://placeimg.com/400/300/any)
+* 'keanu'          - [Keanu](https://placekeanu.com/400/300)
+
+All placeholder names are available in `gridpattern::names_placeholder`.
+
+### Example Data
+
+```{r}
+df1 <- data.frame(
+  trt     = c("a", "b", "c"), 
+  outcome = c(2.3, 1.9, 3.2),
+  stringsAsFactors = FALSE
+)
+```
+
+### Example: `pattern = 'placeholder'` - `pattern_type = 'bear'` 
+
+```{r}
+if (require("magick")) { 
+try({
+
+ggplot(df1, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt), 
+    pattern      = 'placeholder', 
+    pattern_type = 'bear',
+    colour       = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='bear'"
+  ) +
+  theme(legend.position = 'none') +
+  coord_fixed(ratio = 1/2)
+
+})
+}
+```
+
+### Example: `pattern = 'placeholder'` - `pattern_type = 'picsum'`  
+
+```{r}
+if (require("magick")) {
+try({
+
+ggplot(mtcars) +
+  geom_density_pattern(
+    aes(x = mpg, group = as.factor(cyl)),
+    pattern      = 'placeholder',
+    pattern_type = 'picsum'
+  ) +
+  theme_bw(15) +
+  theme(legend.position = 'none') +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='picsum'"
+  ) +
+  coord_fixed(ratio = 80)
+
+})
+}
+```
+
+### Example: `pattern = 'placeholder'` - `pattern_type = 'dummy'` 
+
+```{r}
+if (require("magick")) {
+try({
+
+ggplot(df1, aes(trt, outcome)) +
+  geom_col_pattern(
+    aes(fill = trt), 
+    pattern       = 'placeholder', 
+    pattern_type  = 'dummy',
+    colour        = 'black'
+  ) +
+  theme_bw(15) +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='dummy'"
+  ) +
+  theme(legend.position = 'none') +
+  coord_fixed(ratio = 1/2)
+
+})
+}
+```
+
+### Example: `pattern = 'placeholder'` - `pattern_type = 'kitten'` 
+
+```{r}
+if (require("magick")) {
+try({
+
+df2 <- data.frame(
+  group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
+  value = c(10, 20, 30, 40)
+)
+
+ggplot(df2, aes(x="", y = value, pattern_angle = group))+
+  geom_bar_pattern(
+    pattern      = 'placeholder',
+    pattern_type = 'kitten',
+    pattern_aspect_ratio = 1,
+    width        = 1,
+    stat         = "identity",
+    colour       = 'white',
+    size         = 2
+  ) +
+  coord_polar("y", start=0) +
+  theme_void(15) +
+  theme(legend.position = 'none') +
+  labs(
+    title    = "ggpattern::geom_col_pattern()",
+    subtitle = "pattern='placeholder', pattern_type='kitten'"
+  ) 
+
+})
+}
+```
