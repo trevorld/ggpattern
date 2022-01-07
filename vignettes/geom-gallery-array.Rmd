@@ -37,6 +37,9 @@ suppressPackageStartupMessages({
 ## `geom_bar_pattern()`
 
 ```{r}
+if (require("magick")) {
+try({
+
 p <- ggplot(mpg, aes(class)) +
   geom_bar_pattern(
     aes(
@@ -58,6 +61,9 @@ p <- ggplot(mpg, aes(class)) +
   scale_pattern_discrete(guide = guide_legend(nrow = 1))
 
 p
+
+})
+}
 ```
 
 
@@ -279,6 +285,9 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_col_pattern()`
 
 ```{r}
+if (require("magick")) {
+try({
+
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 
 p <- ggplot(df, aes(trt, outcome)) +
@@ -296,6 +305,9 @@ p <- ggplot(df, aes(trt, outcome)) +
   coord_fixed(ratio = 1/2)
 
 p
+
+})
+}
 ```
 
 
@@ -555,6 +567,9 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_sf_pattern()`
 
 ```{r}
+if (require("magick")) {
+try({
+
 nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
 nc <- nc %>% filter(between(CNTY_ID, 1820, 1830))
 
@@ -579,6 +594,9 @@ p <- ggplot(nc) +
   ) 
 
 p
+
+})
+}
 ```
 
 
