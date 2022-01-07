@@ -5,6 +5,8 @@
 * `geom_sf_pattern()` manually clips patterns to the viewport (#60).
 * Continuous "pattern_colour", "pattern_fill", and "pattern_fill2" color scales'
   default "colourbar" guide support should now work.
+* `scale_pattern_size_continuous()` now uses "pattern_size" aesthetic 
+  instead of "size" aesthetic in underlying `ggplot2::continuous_scale()` call.
 
 # ggpattern 0.3.1
 
