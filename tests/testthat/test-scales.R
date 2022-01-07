@@ -49,11 +49,4 @@ test_that("scales work as expected", {
             scale_pattern_linetype() +
             scale_pattern_shape()
     })
-
-    expect_doppelganger("size", {
-        gg + geom_col_pattern(aes(pattern_size=trt, pattern_colour=trt),
-                              fill=NA, pattern='circle', pattern_density=0.5) +
-            scale_pattern_colour_brewer() +
-            scale_pattern_size()
-    })
 })
