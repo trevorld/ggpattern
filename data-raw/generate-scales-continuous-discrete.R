@@ -11,6 +11,29 @@ template_cont_roxygen_first <- "
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.
+#' @examples
+#'   if (require('ggplot2')) {
+#'
+#'     # 'stripe' pattern example
+#'     df <- data.frame(level = c('a', 'b', 'c', 'd'),
+#'                      outcome = c(2.3, 1.9, 3.2, 1))
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = level,
+#'             pattern_density = outcome),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black'
+#'       ) +
+#'       theme_bw(18) +
+#'       theme(legend.position = 'none') +
+#'       scale_pattern_density_continuous(range = c(0.1, 0.6)) +
+#'       labs(
+#'         title    = 'ggpattern::geom_col_pattern()',
+#'         subtitle = 'pattern = \\\'stripe\\\''
+#'       )
+#'     plot(gg)
+#'   }
 #' @name scale_continuous
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NULL
@@ -48,9 +71,7 @@ scale_{aes_name}_continuous <- function(name   = waiver(),
   )
 }}
 
-
 "
-
 
 template_discrete_var_cont_aes <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,7 +94,6 @@ scale_{aes_name}_discrete <- function(..., range = {scale_default}) {{
   )
 }}
 
-
 "
 
 template_discrete_roxygen_first <- "
@@ -85,12 +105,31 @@ template_discrete_roxygen_first <- "
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.
+#' @examples
+#'   if (require('ggplot2')) {
+#'     gg <- ggplot(mtcars) +
+#'        geom_density_pattern(
+#'          aes(
+#'            x            = mpg,
+#'            pattern_fill = as.factor(cyl),
+#'            pattern_type = as.factor(cyl)
+#'          ),
+#'          pattern = 'polygon_tiling',
+#'          pattern_key_scale_factor = 1.2
+#'        ) +
+#'        scale_pattern_type_discrete(choices = gridpattern::names_polygon_tiling) +
+#'        theme_bw(18) +
+#'        theme(legend.key.size = unit(2, 'cm')) +
+#'        labs(
+#'          title    = 'ggpattern::geom_density_pattern()',
+#'          subtitle = 'pattern = \\\'polygon_tiling\\\''
+#'        )
+#'     plot(gg)
+#'   }
 #' @name scale_discrete
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NULL
-
 "
-
 
 template_cont_var_discrete_aes <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

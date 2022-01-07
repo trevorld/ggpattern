@@ -150,3 +150,25 @@ A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
 \description{
 Scales for discrete pattern aesthetics
 }
+\examples{
+  if (require('ggplot2')) {
+    gg <- ggplot(mtcars) +
+       geom_density_pattern(
+         aes(
+           x            = mpg,
+           pattern_fill = as.factor(cyl),
+           pattern_type = as.factor(cyl)
+         ),
+         pattern = 'polygon_tiling',
+         pattern_key_scale_factor = 1.2
+       ) +
+       scale_pattern_type_discrete(choices = gridpattern::names_polygon_tiling) +
+       theme_bw(18) +
+       theme(legend.key.size = unit(2, 'cm')) +
+       labs(
+         title    = 'ggpattern::geom_density_pattern()',
+         subtitle = 'pattern = \'polygon_tiling\''
+       )
+    plot(gg)
+  }
+}

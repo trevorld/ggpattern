@@ -182,3 +182,27 @@ A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
 \description{
 Scales for continuous pattern aesthetics
 }
+\examples{
+  if (require('ggplot2')) {
+
+    # 'stripe' pattern example
+    df <- data.frame(level = c('a', 'b', 'c', 'd'),
+                     outcome = c(2.3, 1.9, 3.2, 1))
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = level,
+            pattern_density = outcome),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      theme(legend.position = 'none') +
+      scale_pattern_density_continuous(range = c(0.1, 0.6)) +
+      labs(
+        title    = 'ggpattern::geom_col_pattern()',
+        subtitle = 'pattern = \'stripe\''
+      )
+    plot(gg)
+  }
+}

@@ -14,6 +14,29 @@
 #'        \code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.
+#' @examples
+#'   if (require('ggplot2')) {
+#'
+#'     # 'stripe' pattern example
+#'     df <- data.frame(level = c('a', 'b', 'c', 'd'),
+#'                      outcome = c(2.3, 1.9, 3.2, 1))
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(level, outcome, pattern_fill = level,
+#'             pattern_density = outcome),
+#'         pattern = 'stripe',
+#'         fill    = 'white',
+#'         colour  = 'black'
+#'       ) +
+#'       theme_bw(18) +
+#'       theme(legend.position = 'none') +
+#'       scale_pattern_density_continuous(range = c(0.1, 0.6)) +
+#'       labs(
+#'         title    = 'ggpattern::geom_col_pattern()',
+#'         subtitle = 'pattern = \'stripe\''
+#'       )
+#'     plot(gg)
+#'   }
 #' @name scale_continuous
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NULL
@@ -27,10 +50,30 @@ NULL
 #'        \code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.
+#' @examples
+#'   if (require('ggplot2')) {
+#'     gg <- ggplot(mtcars) +
+#'        geom_density_pattern(
+#'          aes(
+#'            x            = mpg,
+#'            pattern_fill = as.factor(cyl),
+#'            pattern_type = as.factor(cyl)
+#'          ),
+#'          pattern = 'polygon_tiling',
+#'          pattern_key_scale_factor = 1.2
+#'        ) +
+#'        scale_pattern_type_discrete(choices = gridpattern::names_polygon_tiling) +
+#'        theme_bw(18) +
+#'        theme(legend.key.size = unit(2, 'cm')) +
+#'        labs(
+#'          title    = 'ggpattern::geom_density_pattern()',
+#'          subtitle = 'pattern = \'polygon_tiling\''
+#'        )
+#'     plot(gg)
+#'   }
 #' @name scale_discrete
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NULL
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
 #' @export
@@ -207,7 +250,6 @@ scale_pattern_angle_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -227,7 +269,6 @@ scale_pattern_angle_discrete <- function(..., range = c(0, 90)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -257,7 +298,6 @@ scale_pattern_density_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -277,7 +317,6 @@ scale_pattern_density_discrete <- function(..., range = c(0, 0.5)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -307,7 +346,6 @@ scale_pattern_spacing_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -327,7 +365,6 @@ scale_pattern_spacing_discrete <- function(..., range = c(0.01, 0.1)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -357,7 +394,6 @@ scale_pattern_xoffset_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -377,7 +413,6 @@ scale_pattern_xoffset_discrete <- function(..., range = c(0.01, 0.1)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -407,7 +442,6 @@ scale_pattern_yoffset_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -427,7 +461,6 @@ scale_pattern_yoffset_discrete <- function(..., range = c(0.01, 0.1)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -457,7 +490,6 @@ scale_pattern_aspect_ratio_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -477,7 +509,6 @@ scale_pattern_aspect_ratio_discrete <- function(..., range = c(0.5, 2)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -507,7 +538,6 @@ scale_pattern_key_scale_factor_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -527,7 +557,6 @@ scale_pattern_key_scale_factor_discrete <- function(..., range = c(0.5, 2)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
 #' @export
@@ -704,7 +733,6 @@ scale_pattern_scale_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -724,7 +752,6 @@ scale_pattern_scale_discrete <- function(..., range = c(0.5, 2)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
 #' @export
@@ -803,7 +830,6 @@ scale_pattern_phase_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -823,7 +849,6 @@ scale_pattern_phase_discrete <- function(..., range = NULL) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -853,7 +878,6 @@ scale_pattern_frequency_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -873,7 +897,6 @@ scale_pattern_frequency_discrete <- function(..., range = NULL) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
 #' @export
@@ -952,7 +975,6 @@ scale_pattern_res_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -972,7 +994,6 @@ scale_pattern_res_discrete <- function(..., range = NULL) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -1002,7 +1023,6 @@ scale_pattern_rot_continuous <- function(name   = waiver(),
     guide      = guide
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
@@ -1022,20 +1042,39 @@ scale_pattern_rot_discrete <- function(..., range = c(0, 360)) {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Create your own discrete scale
 #'
 #' @param ...,values,breaks See \code{ggplot2} for documentation on manual scales.
 #'        e.g. \code{ggplot2::scale_colour_manual()}
 #' @return A [ggplot2::Scale] object.
-#'
+#' @examples
+#'   if (require('ggplot2')) {
+#'     gg <- ggplot(mtcars) +
+#'        geom_density_pattern(
+#'          aes(
+#'            x            = mpg,
+#'            pattern_fill = as.factor(cyl),
+#'            pattern_type = as.factor(cyl)
+#'          ),
+#'          pattern = 'polygon_tiling',
+#'          pattern_key_scale_factor = 1.2
+#'        ) +
+#'        scale_pattern_type_manual(values = c('hexagonal', 'rhombille',
+#'                                   'pythagorean')) +
+#'        theme_bw(18) +
+#'        theme(legend.key.size = unit(2, 'cm')) +
+#'        labs(
+#'          title    = 'ggpattern::geom_density_pattern()',
+#'          subtitle = 'pattern = \'polygon_tiling\''
+#'        )
+#'     plot(gg)
+#'   }
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1043,7 +1082,6 @@ scale_pattern_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_type_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_type', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1051,7 +1089,6 @@ scale_pattern_type_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_subtype_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_subtype', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1059,7 +1096,6 @@ scale_pattern_subtype_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_angle_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_angle', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1067,7 +1103,6 @@ scale_pattern_angle_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_density_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_density', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1075,7 +1110,6 @@ scale_pattern_density_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_spacing_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_spacing', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1083,7 +1117,6 @@ scale_pattern_spacing_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_xoffset_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_xoffset', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1091,7 +1124,6 @@ scale_pattern_xoffset_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_yoffset_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_yoffset', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1099,7 +1131,6 @@ scale_pattern_yoffset_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_alpha_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_alpha', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1107,7 +1138,6 @@ scale_pattern_alpha_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_linetype_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_linetype', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1115,7 +1145,6 @@ scale_pattern_linetype_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_size_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_size', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1123,7 +1152,6 @@ scale_pattern_size_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_shape_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_shape', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1131,7 +1159,6 @@ scale_pattern_shape_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_colour_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_colour', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1139,7 +1166,6 @@ scale_pattern_colour_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_fill_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_fill', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1147,7 +1173,6 @@ scale_pattern_fill_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_fill2_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_fill2', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1155,7 +1180,6 @@ scale_pattern_fill2_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_aspect_ratio_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_aspect_ratio', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1163,7 +1187,6 @@ scale_pattern_aspect_ratio_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_key_scale_factor_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_key_scale_factor', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1171,7 +1194,6 @@ scale_pattern_key_scale_factor_manual <- function(..., values, breaks = waiver()
 scale_pattern_filename_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_filename', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1179,7 +1201,6 @@ scale_pattern_filename_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_filter_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_filter', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1187,7 +1208,6 @@ scale_pattern_filter_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_gravity_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_gravity', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1195,7 +1215,6 @@ scale_pattern_gravity_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_scale_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_scale', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1203,7 +1222,6 @@ scale_pattern_scale_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_orientation_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_orientation', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1211,7 +1229,6 @@ scale_pattern_orientation_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_phase_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_phase', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1219,7 +1236,6 @@ scale_pattern_phase_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_frequency_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_frequency', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1227,7 +1243,6 @@ scale_pattern_frequency_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_grid_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_grid', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1235,7 +1250,6 @@ scale_pattern_grid_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_res_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_res', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_manual
 #' @export
@@ -1243,7 +1257,6 @@ scale_pattern_res_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_rot_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_rot', values, breaks, ...)
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Use values without scaling
 #'
@@ -1251,6 +1264,28 @@ scale_pattern_rot_manual <- function(..., values, breaks = waiver()) {
 #'        e.g. \code{ggplot2::scale_alpha_identity()}
 #'
 #' @return A [ggplot2::Scale] object.
+#' @examples
+#'   if (require('ggplot2')) {
+#'     df <- data.frame(outcome = c(2.3, 1.9, 3.2, 1),
+#'                      pattern_type = sample(gridpattern::names_polygon_tiling, 4))
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(pattern_type, outcome, pattern_fill = pattern_type,
+#'             pattern_type = pattern_type),
+#'         colour  = 'black',
+#'         pattern = 'polygon_tiling',
+#'         pattern_key_scale_factor = 1.2
+#'        ) +
+#'        scale_pattern_type_identity() +
+#'        theme_bw(18) +
+#'        theme(legend.position = 'none') +
+#'        labs(
+#'          x        = 'level',
+#'          title    = 'ggpattern::geom_col_pattern()',
+#'          subtitle = 'pattern = \'polygon_tiling\''
+#'        )
+#'     plot(gg)
+#'   }
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_identity <- function(..., guide = 'none') {
@@ -1263,7 +1298,6 @@ scale_pattern_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1278,7 +1312,6 @@ scale_pattern_type_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1293,7 +1326,6 @@ scale_pattern_subtype_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1308,7 +1340,6 @@ scale_pattern_angle_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1323,7 +1354,6 @@ scale_pattern_density_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1338,7 +1368,6 @@ scale_pattern_spacing_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1353,7 +1382,6 @@ scale_pattern_xoffset_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1368,7 +1396,6 @@ scale_pattern_yoffset_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1383,7 +1410,6 @@ scale_pattern_alpha_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1398,7 +1424,6 @@ scale_pattern_linetype_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1413,7 +1438,6 @@ scale_pattern_size_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1428,7 +1452,6 @@ scale_pattern_shape_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1443,7 +1466,6 @@ scale_pattern_colour_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1458,7 +1480,6 @@ scale_pattern_fill_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1473,7 +1494,6 @@ scale_pattern_fill2_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1488,7 +1508,6 @@ scale_pattern_aspect_ratio_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1503,7 +1522,6 @@ scale_pattern_key_scale_factor_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1518,7 +1536,6 @@ scale_pattern_filename_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1533,7 +1550,6 @@ scale_pattern_filter_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1548,7 +1564,6 @@ scale_pattern_gravity_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1563,7 +1578,6 @@ scale_pattern_scale_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1578,7 +1592,6 @@ scale_pattern_orientation_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1593,7 +1606,6 @@ scale_pattern_phase_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1608,7 +1620,6 @@ scale_pattern_frequency_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1623,7 +1634,6 @@ scale_pattern_grid_identity <- function(..., guide = 'none') {
     super      = ScaleDiscreteIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1638,7 +1648,6 @@ scale_pattern_res_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_pattern_identity
 #' @export
@@ -1653,4 +1662,3 @@ scale_pattern_rot_identity <- function(..., guide = 'none') {
     super      = ScaleContinuousIdentity
   )
 }
-

@@ -1,9 +1,7 @@
-
 suppressPackageStartupMessages({
   library(glue)
   library(dplyr)
 })
-
 
 template_identity_roxygen_first <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -13,11 +11,32 @@ template_identity_roxygen_first <- "
 #'        e.g. \\code{{ggplot2::scale_alpha_identity()}}
 #'
 #' @return A [ggplot2::Scale] object.
+#' @examples
+#'   if (require('ggplot2')) {{
+#'     df <- data.frame(outcome = c(2.3, 1.9, 3.2, 1),
+#'                      pattern_type = sample(gridpattern::names_polygon_tiling, 4))
+#'     gg <- ggplot(df) +
+#'       geom_col_pattern(
+#'         aes(pattern_type, outcome, pattern_fill = pattern_type,
+#'             pattern_type = pattern_type),
+#'         colour  = 'black',
+#'         pattern = 'polygon_tiling',
+#'         pattern_key_scale_factor = 1.2
+#'        ) +
+#'        scale_pattern_type_identity() +
+#'        theme_bw(18) +
+#'        theme(legend.position = 'none') +
+#'        labs(
+#'          x        = 'level',
+#'          title    = 'ggpattern::geom_col_pattern()',
+#'          subtitle = 'pattern = \\\'polygon_tiling\\\''
+#'        )
+#'     plot(gg)
+#'   }}
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 "
-
 
 template_identity_roxygen_other <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,8 +45,6 @@ template_identity_roxygen_other <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 "
-
-
 
 template_identity_discrete <- "
 scale_{aes_name}_identity <- function(..., guide = 'none') {{
@@ -41,10 +58,7 @@ scale_{aes_name}_identity <- function(..., guide = 'none') {{
   )
 }}
 
-
 "
-
-
 
 template_identity_continuous <- "
 scale_{aes_name}_identity <- function(..., guide = 'none') {{
@@ -58,18 +72,13 @@ scale_{aes_name}_identity <- function(..., guide = 'none') {{
   )
 }}
 
-
 "
 
-
 source("data-raw/config.R")
-
 
 all_aes <- ggpattern_aes
 
 first_aes <- all_aes[1,]
-
-# sink("R/scale-pattern-identity.R")
 
 for (i in seq(nrow(all_aes))) {
   this_aes <- all_aes[i,]
@@ -88,18 +97,3 @@ for (i in seq(nrow(all_aes))) {
   }
 
 }
-
-# sink()
-
-
-
-
-
-
-
-
-
-
-
-
-

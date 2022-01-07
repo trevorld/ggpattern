@@ -95,3 +95,26 @@ A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
 \description{
 Use values without scaling
 }
+\examples{
+  if (require('ggplot2')) {
+    df <- data.frame(outcome = c(2.3, 1.9, 3.2, 1),
+                     pattern_type = sample(gridpattern::names_polygon_tiling, 4))
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(pattern_type, outcome, pattern_fill = pattern_type,
+            pattern_type = pattern_type),
+        colour  = 'black',
+        pattern = 'polygon_tiling',
+        pattern_key_scale_factor = 1.2
+       ) +
+       scale_pattern_type_identity() +
+       theme_bw(18) +
+       theme(legend.position = 'none') +
+       labs(
+         x        = 'level',
+         title    = 'ggpattern::geom_col_pattern()',
+         subtitle = 'pattern = \'polygon_tiling\''
+       )
+    plot(gg)
+  }
+}

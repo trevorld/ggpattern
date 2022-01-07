@@ -491,7 +491,7 @@ Not all arguments apply to all patterns.
          pattern_key_scale_factor = 1.2
        ) +
        scale_pattern_type_manual(values = c("hexagonal", "rhombille",
-                                  "pythagorean", "rhombitrihexagonal")) +
+                                  "pythagorean")) +
        theme_bw(18) +
        theme(legend.key.size = unit(2, 'cm')) +
        labs(
