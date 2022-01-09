@@ -1,9 +1,10 @@
 test_that("Zero area array fills work", {
 
-  suppressPackageStartupMessages({
-    library(dplyr)
-    library(ggplot2)
-  })
+  skip_if_not_installed("dplyr")
+  skip_if_not_installed("magick")
+  library(dplyr)
+  library(ggplot2)
+
   set.seed(1234)
   ORANGE <- "#ff8a3f"
   PINK   <- "#fe0060"

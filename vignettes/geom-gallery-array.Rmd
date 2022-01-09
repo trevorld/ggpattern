@@ -27,7 +27,6 @@ opt_png     <- TRUE
 ```{r setup}
 suppressPackageStartupMessages({
   library(glue)
-  library(dplyr)
   library(ggplot2)
   library(ggpattern)
 })
@@ -63,9 +62,9 @@ p <- ggplot(mpg, aes(class)) +
 p
 
 })
+invisible(NULL)
 }
 ```
-
 
 ```{r echo=FALSE, eval=save_images}
 filename <- "images/gallery-bar-array.png"
@@ -78,6 +77,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_bar_pattern()` - fit image to width and tile.
 
 ```{r}
+if (require("magick")) {
+
 flags <- c(
   system.file("img", "flag", "au.png", package = "ggpattern"),
   system.file("img", "flag", "dk.png", package = "ggpattern"),
@@ -111,6 +112,8 @@ p <- ggplot(mpg, aes(class)) +
   scale_pattern_discrete(guide = guide_legend(nrow = 1))
 
 p
+
+}
 ```
 
 
@@ -125,6 +128,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 
 
 ```{r}
+if (require("magick")) {
+
 p <- ggplot(mpg, aes(class)) +
   geom_bar_pattern(
     aes(
@@ -149,6 +154,8 @@ p <- ggplot(mpg, aes(class)) +
   scale_pattern_discrete(guide = guide_legend(nrow = 1))
 
 p
+
+}
 ```
 
 
@@ -166,6 +173,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 * See `gridpattern::names_magick` for a list of all image based patterns from `imagemagick`
 
 ```{r}
+if (require("magick")) {
+
 df <- data.frame(
   group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
   value = c(10, 20, 30, 40)
@@ -195,6 +204,8 @@ p <- ggplot(df, aes(x="", y = value, pattern_type = group, pattern_fill = group)
   )
 
 p
+
+}
 ```
 
 
@@ -210,6 +221,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_bin2d_pattern()`
 
 ```{r}
+if (require("magick")) {
+
 p <- ggplot(diamonds, aes(x, y)) + 
   xlim(4, 10) + ylim(4, 10) +
   geom_bin2d_pattern(
@@ -231,6 +244,8 @@ p <- ggplot(diamonds, aes(x, y)) +
   ) 
 
 p
+
+}
 ```
 
 
@@ -244,6 +259,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_boxplot_pattern()`
 
 ```{r}
+if (require("magick")) {
+
 standard_image_filenames <- c(
   system.file('img', 'Rlogo.png'    , package = 'png'),
   system.file('img', 'bug.jpg'      , package = 'ggpattern'),
@@ -272,6 +289,8 @@ p <- ggplot(mpg, aes(class, hwy)) +
   coord_fixed(1/8)
 
 p
+
+}
 ```
 
 
@@ -307,6 +326,7 @@ p <- ggplot(df, aes(trt, outcome)) +
 p
 
 })
+invisible(NULL)
 }
 ```
 
@@ -323,6 +343,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 
 
 ```{r}
+if (require("magick")) {
+
 df <- data.frame(
   trt = factor(c(1, 1, 2, 2)),
   resp = c(1, 5, 3, 4),
@@ -350,6 +372,8 @@ p <- ggplot(df, aes(trt, resp)) +
   coord_fixed(ratio = 1/3)
 
 p
+
+}
 ```
 
 
@@ -363,6 +387,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_density_pattern()`
 
 ```{r}
+if (require("magick")) {
+
 seamless_image_filenames <- c(
   system.file('img', 'seamless1.jpg', package = 'ggpattern'),
   system.file('img', 'seamless2.jpg', package = 'ggpattern'),
@@ -388,6 +414,8 @@ p <- ggplot(mtcars) +
   coord_fixed(ratio = 100)
 
 p
+
+}
 ```
 
 
@@ -401,7 +429,7 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_map_pattern()`
 
 ```{r fig.width=12, fig.height=9}
-library(maps)
+if (require("magick") && require("maps")) {
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
 
@@ -431,6 +459,8 @@ p <- ggplot(crimes, aes(map_id = state)) +
     theme(legend.position = 'none')
 
 p
+
+}
 ```
 
 
@@ -444,9 +474,7 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_polygon_pattern()`
 
 ```{r}
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Data frame for a polyagon
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if (require("magick")) {
 
 angle <- seq(0, 2*pi, length.out = 7) + pi/6
 polygon_df <- data.frame(
@@ -455,9 +483,6 @@ polygon_df <- data.frame(
   y     = sin(angle)
 )
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Create a plot of a patterned polygon
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 p <- ggplot(polygon_df) +
   geom_polygon_pattern(
     aes(x = x, y = y), 
@@ -472,6 +497,8 @@ p <- ggplot(polygon_df) +
   theme(axis.title = element_blank())
 
 p
+
+}
 ```
 
 
@@ -485,6 +512,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_rect_pattern()`
 
 ```{r}
+if (require("magick")) {
+
 plot_df <- data.frame(
   xmin    = c(0, 10, 3),
   xmax    = c(8, 18, 4),
@@ -519,6 +548,8 @@ p <- ggplot(plot_df) +
   theme(legend.key.size = unit(1.5, 'cm'))
 
 p
+
+}
 ```
 
 
@@ -532,6 +563,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_ribbon_pattern()`
 
 ```{r warning=FALSE}
+if (require("magick")) {
+
 huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
 
 p <- ggplot(huron, aes(year)) +
@@ -554,6 +587,8 @@ p <- ggplot(huron, aes(year)) +
   ) 
 
 p
+
+}
 ```
 
 
@@ -567,7 +602,7 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_sf_pattern()`
 
 ```{r}
-if (require("magick")) {
+if (require("dplyr") && require("magick") && require("sf")) {
 try({
 
 nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
@@ -596,6 +631,7 @@ p <- ggplot(nc) +
 p
 
 })
+invisible(NULL)
 }
 ```
 
@@ -610,6 +646,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_tile_pattern()`
 
 ```{r}
+if (require("magick")) {
+
 df <- data.frame(
   x = rep(c(2, 5, 7, 9, 12), 2),
   y = rep(c(1, 2), each = 5),
@@ -643,6 +681,8 @@ p <- ggplot(df, aes(x, y)) +
   coord_fixed(ratio = 4)
 
 p
+
+}
 ```
 
 
@@ -656,6 +696,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_violin_pattern()`
 
 ```{r}
+if (require("magick")) {
+
 p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
   geom_violin_pattern(
     aes(pattern_filename = as.factor(cyl)),
@@ -674,6 +716,8 @@ p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
   coord_fixed(1/15)
 
 p
+
+}
 ```
 
 
@@ -682,5 +726,3 @@ filename <- "images/gallery-violin-array.png"
 ggsave(filename, plot = p, width = w1, height = h1)
 if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger --ext .png  {filename}"))
 ```
-
-

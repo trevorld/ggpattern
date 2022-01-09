@@ -14,9 +14,6 @@ knitr::opts_chunk$set(
   fig.width = 6,
   fig.height = 4
 )
-
-library(gganimate)
-library(ggpattern)
 ```
 
 
@@ -25,11 +22,9 @@ Using `gganimate` with `ggpattern`
 
 This is a very simple proof-of-concept of animating a ggpattern with gganimate.
 
-
-
 ```{r}
-library(gganimate)
 library(ggpattern)
+if (require("gganimate")) {
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create a dataset with 2 different states
@@ -62,8 +57,9 @@ p <- p + transition_states(time, transition_length = 2,
                     state_length = 0, wrap = FALSE)
 
 animate(p, nframes = 60, fps = 20)
-```
 
+}
+```
 
 Future
 ------------------------------------------------------------------------------

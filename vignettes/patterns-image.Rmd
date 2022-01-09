@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 suppressPackageStartupMessages({
-  library(dplyr)
   library(ggplot2)
   library(ggpattern)
 })
@@ -372,6 +371,7 @@ ggplot(df1, aes(trt, outcome)) +
   coord_fixed(ratio = 1/2)
 
 })
+invisible(NULL)
 }
 ```
 
@@ -396,6 +396,7 @@ ggplot(mtcars) +
   coord_fixed(ratio = 80)
 
 })
+invisible(NULL)
 }
 ```
 
@@ -421,6 +422,7 @@ ggplot(df1, aes(trt, outcome)) +
   coord_fixed(ratio = 1/2)
 
 })
+invisible(NULL)
 }
 ```
 
@@ -454,5 +456,6 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
   ) 
 
 })
+invisible(NULL)
 }
 ```

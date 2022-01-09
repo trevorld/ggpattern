@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 suppressPackageStartupMessages({
-  library(dplyr)
   library(ggplot2)
   library(ggpattern)
 })
@@ -55,13 +54,14 @@ Patterns have been scaled (using `pattern_scale`) to make them more visible for 
 Note that these are all pixel patterns and will always look blocky.
 
 ```{r fig.width=7, fig.height = 12, echo = TRUE}
+if (require("magick")) {
+
 df1 <- data.frame(
   x    = rep(1:6, 9),
   y    = rep(1:9, each=6),
   name = gridpattern::names_magick,
   stringsAsFactors = FALSE
 )
-
 
 ggplot(df1) + 
   geom_tile_pattern(
@@ -78,15 +78,16 @@ ggplot(df1) +
     title = "All the possible magick pattern names"
   ) +
   coord_fixed(1)
+
+}
 ```
-
-
-
 
 Example: `pattern = 'magick'` - Transparent patterns
 ------------------------------------------------------------------------------
 
 ```{r}
+if (require("magick")) {
+
 df1 <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 
 ggplot(df1, aes(trt, outcome)) +
@@ -108,6 +109,8 @@ ggplot(df1, aes(trt, outcome)) +
   theme(legend.key.size = unit(2, 'cm')) +
   scale_pattern_type_discrete(choices = c('bricks', 'fishscales', 'right45')) +
   coord_fixed(ratio = 1/2)
+
+}
 ```
 
 
@@ -115,6 +118,8 @@ Example: `pattern = 'magick'` - Transparent patterns (2)
 ------------------------------------------------------------------------------
 
 ```{r}
+if (require("magick")) {
+
 ggplot(mtcars) +
   geom_density_pattern(
     aes(
@@ -133,14 +138,16 @@ ggplot(mtcars) +
   ) +
   scale_pattern_type_discrete(choices = gridpattern::names_magick) +
   coord_fixed(ratio = 80)
-```
 
+}
+```
 
 Example: `pattern = 'magick'` - Pie chart
 ------------------------------------------------------------------------------
 
-
 ```{r}
+if (require("magick")) {
+
 df2 <- data.frame(
   group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
   value = c(10, 20, 30, 40)
@@ -166,4 +173,6 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
     title    = "ggpattern::geom_bar_pattern()",
     subtitle = "pattern='magick'"
   ) 
+
+}
 ```

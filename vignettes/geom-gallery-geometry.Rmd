@@ -26,7 +26,6 @@ opt_png     <- TRUE
 
 ```{r setup}
 suppressPackageStartupMessages({
-  library(dplyr)
   library(ggplot2)
   library(ggpattern)
 })
@@ -287,7 +286,6 @@ ggsave(filename, plot = p, width = 1.5 * w1, height = 1.5 * h1)
 if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger --ext .png  {filename}"))
 ```
 
-
 ## `geom_density_pattern()`
 
 ```{r}
@@ -310,18 +308,16 @@ p <- ggplot(mtcars) +
 p
 ```
 
-
 ```{r echo=FALSE, eval=save_images}
 filename <- here::here("vignettes", "images/gallery-density-grid.png")
 ggsave(filename, plot = p, width = 1.5 * w1, height = 1.5 * h1)
 if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger --ext .png  {filename}"))
 ```
 
-
 ## `geom_map_pattern()`
 
 ```{r}
-library(maps)
+if (require(maps)) {
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
 
@@ -351,8 +347,9 @@ p <- ggplot(crimes, aes(map_id = state)) +
     theme(legend.position = 'none')
 
 p
-```
 
+}
+```
 
 ```{r echo=FALSE, eval=save_images}
 filename <- here::here("vignettes", "images/gallery-map-grid.png")
@@ -488,6 +485,8 @@ if (opt_png) system(glue("pngquant --speed 4 -f --strip --nofs --skip-if-larger 
 ## `geom_sf_pattern()`
 
 ```{r}
+if (require("dplyr") && require("sf")) {
+
 nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
 nc <- nc %>% filter(between(CNTY_ID, 1820, 1830))
 
@@ -502,9 +501,11 @@ p <- ggplot(nc) +
   ) +
   theme_bw(15) + 
   theme(legend.key.size = unit(1.5, 'cm')) +
-  labs(title = "ggpattern::geom_sf()")
+  labs(title = "ggpattern::geom_sf_pattern()")
 
 p
+
+}
 ```
 
 
