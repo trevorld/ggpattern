@@ -7,10 +7,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "ragg_png",
+  fig.path = "images/patterns-image-",
+  fig.width  = 7,
+  fig.height = 5
+)
+```
 
-
-
-```r
+```{r setup}
 suppressPackageStartupMessages({
   library(ggplot2)
   library(ggpattern)
@@ -59,8 +67,7 @@ Note: not all combinations of aesthetics are useful e.g. if `pattern_type = 'fit
 
 These examples use some of the built-in images in the `ggpattern` package.
 
-
-```r
+```{r}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # filenames of images
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -86,14 +93,9 @@ df1 <- data.frame(
 )
 ```
 
-
-Table: Example Data
-
-|trt | outcome|gravity |filltype | scale|filename                                               |
-|:---|-------:|:-------|:--------|-----:|:------------------------------------------------------|
-|a   |     2.3|South   |squish   |   1.0|/usr/local/lib/R/site-library/png/img/Rlogo.png        |
-|b   |     1.9|North   |fit      |   2.0|/usr/local/lib/R/site-library/ggpattern/img/magpie.jpg |
-|c   |     3.2|West    |expand   |   0.5|/usr/local/lib/R/site-library/ggpattern/img/bug.jpg    |
+```{r echo = FALSE}
+knitr::kable(df1, caption = "Example Data")
+```
 
 ### Example: `pattern = 'image'` - No Attempt at filling the area (`pattern_type = 'none'`)
 
@@ -101,8 +103,7 @@ If `pattern_type = 'none'` then no attempt is made at snugly filling the area.
 Instead a single copy of the image is scaled (`pattern_scale`) and 
 placed (`pattern_gravity`) in the geom area.
 
-
-```r
+```{r none}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -128,8 +129,6 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk none](images/patterns-image-none-1.png)
-
 ### Example: `pattern = 'image'` - Covering the area (`pattern_type = 'fit', 'squish', 'expand'`)
 
 In the plot below, 3 different methods are used to cover the area of the geom. From 
@@ -142,8 +141,7 @@ left-to-right:
   that the entire geom is covered.  `pattern_gravity = 'West'` anchors the image
   to the left side of the geom.
 
-
-```r
+```{r covering}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -170,8 +168,6 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk covering](images/patterns-image-covering-1.png)
-
 ### Example: `pattern = 'image'` - Tiling (`pattern_type = 'tile'`)
 
 When tiled, the image is replicated in order to cover the entire area of the geom.
@@ -179,8 +175,7 @@ In this example, `pattern_scale` is also applied to the image so that it appears
 different sizes.
 
 
-
-```r
+```{r tiling}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -207,14 +202,11 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk tiling](images/patterns-image-tiling-1.png)
-
 ### Example: `pattern = 'image'` - Tiling with seamless patterns
 
 By choosing a seamlessly tiling image, then a tiled fill will not have visible discontinuities.
 
-
-```r
+```{r tiling-seamless}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -238,12 +230,9 @@ ggplot(mtcars) +
 }
 ```
 
-![plot of chunk tiling-seamless](images/patterns-image-tiling-seamless-1.png)
-
 ### Example: `pattern = 'image'` - Tiling with seamless patterns (with scaling)
 
-
-```r
+```{r tiling-seamless-scaling}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -268,8 +257,6 @@ ggplot(mtcars) +
 }
 ```
 
-![plot of chunk tiling-seamless-scaling](images/patterns-image-tiling-seamless-scaling-1.png)
-
 ### Example: `pattern = 'image'` - Tiling with fit to width (of element bounding box)
 
 In a common case, the image to be tiled should be first scaled to
@@ -279,8 +266,7 @@ This is useful for bar charts.
 Specify `pattern_scale = -1` to fit the width of the geom, and `pattern_scale = -2` to 
 fit the height of the geom.
 
-
-```r
+```{r tiling-fit}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -305,8 +291,6 @@ ggplot(df1, aes(trt, outcome)) +
 
 }
 ```
-
-![plot of chunk tiling-fit](images/patterns-image-tiling-fit-1.png)
 
 ## `placeholder` - Filling with an image placeholder
 
@@ -359,8 +343,7 @@ All placeholder names are available in `gridpattern::names_placeholder`.
 
 ### Example Data
 
-
-```r
+```{r}
 df1 <- data.frame(
   trt     = c("a", "b", "c"), 
   outcome = c(2.3, 1.9, 3.2),
@@ -370,8 +353,7 @@ df1 <- data.frame(
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'bear'` 
 
-
-```r
+```{r bear}
 if (require("magick")) { 
 
 ggplot(df1, aes(trt, outcome)) +
@@ -392,12 +374,9 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk bear](images/patterns-image-bear-1.png)
-
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'picsum'`  
 
-
-```r
+```{r picsum}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -417,12 +396,9 @@ ggplot(mtcars) +
 }
 ```
 
-![plot of chunk picsum](images/patterns-image-picsum-1.png)
-
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'dummy'` 
 
-
-```r
+```{r dummy}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -443,12 +419,9 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk dummy](images/patterns-image-dummy-1.png)
-
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'kitten'` 
 
-
-```r
+```{r kitten}
 if (require("magick")) {
 
 df2 <- data.frame(
@@ -476,5 +449,3 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
 
 }
 ```
-
-![plot of chunk kitten](images/patterns-image-kitten-1.png)

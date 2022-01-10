@@ -11,3 +11,5 @@
 ^_pkgdown.yml$
 ^doc$
 ^Meta$
+vignettes/precompute_vignettes.R
+vignettes/*.Rmd.orig

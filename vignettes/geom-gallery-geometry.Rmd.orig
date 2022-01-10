@@ -7,10 +7,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  dev = "ragg_png",
+  fig.path = "images/gallery-geometry-",
+  fig.width  = 8,
+  fig.height = 6
+)
+```
 
-
-
-```r
+```{r setup}
 suppressPackageStartupMessages({
   library(ggplot2)
   library(ggpattern)
@@ -19,8 +27,7 @@ suppressPackageStartupMessages({
 
 ## B&W Example
 
-
-```r
+```{r bar-bw, fig.width = 12, fig.height = 9}
 df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
 
 p <- ggplot(df, aes(level, outcome)) +
@@ -44,12 +51,9 @@ p <- ggplot(df, aes(level, outcome)) +
 p
 ```
 
-![plot of chunk bar-bw](images/gallery-geometry-bar-bw-1.png)
-
 ## Colour Example
 
-
-```r
+```{r bar-colour, fig.width = 12, fig.height = 9}
 p <- ggplot(df, aes(level, outcome)) +
   geom_col_pattern(
     aes(pattern = level, fill = level, pattern_fill = level), 
@@ -68,12 +72,9 @@ p <- ggplot(df, aes(level, outcome)) +
 p
 ```
 
-![plot of chunk bar-colour](images/gallery-geometry-bar-colour-1.png)
-
 ## `geom_bar_pattern()`
 
-
-```r
+```{r bar, fig.width = 12, fig.height = 9}
 p <- ggplot(mpg, aes(class)) +
   geom_bar_pattern(
     aes(
@@ -93,12 +94,9 @@ p <- ggplot(mpg, aes(class)) +
 p
 ```
 
-![plot of chunk bar](images/gallery-geometry-bar-1.png)
-
 ## pie graph with `geom_bar_pattern()`
 
-
-```r
+```{r pie, fig.width = 12, fig.height = 9}
 df <- data.frame(
   group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
   value = c(10, 20, 30, 40)
@@ -123,12 +121,9 @@ p <- ggplot(df, aes(x="", y = value, pattern = group, pattern_angle = group))+
 p
 ```
 
-![plot of chunk pie](images/gallery-geometry-pie-1.png)
-
 ## `geom_bin2d_pattern()`
 
-
-```r
+```{r bin2d, fig.width = 12, fig.height = 9}
 p <- ggplot(diamonds, aes(x, y)) + 
   xlim(4, 10) + ylim(4, 10) +
   geom_bin2d_pattern(aes(pattern_spacing = ..density..), fill = 'white', bins = 6, colour = 'black', size = 1) +
@@ -137,15 +132,11 @@ p <- ggplot(diamonds, aes(x, y)) +
   labs(title = "ggpattern::geom_bin2d_pattern()")
 
 p
-#> Warning: Removed 478 rows containing non-finite values (stat_bin2d).
 ```
-
-![plot of chunk bin2d](images/gallery-geometry-bin2d-1.png)
 
 ## `geom_boxplot_pattern()`
 
-
-```r
+```{r boxplot, fig.width = 12, fig.height = 9}
 p <- ggplot(mpg, aes(class, hwy)) +
   geom_boxplot_pattern(
     aes(
@@ -162,12 +153,9 @@ p <- ggplot(mpg, aes(class, hwy)) +
 p
 ```
 
-![plot of chunk boxplot](images/gallery-geometry-boxplot-1.png)
-
 ## `geom_col_pattern()`
 
-
-```r
+```{r col, fig.width = 12, fig.height = 9}
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 
 p <- ggplot(df, aes(trt, outcome)) +
@@ -188,12 +176,9 @@ p <- ggplot(df, aes(trt, outcome)) +
 p
 ```
 
-![plot of chunk col](images/gallery-geometry-col-1.png)
-
 ## `geom_crossbar_pattern()`
 
-
-```r
+```{r crossbar, fig.width = 12, fig.height = 9}
 df <- data.frame(
   trt = factor(c(1, 1, 2, 2)),
   resp = c(1, 5, 3, 4),
@@ -220,12 +205,9 @@ p <- ggplot(df, aes(trt, resp, colour = group)) +
 p
 ```
 
-![plot of chunk crossbar](images/gallery-geometry-crossbar-1.png)
-
 ## `geom_density_pattern()`
 
-
-```r
+```{r density, fig.width = 12, fig.height = 9}
 p <- ggplot(mtcars) +
    geom_density_pattern(
      aes(
@@ -245,12 +227,9 @@ p <- ggplot(mtcars) +
 p
 ```
 
-![plot of chunk density](images/gallery-geometry-density-1.png)
-
 ## `geom_map_pattern()`
 
-
-```r
+```{r map, fig.width = 12, fig.height = 9}
 if (require(maps)) {
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
@@ -285,12 +264,9 @@ p
 }
 ```
 
-![plot of chunk map](images/gallery-geometry-map-1.png)
-
 ## `geom_polygon_pattern()`
 
-
-```r
+```{r polygon, fig.width = 12, fig.height = 9}
 angle <- seq(0, 2*pi, length.out = 7) + pi/6
 polygon_df <- data.frame(
   angle = angle,
@@ -317,12 +293,9 @@ p <- ggplot(polygon_df) +
 p
 ```
 
-![plot of chunk polygon](images/gallery-geometry-polygon-1.png)
-
 ## `geom_rect_pattern()`
 
-
-```r
+```{r rect, fig.width = 12, fig.height = 9}
 plot_df <- data.frame(
   xmin    = c(0, 10),
   xmax    = c(8, 18),
@@ -357,12 +330,9 @@ p <- ggplot(plot_df) +
 
 p
 ```
-
-![plot of chunk rect](images/gallery-geometry-rect-1.png)
 ## `geom_ribbon_pattern()`
 
-
-```r
+```{r ribbon, fig.width = 12, fig.height = 9, warning=FALSE}
 huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
 
 p <- ggplot(huron, aes(year)) +
@@ -384,12 +354,9 @@ p <- ggplot(huron, aes(year)) +
 
 p
 ```
-
-![plot of chunk ribbon](images/gallery-geometry-ribbon-1.png)
 ## `geom_sf_pattern()`
 
-
-```r
+```{r sf, fig.width = 12, fig.height = 9}
 if (require("dplyr") && require("sf")) {
 
 nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
@@ -412,12 +379,9 @@ p
 }
 ```
 
-![plot of chunk sf](images/gallery-geometry-sf-1.png)
-
 ## `geom_tile_pattern()`
 
-
-```r
+```{r tile, fig.width = 12, fig.height = 9}
 df <- data.frame(
   x = rep(c(2, 5, 7, 9, 12), 2),
   y = rep(c(1, 2), each = 5),
@@ -444,12 +408,9 @@ p <- ggplot(df, aes(x, y)) +
 p
 ```
 
-![plot of chunk tile](images/gallery-geometry-tile-1.png)
-
 ## `geom_violin_pattern()`
 
-
-```r
+```{r violin, fig.width = 12, fig.height = 9}
 p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
   geom_violin_pattern(aes(pattern = as.factor(cyl))) +
   theme_bw(18) +
@@ -461,5 +422,3 @@ p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
 
 p
 ```
-
-![plot of chunk violin](images/gallery-geometry-violin-1.png)

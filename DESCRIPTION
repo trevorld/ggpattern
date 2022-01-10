@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: Geoms with Patterns
-Version: 0.3.2-9
+Version: 0.3.2-10
 Authors@R: c(person("Mike", "FC", email = "mikefc@coolbutuseless.com",
                     role = c("aut", "cre")),
              person("Trevor L", "Davis", role = "aut"),
@@ -20,7 +20,7 @@ Imports:
     gridpattern (>= 0.3.1),
     rlang,
     scales,
-Remotes: trevorld/gridpattern
+Remotes: trevorld/gridpattern (>= 0.3.2)
 Suggests: 
     ambient,
     dplyr,
@@ -30,12 +30,13 @@ Suggests:
     mapproj,
     maps,
     png,
+    ragg (>= 1.2.0),
     readr,
     rmarkdown,
     sf (>= 0.7-3),
     testthat (>= 2.1.0),
     vdiffr
-VignetteBuilder: knitr, rmarkdown
+VignetteBuilder: knitr, ragg, rmarkdown
 Collate: 
     'aaa-ggplot2-compat-plyr.R'
     'aaa-ggplot2-ggplot-global.R'
