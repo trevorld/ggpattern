@@ -17,10 +17,10 @@ Imports:
     ggplot2,
     glue,
     grid,
-    gridpattern (>= 0.3.1),
+    gridpattern (>= 0.3.2),
     rlang,
     scales,
-Remotes: trevorld/gridpattern (>= 0.3.2)
+Remotes: trevorld/gridpattern
 Suggests: 
     ambient,
     dplyr,
