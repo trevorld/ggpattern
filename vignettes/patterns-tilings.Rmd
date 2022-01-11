@@ -1,8 +1,8 @@
 ---
-title: "Pattern Magick - Parameters and Examples"
+title: "Patterns 'magick' and 'polygon_tiling' - Parameters and Examples"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Pattern Magick - Parameters and Examples}
+  %\VignetteIndexEntry{Patterns 'magick' and 'polygon_tiling' - Parameters and Examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -24,14 +24,17 @@ suppressPackageStartupMessages({
 })
 ```
 
+## Introduction to the 'magick' and 'polygon_tiling' patterns
 
-`pattern = 'magick'` - filling a geom with pattern from `imagemagick`
-------------------------------------------------------------------------------
+* The 'magick' pattern allows use of `imagemagick`'s in-built pixel-based patterns.
+  It is an "array" pattern that depends on the suggested package `{magick}`.
+* The 'polygon_tiling' pattern supports a large number of polygon tilings.
+  It is a "geometry" pattern.
+
+## `pattern = 'magick'` - filling a geom with pattern from `imagemagick`
 
 `imagemagick` has the ability to create pixel-based patterns.  This pattern uses
 those pixel patterns to fill the geom.
-
-
 
 `pattern = 'magick'` options
 ------------------------------------------------------------------------------
@@ -47,8 +50,7 @@ those pixel patterns to fill the geom.
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 
 
-`pattern = 'magick'` - `pattern_type` options
-------------------------------------------------------------------------------
+### `pattern = 'magick'` - `pattern_type` options
 
 Patterns have been scaled (using `pattern_scale`) to make them more visible for this vignette.
 
@@ -83,8 +85,7 @@ ggplot(df1) +
 }
 ```
 
-Example: `pattern = 'magick'` - Transparent patterns
-------------------------------------------------------------------------------
+### Example: `pattern = 'magick'` - Transparent patterns
 
 ```{r}
 if (require("magick")) {
@@ -114,9 +115,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-
-Example: `pattern = 'magick'` - Transparent patterns (2)
-------------------------------------------------------------------------------
+### Example: `pattern = 'magick'` - Transparent patterns (2)
 
 ```{r}
 if (require("magick")) {
@@ -143,8 +142,7 @@ ggplot(mtcars) +
 }
 ```
 
-Example: `pattern = 'magick'` - Pie chart
-------------------------------------------------------------------------------
+### Example: `pattern = 'magick'` - Pie chart
 
 ```{r}
 if (require("magick")) {
@@ -177,3 +175,73 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
 
 }
 ```
+
+## `pattern = 'polygon_tiling'` - filling a geom with a polygon tiling
+
+### Pattern Parameters
+
+| aesthetic                | description                                   | default   | possible values                   |
+|--------------------------|-----------------------------------------------|-----------|-----------------------------------|
+| pattern\_colour           | Stroke colour                                 | 'grey20'  | colour                            |
+| pattern\_fill             | Fill colour                                   | 'grey80'  | colour                            |
+| pattern\_angle            | Rotation angle                                | 30        | angle in degrees                  |
+| pattern\_spacing          | Spacing between repetitions of pattern        | 0.05      | value in range [0, 1] (snpc units) |
+| pattern\_xoffset          | Shift pattern along x axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern\_yoffset          | Shift pattern along y axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern\_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
+| pattern\_linetype         | Stroke linetype                               | 1         | linetype                          |
+| pattern\_size             | Stroke linewidth                              | 1         | linewidth                         |
+| pattern\_type             | Pattern type                                  | NA        | `gridpattern::names_polygon_tiling`.  See [polygon_tiling](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_polygon\_tiling.html) pattern documentation for more info. |
+
+### `pattern = 'polygon_tiling'` - `pattern_type` options
+
+```{r fig.width=7, fig.height = 12, echo = TRUE}
+
+df1 <- data.frame(
+  x    = rep(1:5, 7),
+  y    = rep(1:7, each=5),
+  name = gridpattern::names_polygon_tiling[1:35],
+  stringsAsFactors = FALSE
+)
+
+ggplot(df1) + 
+  geom_tile_pattern(
+    aes(x, y, pattern_type = I(name)),
+    pattern       = 'polygon_tiling',
+    pattern_scale = 1.5,
+    pattern_fill  = 'white', 
+    width         = 0.9, 
+    height        = 0.9
+  ) + 
+  geom_label(aes(x+0.4, y+0.4, label = name), hjust = 1, vjust = 1) + 
+  theme_void() + 
+  labs(
+    title = "All the possible 'polygon_tiling' pattern names"
+  ) 
+```
+
+### `pattern = 'polygon_tiling'` - Bar chart
+
+```{r}
+gg <- ggplot(mtcars) +
+   geom_density_pattern(
+     aes(
+       x            = mpg,
+       pattern_fill = as.factor(cyl),
+       pattern_type = as.factor(cyl)
+     ),
+     pattern = 'polygon_tiling',
+     pattern_key_scale_factor = 1.2
+   ) +
+   scale_pattern_type_manual(values = c("hexagonal", "rhombille",
+                              "pythagorean")) +
+   theme_bw(18) +
+   theme(legend.key.size = unit(2, 'cm')) +
+   labs(
+     title    = "ggpattern::geom_density_pattern()",
+     subtitle = "pattern = 'polygon_tiling'"
+   )
+plot(gg)
+```
+
+
