@@ -198,9 +198,9 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
 ```{r fig.width=7, fig.height = 12, echo = TRUE}
 
 df1 <- data.frame(
-  x    = rep(1:5, 7),
-  y    = rep(1:7, each=5),
-  name = gridpattern::names_polygon_tiling[1:35],
+  x    = rep(1:4, 9),
+  y    = rep(1:9, each=4),
+  name = gridpattern::names_polygon_tiling[1:36],
   stringsAsFactors = FALSE
 )
 
