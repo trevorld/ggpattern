@@ -50,7 +50,7 @@ There are only 2 high-level classes of pattern supported by `gridpattern` - geom
 and array-based.
 
 **Geometry-based** patterns create a series of geometry objects and trim
-them (using `sf::st_intersection()`, `gridGeometry::polyclipGrob()`, `gridpattern::clippingPathGrob()`, etc)
+them (using `sf::st_intersection()`, `gridGeometry::polyclipGrob()`, `gridpattern::alphaMaskGrob()`, etc)
 to be within the boundary of the grob. 
 For example, the 'stripes' pattern in `gridpattern` is a series of equally spaced rectangular polygons.
 
@@ -120,7 +120,7 @@ All geometry-based pattern creation functions must:
 
 2. Return a grid grob object. This can be any valid grob including a `grid::grobTree()`.
    The user should make sure it lies within the boundary represented by `boundary_df` either by clipping with functions
-   like `sf::st_intersection()`, `gridGeometry::polyclipGrob()`, `gridpattern::clippingPathGrob()`, etc.
+   like `sf::st_intersection()`, `gridGeometry::polyclipGrob()`, `gridpattern::alphaMaskGrob()`, etc.
    or using bounded grob functions like `gridpattern::patternGrob()` or `grid::polygonGrob()`.
 
 ## <a name="array-based"></a> Array-based pattern functions - Formal Arguments and Return Values

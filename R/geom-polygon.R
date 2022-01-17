@@ -119,6 +119,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       boundary_grobs <- lapply(polygons, function(polygon) {
           grid::pathGrob(polygon$x, polygon$y,
                          default.units = "npc",
+                         gp = gpar(col = NA, lwd = 0, fill = "black"),
                          id = polygon$subgroup, rule = rule)
       })
 

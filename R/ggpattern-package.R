@@ -12,7 +12,7 @@
 #'    \item{ggpattern_use_R4.1_gradients}{If `TRUE` use the grid gradient feature introduced in R v4.1.0
 #'                          else do a `rasterGrob` approximation of the gradient pattern.}
 #'    \item{ggpattern_use_R4.1_masks}{If `TRUE` use the grid mask feature introduced in R v4.1.0.
-#'                          Available for use in writing custom patterns.}
+#'                          else do a `rasterGrob` approximation of the masked pattern.}
 #'    \item{ggpattern_use_R4.1_patterns}{If `TRUE` use the grid pattern feature introduced in R v4.1.0.
 #'                          Available for use in writing custom patterns.}
 #'  }

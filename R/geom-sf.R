@@ -130,11 +130,15 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   lwd        <- ifelse(is_point, stroke, size * .pt)
   pch        <- x$shape %||% defaults$shape[type_ind]
   lty        <- x$linetype %||% defaults$linetype[type_ind]
-  gp <- gpar(
-    col = col, fill = fill, fontsize = fontsize, lwd = lwd, lty = lty,
+
+  gp_fill <- gpar(
+    col = NA, fill = fill, fontsize = fontsize, lwd = lwd, lty = lty,
     lineend = lineend, linejoin = linejoin, linemitre = linemitre
   )
-
+  gp_border <- gpar(
+    col = col, fill = NA, fontsize = fontsize, lwd = lwd, lty = lty,
+    lineend = lineend, linejoin = linejoin, linemitre = linemitre
+  )
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # For each row in 'x',
@@ -147,13 +151,12 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   sf_vp <- sf::st_polygon(list(matrix(c(0, 0, 0, 1, 1, 1, 1, 0, 0, 0), byrow=TRUE, ncol=2)))
   pattern_grobs_list <- list()
+  gp_boundary <- gpar(col = NA, lwd = 0, fill = "black")
   for (idx in seq(nrow(x))) {
     if (inherits(x$geometry[[idx]], 'MULTIPOLYGON') || inherits(x$geometry[[idx]], 'POLYGON')) {
-      if(any(is.na(x[idx, c("xmin", "xmax", "ymin", "ymax")]))) # extends past viewport
-          boundary_grob      <- sf::st_as_grob(sf::st_intersection(x$geometry[[idx]], sf_vp),
-                                               default.units = "npc")
-      else
-          boundary_grob      <- sf::st_as_grob(x$geometry[[idx]], default.units = "npc")
+      boundary_grob      <- sf::st_as_grob(x$geometry[[idx]],
+                                           gp = gp_boundary,
+                                           default.units = "npc")
       if (inherits(boundary_grob, "null"))
           next
       boundary_grobs     <- list(boundary_grob)
@@ -173,10 +176,12 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   # Plot the {sf} geometry first, then plot the tree of pattern grobs
   # over the top.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  grob_sf <- sf::st_as_grob(x$geometry, pch = pch, gp = gp)
+  grob_sf <- sf::st_as_grob(x$geometry, pch = pch, gp = gp_fill)
+  grob_border <- sf::st_as_grob(x$geometry, pch = pch, gp = gp_border)
   grid::grobTree(
     grob_sf,
-    pattern_grobs
+    pattern_grobs,
+    grob_border
   )
 }
 

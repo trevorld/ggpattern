@@ -1,8 +1,25 @@
 # ggpattern 0.3.2
 
+## Breaking changes
+
+To turn off "clipping" certain built-in patterns with the new R 4.1 graphic features 
+and instead use a raster image approximation one should now use
+`options(ggpattern_use_R4.1_masks = FALSE)` instead of `options(ggpattern_use_R4.1_clipping = FALSE)`.
+Alternatively, using `options(ggpattern_use_R4.1_features = FALSE)` to turn off all 
+R 4.1 features will continue to work.
+
 ## Bug fixes and minor improvements
 
-* `geom_sf_pattern()` manually clips patterns to the viewport (#60).
+* `geom_sf_pattern()` and `geom_polygon_pattern()` now support polygons with holes
+  by using "alpha masking" instead of a "clipping path".
+  If R 4.1 alpha mask feature is not supported by the active graphics device
+  (or the masking feature is declined) we use a raster image approximation of the pattern.
+  Resolution of the raster approximation can be adjusted by the `pattern_res` aesthetic
+  whose default in turn can be adjusted by the `"ggpattern_res"` global option.
+
+  This change fixes patterns filling holed polygons in certain graphic devices (#68).
+  This change fixes patterns sometimes escaping plot window (#60).
+* `geom_sf_pattern()` now draws a "border" grob on top of the "pattern" grob.
 * Continuous "pattern_colour", "pattern_fill", and "pattern_fill2" color scales'
   default "colourbar" guide support should now work.
 * `scale_pattern_size_continuous()` now uses "pattern_size" aesthetic 

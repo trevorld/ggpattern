@@ -32,7 +32,7 @@ get_aspect_ratio <- function() {
 #'
 #' @param all_params parameters for all the elements
 #' @param boundaries boundary_df objects for each of the elements
-#'                   and/or grid grobs to use as a clipping path
+#'                   and/or grid grobs to use as an alpha mask
 #' @param aspect_ratio aspect ratio
 #'
 #' @return grobTree containing all the pattern grobs
@@ -69,10 +69,11 @@ create_pattern_grobs <- function(all_params, boundaries, aspect_ratio) {
 
     grob <- gridpattern_pattern(params, boundary_df, aspect_ratio, legend = FALSE)
     if (is.grob(boundary)) {
-        if (inherits(grob, "clipping_path")) {
-            grob <- editGrob(grob, clipper = boundary)
+        if (inherits(grob, "alpha_mask")) {
+            grob <- editGrob(grob, masker = boundary)
         } else {
-            grob <- gridpattern::clippingPathGrob(grob, boundary, res = params$pattern_res)
+            grob <- gridpattern::alphaMaskGrob(grob, boundary,
+                                               res = params$pattern_res)
         }
     }
     grob
