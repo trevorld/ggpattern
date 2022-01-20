@@ -4,6 +4,8 @@ test_that("geometry patterns work as expected", {
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
+    rlang::local_options(ggpattern_use_R4.1_masks = FALSE)
+
     expect_doppelganger("bar", {
         ggplot(ggplot2::mpg, aes(class)) +
           geom_bar_pattern(
@@ -253,6 +255,8 @@ test_that("geom_sf_pattern() works as expected", {
     skip_if_not_installed("sf")
     skip_if_not_installed("vdiffr")
     library("vdiffr")
+
+    rlang::local_options(ggpattern_use_R4.1_masks = FALSE)
 
     expect_doppelganger("sf", {
       nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)

@@ -4,6 +4,8 @@ test_that("array patterns work as expected", {
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
+    rlang::local_options(ggpattern_use_R4.1_gradients = FALSE)
+
     df <- data.frame(trt = c("a", "b", "c"),
                      outcome = c(2.3, 1.9, 3.2))
 

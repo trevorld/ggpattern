@@ -151,7 +151,7 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   sf_vp <- sf::st_polygon(list(matrix(c(0, 0, 0, 1, 1, 1, 1, 0, 0, 0), byrow=TRUE, ncol=2)))
   pattern_grobs_list <- list()
-  gp_boundary <- gpar(col = NA, lwd = 0, fill = "black")
+  gp_boundary <- gpar(col = NA, lwd = 0, fill = "white")
   for (idx in seq(nrow(x))) {
     if (inherits(x$geometry[[idx]], 'MULTIPOLYGON') || inherits(x$geometry[[idx]], 'POLYGON')) {
       boundary_grob      <- sf::st_as_grob(x$geometry[[idx]],
