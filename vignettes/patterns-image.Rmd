@@ -17,6 +17,18 @@ suppressPackageStartupMessages({
 })
 ```
 
+## Introduction to the 'image and 'placeholder' patterns
+
+* The 'image' pattern allows filling a geom with an image from file or URL.
+  It is an "array" pattern that depends on the suggested package `{magick}`.
+* The 'placeholder' pattern fetches images from image placeholder sites.
+  It is an "array" pattern that depends on the suggested package `{magick}`
+  and additionally requires an internet connect.
+* For more info on these patterns see their `{gridpattern}` documentation:
+
+  * [`help("grid.pattern_image", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_image.html)
+  * [`help("grid.pattern_placeholder", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_placeholder.html)
+
 ## The `image` pattern - filling a geom with an image from file or URL
 
 This pattern will load an image from a file or URL  (`pattern_filename`)

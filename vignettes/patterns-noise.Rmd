@@ -36,6 +36,11 @@ suppressPackageStartupMessages({
 * The `{ambient}` package offers a way of creating multiple different types of 
   noise as a matrix of values.  The 'ambient' pattern maps this noise 
   to a colour gradient between two user-specified colours.
+* For more info on these patterns see their `{gridpattern}` documentation:
+
+  * [`help("grid.pattern_gradient", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_gradient.html)
+  * [`help("grid.pattern_plasma", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_plasma.html)
+  * [`help("grid.pattern_ambient", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_ambient.html)
 
 ## Pattern Parameters
 

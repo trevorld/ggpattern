@@ -32,6 +32,12 @@ suppressPackageStartupMessages({
 * The 'pch' pattern draws "plotting character" symbols as in `graphics::points()`
 * The 'regular\_polygon' pattern draws convex/star regular polygons
 * The 'rose' pattern draws [rose curves](https://en.wikipedia.org/wiki/Rose\_(mathematics))
+* For more info on these patterns see their `{gridpattern}` documentation:
+
+  * [`help("grid.pattern_circle", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_circle.html)
+  * [`help("grid.pattern_pch", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_pch.html)
+  * [`help("grid.pattern_regular_polygon", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_regular_polygon.html)
+  * [`help("grid.pattern_rose", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_rose.html)
 
 ## Pattern Parameters
 

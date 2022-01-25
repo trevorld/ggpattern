@@ -30,6 +30,10 @@ suppressPackageStartupMessages({
   It is an "array" pattern that depends on the suggested package `{magick}`.
 * The 'polygon_tiling' pattern supports a large number of polygon tilings.
   It is a "geometry" pattern.
+* For more info on these patterns see their `{gridpattern}` documentation:
+
+  * [`help("grid.pattern_magick", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_magick.html)
+  * [`help("grid.pattern_polygon_tiling", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_polygon_tiling.html)
 
 ## `pattern = 'magick'` - filling a geom with pattern from `imagemagick`
 

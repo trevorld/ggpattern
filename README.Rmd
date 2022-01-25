@@ -130,7 +130,7 @@ ggplot(df) +
 
 ## Available Geoms
 
-`ggpattern` includes versions of (nearly) all geoms from `ggplot2` which could plausiblly
+`ggpattern` includes versions of (nearly) all geoms from `ggplot2` which could plausibly
 support being filled with a pattern.
 
 See the vignette galleries for examples of all the available geoms filled with 
@@ -222,29 +222,27 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 
 #### General examples
 
-* [geom gallery (geometry-based patterns)](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html)  Examples of every geom filled with the geometry-based patterns (i.e. 'stripe', 'crosshatch', 'circle')
-* [geom gallery (array-based patterns)](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html) Examples of every geom filled with the array-based patterns (i.e. 'image', 'magick', 'gradient', 'plasma', 'placeholder')
+* [Examples of every geom filled with the geometry-based patterns (i.e. 'stripe', 'crosshatch', 'circle')](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html): `vignette("geom-gallery-geometry", package = "ggpattern")`
+* [Examples of every geom filled with the array-based patterns (i.e. 'image', 'magick', 'gradient', 'plasma', 'placeholder')](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html): `vignette("geom-gallery-geometry", package = "ggpattern")`
 
 #### Exploration of pattern parameters and appearance
 
-* Geometry-based patterns
-    * [Common aesthetics for geometry-based patterns](https://coolbutuseless.github.io/package/ggpattern/articles/geometry-based-pattern-parameters.html)
-    * [stripes](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-stripe.html)
-    * [points](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-points.html)
+* [Patterns 'circle', 'pch', 'regular_polygon', 'rose' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-points.html): `vignette("patterns-points", package = "ggpattern")`
+* [Patterns 'gradient', 'ambient', 'plasma' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-noise.html): `vignette("patterns-noise", package = "ggpattern")`
+* [Patterns 'image' and 'placeholder' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-image.html): `vignette("patterns-image", package = "ggpattern")`
+* [Patterns 'magick' and 'polygon_tiling' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-tilings.html): `vignette("patterns-tilings", package = "ggpattern")`
+* [Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-stripes.html): `vignette("patterns-stripes", package = "ggpattern")`
 
-* Array-based patterns
-    * [image](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-image.html)
-    * [magick](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-magick.html)
-    * [noise](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-noise.html)
-    * [placeholder](https://coolbutuseless.github.io/package/ggpattern/articles/pattern-placeholder.html)
+* [Parameters for Geometry-based Patterns](https://coolbutuseless.github.io/package/ggpattern/articles/geometry-based-pattern-parameters.html): `vignette("geometry-based-pattern-parameters", package = "ggpattern")`
 
 #### Developing your own pattern
 
-* [Devloping Patterns](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns.html)
+* [Developing Patterns](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns.html): `vignette("developing-patterns", package = "ggpattern")`
 
 #### Other examples
 
-* [gganimate](https://coolbutuseless.github.io/package/ggpattern/articles/gganimate.html)
+* [Animating Patterns with `{gganimate}`](https://coolbutuseless.github.io/package/ggpattern/articles/gganimate.html): `vignette("gganimate", package = "ggpattern")`
+* [Creating the Logo in R](https://coolbutuseless.github.io/package/ggpattern/articles/create-logo.html): `vignette("create-logo", package = "ggpattern")`
 
 # Limitations
 

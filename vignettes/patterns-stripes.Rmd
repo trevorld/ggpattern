@@ -32,6 +32,12 @@ suppressPackageStartupMessages({
 * The 'wave' pattern draws a set of (horizontal) **wavy** lines.
 * The 'crosshatch' pattern draws a set of vertical lines on top of a set of horizontal lines.
 * The 'weave' pattern draws a set of vertical lines interlaced with a set of horizontal lines.
+* For more info on these patterns see their `{gridpattern}` documentation:
+
+  * [`help("grid.pattern_stripe", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_stripe.html)
+  * [`help("grid.pattern_wave", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_wave.html)
+  * [`help("grid.pattern_crosshatch", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_crosshatch.html)
+  * [`help("grid.pattern_weave", package = "gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern_weave.html)
 
 ## Pattern Parameters
 
