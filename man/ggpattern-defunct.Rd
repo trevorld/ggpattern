@@ -9,73 +9,48 @@
 \alias{magick_pattern_stripe_names}
 \alias{placeholder_names}
 \alias{calculate_bbox_polygon_df}
-\alias{convert_polygon_df_to_alpha_channel}
-\alias{rotate_polygon_df}
 \alias{convert_img_to_array}
+\alias{convert_polygon_df_to_alpha_channel}
+\alias{convert_polygon_df_to_polygon_grob}
+\alias{convert_polygon_df_to_polygon_sf}
+\alias{convert_polygon_sf_to_polygon_df}
 \alias{create_gradient_img}
 \alias{fetch_placeholder_img}
 \alias{fill_area_with_img}
+\alias{rotate_polygon_df}
 \title{Defunct data/functions}
 \usage{
-calculate_bbox_polygon_df(polygon_df)
+calculate_bbox_polygon_df(...)
 
-convert_polygon_df_to_alpha_channel(polygon_df, width, height)
+convert_img_to_array(...)
 
-rotate_polygon_df(polygon_df, angle, aspect_ratio)
+convert_polygon_df_to_alpha_channel(...)
 
-convert_img_to_array(img)
+convert_polygon_df_to_polygon_grob(...)
 
-create_gradient_img(
-  width = 100,
-  height = 100,
-  colour1 = "red",
-  colour2 = "blue",
-  orientation = "vertical"
-)
+convert_polygon_df_to_polygon_sf(...)
 
-fetch_placeholder_img(width = 100, height = 100, type = "kitten")
+convert_polygon_sf_to_polygon_df(...)
 
-fill_area_with_img(
-  img,
-  width,
-  height,
-  type = "squish",
-  gravity = "Center",
-  filter = "lanczos",
-  scale = 1
-)
+create_gradient_img(...)
+
+fetch_placeholder_img(...)
+
+fill_area_with_img(...)
+
+rotate_polygon_df(...)
 }
 \arguments{
-\item{polygon_df}{polygon_df data.frame}
-
-\item{width}{Width}
-
-\item{height}{Height}
-
-\item{angle}{angle in degrees}
-
-\item{aspect_ratio}{aspect ratio}
-
-\item{img}{\code{magick} image}
-
-\item{colour1}{Colour}
-
-\item{colour2}{Colour}
-
-\item{orientation}{Orientation}
-
-\item{type}{\code{magick} type}
-
-\item{gravity}{\code{magick} gravity}
-
-\item{filter}{\code{magick} filter}
-
-\item{scale}{Scale}
+\item{...}{Ignored}
 }
 \description{
 These data/functions are Defunct in this release of ggpattern.
 \enumerate{
 \item{For \code{magick_filter_names} use \code{magick::filter_types()} instead.}
 \item{For \code{magick_gravity_names} use \code{magick::gravity_types()} instead.}
+\item{For \code{magick_pattern_intensity_names} use \code{gridpattern::names_magick_intensity}.}
+\item{For \code{magick_pattern_names} use \code{gridpattern::names_magick}.}
+\item{For \code{magick_pattern_stripe_names} use \code{gridpattern::names_magick_stripe}.}
+\item{For \code{placeholder_names} use \code{gridpattern::names_placeholder}.}
 }
 }

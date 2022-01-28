@@ -21,10 +21,6 @@ reference:
         - create_polygon_df
         - is_polygon_df
         - draw_key_polygon_pattern
-  - title: "Deprecated functions"
-    desc: "Deprecated functions that may be removed in a future version"
-    contents:
-        - ggpattern-deprecated
   - title: "Defunct functions"
     desc: "Defunct functions that were removed from a previous version"
     contents:

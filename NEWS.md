@@ -1,12 +1,21 @@
-# ggpattern 0.3.2
+# ggpattern 0.4.0
 
 ## Breaking changes
 
-To turn off "clipping" certain built-in patterns with the new R 4.1 graphic features 
-and instead use a raster image approximation one should now use
-`options(ggpattern_use_R4.1_masks = FALSE)` instead of `options(ggpattern_use_R4.1_clipping = FALSE)`.
-Alternatively, using `options(ggpattern_use_R4.1_features = FALSE)` to turn off all 
-R 4.1 features will continue to work.
+* To turn off "clipping" certain built-in patterns with the new R 4.1 graphic features 
+  and instead use a raster image approximation one should now use
+  `options(ggpattern_use_R4.1_masks = FALSE)` instead of `options(ggpattern_use_R4.1_clipping = FALSE)`.
+  Alternatively, using `options(ggpattern_use_R4.1_features = FALSE)` to turn off all 
+  R 4.1 features will continue to work.
+
+* {ggpattern} removes the following data/functions
+  which were deprecated in a previous version of {ggpattern}:
+
+  * `convert_polygon_df_to_polygon_grob()`
+  * `convert_polygon_df_to_polygon_sf()`
+  * `convert_polygon_sf_to_polygon_df()`
+
+* Defunct functions are no longer exported.
 
 ## Bug fixes and minor improvements
 
@@ -61,14 +70,14 @@ they may be removed in a future version of {ggpattern}:
 
 * {ggpattern} now supports the following aesthetics (#45):
 
-    * `pattern_grid`: Supported by most "geometry" patterns.
-      Default is "square" while "hex" and "hex\_circle" allow hexagonal layouts.
-    * `pattern_res`: Supported by "array" patterns.
-      Allow user to explicitly set resolution of image-based patterns.
-    * `pattern_rot`: Used by "pch", "regular\_polygon", "rose", and "text" patterns 
-      to rotate symbol within pattern.
-      'rot' is parameter used in `grid:textGrob()` to indicate rotation and
-      `pattern_angle` already used to rotate entire pattern.
+  * `pattern_grid`: Supported by most "geometry" patterns.
+    Default is "square" while "hex" and "hex\_circle" allow hexagonal layouts.
+  * `pattern_res`: Supported by "array" patterns.
+    Allow user to explicitly set resolution of image-based patterns.
+  * `pattern_rot`: Used by "pch", "regular\_polygon", "rose", and "text" patterns 
+    to rotate symbol within pattern.
+    'rot' is parameter used in `grid:textGrob()` to indicate rotation and
+    `pattern_angle` already used to rotate entire pattern.
 
 ## Bug fixes and minor improvements
 
