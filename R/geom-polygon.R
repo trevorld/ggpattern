@@ -79,21 +79,26 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       # drawn last, there can be z-ordering issues that the user will have
       # to handle manually if there are overlapping elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      ggname(
-        "geom_polygon",
-        grid::grobTree(
+
+      col <- first_rows$colour
+      fill <- scales::alpha(first_rows$fill, first_rows$alpha)
+      lwd <- first_rows$size * .pt
+
+      polygon_grob_fn <- function(col, fill, lwd) {
           grid::polygonGrob(
             munched$x, munched$y, default.units = "native",
             id = munched$group,
-            gp = grid::gpar(
-              col  = first_rows$colour,
-              fill = scales::alpha(first_rows$fill, first_rows$alpha),
-              lwd  = first_rows$size * .pt,
-              lty  = first_rows$linetype
-            )
-          ),
+            gp = grid::gpar(col = col, fill = fill, lwd = lwd,
+                            lty  = first_rows$linetype)
+          )
+      }
+      ggname(
+        "geom_polygon",
+        grid::grobTree(
+          polygon_grob_fn(NA, fill, 0),
           # verboseGrob("polygon"),
-          pattern_grobs
+          pattern_grobs,
+          polygon_grob_fn(col, NA, lwd)
         )
       )
     } else {
@@ -217,7 +222,7 @@ if (FALSE) {
   datapoly <- merge(values, positions, by = c("id"))
 
   p <- ggplot(datapoly, aes(x = x, y = y)) +
-    geom_polygon_pattern(aes(fill = value, group = id))
+    geom_polygon_pattern(aes(fill = value, group = id), col = "red", lwd = 2)
   p
 
 }

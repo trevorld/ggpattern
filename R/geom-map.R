@@ -93,23 +93,28 @@ GeomMapPattern <- ggproto(
     aspect_ratio <- get_aspect_ratio()
     pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, aspect_ratio)
 
+    col <- data$colour
+    fill <- scales::alpha(data$fill, data$alpha)
+    lwd <- data$size * .pt
 
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Tree - final assembled grob tree
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    grid::grobTree(
+    base_grob_fn <- function(col, fill, lwd) {
       grid::polygonGrob(
         x = coords$x,
         y = coords$y,
         default.units = "native",
         id = grob_id,
-        gp = gpar(
-          col  = data$colour,
-          fill = scales::alpha(data$fill, data$alpha),
-          lwd  = data$size * .pt
-        )
-      ),
-      pattern_grobs
+        gp = gpar(col = col, fill = fill, lwd = lwd)
+      )
+    }
+
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Tree - final assembled grob tree
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    grid::grobTree(
+      base_grob_fn(NA, fill, NA),
+      pattern_grobs,
+      base_grob_fn(col, NA, lwd)
     )
   },
 
@@ -137,6 +142,8 @@ if (FALSE) {
         pattern         = state
       ),
       fill = 'white',
+      col = "blue",
+      lwd = 2,
       map = states_map
     ) +
     expand_limits(x = states_map$long, y = states_map$lat) +

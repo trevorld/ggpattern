@@ -240,29 +240,34 @@ draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = 1) {
   # `lineend` is a workaround for Windows and intentionally kept unexposed
   # as an argument. (c.f. https://github.com/tidyverse/ggplot2/issues/3037#issuecomment-457504667)
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_grob <- rectGrob(
-    width  = unit(1, "npc"), #- unit(lwd, "mm"),
-    height = unit(1, "npc"), #- unit(lwd, "mm"),
-    gp = gpar(
-      col      = data$colour %||% NA,
-      fill     = scales::alpha(data$fill %||% "grey20", data$alpha),
-      lty      = data$linetype %||% 1,
-      lwd      = lwd,
-      linejoin = params$linejoin %||% "mitre",
-      lineend  = if (identical(params$linejoin, "round")) "round" else "square"
-    ))
-
+  key_grob_fn <- function(col, fill, lwd) {
+      rectGrob(
+        width  = unit(1, "npc"), #- unit(lwd, "mm"),
+        height = unit(1, "npc"), #- unit(lwd, "mm"),
+        gp = gpar(
+          col      = col,
+          fill     = fill,
+          lty      = data$linetype %||% 1,
+          lwd      = lwd,
+          linejoin = params$linejoin %||% "mitre",
+          lineend  = if (identical(params$linejoin, "round")) "round" else "square"
+        ))
+  }
+  col <- data$colour %||% NA
+  fill <- scales::alpha(data$fill %||% "grey20", data$alpha)
+  key_grob_fill <- key_grob_fn(NA, fill, 0)
+  key_grob_border <- key_grob_fn(col, NA, lwd)
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Assemble grob to return
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   grid::grobTree(
-    key_grob,
+    key_grob_fill,
     # verboseGrob("legend"),
-    key_pattern_grob
+    key_pattern_grob,
+    key_grob_border
   )
 }
-
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname draw_key_polygon_pattern

@@ -32,7 +32,8 @@
 
   This change fixes patterns filling holed polygons in certain graphic devices (#68).
   This change fixes patterns sometimes escaping plot window (#60).
-* `geom_sf_pattern()` now draws a "border" grob on top of the "pattern" grob.
+* `draw_key_polygon_pattern()`, `GeomMapPattern`, `GeomPolygonPattern`, and 
+  `GeomSfPattern` now draws a "border" grob on top of the "pattern" grob (#72).
 * Continuous "pattern_colour", "pattern_fill", and "pattern_fill2" color scales'
   default "colourbar" guide support should now work.
 * `scale_pattern_size_continuous()` now uses "pattern_size" aesthetic 
