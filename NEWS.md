@@ -17,6 +17,10 @@
 
 * Defunct functions are no longer exported.
 
+## New features
+
+* {ggpattern} now supports `geom_histogram_pattern()` (#71)
+
 ## Bug fixes and minor improvements
 
 * `geom_sf_pattern()` and `geom_polygon_pattern()` now support polygons with holes

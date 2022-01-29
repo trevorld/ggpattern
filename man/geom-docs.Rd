@@ -6,6 +6,7 @@
 \name{geom_rect_pattern}
 \alias{geom_rect_pattern}
 \alias{geom_bar_pattern}
+\alias{geom_histogram_pattern}
 \alias{geom_bin2d_pattern}
 \alias{geom_boxplot_pattern}
 \alias{geom_col_pattern}
@@ -40,6 +41,20 @@ geom_bar_pattern(
   ...,
   width = NULL,
   binwidth = NULL,
+  na.rm = FALSE,
+  orientation = NA,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
+
+geom_histogram_pattern(
+  mapping = NULL,
+  data = NULL,
+  stat = "bin",
+  position = "stack",
+  ...,
+  binwidth = NULL,
+  bins = NULL,
   na.rm = FALSE,
   orientation = NA,
   show.legend = NA,
@@ -269,6 +284,8 @@ bin width of a time variable is the number of seconds.}
 automatically determines the orientation from the aesthetic mapping. In the
 rare event that this fails it can be given explicitly by setting \code{orientation}
 to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
+
+\item{bins}{Number of bins. Overridden by \code{binwidth}. Defaults to 30.}
 
 \item{outlier.colour}{Default aesthetics for outliers. Set to \code{NULL} to inherit from the
 aesthetics used for the box.

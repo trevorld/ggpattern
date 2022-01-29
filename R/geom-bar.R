@@ -125,10 +125,10 @@ geom_bar_pattern <- function(mapping = NULL, data = NULL,
                              inherit.aes = TRUE) {
 
   if (!is.null(binwidth)) {
-    warn("`geom_bar_pattern()` no longer has a `binwidth` parameter. Please use `geom_histogram()` instead.")
-    return(geom_histogram(mapping = mapping, data = data,
-                          position = position, width = width, binwidth = binwidth, ...,
-                          na.rm = na.rm, show.legend = show.legend, inherit.aes = inherit.aes))
+    warn("`geom_bar_pattern()` no longer has a `binwidth` parameter. Please use `geom_histogram_pattern()` instead.")
+    return(geom_histogram_pattern(mapping = mapping, data = data,
+                                  position = position, width = width, binwidth = binwidth, ...,
+                                  na.rm = na.rm, show.legend = show.legend, inherit.aes = inherit.aes))
   }
 
   layer(
@@ -147,6 +147,23 @@ geom_bar_pattern <- function(mapping = NULL, data = NULL,
     )
   )
 }
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname geom-docs
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+geom_histogram_pattern <- function (mapping = NULL, data = NULL,
+                                    stat = "bin", position = "stack", ...,
+                                    binwidth = NULL, bins = NULL, na.rm = FALSE,
+                                    orientation = NA,
+                                    show.legend = NA, inherit.aes = TRUE)
+{
+    layer(data = data, mapping = mapping, stat = stat, geom = GeomBarPattern,
+          position = position, show.legend = show.legend, inherit.aes = inherit.aes,
+          params = list(binwidth = binwidth, bins = bins, na.rm = na.rm,
+                        orientation = orientation, pad = FALSE, ...))
+}
+
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Geom ggproto objects
