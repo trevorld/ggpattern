@@ -43,16 +43,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Mike FC \email{mikefc@coolbutuseless.com}
+\strong{Maintainer}: Trevor L Davis \email{trevorldavis@gmail.com}
 
 Authors:
 \itemize{
-  \item Trevor L Davis
-}
-
-Other contributors:
-\itemize{
-  \item ggplot2 authors [copyright holder]
+  \item Mike FC \email{mikefc@coolbutuseless.com}
+  \item ggplot2 authors
 }
 
 }
