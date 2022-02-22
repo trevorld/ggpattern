@@ -16,6 +16,7 @@
 vignettes/precompute_vignettes.R
 vignettes/*.Rmd.orig
 
+^tests$
 ^vignettes/images$
 ^vignettes/create-logo.Rmd$
 ^vignettes/geometry-based-pattern-parameters.Rmd$

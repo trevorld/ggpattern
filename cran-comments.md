@@ -1,3 +1,7 @@
+As requested by Dr. Uwe Ligges I have reduced the size of the package tarball
+under 5 MB by omitting the package (visual) unit tests 
+and omitting seven package vignettes.
+
 ## Test environments
 
 * win-builder (windows, R devel)
@@ -22,5 +26,5 @@ Possibly misspelled words in DESCRIPTION:
   geoms (10:33)
 ```
 
-"geoms" is not misspelled.  Other R packages such as {ggforce} use it
-in their DESCRIPTION without quotes.
+"geoms" is not misspelled.  Other CRAN packages such as {ggforce} 
+use it in their DESCRIPTION without quotes.
