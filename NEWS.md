@@ -1,4 +1,4 @@
-# ggpattern 0.4.0
+# ggpattern 0.4.1
 
 ## Breaking changes
 

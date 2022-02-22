@@ -4,11 +4,11 @@
 \name{ggpattern}
 \alias{ggpattern}
 \alias{ggpattern-package}
-\title{ggpattern: Geoms with Patterns}
+\title{ggpattern: 'ggplot2' Pattern Geoms}
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Geoms with patterns for ggplot2.
+Provides 'ggplot2' geoms filled with various patterns. Includes a patterned version of every 'ggplot2' geom that has a region that can be filled with a pattern. Provides a suite of 'ggplot2' aesthetics and scales for controlling pattern appearances. Supports over a dozen builtin patterns (every pattern implemented by 'gridpattern') as well as allowing custom user-defined patterns.
 }
 \section{Package options}{
 

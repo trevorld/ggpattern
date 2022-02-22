@@ -180,6 +180,8 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 
 # Vignettes
 
+**Note:** due to CRAN package size limits many of these vignettes are only available in the Github version of `{ggpattern}` and the package website.
+
 #### General examples
 
 * [Examples of every geom filled with the geometry-based patterns (i.e. 'stripe', 'crosshatch', 'circle')](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html): `vignette("geom-gallery-geometry", package = "ggpattern")`

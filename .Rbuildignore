@@ -1,7 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.Rbuildignore_CRAN$
 ^README\.Rmd$
 ^LICENSE.md$
+^cran-comments.md$
 ^working$
 ^pkgdown$
 ^docs$
