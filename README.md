@@ -9,6 +9,7 @@ output: github_document
 # ggpattern <img src="man/figures/logo.png" align="right" width="300" />
 
 <!-- badges: start -->
+[![CRAN Status Badge](https://www.r-pkg.org/badges/version/ggpattern)](https://cran.r-project.org/package=ggpattern)
 ![](http://img.shields.io/badge/cool-useless-green.svg)
 [![R build status](https://github.com/coolbutuseless/ggpattern/workflows/R-CMD-check/badge.svg)](https://github.com/coolbutuseless/ggpattern/actions)
 <!-- badges: end -->
