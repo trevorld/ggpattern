@@ -43,7 +43,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Trevor L Davis \email{trevorldavis@gmail.com}
+\strong{Maintainer}: Trevor L Davis \email{trevor.l.davis@gmail.com}
 
 Authors:
 \itemize{

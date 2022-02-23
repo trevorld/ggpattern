@@ -27,7 +27,7 @@ pattern_aesthetics <- aes(
   pattern_key_scale_factor = 1,
 
   pattern_filename         = '',
-  pattern_gravity          = 'center',   # magick::gravity_types()
+  pattern_gravity          = NA,   # magick::gravity_types()
   pattern_filter           = '',  # magick::filter_types()
   pattern_scale            = 1,
   pattern_orientation      = 'vertical',

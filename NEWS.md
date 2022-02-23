@@ -1,3 +1,11 @@
+# ggpattern 0.4.3
+
+## Bug fixes and minor improvements
+
+* Fixes bug in "image" pattern when `pattern_type = "tile"` (#37).
+  Transparent parts of tiled images are now consistently transparent.
+  We now support the `pattern_gravity` aesthetic when `pattern_type = "tile"`.
+
 # ggpattern 0.4.2
 
 ## Breaking changes

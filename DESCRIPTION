@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: 'ggplot2' Pattern Geoms
-Version: 0.4.2
+Version: 0.4.3-1
 Authors@R: c(person("Mike", "FC", role = "aut",
                     email = "mikefc@coolbutuseless.com"),
              person("Trevor L", "Davis", role = c("aut", "cre"),
@@ -18,9 +18,10 @@ Imports:
     ggplot2,
     glue,
     grid,
-    gridpattern (>= 0.5.1),
+    gridpattern (>= 0.5.2-1),
     rlang,
     scales,
+Remotes: trevorld/gridpattern
 Suggests: 
     ambient,
     dplyr,
