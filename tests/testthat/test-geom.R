@@ -318,6 +318,7 @@ test_that("geom_map_pattern() works as expected", {
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
+    skip_if_not_installed("mapproj")
     skip_if_not_installed("maps")
     expect_doppelganger("map", {
       library(maps)
