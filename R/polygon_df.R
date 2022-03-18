@@ -43,14 +43,22 @@ is_polygon_df <- function(x) {
 # Create bounding box polygon df bounding grob
 convert_grob_to_polygon_df <- function(grob) {
     boundary_points <- grobCoords(grob, closed = TRUE)
-    xl <- sapply(boundary_points, function(x) x$x)
-    yl <- sapply(boundary_points, function(x) x$y)
-    x <- range(unlist(xl))
-    y <- range(unlist(yl))
+    x <- get_coords(boundary_points, axis = "x")
+    y <- get_coords(boundary_points, axis = "y")
     x <- convertX(unit(x, "in"), "npc", valueOnly = TRUE)
     y <- convertY(unit(y, "in"), "npc", valueOnly = TRUE)
     x <- c(x[1], x[1], x[2], x[2])
     y <- c(y[1], y[2], y[2], y[1])
+
     create_polygon_df(x, y)
 }
 
+# Get coords from objects returned by `grobCoords()`
+get_coords <- function(coords, axis = "x") {
+    if (inherits(coords, "GridGTreeCoords")) {
+        xl <- sapply(coords, get_coords, axis = axis)
+    } else {
+        xl <- sapply(coords, function(x) range(x[[axis]]))
+    }
+    range(unlist(xl))
+}
