@@ -42,7 +42,7 @@ is_polygon_df <- function(x) {
 
 # Create bounding box polygon df bounding grob
 convert_grob_to_polygon_df <- function(grob) {
-    boundary_points <- grobPoints(grob, closed = TRUE)
+    boundary_points <- grobCoords(grob, closed = TRUE)
     xl <- sapply(boundary_points, function(x) x$x)
     yl <- sapply(boundary_points, function(x) x$y)
     x <- range(unlist(xl))
