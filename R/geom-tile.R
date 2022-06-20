@@ -49,13 +49,13 @@ GeomTilePattern <- ggproto(
   default_aes = augment_aes(
     pattern_aesthetics,
     aes(
-      fill     = "grey20",
-      colour   = NA,
-      size     = 0.1,
-      linetype = 1,
-      alpha    = NA,
-      width    = NA,
-      height   = NA
+      fill      = "grey20",
+      colour    = NA,
+      linewidth = 0.1,
+      linetype  = 1,
+      alpha     = NA,
+      width     = NA,
+      height    = NA
     )
   ),
 
@@ -79,5 +79,3 @@ if (FALSE) {
     labs(title = "ggpattern::geom_tile_pattern()")
 
 }
-
-

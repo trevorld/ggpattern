@@ -95,7 +95,7 @@ GeomMapPattern <- ggproto(
 
     col <- data$colour
     fill <- scales::alpha(data$fill, data$alpha)
-    lwd <- data$size * .pt
+    lwd <- data$linewidth * .pt
 
     base_grob_fn <- function(col, fill, lwd) {
       grid::polygonGrob(

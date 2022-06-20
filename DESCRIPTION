@@ -16,12 +16,14 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports:
-    ggplot2,
+    ggplot2 (>= 3.3.6.9000),
     glue,
     grid,
     gridpattern (>= 1.0.1),
     rlang,
     scales,
+Remotes: 
+    tidyverse/ggplot2
 Suggests: 
     ambient,
     dplyr,

@@ -82,7 +82,7 @@ GeomBoxplotPattern <- ggproto(
 
     common <- list(
       colour = data$colour,
-      size = data$size,
+      linewidth = data$linewidth,
       linetype = data$linetype,
       fill = scales::alpha(data$fill, data$alpha),
       group = data$group
@@ -157,10 +157,11 @@ GeomBoxplotPattern <- ggproto(
       weight   = 1,
       colour   = "grey20",
       fill     = "white",
-      size     = 0.5,
+      size     = NULL,
       alpha    = NA,
       shape    = 19,
-      linetype = "solid"
+      linetype = "solid",
+      linewidth = 0.5
     )
   ),
 
@@ -171,6 +172,8 @@ GeomBoxplotPattern <- ggproto(
 
   draw_key = function(self, ...) {
     draw_key_boxplot_pattern(..., aspect_ratio = self$aspect_ratio)
-  }
+  },
+
+  rename_size = TRUE
 )
 

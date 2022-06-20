@@ -101,18 +101,19 @@ GeomViolinPattern <- ggproto(
       weight   = 1,
       colour   = "grey20",
       fill     = "white",
-      size     = 0.5,
+      linewidth = 0.5,
       alpha    = NA,
       linetype = "solid"
     )
   ),
 
-
   aspect_ratio = 1,
 
   draw_key = function(self, ...) {
     draw_key_polygon_pattern(..., aspect_ratio = self$aspect_ratio)
-  }
+  },
+
+  rename_size = TRUE
 )
 
 

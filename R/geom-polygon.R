@@ -25,7 +25,6 @@ geom_polygon_pattern <- function(mapping = NULL, data = NULL,
   )
 }
 
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname ggpattern-ggproto
 #' @format NULL
@@ -82,7 +81,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
 
       col <- first_rows$colour
       fill <- scales::alpha(first_rows$fill, first_rows$alpha)
-      lwd <- first_rows$size * .pt
+      lwd <- first_rows$linewidth * .pt
 
       polygon_grob_fn <- function(col, fill, lwd) {
           grid::polygonGrob(
@@ -145,13 +144,13 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       gp_fill <- grid::gpar(
          col  = NA,
          fill = scales::alpha(first_rows$fill, first_rows$alpha),
-         lwd  = first_rows$size * .pt,
+         lwd  = first_rows$linewidth * .pt,
          lty  = first_rows$linetype
        )
       gp_border <- grid::gpar(
           col  = first_rows$colour,
           fill = NA,
-          lwd  = first_rows$size * .pt,
+          lwd  = first_rows$linewidth * .pt,
           lty  = first_rows$linetype
         )
       path_grob_fn <- function(gp = gpar()) {
@@ -191,15 +190,15 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
     ggplot2::aes(
       colour           = "NA",
       fill             = "grey20",
-      size             = 0.5,
+      linewidth        = 0.5,
       linetype         = 1,
       alpha            = NA,
       subgroup         = NULL,
     )
-  )
+  ),
+
+  rename_size = TRUE
 )
-
-
 
 if (FALSE) {
   library(ggplot2)
