@@ -39,12 +39,13 @@ GeomDensityPattern <- ggproto(
     ggplot2::aes(
       colour   = 'black',
       fill     = "NA",
-      size     = 0.5,
+      linewidth= 0.5,
       linetype = 1,
       weight   = 1,
       alpha    = NA
     )
-  )
+  ),
+  rename_size = TRUE
 )
 
 

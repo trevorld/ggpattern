@@ -40,6 +40,7 @@ GeomSfPattern <- ggproto(
       fill     = NULL,
       size     = NULL,
       linetype = 1,
+      linewidth = NULL,
       alpha    = NA,
       stroke   = 0.5
     )
@@ -66,7 +67,8 @@ GeomSfPattern <- ggproto(
     } else {
       draw_key_polygon_pattern(data, params, size)
     }
-  }
+  },
+  rename_size = TRUE
 )
 
 default_aesthetics <- function(type) {
@@ -124,10 +126,13 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   fill       <- x$fill %||% defaults$fill[type_ind]
   fill       <- scales::alpha(fill, alpha)
   size       <- x$size %||% defaults$size[type_ind]
-  point_size <- ifelse(is_collection, x$size %||% defaults$point_size[type_ind], size)
+  linewidth <- x$linewidth %||% defaults$linewidth[type_ind]
+  point_size <- ifelse(is_collection,
+                       x$size %||% defaults$point_size[type_ind],
+                       ifelse(is_point, size, linewidth))
   stroke     <- (x$stroke %||% defaults$stroke[1]) * .stroke / 2
   fontsize   <- point_size * .pt + stroke
-  lwd        <- ifelse(is_point, stroke, size * .pt)
+  lwd        <- ifelse(is_point, stroke, linewidth * .pt)
   pch        <- x$shape %||% defaults$shape[type_ind]
   lty        <- x$linetype %||% defaults$linetype[type_ind]
 

@@ -39,7 +39,7 @@ GeomRectPattern <- ggplot2::ggproto(
     aes(
       colour          = NA,
       fill            = "grey35",
-      size            = 0.5,
+      linewidth       = 0.5,
       linetype        = 1,
       alpha           = NA
     )
@@ -112,7 +112,7 @@ GeomRectPattern <- ggplot2::ggproto(
             gp = grid::gpar(
               col      = NA,
               fill     = scales::alpha(coords$fill, coords$alpha),
-              lwd      = coords$size * .pt,
+              lwd      = coords$linewidth * .pt,
               lty      = coords$linetype,
               linejoin = linejoin,
               lineend  = if (identical(linejoin, "round")) "round" else "square"
@@ -136,7 +136,7 @@ GeomRectPattern <- ggplot2::ggproto(
             gp = grid::gpar(
               col      = coords$colour,
               fill     = NA,
-              lwd      = coords$size * .pt,
+              lwd      = coords$linewidth * .pt,
               lty      = coords$linetype,
               linejoin = linejoin,
               lineend  = if (identical(linejoin, "round")) "round" else "square"
@@ -145,7 +145,9 @@ GeomRectPattern <- ggplot2::ggproto(
         )
       )
     }
-  }
+  },
+
+  rename_size = TRUE
 )
 
 

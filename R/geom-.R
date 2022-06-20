@@ -111,7 +111,7 @@ create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_d
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # From 'draw_key_polygon', this sets default sizes if none given.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  data$size <- data$size %||% 0.5
+  data$size <- data$linewidth %||% data$size %||% 0.5
   lwd <- min(data$size, min(size) / 4) * .pt
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -216,7 +216,7 @@ create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_d
 draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = 1) {
 
   # message("draw_key_polygon_pattern(): aspect_ratio = ", aspect_ratio)
-  lwd <- min(data$size, min(size) / 4) #* .pt
+  lwd <- min(data$linewidth %||% data$size, min(size) / 4) #* .pt
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Currently not sure, why, but the key_grob is drawn slightly undersized
@@ -294,7 +294,7 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = 1) {
     gp = gpar(
       col = data$colour %||% "grey20",
       fill = scales::alpha(data$fill %||% "white", data$alpha),
-      lwd = (data$size %||% 0.5) * .pt,
+      lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
   )
@@ -307,7 +307,7 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = 1) {
     gp = gpar(
       col = data$colour %||% "grey20",
       fill = scales::alpha(data$fill %||% "white", data$alpha),
-      lwd = (data$size %||% 0.5) * .pt,
+      lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
   )
@@ -353,7 +353,7 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = 1) {
     gp = gpar(
       col = data$colour %||% "grey20",
       fill = scales::alpha(data$fill %||% "white", data$alpha),
-      lwd = (data$size %||% 0.5) * .pt,
+      lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
   )
@@ -363,7 +363,7 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = 1) {
     gp = gpar(
       col = data$colour %||% "grey20",
       fill = scales::alpha(data$fill %||% "white", data$alpha),
-      lwd = (data$size %||% 0.5) * .pt,
+      lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
   )

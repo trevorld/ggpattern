@@ -42,7 +42,7 @@ GeomRibbonPattern <- ggproto(
     ggplot2::aes(
       colour   = NA,
       fill     = "grey20",
-      size     = 0.5,
+      linewidth     = 0.5,
       linetype = 1,
       alpha    = NA
     )
@@ -64,7 +64,7 @@ GeomRibbonPattern <- ggproto(
 
     # Check that aesthetics are constant
     aes_names <- c(
-      "colour", "fill", "size", "linetype", "alpha",
+      "colour", "fill", "linewidth", "linetype", "alpha",
       names(pattern_aesthetics)
     )
 
@@ -154,14 +154,16 @@ GeomRibbonPattern <- ggproto(
       default.units = "native",
       gp = gpar(
         col = aes$colour,
-        lwd = aes$size * .pt,
+        lwd = aes$linewidth * .pt,
         lty = aes$linetype)
     )
 
 
 
     ggname("geom_ribbon", grobTree(g_poly, pattern_grobs, g_lines))
-  }
+  },
+
+  rename_size = TRUE
 
 )
 
@@ -202,11 +204,11 @@ GeomAreaPattern <- ggproto(
   default_aes = augment_aes(
     pattern_aesthetics,
     aes(
-      colour   = NA,
-      fill     = "grey20",
-      size     = 0.5,
-      linetype = 1,
-      alpha    = NA
+      colour    = NA,
+      fill      = "grey20",
+      linewidth = 0.5,
+      linetype  = 1,
+      alpha     = NA
     )
   ),
 
@@ -222,7 +224,7 @@ GeomAreaPattern <- ggproto(
     data <- ggplot2::flip_data(data, params$flipped_aes)
     data <- transform(data[order(data$PANEL, data$group, data$x), ], ymin = 0, ymax = y)
     ggplot2::flip_data(data, params$flipped_aes)
-  }
+  },
+
+  rename_size = TRUE
 )
-
-

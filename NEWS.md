@@ -1,3 +1,11 @@
+# ggpattern (development)
+
+## Deprecated features
+
+* In line with upstream changes in `{ggplot2}` a `linewidth` aesthetic has been introduced and supersedes the `size` aesthetic for scaling the width of patterned area border lines (#82). 
+ `size` will remain functioning but deprecated for these geoms and it is recommended to update all code to reflect the new aesthetic.  
+  Continue to use the `size` aesthetic to adjust the size of any *points* in `geom_boxplot_pattern()` and `geom_sf_pattern()`.
+
 # ggpattern 1.0.0
 
 ## Bug fixes and minor improvements
