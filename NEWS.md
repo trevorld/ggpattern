@@ -1,4 +1,4 @@
-# ggpattern 0.4.3
+# ggpattern 1.0.0
 
 ## Bug fixes and minor improvements
 
