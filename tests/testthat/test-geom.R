@@ -1,6 +1,7 @@
 context("geom")
 test_that("geometry patterns work as expected", {
     skip_on_ci()
+    skip_on_cran()
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 

@@ -1,5 +1,4 @@
 test_that("Zero area array fills work", {
-
   skip_if_not_installed("dplyr")
   skip_if_not_installed("magick")
   library(dplyr)
@@ -34,7 +33,5 @@ test_that("Zero area array fills work", {
   tmp <- tempfile(fileext = ".png")
   ggsave(tmp, p)
 
-
   expect_true(TRUE)
-
 })

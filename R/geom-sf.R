@@ -67,8 +67,7 @@ GeomSfPattern <- ggproto(
     } else {
       draw_key_polygon_pattern(data, params, size)
     }
-  },
-  rename_size = TRUE
+  }
 )
 
 default_aesthetics <- function(type) {
