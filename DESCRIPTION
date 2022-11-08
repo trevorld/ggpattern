@@ -22,7 +22,6 @@ Imports:
     gridpattern (>= 1.0.2),
     rlang,
     scales,
-Remotes: trevorld/gridpattern
 Suggests: 
     ambient,
     dplyr,
