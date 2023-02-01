@@ -39,8 +39,8 @@ geom_bar_pattern(
   stat = "count",
   position = "stack",
   ...,
+  just = 0.5,
   width = NULL,
-  binwidth = NULL,
   na.rm = FALSE,
   orientation = NA,
   show.legend = NA,
@@ -99,6 +99,7 @@ geom_col_pattern(
   data = NULL,
   position = "stack",
   ...,
+  just = 0.5,
   width = NULL,
   na.rm = FALSE,
   show.legend = NA,
@@ -269,8 +270,19 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
+\item{just}{Adjustment for column placement. Set to \code{0.5} by default, meaning
+that columns will be centered about axis breaks. Set to \code{0} or \code{1} to place
+columns to the left/right of axis breaks. Note that this argument may have
+unintended behaviour when used with alternative positions, e.g.
+\code{position_dodge()}.}
+
 \item{width}{Bar width. By default, set to 90\% of the \code{\link[ggplot2:resolution]{resolution()}} of the
 data.}
+
+\item{orientation}{The orientation of the layer. The default (\code{NA})
+automatically determines the orientation from the aesthetic mapping. In the
+rare event that this fails it can be given explicitly by setting \code{orientation}
+to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
 
 \item{binwidth}{The width of the bins. Can be specified as a numeric value
 or as a function that calculates width from unscaled x. Here, "unscaled x"
@@ -284,11 +296,6 @@ stories in your data.
 
 The bin width of a date variable is the number of days in each time; the
 bin width of a time variable is the number of seconds.}
-
-\item{orientation}{The orientation of the layer. The default (\code{NA})
-automatically determines the orientation from the aesthetic mapping. In the
-rare event that this fails it can be given explicitly by setting \code{orientation}
-to either \code{"x"} or \code{"y"}. See the \emph{Orientation} section for more detail.}
 
 \item{bins}{Number of bins. Overridden by \code{binwidth}. Defaults to 30.}
 

@@ -117,19 +117,12 @@
 geom_bar_pattern <- function(mapping = NULL, data = NULL,
                              stat = "count", position = "stack",
                              ...,
+                             just = 0.5,
                              width = NULL,
-                             binwidth = NULL,
                              na.rm = FALSE,
                              orientation = NA,
                              show.legend = NA,
                              inherit.aes = TRUE) {
-
-  if (!is.null(binwidth)) {
-    warn("`geom_bar_pattern()` no longer has a `binwidth` parameter. Please use `geom_histogram_pattern()` instead.")
-    return(geom_histogram_pattern(mapping = mapping, data = data,
-                                  position = position, width = width, binwidth = binwidth, ...,
-                                  na.rm = na.rm, show.legend = show.legend, inherit.aes = inherit.aes))
-  }
 
   layer(
     data = data,
@@ -140,6 +133,7 @@ geom_bar_pattern <- function(mapping = NULL, data = NULL,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
     params = list(
+      just = just,
       width = width,
       na.rm = na.rm,
       orientation = orientation,
@@ -187,26 +181,30 @@ GeomBarPattern <- ggproto(
   non_missing_aes = c("xmin", "xmax", "ymin", "ymax"),
 
   setup_params = function(data, params) {
-    params$flipped_aes <- ggplot2::has_flipped_aes(data, params, range_is_orthogonal = FALSE)
+    params$flipped_aes <- ggplot2::has_flipped_aes(data, params)
     params
   },
 
-  extra_params = c("na.rm", "orientation"),
+  extra_params = c("just", "na.rm", "orientation"),
 
   setup_data = function(data, params) {
     data$flipped_aes <- params$flipped_aes
     data <- ggplot2::flip_data(data, params$flipped_aes)
     data$width <- data$width %||%
       params$width %||% (resolution(data$x, FALSE) * 0.9)
+    data$just <- params$just %||% 0.5
     data <- transform(data,
                       ymin = pmin(y, 0), ymax = pmax(y, 0),
-                      xmin = x - width / 2, xmax = x + width / 2, width = NULL
+                      xmin = x - width * just, xmax = x + width * (1 - just),
+                      width = NULL, just = NULL
     )
     ggplot2::flip_data(data, params$flipped_aes)
   },
 
-  draw_panel = function(self, data, panel_params, coord, width = NULL, flipped_aes = FALSE) {
+  draw_panel = function(self, data, panel_params, coord,
+                        width = NULL, flipped_aes = FALSE) {
     # Hack to ensure that width is detected as a parameter
     ggproto_parent(GeomRectPattern, self)$draw_panel(data, panel_params, coord)
-  }
+  },
+  rename_size = TRUE
 )

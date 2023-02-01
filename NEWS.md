@@ -1,4 +1,16 @@
-# ggpattern (development)
+# ggpattern 1.1.0 (development)
+
+## Breaking changes
+
+* The argument `binwidth` has been removed from `geom_bar_pattern()`.
+  This argument was deprecated with ggpattern 0.1.0 (2020-04-01).
+
+## New features
+
+* `geom_bar_pattern()` and `geom_col_pattern()` now accept argument `just`.
+  The `just` argument was added to `ggplot2::geom_bar()` and `ggplot2::geom_col()` with ggplot2 3.4.0.
+
+# ggpattern 1.0.1
 
 ## Deprecated features
 
