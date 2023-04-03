@@ -24,6 +24,7 @@ Using `gganimate` with `ggpattern`
 This is a very simple proof-of-concept of animating a ggpattern with gganimate.
 
 ```{r}
+library(ggplot2)
 library(ggpattern)
 if (require("gganimate")) {
 
@@ -40,19 +41,19 @@ df  <- rbind(df1, df2)
 p <- ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(
-      pattern_fill    = trt, 
-      pattern_xoffset = I(offset), 
-      pattern_yoffset = I(-offset)
-    ), 
-    colour          = 'black', 
-    fill            = 'white',
+      pattern_fill    = trt,
+      pattern_xoffset = offset,
+      pattern_yoffset = -offset
+    ),
+    colour          = "black",
+    fill            = "white",
     pattern_density = 0.5,
     pattern_angle   = 45
   ) +
   theme_bw() +
-  labs(title = "ggpattern + gganimate") + 
-  theme(legend.position = 'none') + 
-  coord_fixed(ratio = 1/2) 
+  labs(title = "ggpattern + gganimate") +
+  theme(legend.position = "none") +
+  coord_fixed(ratio = 1/2)
 
 p <- p + transition_states(time, transition_length = 2,
                     state_length = 0, wrap = FALSE)

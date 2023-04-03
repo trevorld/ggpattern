@@ -14,5 +14,4 @@
 ^doc$
 ^Meta$
 vignettes/precompute_vignettes.R
-vignettes/gganimate.Rmd
 vignettes/*.Rmd.orig
