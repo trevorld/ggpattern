@@ -19,7 +19,7 @@ Imports:
     ggplot2 (>= 3.4.0),
     glue,
     grid,
-    gridpattern (>= 1.0.2),
+    gridpattern (>= 1.1.0),
     rlang,
     scales,
 Suggests: 
@@ -36,7 +36,7 @@ Suggests:
     rmarkdown,
     sf (>= 0.7-3),
     testthat (>= 2.1.0),
-    vdiffr
+    vdiffr (>= 1.0.6)
 VignetteBuilder: knitr, ragg, rmarkdown
 Collate: 
     'aaa-ggplot2-compat-plyr.R'
