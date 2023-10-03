@@ -461,3 +461,11 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
 
 }
 ```
+
+## Resetting the image cache
+
+`{gridpattern}` stores the images used by the `"image"` and `"placeholder"` patterns in a cache.
+This is mainly to avoid the risk of re-downloading the same image over and over especially for
+the `"placeholder"` pattern.  However, this may cause [problems if you re-using the same image filename
+but the images in those files are changing](https://github.com/coolbutuseless/ggpattern/issues/95).
+You may reset this image cache with `gridpattern::reset_image_cache()`.
