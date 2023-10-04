@@ -95,7 +95,6 @@ GeomCrossbarPattern <- ggproto(
       for (varname in names(pattern_aesthetics)) {
         box[[varname]] <- data[[varname]]
       }
-      # ))
     } else {
       # No notch
       box <- new_data_frame(list(
@@ -124,33 +123,3 @@ GeomCrossbarPattern <- ggproto(
   },
   rename_size = TRUE
 )
-
-
-if (FALSE) {
-  library(ggplot2)
-
-  df <- data_frame(
-    trt = factor(c(1, 1, 2, 2)),
-    resp = c(1, 5, 3, 4),
-    group = factor(c(1, 2, 1, 2)),
-    upper = c(1.1, 5.3, 3.3, 4.2),
-    lower = c(0.8, 4.6, 2.4, 3.6)
-  )
-
-  ggplot(df, aes(trt, resp, colour = group)) +
-    geom_crossbar_pattern(aes(ymin = lower, ymax = upper), width = 0.2) +
-    theme_bw() +
-    labs(title = "ggpattern::geom_crossbar_pattern()")
-}
-
-
-
-
-
-
-
-
-
-
-
-

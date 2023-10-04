@@ -1,4 +1,3 @@
-
 #-----------------------------------------------------------------------------
 #' Scales for area or radius
 #'
@@ -89,4 +88,3 @@ scale_pattern_size_ordinal <- function(..., range = c(2, 6)) {
     ...
   )
 }
-
