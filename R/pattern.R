@@ -1,5 +1,6 @@
 gridpattern_pattern <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
-    args <- as.list(params)
+    # unlist to support e.g. multi-colored patterns (#100)
+    args <- lapply(as.list(params), unlist)
     args$prefix <- ""
     args$legend <- legend
     args$x <- boundary_df$x

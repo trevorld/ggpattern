@@ -10,6 +10,12 @@
 * `geom_bar_pattern()` and `geom_col_pattern()` now accept argument `just`.
   The `just` argument was added to `ggplot2::geom_bar()` and `ggplot2::geom_col()` with ggplot2 3.4.0.
 
+## Bug fixes and minor improvements
+
+* Each pattern aesthetic may now be a list of vectors with each list element
+  providing that aesthetic for a different pattern (#100).
+  Most builtin `{gridpattern}` "geometry" patterns support multiple fill colors etc. which previously we could only access in `{ggpattern}` via custom patterns.
+
 # ggpattern 1.0.1
 
 ## Deprecated features
