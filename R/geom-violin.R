@@ -115,15 +115,3 @@ GeomViolinPattern <- ggproto(
 
   rename_size = TRUE
 )
-
-
-
-if (FALSE) {
-  library(ggplot2)
-  library(dplyr)
-
-  ggplot(mtcars, aes(as.factor(cyl), mpg)) +
-    geom_violin_pattern(aes(pattern = as.factor(cyl))) +
-    theme_bw() +
-    labs(title = "ggpattern::geom_violin_pattern()")
-}

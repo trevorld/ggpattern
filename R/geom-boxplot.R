@@ -176,4 +176,3 @@ GeomBoxplotPattern <- ggproto(
 
   rename_size = TRUE
 )
-

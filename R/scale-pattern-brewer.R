@@ -1,5 +1,3 @@
-
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Sequential, diverging and qualitative colour scales from colorbrewer.org
 #'
@@ -153,4 +151,3 @@ scale_pattern_fill2_distiller <- function(..., type = "seq", palette = 1, direct
 #   }
 #   binned_scale(aesthetics, "fermenter", binned_pal(brewer_pal(type, palette, direction)), na.value = na.value, guide = guide, ...)
 # }
-

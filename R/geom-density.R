@@ -47,18 +47,3 @@ GeomDensityPattern <- ggproto(
   ),
   rename_size = TRUE
 )
-
-
-
-if (FALSE) {
-  library(ggplot2)
-
-  ggplot(mtcars) +
-    geom_density_pattern(aes(x=mpg, fill=as.factor(cyl), pattern = as.factor(cyl))) +
-    theme_bw() +
-    labs(title = "ggpattern::geom_density_pattern()")
-}
-
-
-
-
