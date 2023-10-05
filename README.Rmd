@@ -74,12 +74,20 @@ probably the best way to get started.
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/coolbutuseless/ggpattern) with the instructions below.
+You can install the development version from [GitHub](https://github.com/coolbutuseless/ggpattern) with the following instructions:
 
 ``` r
 # install.packages("remotes")
 remotes::install_github("coolbutuseless/ggpattern")
 ```
+
+You can install the CRAN release version using:
+
+```r
+install.packages("ggpattern")
+```
+
+Do note though that due to CRAN size limitations **the CRAN version omits several vignettes** that are contained in the development version.
 
 An installation error is highly unlikely to be an issue with `{ggpattern}` itself.  Please don't open up a Github Issues unless you are **sure** it is an issue with `{ggpattern}` itself.  If you have an error installing the package we strongly suggest that you look at **all** your error messages more closely to figure out which package dependency is failing to install and why.  See https://thomasadventure.blog/posts/install-r-packages/ for more info on installing R packages.
 
