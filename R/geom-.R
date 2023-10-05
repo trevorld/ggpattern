@@ -213,7 +213,7 @@ create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_d
 #'   }
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = 1) {
+draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
 
   # message("draw_key_polygon_pattern(): aspect_ratio = ", aspect_ratio)
   lwd <- min(data$linewidth %||% data$size, min(size) / 4) #* .pt
@@ -273,7 +273,7 @@ draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = 1) {
 #' @rdname draw_key_polygon_pattern
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = 1) {
+draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Create the boundary_df for the rectangular region of the crossbar.
@@ -328,7 +328,7 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = 1) {
 #' @rdname draw_key_polygon_pattern
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = 1) {
+draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Create the boundary_df for the rectangular region of the crossbar.

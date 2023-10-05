@@ -165,8 +165,7 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
           next
       boundary_grobs     <- list(boundary_grob)
       all_params         <- x[idx,]
-      aspect_ratio       <- get_aspect_ratio()
-      pattern_grobs      <- create_pattern_grobs(all_params, boundary_grobs, aspect_ratio)
+      pattern_grobs      <- create_pattern_grobs(all_params, boundary_grobs)
       pattern_grobs_list <- append(pattern_grobs_list, list(pattern_grobs))
     }
   }

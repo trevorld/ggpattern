@@ -45,11 +45,7 @@ GeomRectPattern <- ggplot2::ggproto(
     )
   ),
 
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_polygon_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
   draw_panel = function(self, data, panel_params, coord, linejoin = "mitre") {
     if (!coord$is_linear()) {
@@ -88,8 +84,7 @@ GeomRectPattern <- ggplot2::ggproto(
       # Create the pattern grobs given the current params for every element
       # (given in coords), and the boundary_dfs of all the elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      self$aspect_ratio <- get_aspect_ratio()
-      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, self$aspect_ratio)
+      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
 
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Adapt the returned geom to always be a grobTree with the

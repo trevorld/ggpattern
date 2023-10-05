@@ -41,9 +41,7 @@ GeomViolinPattern <- ggproto(
 
   draw_group = function(self, data, ..., draw_quantiles = NULL, flipped_aes = FALSE) {
 
-    # Need to calculate aspect ratio here for compatibility with key drawing.
     args <- list(...)
-    self$aspect_ratio <- get_aspect_ratio()
 
     data <- ggplot2::flip_data(data, flipped_aes)
     # Find the points for the line to go all the way around
@@ -107,11 +105,7 @@ GeomViolinPattern <- ggproto(
     )
   ),
 
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_polygon_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
   rename_size = TRUE
 )
