@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: 'ggplot2' Pattern Geoms
-Version: 1.1.0-4
+Version: 1.1.0-5
 Authors@R: c(person("Mike", "FC", role = "aut",
                     email = "mikefc@coolbutuseless.com"),
              person("Trevor L", "Davis", role = c("aut", "cre"),
@@ -55,6 +55,7 @@ Collate:
     'geom-crossbar.R'
     'geom-ribbon.R'
     'geom-density.R'
+    'geom-histogram.R'
     'geom-polygon.R'
     'geom-map.R'
     'geom-sf.R'

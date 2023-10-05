@@ -12,6 +12,8 @@
 
 * `geom_bar_pattern()` and `geom_col_pattern()` now accept argument `just`.
   The `just` argument was added to `ggplot2::geom_bar()` and `ggplot2::geom_col()` with ggplot2 3.4.0.
+* `geom_bin_2d_pattern()` is now an alias for `geom_bin2d_pattern()`.
+  This matches `{ggplot2}` which has both `geom_bin_2d()` and `geom_bin2d()`.
 
 ## Bug fixes and minor improvements
 
