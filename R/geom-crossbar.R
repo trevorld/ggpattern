@@ -50,7 +50,7 @@ GeomCrossbarPattern <- ggproto(
 
   draw_panel = function(self, data, panel_params, coord, fatten = 2.5, width = NULL, flipped_aes = FALSE) {
 
-    data <- ggplot2::flip_data(data, flipped_aes)
+    data <- flip_data(data, flipped_aes)
 
     middle <- transform(data, x = xmin, xend = xmax, yend = y, linewidth = linewidth * fatten, alpha = NA)
 
@@ -107,8 +107,8 @@ GeomCrossbarPattern <- ggproto(
         box[[varname]] <- data[[varname]]
       }
     }
-    box <- ggplot2::flip_data(box, flipped_aes)
-    middle <- ggplot2::flip_data(middle, flipped_aes)
+    box <- flip_data(box, flipped_aes)
+    middle <- flip_data(middle, flipped_aes)
 
     ggname("geom_crossbar", gTree(children = gList(
       GeomPolygonPattern$draw_panel(box, panel_params, coord),

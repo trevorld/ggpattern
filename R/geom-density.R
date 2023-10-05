@@ -36,7 +36,7 @@ GeomDensityPattern <- ggproto(
   "GeomDensityPattern", GeomAreaPattern,
   default_aes = augment_aes(
     pattern_aesthetics,
-    ggplot2::aes(
+    aes(
       colour   = 'black',
       fill     = "NA",
       linewidth= 0.5,

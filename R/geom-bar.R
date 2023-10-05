@@ -164,7 +164,7 @@ GeomBarPattern <- ggproto(
   non_missing_aes = c("xmin", "xmax", "ymin", "ymax"),
 
   setup_params = function(data, params) {
-    params$flipped_aes <- ggplot2::has_flipped_aes(data, params)
+    params$flipped_aes <- has_flipped_aes(data, params)
     params
   },
 
@@ -172,7 +172,7 @@ GeomBarPattern <- ggproto(
 
   setup_data = function(data, params) {
     data$flipped_aes <- params$flipped_aes
-    data <- ggplot2::flip_data(data, params$flipped_aes)
+    data <- flip_data(data, params$flipped_aes)
     data$width <- data$width %||%
       params$width %||% (resolution(data$x, FALSE) * 0.9)
     data$just <- params$just %||% 0.5
@@ -181,7 +181,7 @@ GeomBarPattern <- ggproto(
                       xmin = x - width * just, xmax = x + width * (1 - just),
                       width = NULL, just = NULL
     )
-    ggplot2::flip_data(data, params$flipped_aes)
+    flip_data(data, params$flipped_aes)
   },
 
   draw_panel = function(self, data, panel_params, coord,
