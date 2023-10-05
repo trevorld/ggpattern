@@ -31,7 +31,7 @@ geom_rect_pattern <- function(mapping = NULL, data = NULL,
 #' @format NULL
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GeomRectPattern <- ggplot2::ggproto(
+GeomRectPattern <- ggproto(
   "GeomRectPattern", GeomRect,
 
   default_aes = augment_aes(

@@ -36,7 +36,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
     n <- nrow(data)
     if (n == 1) return(zeroGrob())
 
-    munched <- ggplot2::coord_munch(coord, data, panel_params)
+    munched <- coord_munch(coord, data, panel_params)
 
     if (is.null(munched$subgroup)) {
       # Sort by group to make sure that colors, fill, etc. come in same order
@@ -179,7 +179,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
 
   default_aes = augment_aes(
     pattern_aesthetics,
-    ggplot2::aes(
+    aes(
       colour           = "NA",
       fill             = "grey20",
       linewidth        = 0.5,
