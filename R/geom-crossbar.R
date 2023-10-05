@@ -46,15 +46,9 @@ GeomCrossbarPattern <- ggproto(
     )
   ),
 
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_crossbar_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_crossbar_pattern(...),
 
   draw_panel = function(self, data, panel_params, coord, fatten = 2.5, width = NULL, flipped_aes = FALSE) {
-
-    self$aspect_ratio <- get_aspect_ratio()
 
     data <- ggplot2::flip_data(data, flipped_aes)
 

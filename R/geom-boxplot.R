@@ -78,8 +78,6 @@ GeomBoxplotPattern <- ggproto(
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # Hack needed so that legend/key drawing knows something about sizing
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    self$aspect_ratio <- get_aspect_ratio()
-
     common <- list(
       colour = data$colour,
       linewidth = data$linewidth,
@@ -165,14 +163,7 @@ GeomBoxplotPattern <- ggproto(
     )
   ),
 
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Hack needed so that legend/key drawing knows something about sizing
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_boxplot_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_boxplot_pattern(...),
 
   rename_size = TRUE
 )

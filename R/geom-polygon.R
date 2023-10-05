@@ -69,8 +69,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       # Create the pattern grobs given the current params for every element
       # (given in all_params), and the boundary_dfs of all the elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      self$aspect_ratio <- get_aspect_ratio()
-      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, self$aspect_ratio)
+      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
 
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Adapt the returned geom to always be a grobTree with the
@@ -136,10 +135,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       # Create the pattern grobs given the current params for every element
       # (given in all_params), and the boundary_dfs of all the elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      self$aspect_ratio <- get_aspect_ratio()
-      pattern_grobs <- create_pattern_grobs(all_params,
-                                            boundary_grobs,
-                                            self$aspect_ratio)
+      pattern_grobs <- create_pattern_grobs(all_params, boundary_grobs)
 
       gp_fill <- grid::gpar(
          col  = NA,
@@ -179,11 +175,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
 
   },
 
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_polygon_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
   default_aes = augment_aes(
     pattern_aesthetics,
