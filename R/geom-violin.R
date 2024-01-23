@@ -41,11 +41,9 @@ GeomViolinPattern <- ggproto(
 
   draw_group = function(self, data, ..., draw_quantiles = NULL, flipped_aes = FALSE) {
 
-    # Need to calculate aspect ratio here for compatibility with key drawing.
     args <- list(...)
-    self$aspect_ratio <- get_aspect_ratio()
 
-    data <- ggplot2::flip_data(data, flipped_aes)
+    data <- flip_data(data, flipped_aes)
     # Find the points for the line to go all the way around
     data <- transform(data,
                       xminv = x - violinwidth * (x - xmin),
@@ -61,7 +59,7 @@ GeomViolinPattern <- ggproto(
     # Close the polygon: set first and last point the same
     # Needed for coord_polar and such
     newdata <- rbind(newdata, newdata[1,])
-    newdata <- ggplot2::flip_data(newdata, flipped_aes)
+    newdata <- flip_data(newdata, flipped_aes)
 
     # Draw quantiles if requested, so long as there is non-zero y range
     if (length(draw_quantiles) > 0 & !scales::zero_range(range(data$y))) {
@@ -79,7 +77,7 @@ GeomViolinPattern <- ggproto(
       aesthetics$alpha <- rep(1, nrow(quantiles))
       both <- cbind(quantiles, aesthetics)
       both <- both[!is.na(both$group), , drop = FALSE]
-      both <- ggplot2::flip_data(both, flipped_aes)
+      both <- flip_data(both, flipped_aes)
       quantile_grob <- if (nrow(both) == 0) {
         zeroGrob()
       } else {
@@ -107,23 +105,7 @@ GeomViolinPattern <- ggproto(
     )
   ),
 
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_polygon_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
   rename_size = TRUE
 )
-
-
-
-if (FALSE) {
-  library(ggplot2)
-  library(dplyr)
-
-  ggplot(mtcars, aes(as.factor(cyl), mpg)) +
-    geom_violin_pattern(aes(pattern = as.factor(cyl))) +
-    theme_bw() +
-    labs(title = "ggpattern::geom_violin_pattern()")
-}

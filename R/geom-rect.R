@@ -31,7 +31,7 @@ geom_rect_pattern <- function(mapping = NULL, data = NULL,
 #' @format NULL
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GeomRectPattern <- ggplot2::ggproto(
+GeomRectPattern <- ggproto(
   "GeomRectPattern", GeomRect,
 
   default_aes = augment_aes(
@@ -45,11 +45,7 @@ GeomRectPattern <- ggplot2::ggproto(
     )
   ),
 
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_polygon_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
   draw_panel = function(self, data, panel_params, coord, linejoin = "mitre") {
     if (!coord$is_linear()) {
@@ -88,8 +84,7 @@ GeomRectPattern <- ggplot2::ggproto(
       # Create the pattern grobs given the current params for every element
       # (given in coords), and the boundary_dfs of all the elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      self$aspect_ratio <- get_aspect_ratio()
-      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, self$aspect_ratio)
+      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
 
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Adapt the returned geom to always be a grobTree with the
@@ -165,51 +160,4 @@ rect_to_poly <- function(xmin, xmax, ymin, ymax) {
     y = c(ymax, ymax, ymin, ymin, ymax),
     x = c(xmin, xmax, xmax, xmin, xmin)
   ))
-}
-
-
-
-if (FALSE) {
-  library(ggplot2)
-  library(dplyr)
-
-  plot_df <- data.frame(
-    xmin    = c(0, 10),
-    xmax    = c(8, 18),
-    ymin    = c(0, 10),
-    ymax    = c(5, 19),
-    type    = c('a', 'b'),
-    angle   = c(45, 0),
-    pname   = c('circle', 'circle'),
-    pcolour = c('red', 'blue'),
-    pspace  = c(0.03, 0.05),
-    stringsAsFactors = FALSE
-  )
-
-
-  p <- ggplot(plot_df) +
-    geom_rect_pattern(
-      aes(
-        xmin=xmin, ymin=ymin, xmax=xmax, ymax=ymax,
-        # pattern         = I(pname),
-        pattern_angle   = I(angle),
-        pattern_colour  = I(pcolour),
-        pattern_spacing = I(pspace)
-      ),
-      pattern         = 'circle',
-      fill            = 'white',
-      colour          = 'black',
-      pattern_density = 0.3
-    ) +
-    theme_bw() +
-    labs(title = "ggpattern::geom_rect_pattern()")
-
-
-
-
-  pdf("working/test.pdf")
-  p
-  dev.off()
-
-
 }

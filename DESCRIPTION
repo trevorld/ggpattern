@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: 'ggplot2' Pattern Geoms
-Version: 1.1.0-0
+Version: 1.1.0-5
 Authors@R: c(person("Mike", "FC", role = "aut",
                     email = "mikefc@coolbutuseless.com"),
              person("Trevor L", "Davis", role = c("aut", "cre"),
@@ -14,12 +14,12 @@ BugReports: https://github.com/coolbutuseless/ggpattern/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1
 Imports:
     ggplot2 (>= 3.4.0),
     glue,
     grid,
-    gridpattern (>= 1.0.2),
+    gridpattern (>= 1.1.0),
     rlang,
     scales,
 Suggests: 
@@ -36,7 +36,7 @@ Suggests:
     rmarkdown,
     sf (>= 0.7-3),
     testthat (>= 2.1.0),
-    vdiffr
+    vdiffr (>= 1.0.6)
 VignetteBuilder: knitr, ragg, rmarkdown
 Collate: 
     'aaa-ggplot2-compat-plyr.R'
@@ -55,6 +55,7 @@ Collate:
     'geom-crossbar.R'
     'geom-ribbon.R'
     'geom-density.R'
+    'geom-histogram.R'
     'geom-polygon.R'
     'geom-map.R'
     'geom-sf.R'

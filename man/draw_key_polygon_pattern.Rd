@@ -6,11 +6,16 @@
 \alias{draw_key_crossbar_pattern}
 \title{Key glyphs for legends}
 \usage{
-draw_key_polygon_pattern(data, params, size, aspect_ratio = 1)
+draw_key_polygon_pattern(data, params, size, aspect_ratio = get_aspect_ratio())
 
-draw_key_boxplot_pattern(data, params, size, aspect_ratio = 1)
+draw_key_boxplot_pattern(data, params, size, aspect_ratio = get_aspect_ratio())
 
-draw_key_crossbar_pattern(data, params, size, aspect_ratio = 1)
+draw_key_crossbar_pattern(
+  data,
+  params,
+  size,
+  aspect_ratio = get_aspect_ratio()
+)
 }
 \arguments{
 \item{data}{A single row data frame containing the scaled aesthetics to

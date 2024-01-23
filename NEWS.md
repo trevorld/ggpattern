@@ -4,11 +4,24 @@
 
 * The argument `binwidth` has been removed from `geom_bar_pattern()`.
   This argument was deprecated with ggpattern 0.1.0 (2020-04-01).
+* The `draw_key_polygon_pattern()` called by `geom_sf_pattern()` is now passed in its
+  actual aspect ratio (instead of 1).
+  This may cause your legends to `geom_sf_pattern()` to look different.
 
 ## New features
 
 * `geom_bar_pattern()` and `geom_col_pattern()` now accept argument `just`.
   The `just` argument was added to `ggplot2::geom_bar()` and `ggplot2::geom_col()` with ggplot2 3.4.0.
+* `geom_bin_2d_pattern()` is now an alias for `geom_bin2d_pattern()`.
+  This matches `{ggplot2}` which has both `geom_bin_2d()` and `geom_bin2d()`.
+
+## Bug fixes and minor improvements
+
+* Each pattern aesthetic may now be a list of vectors with each list element
+  providing that aesthetic for a different pattern (#100).
+  Most builtin `{gridpattern}` "geometry" patterns support multiple fill colors etc. which previously we could only access in `{ggpattern}` via custom patterns.
+* `draw_key_boxplot_pattern()`, `draw_key_crossbar_pattern()`, and `draw_key_polygon_pattern()` `aspect_ratio` argument
+  now defaults to `get_aspect_ratio()`.
 
 # ggpattern 1.0.1
 

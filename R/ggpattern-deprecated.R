@@ -5,4 +5,3 @@
 # #'
 # #' @name ggpattern-deprecated
 # NULL
-

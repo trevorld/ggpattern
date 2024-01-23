@@ -36,7 +36,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
     n <- nrow(data)
     if (n == 1) return(zeroGrob())
 
-    munched <- ggplot2::coord_munch(coord, data, panel_params)
+    munched <- coord_munch(coord, data, panel_params)
 
     if (is.null(munched$subgroup)) {
       # Sort by group to make sure that colors, fill, etc. come in same order
@@ -69,8 +69,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       # Create the pattern grobs given the current params for every element
       # (given in all_params), and the boundary_dfs of all the elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      self$aspect_ratio <- get_aspect_ratio()
-      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, self$aspect_ratio)
+      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
 
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       # Adapt the returned geom to always be a grobTree with the
@@ -136,10 +135,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       # Create the pattern grobs given the current params for every element
       # (given in all_params), and the boundary_dfs of all the elements
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      self$aspect_ratio <- get_aspect_ratio()
-      pattern_grobs <- create_pattern_grobs(all_params,
-                                            boundary_grobs,
-                                            self$aspect_ratio)
+      pattern_grobs <- create_pattern_grobs(all_params, boundary_grobs)
 
       gp_fill <- grid::gpar(
          col  = NA,
@@ -179,15 +175,11 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
 
   },
 
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_polygon_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
   default_aes = augment_aes(
     pattern_aesthetics,
-    ggplot2::aes(
+    aes(
       colour           = "NA",
       fill             = "grey20",
       linewidth        = 0.5,
@@ -199,43 +191,3 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
 
   rename_size = TRUE
 )
-
-if (FALSE) {
-  library(ggplot2)
-  ids <- factor(c("1.1", "2.1", "1.2", "2.2", "1.3", "2.3"))
-
-  values <- data.frame(
-    id = ids,
-    value = c(3, 3.1, 3.1, 3.2, 3.15, 3.5)
-  )
-
-  positions <- data.frame(
-    id = rep(ids, each = 4),
-    x = c(2, 1, 1.1, 2.2, 1, 0, 0.3, 1.1, 2.2, 1.1, 1.2, 2.5, 1.1, 0.3,
-          0.5, 1.2, 2.5, 1.2, 1.3, 2.7, 1.2, 0.5, 0.6, 1.3),
-    y = c(-0.5, 0, 1, 0.5, 0, 0.5, 1.5, 1, 0.5, 1, 2.1, 1.7, 1, 1.5,
-          2.2, 2.1, 1.7, 2.1, 3.2, 2.8, 2.1, 2.2, 3.3, 3.2)
-  )
-
-  # Currently we need to manually merge the two together
-  datapoly <- merge(values, positions, by = c("id"))
-
-  p <- ggplot(datapoly, aes(x = x, y = y)) +
-    geom_polygon_pattern(aes(fill = value, group = id), col = "red", lwd = 2)
-  p
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-

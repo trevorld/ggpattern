@@ -1,5 +1,6 @@
 gridpattern_pattern <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
-    args <- as.list(params)
+    # unlist to support e.g. multi-colored patterns (#100)
+    args <- lapply(as.list(params), unlist)
     args$prefix <- ""
     args$legend <- legend
     args$x <- boundary_df$x
@@ -38,7 +39,7 @@ get_aspect_ratio <- function() {
 #' @return grobTree containing all the pattern grobs
 #' @noRd
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-create_pattern_grobs <- function(all_params, boundaries, aspect_ratio) {
+create_pattern_grobs <- function(all_params, boundaries, aspect_ratio = get_aspect_ratio()) {
 
   # There might be a number of polygons coming in.
   # There should be one row in the 'all_params' data.frame for each polygon

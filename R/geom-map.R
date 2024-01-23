@@ -90,8 +90,7 @@ GeomMapPattern <- ggproto(
     # Create the pattern grobs given the current params for every element
     # (given in all_params), and the boundary_dfs of all the elements
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    aspect_ratio <- get_aspect_ratio()
-    pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, aspect_ratio)
+    pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
 
     col <- data$colour
     fill <- scales::alpha(data$fill, data$alpha)
@@ -120,46 +119,3 @@ GeomMapPattern <- ggproto(
 
   required_aes = c("map_id")
 )
-
-
-
-
-if (FALSE) {
-
-  library(ggplot2)
-  library(maps)
-
-  crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
-
-  states_map <- map_data("state")
-  ggplot(crimes, aes(map_id = state)) +
-    geom_map_pattern(
-      aes(
-        # fill            = Murder,
-        pattern_spacing = state,
-        pattern_density = state,
-        pattern_angle   = state,
-        pattern         = state
-      ),
-      fill = 'white',
-      col = "blue",
-      lwd = 2,
-      map = states_map
-    ) +
-    expand_limits(x = states_map$long, y = states_map$lat) +
-    coord_map() +
-    theme_bw() +
-    labs(title = "ggpattern::geom_map_pattern()")
-
-
-}
-
-
-
-
-
-
-
-
-
-

@@ -39,7 +39,7 @@ GeomRibbonPattern <- ggproto(
   "GeomRibbonPattern", GeomRibbon,
   default_aes = augment_aes(
     pattern_aesthetics,
-    ggplot2::aes(
+    aes(
       colour   = NA,
       fill     = "grey20",
       linewidth     = 0.5,
@@ -48,17 +48,13 @@ GeomRibbonPattern <- ggproto(
     )
   ),
 
-  aspect_ratio = 1,
-
-  draw_key = function(self, ...) {
-    draw_key_polygon_pattern(..., aspect_ratio = self$aspect_ratio)
-  },
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Where the magic happens
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   draw_group = function(self, data, panel_params, coord, na.rm = FALSE, flipped_aes = FALSE, outline.type = "both") {
-    data <- ggplot2::flip_data(data, flipped_aes)
+    data <- flip_data(data, flipped_aes)
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group), ]
 
@@ -93,7 +89,7 @@ GeomRibbonPattern <- ggproto(
       id = c(ids, rev(ids))
     ))
 
-    positions <- ggplot2::flip_data(positions, flipped_aes)
+    positions <- flip_data(positions, flipped_aes)
 
     munched <- coord_munch(coord, positions, panel_params)
 
@@ -132,8 +128,7 @@ GeomRibbonPattern <- ggproto(
     # Create the pattern grobs given the current params for every element
     # (given in all_params), and the boundary_dfs of all the elements
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    self$aspect_ratio  <- get_aspect_ratio()
-    pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs, self$aspect_ratio)
+    pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
 
     if (identical(outline.type, "legacy")) {
       warn(glue('outline.type = "legacy" is only for backward-compatibility ',
@@ -215,15 +210,15 @@ GeomAreaPattern <- ggproto(
   required_aes = c("x", "y"),
 
   setup_params = function(data, params) {
-    params$flipped_aes <- ggplot2::has_flipped_aes(data, params, ambiguous = TRUE)
+    params$flipped_aes <- has_flipped_aes(data, params, ambiguous = TRUE)
     params
   },
 
   setup_data = function(data, params) {
     data$flipped_aes <- params$flipped_aes
-    data <- ggplot2::flip_data(data, params$flipped_aes)
+    data <- flip_data(data, params$flipped_aes)
     data <- transform(data[order(data$PANEL, data$group, data$x), ], ymin = 0, ymax = y)
-    ggplot2::flip_data(data, params$flipped_aes)
+    flip_data(data, params$flipped_aes)
   },
 
   rename_size = TRUE
