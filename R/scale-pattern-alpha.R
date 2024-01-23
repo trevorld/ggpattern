@@ -8,6 +8,7 @@
 #'   or [discrete_scale()] as appropriate, to control name, limits,
 #'   breaks, labels and so forth.
 #' @param range Output range of alpha values. Must lie between 0 and 1.
+#' @examples
 #'   if (require("ggplot2")) {
 #'     # 'stripe' pattern example
 #'     df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))

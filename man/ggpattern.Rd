@@ -2,8 +2,8 @@
 % Please edit documentation in R/ggpattern-package.R
 \docType{package}
 \name{ggpattern}
-\alias{ggpattern}
 \alias{ggpattern-package}
+\alias{ggpattern}
 \title{ggpattern: 'ggplot2' Pattern Geoms}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
