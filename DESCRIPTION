@@ -4,7 +4,7 @@ Title: 'ggplot2' Pattern Geoms
 Version: 1.1.0-5
 Authors@R: c(person("Mike", "FC", role = "aut",
                     email = "mikefc@coolbutuseless.com"),
-             person("Trevor L", "Davis", role = c("aut", "cre"),
+             person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
                     comment = c(ORCID = "0000-0001-6341-4639")),
              person("ggplot2 authors", role = "aut"))
@@ -35,6 +35,7 @@ Suggests:
     readr,
     rmarkdown,
     sf (>= 0.7-3),
+    svglite (>= 2.1.3),
     testthat (>= 2.1.0),
     vdiffr (>= 1.0.6)
 VignetteBuilder: knitr, ragg, rmarkdown
