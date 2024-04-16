@@ -1,4 +1,3 @@
-context("array")
 test_that("array patterns work as expected", {
     skip_on_ci()
     skip_on_cran()
