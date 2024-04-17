@@ -14,12 +14,16 @@
   The `just` argument was added to `ggplot2::geom_bar()` and `ggplot2::geom_col()` with ggplot2 3.4.0.
 * `geom_bin_2d_pattern()` is now an alias for `geom_bin2d_pattern()`.
   This matches `{ggplot2}` which has both `geom_bin_2d()` and `geom_bin2d()`.
-
-## Bug fixes and minor improvements
-
 * Each pattern aesthetic may now be a list of vectors with each list element
   providing that aesthetic for a different pattern (#100).
   Most builtin `{gridpattern}` "geometry" patterns support multiple fill colors etc. which previously we could only access in `{ggpattern}` via custom patterns.
+* The `fill` and `pattern_fill` aesthetics may now be (a list of) gradient/pattern fills
+  (in addition to color strings) (#112).
+  Note using gradient/pattern fills will require R (>= 4.2) and a graphics device with support for the gradient/pattern fill feature.
+  Use of just color fills should continue to work on a wider variety of R versions and graphics devices.
+
+## Bug fixes and minor improvements
+
 * `draw_key_boxplot_pattern()`, `draw_key_crossbar_pattern()`, and `draw_key_polygon_pattern()` `aspect_ratio` argument
   now defaults to `get_aspect_ratio()`.
 

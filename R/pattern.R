@@ -1,12 +1,24 @@
 gridpattern_pattern <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
-    # unlist to support e.g. multi-colored patterns (#100)
-    args <- lapply(as.list(params), unlist)
+
+    args <- munge_params(params)
     args$prefix <- ""
     args$legend <- legend
     args$x <- boundary_df$x
     args$y <- boundary_df$y
     args$id <- boundary_df$id
     do.call(gridpattern::patternGrob, args)
+}
+
+# unlist to support e.g. multi-valued pattern args
+munge_params <- function(params) {
+    l <- as.list(params)
+    nms <- grep("^pattern_", names(l), value = TRUE)
+    # must avoid unlisting `grid::pattern()` fill values
+    nms <- grep("^pattern_fill$", nms, invert = TRUE, value = TRUE)
+    for (nm in nms) {
+        l[[nm]] <- unlist(l[[nm]])
+    }
+    l
 }
 
 fill_default_params <- function(params) {

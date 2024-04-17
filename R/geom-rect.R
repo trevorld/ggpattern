@@ -106,7 +106,7 @@ GeomRectPattern <- ggproto(
             just          = c("left", "top"),
             gp = grid::gpar(
               col      = NA,
-              fill     = scales::alpha(coords$fill, coords$alpha),
+              fill     = fill_alpha(coords$fill, coords$alpha),
               lwd      = coords$linewidth * .pt,
               lty      = coords$linetype,
               linejoin = linejoin,

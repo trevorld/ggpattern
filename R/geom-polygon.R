@@ -79,7 +79,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
       col <- first_rows$colour
-      fill <- scales::alpha(first_rows$fill, first_rows$alpha)
+      fill <- fill_alpha(first_rows$fill, first_rows$alpha)
       lwd <- first_rows$linewidth * .pt
 
       polygon_grob_fn <- function(col, fill, lwd) {
@@ -139,7 +139,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
 
       gp_fill <- grid::gpar(
          col  = NA,
-         fill = scales::alpha(first_rows$fill, first_rows$alpha),
+         fill = fill_alpha(first_rows$fill, first_rows$alpha),
          lwd  = first_rows$linewidth * .pt,
          lty  = first_rows$linetype
        )

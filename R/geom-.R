@@ -254,7 +254,7 @@ draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = get_aspe
         ))
   }
   col <- data$colour %||% NA
-  fill <- scales::alpha(data$fill %||% "grey20", data$alpha)
+  fill <- fill_alpha(data$fill %||% "grey20", data$alpha)
   key_grob_fill <- key_grob_fn(NA, fill, 0)
   key_grob_border <- key_grob_fn(col, NA, lwd)
 
@@ -293,7 +293,7 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = get_aspe
     rectGrob(height = 0.5, width = 0.75),
     gp = gpar(
       col = data$colour %||% "grey20",
-      fill = scales::alpha(data$fill %||% "white", data$alpha),
+      fill = fill_alpha(data$fill %||% "white", data$alpha),
       lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
@@ -306,7 +306,7 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = get_aspe
     linesGrob(c(0.125, 0.875), 0.5),
     gp = gpar(
       col = data$colour %||% "grey20",
-      fill = scales::alpha(data$fill %||% "white", data$alpha),
+      fill = fill_alpha(data$fill %||% "white", data$alpha),
       lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
@@ -352,7 +352,7 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_asp
     rectGrob(height = 0.5, width = 0.75),
     gp = gpar(
       col = data$colour %||% "grey20",
-      fill = scales::alpha(data$fill %||% "white", data$alpha),
+      fill = fill_alpha(data$fill %||% "white", data$alpha),
       lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )
@@ -362,7 +362,7 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_asp
     linesGrob(c(0.125, 0.875), 0.5),
     gp = gpar(
       col = data$colour %||% "grey20",
-      fill = scales::alpha(data$fill %||% "white", data$alpha),
+      fill = fill_alpha(data$fill %||% "white", data$alpha),
       lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
       lty = data$linetype %||% 1
     )

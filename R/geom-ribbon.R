@@ -97,7 +97,7 @@ GeomRibbonPattern <- ggproto(
       munched$x, munched$y, id = munched$id,
       default.units = "native",
       gp = gpar(
-        fill = scales::alpha(aes$fill, aes$alpha),
+        fill = fill_alpha(aes$fill, aes$alpha),
         col  = if (identical(outline.type, "legacy")) aes$colour else NA
       )
     )

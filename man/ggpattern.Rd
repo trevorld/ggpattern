@@ -36,9 +36,9 @@ support any/all these features.  See \url{https://www.stat.auckland.ac.nz/~paul/
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/coolbutuseless/ggpattern}
-  \item \url{https://coolbutuseless.github.io/package/ggpattern/index.html}
-  \item Report bugs at \url{https://github.com/coolbutuseless/ggpattern/issues}
+  \item \url{https://github.com/trevorld/ggpattern}
+  \item \url{https://trevorldavis.com/R/ggpattern/dev/}
+  \item Report bugs at \url{https://github.com/trevorld/ggpattern/issues}
 }
 
 }
@@ -47,7 +47,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Mike FC \email{mikefc@coolbutuseless.com}
+  \item Mike FC
   \item ggplot2 authors
 }
 
