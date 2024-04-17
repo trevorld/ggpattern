@@ -25,8 +25,10 @@
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_grey <- function(..., start = 0.2, end = 0.8, na.value = "red", aesthetics = "pattern_colour") {
-  discrete_scale(aesthetics, "grey", grey_pal(start, end),
-    na.value = na.value, ...)
+  discrete_scale(aesthetics, 
+                 palette = grey_pal(start, end),
+                 na.value = na.value,
+                 ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -34,8 +36,10 @@ scale_pattern_colour_grey <- function(..., start = 0.2, end = 0.8, na.value = "r
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill_grey <- function(..., start = 0.2, end = 0.8, na.value = "red", aesthetics = "pattern_fill") {
-  discrete_scale(aesthetics, "grey", grey_pal(start, end),
-                 na.value = na.value, ...)
+  discrete_scale(aesthetics,
+                 palette = grey_pal(start, end),
+                 na.value = na.value,
+                 ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,6 +47,7 @@ scale_pattern_fill_grey <- function(..., start = 0.2, end = 0.8, na.value = "red
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill2_grey <- function(..., start = 0.2, end = 0.8, na.value = "red", aesthetics = "pattern_fill2") {
-  discrete_scale(aesthetics, "grey", grey_pal(start, end),
+  discrete_scale(aesthetics, 
+                 palette = grey_pal(start, end),
                  na.value = na.value, ...)
 }

@@ -34,7 +34,7 @@
 scale_pattern_size_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
                                   limits = NULL, range = c(1, 6),
                                   trans = "identity", guide = "legend") {
-  continuous_scale("pattern_size", "area", area_pal(range), name = name,
+  continuous_scale("pattern_size", palette = area_pal(range), name = name,
     breaks = breaks, labels = labels, limits = limits, trans = trans,
     guide = guide)
 }
@@ -53,7 +53,7 @@ scale_pattern_size <- scale_pattern_size_continuous
 # scale_size_binned <- function(name = waiver(), breaks = waiver(), labels = waiver(),
 #                               limits = NULL, range = c(1, 6), n.breaks = NULL,
 #                               nice.breaks = TRUE, trans = "identity", guide = "bins") {
-#   binned_scale("size", "area_b", area_pal(range), name = name,
+#   binned_scale("size", palette = area_pal(range), name = name,
 #                breaks = breaks, labels = labels, limits = limits, trans = trans,
 #                n.breaks = n.breaks, nice.breaks = nice.breaks, guide = guide)
 # }
@@ -80,8 +80,7 @@ scale_pattern_size_ordinal <- function(..., range = c(2, 6)) {
 
   discrete_scale(
     "pattern_size",
-    "pattern_size_d",
-    function(n) {
+    palette = function(n) {
       area <- seq(range[1] ^ 2, range[2] ^ 2, length.out = n)
       sqrt(area)
     },

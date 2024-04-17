@@ -35,7 +35,7 @@
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_alpha_continuous <- function(..., range = c(0.1, 1)) {
-  continuous_scale("pattern_alpha", "pattern_alpha_c", rescale_pal(range), ...)
+  continuous_scale("pattern_alpha", palette = rescale_pal(range), ...)
 }
 
 #-----------------------------------------------------------------------------
@@ -48,7 +48,7 @@ scale_pattern_alpha <- scale_pattern_alpha_continuous
 # #' @rdname scale_pattern_alpha_continuous
 # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # scale_pattern_alpha_binned <- function(..., range = c(0.1, 1)) {
-#   binned_scale("pattern_alpha", "pattern_alpha_b", rescale_pal(range), ...)
+#   binned_scale("pattern_alpha", palette = rescale_pal(range), ...)
 # }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,8 +68,7 @@ scale_pattern_alpha_discrete <- function(...) {
 scale_pattern_alpha_ordinal <- function(..., range = c(0.1, 1)) {
   discrete_scale(
     "pattern_alpha",
-    "pattern_alpha_d",
-    function(n) seq(range[1], range[2], length.out = n),
+    palette = function(n) seq(range[1], range[2], length.out = n),
     ...
   )
 }

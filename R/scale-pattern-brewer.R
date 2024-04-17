@@ -66,7 +66,9 @@
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_brewer <- function(..., type = "seq", palette = 1, direction = 1, aesthetics = "pattern_colour") {
-  discrete_scale(aesthetics, "brewer", brewer_pal(type, palette, direction), ...)
+  discrete_scale(aesthetics, 
+                 palette = brewer_pal(type, palette, direction),
+                 ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,7 +76,9 @@ scale_pattern_colour_brewer <- function(..., type = "seq", palette = 1, directio
 #' @rdname scale_pattern_colour_brewer
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill_brewer <- function(..., type = "seq", palette = 1, direction = 1, aesthetics = "pattern_fill") {
-  discrete_scale(aesthetics, "brewer", brewer_pal(type, palette, direction), ...)
+  discrete_scale(aesthetics, 
+                 palette = brewer_pal(type, palette, direction),
+                 ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,7 +86,9 @@ scale_pattern_fill_brewer <- function(..., type = "seq", palette = 1, direction 
 #' @rdname scale_pattern_colour_brewer
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill2_brewer <- function(..., type = "seq", palette = 1, direction = 1, aesthetics = "pattern_fill2") {
-  discrete_scale(aesthetics, "brewer", brewer_pal(type, palette, direction), ...)
+  discrete_scale(aesthetics, 
+                 palette = brewer_pal(type, palette, direction),
+                 ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,8 +101,11 @@ scale_pattern_colour_distiller <- function(..., type = "seq", palette = 1, direc
   if (type == "qual") {
     warn("Using a discrete colour palette in a continuous scale.\n  Consider using type = \"seq\" or type = \"div\" instead")
   }
-  continuous_scale(aesthetics, "distiller",
-    gradient_n_pal(brewer_pal(type, palette, direction)(7), values, space), na.value = na.value, guide = guide, ...)
+  continuous_scale(aesthetics,
+    palette = gradient_n_pal(brewer_pal(type, palette, direction)(7), values, space),
+    na.value = na.value,
+    guide = guide,
+    ...)
   # NB: 6-7 colours per palette gives nice gradients; more results in more saturated colours which do not look as good
   # For diverging scales, you need an odd number to make sure the mid-point is in the center
 }
@@ -110,8 +119,11 @@ scale_pattern_fill_distiller <- function(..., type = "seq", palette = 1, directi
   if (type == "qual") {
     warn("Using a discrete colour palette in a continuous scale.\n  Consider using type = \"seq\" or type = \"div\" instead")
   }
-  continuous_scale(aesthetics, "distiller",
-                   gradient_n_pal(brewer_pal(type, palette, direction)(7), values, space), na.value = na.value, guide = guide, ...)
+  continuous_scale(aesthetics,
+                   palette = gradient_n_pal(brewer_pal(type, palette, direction)(7), values, space),
+                   na.value = na.value,
+                   guide = guide,
+                   ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -123,8 +135,11 @@ scale_pattern_fill2_distiller <- function(..., type = "seq", palette = 1, direct
   if (type == "qual") {
     warn("Using a discrete colour palette in a continuous scale.\n  Consider using type = \"seq\" or type = \"div\" instead")
   }
-  continuous_scale(aesthetics, "distiller",
-                   gradient_n_pal(brewer_pal(type, palette, direction)(7), values, space), na.value = na.value, guide = guide, ...)
+  continuous_scale(aesthetics, 
+                   palette = gradient_n_pal(brewer_pal(type, palette, direction)(7), values, space),
+                   na.value = na.value,
+                   guide = guide,
+                   ...)
 }
 
 # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,7 +152,7 @@ scale_pattern_fill2_distiller <- function(..., type = "seq", palette = 1, direct
 #   if (type == "qual") {
 #     warn("Using a discrete colour palette in a binned scale.\n  Consider using type = \"seq\" or type = \"div\" instead")
 #   }
-#   binned_scale(aesthetics, "fermenter", binned_pal(brewer_pal(type, palette, direction)), na.value = na.value, guide = guide, ...)
+#   binned_scale(aesthetics, palette = binned_pal(brewer_pal(type, palette, direction)), na.value = na.value, guide = guide, ...)
 # }
 #
 # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -149,5 +164,5 @@ scale_pattern_fill2_distiller <- function(..., type = "seq", palette = 1, direct
 #   if (type == "qual") {
 #     warn("Using a discrete colour palette in a binned scale.\n  Consider using type = \"seq\" or type = \"div\" instead")
 #   }
-#   binned_scale(aesthetics, "fermenter", binned_pal(brewer_pal(type, palette, direction)), na.value = na.value, guide = guide, ...)
+#   binned_scale(aesthetics, palette = binned_pal(brewer_pal(type, palette, direction)), na.value = na.value, guide = guide, ...)
 # }

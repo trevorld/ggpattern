@@ -34,8 +34,10 @@
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_linetype <- function(..., na.value = "blank") {
-  discrete_scale("pattern_linetype", "pattern_linetype_d", linetype_pal(),
-    na.value = na.value, ...)
+  discrete_scale("pattern_linetype", 
+                 palette = linetype_pal(),
+                 na.value = na.value,
+                 ...)
 }
 
 # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,7 +45,7 @@ scale_pattern_linetype <- function(..., na.value = "blank") {
 # #' @export
 # #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # scale_pattern_linetype_binned <- function(..., na.value = "blank") {
-#   binned_scale("pattern_linetype", "pattern_linetype_b", binned_pal(linetype_pal()), ...)
+#   binned_scale("pattern_linetype", palette = binned_pal(linetype_pal()), ...)
 # }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

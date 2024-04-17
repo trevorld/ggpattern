@@ -89,7 +89,6 @@ scale_pattern_continuous <- function(name = waiver(), breaks = waiver(), labels 
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern',
-    scale_name = 'pattern',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -113,7 +112,6 @@ scale_pattern_discrete <- function(..., choices = c('stripe', 'crosshatch', 'cir
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern',
-    scale_name = 'pattern',
     palette    = function(n) {
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]
@@ -138,7 +136,6 @@ scale_pattern_type_continuous <- function(name = waiver(), breaks = waiver(), la
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_type',
-    scale_name = 'pattern_type',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -162,7 +159,6 @@ scale_pattern_type_discrete <- function(..., choices = NULL, guide = 'legend') {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_type',
-    scale_name = 'pattern_type',
     palette    = function(n) {
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]
@@ -187,7 +183,6 @@ scale_pattern_subtype_continuous <- function(name = waiver(), breaks = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_subtype',
-    scale_name = 'pattern_subtype',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -211,7 +206,6 @@ scale_pattern_subtype_discrete <- function(..., choices = NULL, guide = 'legend'
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_subtype',
-    scale_name = 'pattern_subtype',
     palette    = function(n) {
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]
@@ -240,7 +234,6 @@ scale_pattern_angle_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_angle',
-    scale_name = 'pattern_angle',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -263,7 +256,6 @@ scale_pattern_angle_discrete <- function(..., range = c(0, 90)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_angle',
-    scale_name = 'pattern_angle',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -288,7 +280,6 @@ scale_pattern_density_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_density',
-    scale_name = 'pattern_density',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -311,7 +302,6 @@ scale_pattern_density_discrete <- function(..., range = c(0, 0.5)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_density',
-    scale_name = 'pattern_density',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -336,7 +326,6 @@ scale_pattern_spacing_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_spacing',
-    scale_name = 'pattern_spacing',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -359,7 +348,6 @@ scale_pattern_spacing_discrete <- function(..., range = c(0.01, 0.1)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_spacing',
-    scale_name = 'pattern_spacing',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -384,7 +372,6 @@ scale_pattern_xoffset_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_xoffset',
-    scale_name = 'pattern_xoffset',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -407,7 +394,6 @@ scale_pattern_xoffset_discrete <- function(..., range = c(0.01, 0.1)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_xoffset',
-    scale_name = 'pattern_xoffset',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -432,7 +418,6 @@ scale_pattern_yoffset_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_yoffset',
-    scale_name = 'pattern_yoffset',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -455,7 +440,6 @@ scale_pattern_yoffset_discrete <- function(..., range = c(0.01, 0.1)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_yoffset',
-    scale_name = 'pattern_yoffset',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -480,7 +464,6 @@ scale_pattern_aspect_ratio_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_aspect_ratio',
-    scale_name = 'pattern_aspect_ratio',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -503,7 +486,6 @@ scale_pattern_aspect_ratio_discrete <- function(..., range = c(0.5, 2)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_aspect_ratio',
-    scale_name = 'pattern_aspect_ratio',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -528,7 +510,6 @@ scale_pattern_key_scale_factor_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_key_scale_factor',
-    scale_name = 'pattern_key_scale_factor',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -551,7 +532,6 @@ scale_pattern_key_scale_factor_discrete <- function(..., range = c(0.5, 2)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_key_scale_factor',
-    scale_name = 'pattern_key_scale_factor',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -572,7 +552,6 @@ scale_pattern_filename_continuous <- function(name = waiver(), breaks = waiver()
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_filename',
-    scale_name = 'pattern_filename',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -596,7 +575,6 @@ scale_pattern_filename_discrete <- function(..., choices = NULL, guide = 'legend
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_filename',
-    scale_name = 'pattern_filename',
     palette    = function(n) {
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]
@@ -621,7 +599,6 @@ scale_pattern_filter_continuous <- function(name = waiver(), breaks = waiver(), 
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_filter',
-    scale_name = 'pattern_filter',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -645,7 +622,6 @@ scale_pattern_filter_discrete <- function(..., choices = c('lanczos', 'box', 'sp
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_filter',
-    scale_name = 'pattern_filter',
     palette    = function(n) {
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]
@@ -670,7 +646,6 @@ scale_pattern_gravity_continuous <- function(name = waiver(), breaks = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_gravity',
-    scale_name = 'pattern_gravity',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -694,7 +669,6 @@ scale_pattern_gravity_discrete <- function(..., choices = c('center', 'north', '
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_gravity',
-    scale_name = 'pattern_gravity',
     palette    = function(n) {
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]
@@ -723,7 +697,6 @@ scale_pattern_scale_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_scale',
-    scale_name = 'pattern_scale',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -746,7 +719,6 @@ scale_pattern_scale_discrete <- function(..., range = c(0.5, 2)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_scale',
-    scale_name = 'pattern_scale',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -767,7 +739,6 @@ scale_pattern_orientation_continuous <- function(name = waiver(), breaks = waive
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_orientation',
-    scale_name = 'pattern_orientation',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -791,7 +762,6 @@ scale_pattern_orientation_discrete <- function(..., choices = c('horizontal', 'v
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_orientation',
-    scale_name = 'pattern_orientation',
     palette    = function(n) {
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]
@@ -820,7 +790,6 @@ scale_pattern_phase_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_phase',
-    scale_name = 'pattern_phase',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -843,7 +812,6 @@ scale_pattern_phase_discrete <- function(..., range = NULL) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_phase',
-    scale_name = 'pattern_phase',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -868,7 +836,6 @@ scale_pattern_frequency_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_frequency',
-    scale_name = 'pattern_frequency',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -891,7 +858,6 @@ scale_pattern_frequency_discrete <- function(..., range = NULL) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_frequency',
-    scale_name = 'pattern_frequency',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -912,7 +878,6 @@ scale_pattern_grid_continuous <- function(name = waiver(), breaks = waiver(), la
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_grid',
-    scale_name = 'pattern_grid',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -936,7 +901,6 @@ scale_pattern_grid_discrete <- function(..., choices = c('square', 'hex'), guide
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_grid',
-    scale_name = 'pattern_grid',
     palette    = function(n) {
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]
@@ -965,7 +929,6 @@ scale_pattern_res_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_res',
-    scale_name = 'pattern_res',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -988,7 +951,6 @@ scale_pattern_res_discrete <- function(..., range = NULL) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_res',
-    scale_name = 'pattern_res',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -1013,7 +975,6 @@ scale_pattern_rot_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern_rot',
-    scale_name = 'pattern_rot',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -1036,7 +997,6 @@ scale_pattern_rot_discrete <- function(..., range = c(0, 360)) {
 
   ggplot2::discrete_scale(
     aesthetics = 'pattern_rot',
-    scale_name = 'pattern_rot',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -1291,7 +1251,6 @@ scale_pattern_rot_manual <- function(..., values, breaks = waiver()) {
 scale_pattern_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1305,7 +1264,6 @@ scale_pattern_identity <- function(..., guide = 'none') {
 scale_pattern_type_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_type',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1319,7 +1277,6 @@ scale_pattern_type_identity <- function(..., guide = 'none') {
 scale_pattern_subtype_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_subtype',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1333,7 +1290,6 @@ scale_pattern_subtype_identity <- function(..., guide = 'none') {
 scale_pattern_angle_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_angle',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1347,7 +1303,6 @@ scale_pattern_angle_identity <- function(..., guide = 'none') {
 scale_pattern_density_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_density',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1361,7 +1316,6 @@ scale_pattern_density_identity <- function(..., guide = 'none') {
 scale_pattern_spacing_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_spacing',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1375,7 +1329,6 @@ scale_pattern_spacing_identity <- function(..., guide = 'none') {
 scale_pattern_xoffset_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_xoffset',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1389,7 +1342,6 @@ scale_pattern_xoffset_identity <- function(..., guide = 'none') {
 scale_pattern_yoffset_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_yoffset',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1403,7 +1355,6 @@ scale_pattern_yoffset_identity <- function(..., guide = 'none') {
 scale_pattern_alpha_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_alpha',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1417,7 +1368,6 @@ scale_pattern_alpha_identity <- function(..., guide = 'none') {
 scale_pattern_linetype_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_linetype',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1431,7 +1381,6 @@ scale_pattern_linetype_identity <- function(..., guide = 'none') {
 scale_pattern_size_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_size',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1445,7 +1394,6 @@ scale_pattern_size_identity <- function(..., guide = 'none') {
 scale_pattern_shape_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_shape',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1459,7 +1407,6 @@ scale_pattern_shape_identity <- function(..., guide = 'none') {
 scale_pattern_colour_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_colour',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1473,7 +1420,6 @@ scale_pattern_colour_identity <- function(..., guide = 'none') {
 scale_pattern_fill_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_fill',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1487,7 +1433,6 @@ scale_pattern_fill_identity <- function(..., guide = 'none') {
 scale_pattern_fill2_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_fill2',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1501,7 +1446,6 @@ scale_pattern_fill2_identity <- function(..., guide = 'none') {
 scale_pattern_aspect_ratio_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_aspect_ratio',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1515,7 +1459,6 @@ scale_pattern_aspect_ratio_identity <- function(..., guide = 'none') {
 scale_pattern_key_scale_factor_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_key_scale_factor',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1529,7 +1472,6 @@ scale_pattern_key_scale_factor_identity <- function(..., guide = 'none') {
 scale_pattern_filename_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_filename',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1543,7 +1485,6 @@ scale_pattern_filename_identity <- function(..., guide = 'none') {
 scale_pattern_filter_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_filter',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1557,7 +1498,6 @@ scale_pattern_filter_identity <- function(..., guide = 'none') {
 scale_pattern_gravity_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_gravity',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1571,7 +1511,6 @@ scale_pattern_gravity_identity <- function(..., guide = 'none') {
 scale_pattern_scale_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_scale',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1585,7 +1524,6 @@ scale_pattern_scale_identity <- function(..., guide = 'none') {
 scale_pattern_orientation_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_orientation',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1599,7 +1537,6 @@ scale_pattern_orientation_identity <- function(..., guide = 'none') {
 scale_pattern_phase_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_phase',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1613,7 +1550,6 @@ scale_pattern_phase_identity <- function(..., guide = 'none') {
 scale_pattern_frequency_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_frequency',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1627,7 +1563,6 @@ scale_pattern_frequency_identity <- function(..., guide = 'none') {
 scale_pattern_grid_identity <- function(..., guide = 'none') {
   discrete_scale(
     aesthetics = 'pattern_grid',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1641,7 +1576,6 @@ scale_pattern_grid_identity <- function(..., guide = 'none') {
 scale_pattern_res_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_res',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -1655,7 +1589,6 @@ scale_pattern_res_identity <- function(..., guide = 'none') {
 scale_pattern_rot_identity <- function(..., guide = 'none') {
   continuous_scale(
     aesthetics = 'pattern_rot',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,

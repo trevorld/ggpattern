@@ -39,7 +39,7 @@
 #' @export
 #-----------------------------------------------------------------------------
 scale_pattern_shape <- function(..., solid = TRUE) {
-  discrete_scale("pattern_shape", "pattern_shape_d", shape_pal(solid), ...)
+  discrete_scale("pattern_shape", palette = shape_pal(solid), ...)
 }
 
 #  #-----------------------------------------------------------------------------
@@ -47,7 +47,7 @@ scale_pattern_shape <- function(..., solid = TRUE) {
 #  #' @export
 #  #-----------------------------------------------------------------------------
 #  scale_pattern_shape_binned <- function(..., solid = TRUE) {
-#    binned_scale("pattern_shape", "pattern_shape_b", binned_pal(shape_pal(solid)), ...)
+#    binned_scale("pattern_shape", palette = binned_pal(shape_pal(solid)), ...)
 #  }
 
 #-----------------------------------------------------------------------------

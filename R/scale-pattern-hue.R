@@ -31,8 +31,10 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_colour_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.start = 0,
                              direction = 1, na.value = "grey50", aesthetics = "pattern_colour") {
-  discrete_scale(aesthetics, "hue", hue_pal(h, c, l, h.start, direction),
-    na.value = na.value, ...)
+  discrete_scale(aesthetics, 
+                 palette = hue_pal(h, c, l, h.start, direction),
+                 na.value = na.value,
+                 ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,8 +43,10 @@ scale_pattern_colour_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.start = 0,
                                    direction = 1, na.value = "grey50", aesthetics = "pattern_fill") {
-  discrete_scale(aesthetics, "hue", hue_pal(h, c, l, h.start, direction),
-                 na.value = na.value, ...)
+  discrete_scale(aesthetics, 
+                 palette = hue_pal(h, c, l, h.start, direction),
+                 na.value = na.value,
+                 ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,6 +55,8 @@ scale_pattern_fill_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.s
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_fill2_hue <- function(..., h = c(0, 360) + 15, c = 100, l = 65, h.start = 0,
                                    direction = 1, na.value = "grey50", aesthetics = "pattern_fill2") {
-  discrete_scale(aesthetics, "hue", hue_pal(h, c, l, h.start, direction),
-                 na.value = na.value, ...)
+  discrete_scale(aesthetics, 
+                 palette = hue_pal(h, c, l, h.start, direction),
+                 na.value = na.value,
+                 ...)
 }
