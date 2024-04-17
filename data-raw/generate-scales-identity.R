@@ -50,7 +50,6 @@ template_identity_discrete <- "
 scale_{aes_name}_identity <- function(..., guide = 'none') {{
   discrete_scale(
     aesthetics = '{aes_name}',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,
@@ -64,7 +63,6 @@ template_identity_continuous <- "
 scale_{aes_name}_identity <- function(..., guide = 'none') {{
   continuous_scale(
     aesthetics = '{aes_name}',
-    scale_name = 'identity',
     palette    = identity_pal(),
     ...,
     guide      = guide,

@@ -60,7 +60,6 @@ scale_{aes_name}_continuous <- function(name   = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = '{aes_name}',
-    scale_name = '{aes_name}',
     palette    = scales::rescale_pal(range),
     name       = name,
     breaks     = breaks,
@@ -87,7 +86,6 @@ scale_{aes_name}_discrete <- function(..., range = {scale_default}) {{
 
   ggplot2::discrete_scale(
     aesthetics = '{aes_name}',
-    scale_name = '{aes_name}',
     palette    = function(n) seq(range[1], range[2], length.out = n),
     guide      = 'legend',
     ...
@@ -147,7 +145,6 @@ scale_{aes_name}_continuous <- function(name = waiver(), breaks = waiver(), labe
 
   ggplot2::continuous_scale(
     aesthetics = '{aes_name}',
-    scale_name = '{aes_name}',
     palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
     name       = name,
     breaks     = breaks,
@@ -175,7 +172,6 @@ scale_{aes_name}_discrete <- function(..., choices = {scale_default}, guide = 'l
 
   ggplot2::discrete_scale(
     aesthetics = '{aes_name}',
-    scale_name = '{aes_name}',
     palette    = function(n) {{
       idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
       choices[idx]

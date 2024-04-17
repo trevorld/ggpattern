@@ -50,8 +50,7 @@ scale_pattern_colour_viridis_d <- function(..., alpha = 1, begin = 0, end = 1,
                                    direction = 1, option = "D", aesthetics = "pattern_colour") {
   discrete_scale(
     aesthetics,
-    "viridis_d",
-    viridis_pal(alpha, begin, end, direction, option),
+    palette = viridis_pal(alpha, begin, end, direction, option),
     ...
   )
 }
@@ -64,8 +63,7 @@ scale_pattern_fill_viridis_d <- function(..., alpha = 1, begin = 0, end = 1,
                                          direction = 1, option = "D", aesthetics = "pattern_fill") {
   discrete_scale(
     aesthetics,
-    "viridis_d",
-    viridis_pal(alpha, begin, end, direction, option),
+    palette = viridis_pal(alpha, begin, end, direction, option),
     ...
   )
 }
@@ -78,8 +76,7 @@ scale_pattern_fill2_viridis_d <- function(..., alpha = 1, begin = 0, end = 1,
                                          direction = 1, option = "D", aesthetics = "pattern_fill2") {
   discrete_scale(
     aesthetics,
-    "viridis_d",
-    viridis_pal(alpha, begin, end, direction, option),
+    palette = viridis_pal(alpha, begin, end, direction, option),
     ...
   )
 }
@@ -95,8 +92,7 @@ scale_pattern_colour_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
                                    aesthetics = "pattern_colour") {
   continuous_scale(
     aesthetics,
-    "viridis_c",
-    gradient_n_pal(
+    palette = gradient_n_pal(
       viridis_pal(alpha, begin, end, direction, option)(6),
       values,
       space
@@ -118,8 +114,7 @@ scale_pattern_fill_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
                                          aesthetics = "pattern_fill") {
   continuous_scale(
     aesthetics,
-    "viridis_c",
-    gradient_n_pal(
+    palette = gradient_n_pal(
       viridis_pal(alpha, begin, end, direction, option)(6),
       values,
       space
@@ -141,8 +136,7 @@ scale_pattern_fill2_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
                                          aesthetics = "pattern_fill2") {
   continuous_scale(
     aesthetics,
-    "viridis_c",
-    gradient_n_pal(
+    palette = gradient_n_pal(
       viridis_pal(alpha, begin, end, direction, option)(6),
       values,
       space
@@ -163,8 +157,7 @@ scale_pattern_fill2_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
 #                                    guide = "coloursteps", aesthetics = "pattern_colour") {
 #   binned_scale(
 #     aesthetics,
-#     "viridis_b",
-#     gradient_n_pal(
+#     palette = gradient_n_pal(
 #       viridis_pal(alpha, begin, end, direction, option)(6),
 #       values,
 #       space
@@ -185,8 +178,7 @@ scale_pattern_fill2_viridis_c <- function(..., alpha = 1, begin = 0, end = 1,
 #                                  guide = "coloursteps", aesthetics = "pattern_fill") {
 #   binned_scale(
 #     aesthetics,
-#     "viridis_b",
-#     gradient_n_pal(
+#     palette = gradient_n_pal(
 #       viridis_pal(alpha, begin, end, direction, option)(6),
 #       values,
 #       space
