@@ -93,7 +93,7 @@ GeomMapPattern <- ggproto(
     pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
 
     col <- data$colour
-    fill <- scales::alpha(data$fill, data$alpha)
+    fill <- fill_alpha(data$fill, data$alpha)
     lwd <- data$linewidth * .pt
 
     base_grob_fn <- function(col, fill, lwd) {
