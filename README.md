@@ -75,7 +75,7 @@ ggplot(df) +
   coord_fixed(ratio = 1/2)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 
 # Gallery
@@ -98,7 +98,7 @@ ggplot(df) +
 
 ## Available Geoms
 
-`ggpattern` includes versions of (nearly) all geoms from `ggplot2` which could plausiblly
+`ggpattern` includes versions of (nearly) all geoms from `ggplot2` which could plausibly
 support being filled with a pattern.
 
 See the vignette galleries for examples of all the available geoms filled with 
@@ -224,8 +224,3 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
   often faster to save directly to PNG or PDF and view that.
 * Self intersecting geometry can be an issue.  
 * Non-linear coordinate systems have not been tested.
-
-# ToDo
-
-* Possibly add  geoms from third-party sources e.g.
-    * `geom_circle()` and `geom_voronoi()` from [ggforce](https://github.com/thomasp85/ggforce)

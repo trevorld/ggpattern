@@ -99,7 +99,7 @@ An installation error is highly unlikely to be an issue with `{ggpattern}` itsel
    and set other options using `pattern_*` aesthetics
 
 
-```{r fig.width = 8, fig.height = 4}
+```{r fig.width = 8, fig.height = 4, fig.cap = ""}
 df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
 
 ggplot(df) +
@@ -265,8 +265,3 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
   often faster to save directly to PNG or PDF and view that.
 * Self intersecting geometry can be an issue.  
 * Non-linear coordinate systems have not been tested.
-
-# ToDo
-
-* Possibly add  geoms from third-party sources e.g.
-    * `geom_circle()` and `geom_voronoi()` from [ggforce](https://github.com/thomasp85/ggforce)
