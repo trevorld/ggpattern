@@ -26,8 +26,10 @@ scale_pattern_continuous(
   labels = waiver(),
   limits = NULL,
   choices = c("stripe", "crosshatch", "circle"),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_discrete(
@@ -42,8 +44,10 @@ scale_pattern_type_continuous(
   labels = waiver(),
   limits = NULL,
   choices = NULL,
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_type_discrete(..., choices = NULL, guide = "legend")
@@ -54,8 +58,10 @@ scale_pattern_subtype_continuous(
   labels = waiver(),
   limits = NULL,
   choices = NULL,
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_subtype_discrete(..., choices = NULL, guide = "legend")
@@ -66,8 +72,10 @@ scale_pattern_filename_continuous(
   labels = waiver(),
   limits = NULL,
   choices = NULL,
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_filename_discrete(..., choices = NULL, guide = "legend")
@@ -78,8 +86,10 @@ scale_pattern_filter_continuous(
   labels = waiver(),
   limits = NULL,
   choices = c("lanczos", "box", "spline", "cubic"),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_filter_discrete(
@@ -95,8 +105,10 @@ scale_pattern_gravity_continuous(
   limits = NULL,
   choices = c("center", "north", "south", "east", "west", "northeast", "northwest",
     "southeast", "southwest"),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_gravity_discrete(
@@ -112,8 +124,10 @@ scale_pattern_orientation_continuous(
   labels = waiver(),
   limits = NULL,
   choices = c("horizontal", "vertical", "radial"),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_orientation_discrete(
@@ -128,8 +142,10 @@ scale_pattern_grid_continuous(
   labels = waiver(),
   limits = NULL,
   choices = c("square", "hex"),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_grid_discrete(
@@ -139,7 +155,7 @@ scale_pattern_grid_discrete(
 )
 }
 \arguments{
-\item{name, breaks, labels, limits, trans, guide, ...}{See
+\item{name, breaks, labels, limits, trans, guide, ..., transform}{See
 \code{{ggplot2}} documentation for more information on scales.}
 
 \item{choices}{vector of values to choose from.}

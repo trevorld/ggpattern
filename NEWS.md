@@ -8,6 +8,11 @@
   actual aspect ratio (instead of 1).
   This may cause your legends to `geom_sf_pattern()` to look different.
 
+## Deprecated features
+
+* In line with upstream changes in `{ggplot2}` the `trans` argument has been deprecated in various scales functions.
+  Use the new `transform` argument instead (#113).
+
 ## New features
 
 * `geom_bar_pattern()` and `geom_col_pattern()` now accept argument `just`.
@@ -26,6 +31,7 @@
 
 * `draw_key_boxplot_pattern()`, `draw_key_crossbar_pattern()`, and `draw_key_polygon_pattern()` `aspect_ratio` argument
   now defaults to `get_aspect_ratio()`.
+* Several (continuous) scales now have an `...` argument which will be passed to `ggplot2::continuous_scale()`.
 
 # ggpattern 1.0.1
 
