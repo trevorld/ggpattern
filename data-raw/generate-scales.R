@@ -1,9 +1,7 @@
-
 suppressPackageStartupMessages({
-  library(dplyr)
-  library(glue)
+  library("dplyr")
+  library("glue")
 })
-
 
 sink("R/scale-pattern.R")
 
@@ -18,10 +16,4 @@ source("data-raw/generate-scales-continuous-discrete.R")
 source("data-raw/generate-scales-manual.R")
 source("data-raw/generate-scales-identity.R")
 
-
 sink()
-
-
-
-
-

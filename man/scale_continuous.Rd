@@ -34,8 +34,10 @@ scale_pattern_angle_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0, 90),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_angle_discrete(..., range = c(0, 90))
@@ -46,8 +48,10 @@ scale_pattern_density_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0, 0.5),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_density_discrete(..., range = c(0, 0.5))
@@ -58,8 +62,10 @@ scale_pattern_spacing_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0.01, 0.1),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_spacing_discrete(..., range = c(0.01, 0.1))
@@ -70,8 +76,10 @@ scale_pattern_xoffset_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0.01, 0.1),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_xoffset_discrete(..., range = c(0.01, 0.1))
@@ -82,8 +90,10 @@ scale_pattern_yoffset_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0.01, 0.1),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_yoffset_discrete(..., range = c(0.01, 0.1))
@@ -94,8 +104,10 @@ scale_pattern_aspect_ratio_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0.5, 2),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_aspect_ratio_discrete(..., range = c(0.5, 2))
@@ -106,8 +118,10 @@ scale_pattern_key_scale_factor_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0.5, 2),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_key_scale_factor_discrete(..., range = c(0.5, 2))
@@ -118,8 +132,10 @@ scale_pattern_scale_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0.5, 2),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_scale_discrete(..., range = c(0.5, 2))
@@ -130,8 +146,10 @@ scale_pattern_phase_continuous(
   labels = waiver(),
   limits = NULL,
   range = NULL,
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_phase_discrete(..., range = NULL)
@@ -142,8 +160,10 @@ scale_pattern_frequency_continuous(
   labels = waiver(),
   limits = NULL,
   range = NULL,
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_frequency_discrete(..., range = NULL)
@@ -154,8 +174,10 @@ scale_pattern_res_continuous(
   labels = waiver(),
   limits = NULL,
   range = NULL,
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_res_discrete(..., range = NULL)
@@ -166,14 +188,16 @@ scale_pattern_rot_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(0, 360),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_rot_discrete(..., range = c(0, 360))
 }
 \arguments{
-\item{name, breaks, labels, limits, range, trans, guide, ...}{See
+\item{name, breaks, labels, limits, range, trans, guide, ..., transform}{See
 \code{{ggplot2}} documentation for more information on scales.}
 }
 \value{

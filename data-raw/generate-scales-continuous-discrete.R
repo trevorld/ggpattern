@@ -1,13 +1,13 @@
 suppressPackageStartupMessages({
-  library(dplyr)
-  library(glue)
+  library("dplyr")
+  library("glue")
 })
 
 template_cont_roxygen_first <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Scales for continuous pattern aesthetics
 #'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
+#' @param name,breaks,labels,limits,range,trans,guide,...,transform See
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.
@@ -45,17 +45,24 @@ template_cont_var_cont_aes <- "
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_{aes_name}_continuous <- function(name   = waiver(),
+scale_{aes_name}_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = {scale_default},
-                                        trans  = 'identity',
-                                        guide  = 'legend') {{
-
+                                        range = {scale_default},
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {{
 
   if (is.null(range)) {{
      abort('scale_{aes_name}_continuous(): must specify \"range\" argument')
+  }}
+  if (lifecycle::is_present(trans)) {{
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_{aes_name}_continuous(trans)',
+                               'scale_{aes_name}_continuous(transform)')
+     transform <- trans
   }}
 
   ggplot2::continuous_scale(
@@ -65,8 +72,9 @@ scale_{aes_name}_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }}
 
@@ -99,7 +107,7 @@ template_discrete_roxygen_first <- "
 #' Scales for discrete pattern aesthetics
 #'
 #' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
+#' @param name,breaks,labels,limits,trans,guide,...,transform See
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.
@@ -134,13 +142,24 @@ template_cont_var_discrete_aes <- "
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_{aes_name}_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = {scale_default},
-                                     trans = 'identity', guide = 'legend') {{
-
+scale_{aes_name}_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = {scale_default},
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {{
 
   if (is.null(choices)) {{
      abort('scale_{aes_name}_continuous(): must specify \"choices\" argument')
+  }}
+  if (lifecycle::is_present(trans)) {{
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_{aes_name}_continuous(trans)',
+                               'scale_{aes_name}_continuous(transform)')
+     transform <- trans
   }}
 
   ggplot2::continuous_scale(
@@ -150,8 +169,9 @@ scale_{aes_name}_continuous <- function(name = waiver(), breaks = waiver(), labe
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }}
 
 
@@ -181,10 +201,7 @@ scale_{aes_name}_discrete <- function(..., choices = {scale_default}, guide = 'l
   )
 }}
 
-
 "
-
-
 
 source("data-raw/config.R")
 
@@ -211,12 +228,3 @@ for (i in seq(nrow(ggpattern_aes))) {
 }
 
 # sink()
-
-
-
-
-
-
-
-
-

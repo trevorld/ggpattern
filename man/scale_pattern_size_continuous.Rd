@@ -13,8 +13,10 @@ scale_pattern_size_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(1, 6),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 
 scale_pattern_size(
@@ -23,12 +25,14 @@ scale_pattern_size(
   labels = waiver(),
   limits = NULL,
   range = c(1, 6),
-  trans = "identity",
-  guide = "legend"
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
 )
 }
 \arguments{
-\item{name, breaks, labels, limits, trans, guide}{See \code{ggplot2::scale_size} for more information}
+\item{name, breaks, labels, limits, trans, guide, ..., transform}{See \code{\link[ggplot2:scale_size]{ggplot2::scale_size()}} for more information}
 
 \item{range}{a numeric vector of length 2 that specifies the minimum and
 maximum size of the plotting symbol after transformation.}

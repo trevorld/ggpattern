@@ -10,7 +10,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Scales for continuous pattern aesthetics
 #'
-#' @param name,breaks,labels,limits,range,trans,guide,... See
+#' @param name,breaks,labels,limits,range,trans,guide,...,transform See
 #'        \code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.
@@ -46,7 +46,7 @@ NULL
 #' Scales for discrete pattern aesthetics
 #'
 #' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,... See
+#' @param name,breaks,labels,limits,trans,guide,...,transform See
 #'        \code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.
@@ -78,13 +78,24 @@ NULL
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = c('stripe', 'crosshatch', 'circle'),
-                                     trans = 'identity', guide = 'legend') {
-
+scale_pattern_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = c('stripe', 'crosshatch', 'circle'),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(choices)) {
      abort('scale_pattern_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_continuous(trans)',
+                               'scale_pattern_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -94,8 +105,9 @@ scale_pattern_continuous <- function(name = waiver(), breaks = waiver(), labels 
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -120,18 +132,28 @@ scale_pattern_discrete <- function(..., choices = c('stripe', 'crosshatch', 'cir
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_type_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = NULL,
-                                     trans = 'identity', guide = 'legend') {
-
+scale_pattern_type_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = NULL,
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(choices)) {
      abort('scale_pattern_type_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_type_continuous(trans)',
+                               'scale_pattern_type_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -141,8 +163,9 @@ scale_pattern_type_continuous <- function(name = waiver(), breaks = waiver(), la
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -167,18 +190,28 @@ scale_pattern_type_discrete <- function(..., choices = NULL, guide = 'legend') {
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_subtype_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = NULL,
-                                     trans = 'identity', guide = 'legend') {
-
+scale_pattern_subtype_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = NULL,
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(choices)) {
      abort('scale_pattern_subtype_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_subtype_continuous(trans)',
+                               'scale_pattern_subtype_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -188,8 +221,9 @@ scale_pattern_subtype_continuous <- function(name = waiver(), breaks = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -214,22 +248,28 @@ scale_pattern_subtype_discrete <- function(..., choices = NULL, guide = 'legend'
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_angle_continuous <- function(name   = waiver(),
+scale_pattern_angle_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0, 90),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0, 90),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_angle_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_angle_continuous(trans)',
+                               'scale_pattern_angle_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -239,8 +279,9 @@ scale_pattern_angle_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -265,17 +306,24 @@ scale_pattern_angle_discrete <- function(..., range = c(0, 90)) {
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_density_continuous <- function(name   = waiver(),
+scale_pattern_density_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0, 0.5),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0, 0.5),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_density_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_density_continuous(trans)',
+                               'scale_pattern_density_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -285,8 +333,9 @@ scale_pattern_density_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -311,17 +360,24 @@ scale_pattern_density_discrete <- function(..., range = c(0, 0.5)) {
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_spacing_continuous <- function(name   = waiver(),
+scale_pattern_spacing_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0.01, 0.1),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0.01, 0.1),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_spacing_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_spacing_continuous(trans)',
+                               'scale_pattern_spacing_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -331,8 +387,9 @@ scale_pattern_spacing_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -357,17 +414,24 @@ scale_pattern_spacing_discrete <- function(..., range = c(0.01, 0.1)) {
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_xoffset_continuous <- function(name   = waiver(),
+scale_pattern_xoffset_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0.01, 0.1),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0.01, 0.1),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_xoffset_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_xoffset_continuous(trans)',
+                               'scale_pattern_xoffset_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -377,8 +441,9 @@ scale_pattern_xoffset_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -403,17 +468,24 @@ scale_pattern_xoffset_discrete <- function(..., range = c(0.01, 0.1)) {
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_yoffset_continuous <- function(name   = waiver(),
+scale_pattern_yoffset_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0.01, 0.1),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0.01, 0.1),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_yoffset_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_yoffset_continuous(trans)',
+                               'scale_pattern_yoffset_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -423,8 +495,9 @@ scale_pattern_yoffset_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -449,17 +522,24 @@ scale_pattern_yoffset_discrete <- function(..., range = c(0.01, 0.1)) {
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_aspect_ratio_continuous <- function(name   = waiver(),
+scale_pattern_aspect_ratio_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0.5, 2),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0.5, 2),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_aspect_ratio_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_aspect_ratio_continuous(trans)',
+                               'scale_pattern_aspect_ratio_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -469,8 +549,9 @@ scale_pattern_aspect_ratio_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -495,17 +576,24 @@ scale_pattern_aspect_ratio_discrete <- function(..., range = c(0.5, 2)) {
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_key_scale_factor_continuous <- function(name   = waiver(),
+scale_pattern_key_scale_factor_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0.5, 2),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0.5, 2),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_key_scale_factor_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_key_scale_factor_continuous(trans)',
+                               'scale_pattern_key_scale_factor_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -515,8 +603,9 @@ scale_pattern_key_scale_factor_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -541,13 +630,24 @@ scale_pattern_key_scale_factor_discrete <- function(..., range = c(0.5, 2)) {
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_filename_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = NULL,
-                                     trans = 'identity', guide = 'legend') {
-
+scale_pattern_filename_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = NULL,
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(choices)) {
      abort('scale_pattern_filename_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_filename_continuous(trans)',
+                               'scale_pattern_filename_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -557,8 +657,9 @@ scale_pattern_filename_continuous <- function(name = waiver(), breaks = waiver()
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -583,18 +684,28 @@ scale_pattern_filename_discrete <- function(..., choices = NULL, guide = 'legend
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_filter_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = c('lanczos', 'box', 'spline', 'cubic'),
-                                     trans = 'identity', guide = 'legend') {
-
+scale_pattern_filter_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = c('lanczos', 'box', 'spline', 'cubic'),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(choices)) {
      abort('scale_pattern_filter_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_filter_continuous(trans)',
+                               'scale_pattern_filter_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -604,8 +715,9 @@ scale_pattern_filter_continuous <- function(name = waiver(), breaks = waiver(), 
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -630,18 +742,28 @@ scale_pattern_filter_discrete <- function(..., choices = c('lanczos', 'box', 'sp
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_gravity_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = c('center', 'north', 'south', 'east', 'west', 'northeast', 'northwest', 'southeast', 'southwest'),
-                                     trans = 'identity', guide = 'legend') {
-
+scale_pattern_gravity_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = c('center', 'north', 'south', 'east', 'west', 'northeast', 'northwest', 'southeast', 'southwest'),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(choices)) {
      abort('scale_pattern_gravity_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_gravity_continuous(trans)',
+                               'scale_pattern_gravity_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -651,8 +773,9 @@ scale_pattern_gravity_continuous <- function(name = waiver(), breaks = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -677,22 +800,28 @@ scale_pattern_gravity_discrete <- function(..., choices = c('center', 'north', '
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_scale_continuous <- function(name   = waiver(),
+scale_pattern_scale_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0.5, 2),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0.5, 2),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_scale_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_scale_continuous(trans)',
+                               'scale_pattern_scale_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -702,8 +831,9 @@ scale_pattern_scale_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -728,13 +858,24 @@ scale_pattern_scale_discrete <- function(..., range = c(0.5, 2)) {
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_orientation_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = c('horizontal', 'vertical', 'radial'),
-                                     trans = 'identity', guide = 'legend') {
-
+scale_pattern_orientation_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = c('horizontal', 'vertical', 'radial'),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(choices)) {
      abort('scale_pattern_orientation_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_orientation_continuous(trans)',
+                               'scale_pattern_orientation_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -744,8 +885,9 @@ scale_pattern_orientation_continuous <- function(name = waiver(), breaks = waive
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -770,22 +912,28 @@ scale_pattern_orientation_discrete <- function(..., choices = c('horizontal', 'v
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_phase_continuous <- function(name   = waiver(),
+scale_pattern_phase_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = NULL,
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = NULL,
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_phase_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_phase_continuous(trans)',
+                               'scale_pattern_phase_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -795,8 +943,9 @@ scale_pattern_phase_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -821,17 +970,24 @@ scale_pattern_phase_discrete <- function(..., range = NULL) {
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_frequency_continuous <- function(name   = waiver(),
+scale_pattern_frequency_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = NULL,
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = NULL,
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_frequency_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_frequency_continuous(trans)',
+                               'scale_pattern_frequency_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -841,8 +997,9 @@ scale_pattern_frequency_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -867,13 +1024,24 @@ scale_pattern_frequency_discrete <- function(..., range = NULL) {
 #' @rdname scale_discrete
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_grid_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                     limits = NULL, choices = c('square', 'hex'),
-                                     trans = 'identity', guide = 'legend') {
-
+scale_pattern_grid_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = c('square', 'hex'),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(choices)) {
      abort('scale_pattern_grid_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_grid_continuous(trans)',
+                               'scale_pattern_grid_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -883,8 +1051,9 @@ scale_pattern_grid_continuous <- function(name = waiver(), breaks = waiver(), la
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide)
+    transform  = transform,
+    guide      = guide,
+    ...)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -909,22 +1078,28 @@ scale_pattern_grid_discrete <- function(..., choices = c('square', 'hex'), guide
     ...
   )
 }
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_res_continuous <- function(name   = waiver(),
+scale_pattern_res_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = NULL,
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = NULL,
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_res_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_res_continuous(trans)',
+                               'scale_pattern_res_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -934,8 +1109,9 @@ scale_pattern_res_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -960,17 +1136,24 @@ scale_pattern_res_discrete <- function(..., range = NULL) {
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_rot_continuous <- function(name   = waiver(),
+scale_pattern_rot_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        range  = c(0, 360),
-                                        trans  = 'identity',
-                                        guide  = 'legend') {
-
+                                        range = c(0, 360),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
 
   if (is.null(range)) {
      abort('scale_pattern_rot_continuous(): must specify "range" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_rot_continuous(trans)',
+                               'scale_pattern_rot_continuous(transform)')
+     transform <- trans
   }
 
   ggplot2::continuous_scale(
@@ -980,8 +1163,9 @@ scale_pattern_rot_continuous <- function(name   = waiver(),
     breaks     = breaks,
     labels     = labels,
     limits     = limits,
-    trans      = trans,
-    guide      = guide
+    transform  = transform,
+    guide      = guide,
+    ...
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
