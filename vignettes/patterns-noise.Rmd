@@ -19,8 +19,9 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 suppressPackageStartupMessages({
-  library(ggplot2)
-  library(ggpattern)
+  library("ggplot2")
+  library("ggpattern")
+  require("magick", quietly = TRUE)
 })
 ```
 

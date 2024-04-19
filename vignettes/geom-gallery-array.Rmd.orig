@@ -19,44 +19,43 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 suppressPackageStartupMessages({
-  library(ggplot2)
-  library(ggpattern)
+  library("ggplot2")
+  library("ggpattern")
+  require("dplyr", quietly = TRUE)
+  require("magick", quietly = TRUE)
+  require("maps", quietly = TRUE)
+  require("sf", quietly = TRUE)
 })
 ```
 
 ## `geom_bar_pattern()`
 
-```{r bar}
+```{r bar, fig.cap=""}
 if (require("magick")) {
-
 p <- ggplot(mpg, aes(class)) +
   geom_bar_pattern(
     aes(
-      pattern_angle = class
+      pattern_fill = class
     ), 
-    pattern         = 'placeholder',
-    pattern_type    = 'kitten',
-    fill            = 'white', 
+    pattern         = 'plasma',
     colour          = 'black',
-    pattern_spacing = 0.025
   ) +
   theme_bw(18) +
   labs(
     title = "ggpattern::geom_bar_pattern()",
-    subtitle = "pattern = 'placeholder', pattern_type = 'kitten'"
+    subtitle = "pattern = 'plasma'"
   ) + 
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1/15) + 
   scale_pattern_discrete(guide = guide_legend(nrow = 1))
 
 p
-
 }
 ```
 
 ## `geom_bar_pattern()` - fit image to width and tile.
 
-```{r bar2}
+```{r bar2, fig.cap=""}
 if (require("magick")) {
 
 flags <- c(
@@ -98,7 +97,7 @@ p
 
 ## `geom_bar_pattern()` + `coord_flip` and fit image to height and graivty towards the east.
 
-```{r bar3}
+```{r bar3, fig.cap=""}
 if (require("magick")) {
 
 p <- ggplot(mpg, aes(class)) +
@@ -133,7 +132,7 @@ p
 
 * See `gridpattern::names_magick` for a list of all image based patterns from `imagemagick`
 
-```{r pie}
+```{r pie, fig.cap=""}
 if (require("magick")) {
 
 df <- data.frame(
@@ -171,20 +170,20 @@ p
 
 ## `geom_bin2d_pattern()`
 
-```{r bin2d}
+```{r bin2d, fig.cap=""}
 if (require("magick")) {
 
 p <- ggplot(diamonds, aes(x, y)) + 
   xlim(4, 10) + ylim(4, 10) +
   geom_bin2d_pattern(
-    aes(pattern_type = ..density..), 
+    aes(pattern_type = after_stat(density)), 
     pattern       = 'magick',
     pattern_scale = 3,
     pattern_fill  = 'black',
     bins          = 6, 
     fill          = 'white', 
     colour        = 'black', 
-    size          = 0.5
+    linewidth     = 0.5
   ) +
   theme_bw(18) +
   theme(legend.position = 'none') + 
@@ -200,7 +199,7 @@ p
 ```
 ## `geom_boxplot_pattern()`
 
-```{r boxplot}
+```{r boxplot, fig.cap=""}
 if (require("magick")) {
 
 standard_image_filenames <- c(
@@ -237,10 +236,8 @@ p
 
 ## `geom_col_pattern()`
 
-```{r col}
+```{r col, fig.cap=""}
 if (require("magick")) {
-try({
-
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 
 p <- ggplot(df, aes(trt, outcome)) +
@@ -258,15 +255,12 @@ p <- ggplot(df, aes(trt, outcome)) +
   coord_fixed(ratio = 1/2)
 
 p
-
-})
-invisible(NULL)
 }
 ```
 
 ## `geom_crossbar_pattern()`
 
-```{r crossbar}
+```{r crossbar, fig.cap=""}
 if (require("magick")) {
 
 df <- data.frame(
@@ -302,7 +296,7 @@ p
 
 ## `geom_density_pattern()`
 
-```{r density}
+```{r density, fig.cap=""}
 if (require("magick")) {
 
 seamless_image_filenames <- c(
@@ -336,7 +330,7 @@ p
 
 ## `geom_map_pattern()`
 
-```{r map, fig.width=12, fig.height=9}
+```{r map, fig.width=12, fig.height=9, fig.cap=""}
 if (require("magick") && require("maps")) {
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
@@ -373,7 +367,7 @@ p
 
 ## `geom_polygon_pattern()`
 
-```{r polygon}
+```{r polygon, fig.cap=""}
 if (require("magick")) {
 
 angle <- seq(0, 2*pi, length.out = 7) + pi/6
@@ -403,7 +397,7 @@ p
 
 ## `geom_rect_pattern()`
 
-```{r rect}
+```{r rect, fig.cap=""}
 if (require("magick")) {
 
 plot_df <- data.frame(
@@ -445,7 +439,7 @@ p
 
 ## `geom_ribbon_pattern()`
 
-```{r ribbon, warning=FALSE}
+```{r ribbon, warning=FALSE, fig.cap=""}
 if (require("magick")) {
 
 huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
@@ -476,7 +470,7 @@ p
 
 ## `geom_sf_pattern()`
 
-```{r sf}
+```{r sf, fig.cap="", warning=FALSE}
 if (require("dplyr") && require("magick") && require("sf")) {
 
 nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
@@ -494,9 +488,7 @@ p <- ggplot(nc) +
     pattern_aspect_ratio = 3
   ) +
   theme_bw(15) + 
-  # theme(legend.key.size = unit(1.5, 'cm')) +
   theme(legend.position = 'none') +
-  scale_pattern_type_discrete(choices = gridpattern::names_magick) + 
   labs(
     title = "ggpattern::geom_sf_pattern()",
     subtitle = "pattern = 'placeholder', pattern_type = 'keanu'"
@@ -509,7 +501,7 @@ p
 
 ## `geom_tile_pattern()`
 
-```{r tile}
+```{r tile, fig.cap=""}
 if (require("magick")) {
 
 df <- data.frame(
@@ -551,7 +543,7 @@ p
 
 ## `geom_violin_pattern()`
 
-```{r violin}
+```{r violin, fig.cap=""}
 if (require("magick")) {
 
 p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +

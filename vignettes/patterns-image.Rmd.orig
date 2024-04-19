@@ -20,8 +20,9 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 suppressPackageStartupMessages({
-  library(ggplot2)
-  library(ggpattern)
+  library("ggplot2")
+  library("ggpattern")
+  require("magick", quietly = TRUE)
 })
 ```
 
@@ -115,7 +116,7 @@ If `pattern_type = 'none'` then no attempt is made at snugly filling the area.
 Instead a single copy of the image is scaled (`pattern_scale`) and 
 placed (`pattern_gravity`) in the geom area.
 
-```{r none}
+```{r none, fig.cap=""}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -153,7 +154,7 @@ left-to-right:
   that the entire geom is covered.  `pattern_gravity = 'West'` anchors the image
   to the left side of the geom.
 
-```{r covering}
+```{r covering, fig.cap=""}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -187,7 +188,7 @@ In this example, `pattern_scale` is also applied to the image so that it appears
 different sizes.
 
 
-```{r tiling}
+```{r tiling, fig.cap=""}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -218,7 +219,7 @@ ggplot(df1, aes(trt, outcome)) +
 
 By choosing a seamlessly tiling image, then a tiled fill will not have visible discontinuities.
 
-```{r tiling-seamless}
+```{r tiling-seamless, fig.cap=""}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -244,7 +245,7 @@ ggplot(mtcars) +
 
 ### Example: `pattern = 'image'` - Tiling with seamless patterns (with scaling)
 
-```{r tiling-seamless-scaling}
+```{r tiling-seamless-scaling, fig.cap=""}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -278,7 +279,7 @@ This is useful for bar charts.
 Specify `pattern_scale = -1` to fit the width of the geom, and `pattern_scale = -2` to 
 fit the height of the geom.
 
-```{r tiling-fit}
+```{r tiling-fit, fig.cap=""}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -365,7 +366,7 @@ df1 <- data.frame(
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'bear'` 
 
-```{r bear}
+```{r bear, fig.cap=""}
 if (require("magick")) { 
 
 ggplot(df1, aes(trt, outcome)) +
@@ -388,7 +389,7 @@ ggplot(df1, aes(trt, outcome)) +
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'picsum'`  
 
-```{r picsum}
+```{r picsum, fig.cap=""}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -410,7 +411,7 @@ ggplot(mtcars) +
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'dummy'` 
 
-```{r dummy}
+```{r dummy, fig.cap=""}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -431,41 +432,10 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-### Example: `pattern = 'placeholder'` - `pattern_type = 'kitten'` 
-
-```{r kitten}
-if (require("magick")) {
-
-df2 <- data.frame(
-  group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
-  value = c(10, 20, 30, 40)
-)
-
-ggplot(df2, aes(x="", y = value, pattern_angle = group))+
-  geom_bar_pattern(
-    pattern      = 'placeholder',
-    pattern_type = 'kitten',
-    pattern_aspect_ratio = 1,
-    width        = 1,
-    stat         = "identity",
-    colour       = 'white',
-    size         = 2
-  ) +
-  coord_polar("y", start=0) +
-  theme_void(15) +
-  theme(legend.position = 'none') +
-  labs(
-    title    = "ggpattern::geom_col_pattern()",
-    subtitle = "pattern='placeholder', pattern_type='kitten'"
-  ) 
-
-}
-```
-
 ## Resetting the image cache
 
 `{gridpattern}` stores the images used by the `"image"` and `"placeholder"` patterns in a cache.
 This is mainly to avoid the risk of re-downloading the same image over and over especially for
 the `"placeholder"` pattern.  However, this may cause [problems if you re-using the same image filename
-but the images in those files are changing](https://github.com/coolbutuseless/ggpattern/issues/95).
+but the images in those files are changing](https://github.com/trevorld/ggpattern/issues/95).
 You may reset this image cache with `gridpattern::reset_image_cache()`.
