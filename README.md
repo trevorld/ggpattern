@@ -11,13 +11,13 @@ output: github_document
 <!-- badges: start -->
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/ggpattern)](https://cran.r-project.org/package=ggpattern)
 ![](http://img.shields.io/badge/cool-useless-green.svg)
-[![R build status](https://github.com/coolbutuseless/ggpattern/workflows/R-CMD-check/badge.svg)](https://github.com/coolbutuseless/ggpattern/actions)
+[![R build status](https://github.com/trevorld/ggpattern/workflows/R-CMD-check/badge.svg)](https://github.com/trevorld/ggpattern/actions)
 <!-- badges: end -->
 
 <span style="font-size: xx-large; font-weight: normal;">`ggpattern` provides custom `ggplot2` geoms which support filled areas with 
 geometric and image-based patterns.</span>
 
-Reading the articles/vignettes on [the package website](https://coolbutuseless.github.io/package/ggpattern/) is 
+Reading the articles/vignettes on [the package website](https://trevorldavis.com/R/ggpattern/dev/) is
 probably the best way to get started.
 
 
@@ -30,11 +30,11 @@ probably the best way to get started.
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/coolbutuseless/ggpattern) with the following instructions:
+You can install the development version from [GitHub](https://github.com/trevorld/ggpattern) with the following instructions:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("coolbutuseless/ggpattern")
+remotes::install_github("trevorld/ggpattern")
 ```
 
 You can install the CRAN release version using:
@@ -81,14 +81,14 @@ ggplot(df) +
 # Gallery
 
 <div>
-<a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html#geom-bar-pattern-"><img width="45%" src="man/figures/readme/gallery-bar-array.jpg" /> </a>
-<a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html#b-w-example"><img width="45%" src="man/figures/readme/gallery-bar-bw.jpg" /> </a>
-<a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html#colour-example-1"><img width="45%" src="man/figures/readme/gallery-bar-colour.jpg" /> </a>
-<a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html#geom-bar-pattern-coord-flip-and-fit-image-to-height-and-graivty-towards-the-east-"><img width="45%" src="man/figures/readme/gallery-bar2-array.jpg" /> </a>
-<a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html#geom-density-pattern-"><img width="45%" src="man/figures/readme/gallery-density-array.jpg" /> </a>
-<a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html#geom-density-pattern-"><img width="45%" src="man/figures/readme/gallery-density-grid.jpg" /> </a>
-<a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html#geom-map-pattern-"><img width="45%" src="man/figures/readme/gallery-map-array.jpg" /> </a>
-<a href="https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html#geom-rect-pattern-"><img width="45%" src="man/figures/readme/gallery-rect-array.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-bar-pattern-"><img width="45%" src="man/figures/readme/gallery-bar-array.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#b-w-example"><img width="45%" src="man/figures/readme/gallery-bar-bw.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#colour-example-1"><img width="45%" src="man/figures/readme/gallery-bar-colour.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-bar-pattern-coord-flip-and-fit-image-to-height-and-graivty-towards-the-east-"><img width="45%" src="man/figures/readme/gallery-bar2-array.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-density-pattern-"><img width="45%" src="man/figures/readme/gallery-density-array.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#geom-density-pattern-"><img width="45%" src="man/figures/readme/gallery-density-grid.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-map-pattern-"><img width="45%" src="man/figures/readme/gallery-map-array.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-rect-pattern-"><img width="45%" src="man/figures/readme/gallery-rect-array.jpg" /> </a>
 <div>
 
 
@@ -102,8 +102,8 @@ ggplot(df) +
 support being filled with a pattern.
 
 See the vignette galleries for examples of all the available geoms filled with 
-[geometry-based patterns](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html) and 
-[image-based/array-based patterns](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html).
+[geometry-based patterns](https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html) and 
+[image-based/array-based patterns](https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html).
 
 
 <details>
@@ -140,7 +140,7 @@ There are also scale functions to control each of these new aesthetics e.g.
 
 Not all aesthetics apply to all patterns.  See the individual pattern vignettes
 for which aesthetics it uses, or see the first vignette on developing user-defined
-patterns for a [table of aesthetic use by pattern](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns-1.html#aes-by-pattern),
+patterns for a [table of aesthetic use by pattern](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns-1.html#aes-by-pattern),
 or see the individual vignettes for each pattern.
 
 <details>
@@ -185,7 +185,7 @@ or see the individual vignettes for each pattern.
 Users can write their own pattern functions and ask `ggpattern` to use them, 
 without having to include the pattern in the package.
 
-See the vignette on developing patterns: [`vignette("developing-patterns", package = "ggpattern")`](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns.html).
+See the vignette on developing patterns: [`vignette("developing-patterns", package = "ggpattern")`](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns.html).
 
 # Vignettes
 
@@ -193,27 +193,27 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 
 #### General examples
 
-* [Examples of every geom filled with the geometry-based patterns (i.e. 'stripe', 'crosshatch', 'circle')](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-geometry.html): `vignette("geom-gallery-geometry", package = "ggpattern")`
-* [Examples of every geom filled with the array-based patterns (i.e. 'image', 'magick', 'gradient', 'plasma', 'placeholder')](https://coolbutuseless.github.io/package/ggpattern/articles/geom-gallery-array.html): `vignette("geom-gallery-geometry", package = "ggpattern")`
+* [Examples of every geom filled with the geometry-based patterns (i.e. 'stripe', 'crosshatch', 'circle')](https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html): `vignette("geom-gallery-geometry", package = "ggpattern")`
+* [Examples of every geom filled with the array-based patterns (i.e. 'image', 'magick', 'gradient', 'plasma', 'placeholder')](https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html): `vignette("geom-gallery-geometry", package = "ggpattern")`
 
 #### Exploration of pattern parameters and appearance
 
-* [Patterns 'circle', 'pch', 'regular_polygon', 'rose' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-points.html): `vignette("patterns-points", package = "ggpattern")`
-* [Patterns 'gradient', 'ambient', 'plasma' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-noise.html): `vignette("patterns-noise", package = "ggpattern")`
-* [Patterns 'image' and 'placeholder' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-image.html): `vignette("patterns-image", package = "ggpattern")`
-* [Patterns 'magick' and 'polygon_tiling' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-tilings.html): `vignette("patterns-tilings", package = "ggpattern")`
-* [Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples](https://coolbutuseless.github.io/package/ggpattern/articles/patterns-stripes.html): `vignette("patterns-stripes", package = "ggpattern")`
+* [Patterns 'circle', 'pch', 'regular_polygon', 'rose' - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-points.html): `vignette("patterns-points", package = "ggpattern")`
+* [Patterns 'gradient', 'ambient', 'plasma' - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-noise.html): `vignette("patterns-noise", package = "ggpattern")`
+* [Patterns 'image' and 'placeholder' - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-image.html): `vignette("patterns-image", package = "ggpattern")`
+* [Patterns 'magick' and 'polygon_tiling' - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-tilings.html): `vignette("patterns-tilings", package = "ggpattern")`
+* [Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-stripes.html): `vignette("patterns-stripes", package = "ggpattern")`
 
-* [Parameters for Geometry-based Patterns](https://coolbutuseless.github.io/package/ggpattern/articles/geometry-based-pattern-parameters.html): `vignette("geometry-based-pattern-parameters", package = "ggpattern")`
+* [Parameters for Geometry-based Patterns](https://trevorldavis.com/R/ggpattern/dev/articles/geometry-based-pattern-parameters.html): `vignette("geometry-based-pattern-parameters", package = "ggpattern")`
 
 #### Developing your own pattern
 
-* [Developing Patterns](https://coolbutuseless.github.io/package/ggpattern/articles/developing-patterns.html): `vignette("developing-patterns", package = "ggpattern")`
+* [Developing Patterns](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns.html): `vignette("developing-patterns", package = "ggpattern")`
 
 #### Other examples
 
-* [Animating Patterns with `{gganimate}`](https://coolbutuseless.github.io/package/ggpattern/articles/gganimate.html): `vignette("gganimate", package = "ggpattern")`
-* [Creating the Logo in R](https://coolbutuseless.github.io/package/ggpattern/articles/create-logo.html): `vignette("create-logo", package = "ggpattern")`
+* [Animating Patterns with `{gganimate}`](https://trevorldavis.com/R/ggpattern/dev/articles/gganimate.html): `vignette("gganimate", package = "ggpattern")`
+* [Creating the Logo in R](https://trevorldavis.com/R/ggpattern/dev/articles/create-logo.html): `vignette("create-logo", package = "ggpattern")`
 
 # Limitations
 
