@@ -11,8 +11,12 @@ vignette: >
 
 ```r
 suppressPackageStartupMessages({
-  library(ggplot2)
-  library(ggpattern)
+  library("ggplot2")
+  library("ggpattern")
+  require("dplyr", quietly = TRUE)
+  require("magick", quietly = TRUE)
+  require("maps", quietly = TRUE)
+  require("sf", quietly = TRUE)
 })
 ```
 
@@ -21,38 +25,28 @@ suppressPackageStartupMessages({
 
 ```r
 if (require("magick")) {
-
 p <- ggplot(mpg, aes(class)) +
   geom_bar_pattern(
     aes(
-      pattern_angle = class
+      pattern_fill = class
     ), 
-    pattern         = 'placeholder',
-    pattern_type    = 'kitten',
-    fill            = 'white', 
+    pattern         = 'plasma',
     colour          = 'black',
-    pattern_spacing = 0.025
   ) +
   theme_bw(18) +
   labs(
     title = "ggpattern::geom_bar_pattern()",
-    subtitle = "pattern = 'placeholder', pattern_type = 'kitten'"
+    subtitle = "pattern = 'plasma'"
   ) + 
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1/15) + 
   scale_pattern_discrete(guide = guide_legend(nrow = 1))
 
 p
-
 }
-#> Loading required package: magick
-#> Linking to ImageMagick 6.9.10.23
-#> Enabled features: fontconfig, freetype, fftw, lcms, pango, webp, x11
-#> Disabled features: cairo, ghostscript, heic, raw, rsvg
-#> Using 8 threads
 ```
 
-![plot of chunk bar](images/gallery-array-bar-1.png)
+![](images/gallery-array-bar-1.png)
 
 ## `geom_bar_pattern()` - fit image to width and tile.
 
@@ -97,7 +91,7 @@ p
 }
 ```
 
-![plot of chunk bar2](images/gallery-array-bar2-1.png)
+![](images/gallery-array-bar2-1.png)
 
 ## `geom_bar_pattern()` + `coord_flip` and fit image to height and graivty towards the east.
 
@@ -133,7 +127,7 @@ p
 }
 ```
 
-![plot of chunk bar3](images/gallery-array-bar3-1.png)
+![](images/gallery-array-bar3-1.png)
 
 ## pie graph with `geom_bar_pattern()`
 
@@ -176,7 +170,7 @@ p
 }
 ```
 
-![plot of chunk pie](images/gallery-array-pie-1.png)
+![](images/gallery-array-pie-1.png)
 
 ## `geom_bin2d_pattern()`
 
@@ -187,14 +181,14 @@ if (require("magick")) {
 p <- ggplot(diamonds, aes(x, y)) + 
   xlim(4, 10) + ylim(4, 10) +
   geom_bin2d_pattern(
-    aes(pattern_type = ..density..), 
+    aes(pattern_type = after_stat(density)), 
     pattern       = 'magick',
     pattern_scale = 3,
     pattern_fill  = 'black',
     bins          = 6, 
     fill          = 'white', 
     colour        = 'black', 
-    size          = 0.5
+    linewidth     = 0.5
   ) +
   theme_bw(18) +
   theme(legend.position = 'none') + 
@@ -207,10 +201,11 @@ p <- ggplot(diamonds, aes(x, y)) +
 p
 
 }
-#> Warning: Removed 478 rows containing non-finite values (stat_bin2d).
+#> Warning: Removed 478 rows containing non-finite outside the scale range
+#> (`stat_bin2d()`).
 ```
 
-![plot of chunk bin2d](images/gallery-array-bin2d-1.png)
+![](images/gallery-array-bin2d-1.png)
 ## `geom_boxplot_pattern()`
 
 
@@ -249,15 +244,13 @@ p
 }
 ```
 
-![plot of chunk boxplot](images/gallery-array-boxplot-1.png)
+![](images/gallery-array-boxplot-1.png)
 
 ## `geom_col_pattern()`
 
 
 ```r
 if (require("magick")) {
-try({
-
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 
 p <- ggplot(df, aes(trt, outcome)) +
@@ -275,11 +268,10 @@ p <- ggplot(df, aes(trt, outcome)) +
   coord_fixed(ratio = 1/2)
 
 p
-
-})
-invisible(NULL)
 }
 ```
+
+![](images/gallery-array-col-1.png)
 
 ## `geom_crossbar_pattern()`
 
@@ -318,7 +310,7 @@ p
 }
 ```
 
-![plot of chunk crossbar](images/gallery-array-crossbar-1.png)
+![](images/gallery-array-crossbar-1.png)
 
 ## `geom_density_pattern()`
 
@@ -355,7 +347,7 @@ p
 }
 ```
 
-![plot of chunk density](images/gallery-array-density-1.png)
+![](images/gallery-array-density-1.png)
 
 ## `geom_map_pattern()`
 
@@ -393,10 +385,9 @@ p <- ggplot(crimes, aes(map_id = state)) +
 p
 
 }
-#> Loading required package: maps
 ```
 
-![plot of chunk map](images/gallery-array-map-1.png)
+![](images/gallery-array-map-1.png)
 
 ## `geom_polygon_pattern()`
 
@@ -429,7 +420,7 @@ p
 }
 ```
 
-![plot of chunk polygon](images/gallery-array-polygon-1.png)
+![](images/gallery-array-polygon-1.png)
 
 ## `geom_rect_pattern()`
 
@@ -474,7 +465,7 @@ p
 }
 ```
 
-![plot of chunk rect](images/gallery-array-rect-1.png)
+![](images/gallery-array-rect-1.png)
 
 ## `geom_ribbon_pattern()`
 
@@ -508,7 +499,7 @@ p
 }
 ```
 
-![plot of chunk ribbon](images/gallery-array-ribbon-1.png)
+![](images/gallery-array-ribbon-1.png)
 
 ## `geom_sf_pattern()`
 
@@ -531,9 +522,7 @@ p <- ggplot(nc) +
     pattern_aspect_ratio = 3
   ) +
   theme_bw(15) + 
-  # theme(legend.key.size = unit(1.5, 'cm')) +
   theme(legend.position = 'none') +
-  scale_pattern_type_discrete(choices = gridpattern::names_magick) + 
   labs(
     title = "ggpattern::geom_sf_pattern()",
     subtitle = "pattern = 'placeholder', pattern_type = 'keanu'"
@@ -542,28 +531,9 @@ p <- ggplot(nc) +
 p
 
 }
-#> Loading required package: dplyr
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-#> Loading required package: sf
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1
-#> Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
-#> For better results use image_read_svg() which uses the rsvg package.
-
-#> Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
-#> For better results use image_read_svg() which uses the rsvg package.
-
-#> Warning: ImageMagick was built without librsvg which causes poor qualty of SVG rendering.
-#> For better results use image_read_svg() which uses the rsvg package.
 ```
 
-![plot of chunk sf](images/gallery-array-sf-1.png)
+![](images/gallery-array-sf-1.png)
 
 ## `geom_tile_pattern()`
 
@@ -608,7 +578,7 @@ p
 }
 ```
 
-![plot of chunk tile](images/gallery-array-tile-1.png)
+![](images/gallery-array-tile-1.png)
 
 ## `geom_violin_pattern()`
 
@@ -638,4 +608,4 @@ p
 }
 ```
 
-![plot of chunk violin](images/gallery-array-violin-1.png)
+![](images/gallery-array-violin-1.png)

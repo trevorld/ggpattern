@@ -12,8 +12,9 @@ vignette: >
 
 ```r
 suppressPackageStartupMessages({
-  library(ggplot2)
-  library(ggpattern)
+  library("ggplot2")
+  library("ggpattern")
+  require("magick", quietly = TRUE)
 })
 ```
 
@@ -99,6 +100,7 @@ df1 <- data.frame(
 ```
 
 
+
 Table: Example Data
 
 |trt | outcome|gravity |filltype | scale|filename                                               |
@@ -106,6 +108,8 @@ Table: Example Data
 |a   |     2.3|South   |squish   |   1.0|/usr/local/lib/R/site-library/png/img/Rlogo.png        |
 |b   |     1.9|North   |fit      |   2.0|/usr/local/lib/R/site-library/ggpattern/img/magpie.jpg |
 |c   |     3.2|West    |expand   |   0.5|/usr/local/lib/R/site-library/ggpattern/img/bug.jpg    |
+
+
 
 ### Example: `pattern = 'image'` - No Attempt at filling the area (`pattern_type = 'none'`)
 
@@ -140,7 +144,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk none](images/patterns-image-none-1.png)
+![](images/patterns-image-none-1.png)
 
 ### Example: `pattern = 'image'` - Covering the area (`pattern_type = 'fit', 'squish', 'expand'`)
 
@@ -182,7 +186,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk covering](images/patterns-image-covering-1.png)
+![](images/patterns-image-covering-1.png)
 
 ### Example: `pattern = 'image'` - Tiling (`pattern_type = 'tile'`)
 
@@ -219,7 +223,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk tiling](images/patterns-image-tiling-1.png)
+![](images/patterns-image-tiling-1.png)
 
 ### Example: `pattern = 'image'` - Tiling with seamless patterns
 
@@ -250,7 +254,7 @@ ggplot(mtcars) +
 }
 ```
 
-![plot of chunk tiling-seamless](images/patterns-image-tiling-seamless-1.png)
+![](images/patterns-image-tiling-seamless-1.png)
 
 ### Example: `pattern = 'image'` - Tiling with seamless patterns (with scaling)
 
@@ -280,7 +284,7 @@ ggplot(mtcars) +
 }
 ```
 
-![plot of chunk tiling-seamless-scaling](images/patterns-image-tiling-seamless-scaling-1.png)
+![](images/patterns-image-tiling-seamless-scaling-1.png)
 
 ### Example: `pattern = 'image'` - Tiling with fit to width (of element bounding box)
 
@@ -318,7 +322,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk tiling-fit](images/patterns-image-tiling-fit-1.png)
+![](images/patterns-image-tiling-fit-1.png)
 
 ## `placeholder` - Filling with an image placeholder
 
@@ -404,7 +408,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk bear](images/patterns-image-bear-1.png)
+![](images/patterns-image-bear-1.png)
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'picsum'`  
 
@@ -429,7 +433,7 @@ ggplot(mtcars) +
 }
 ```
 
-![plot of chunk picsum](images/patterns-image-picsum-1.png)
+![](images/patterns-image-picsum-1.png)
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'dummy'` 
 
@@ -455,46 +459,12 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![plot of chunk dummy](images/patterns-image-dummy-1.png)
-
-### Example: `pattern = 'placeholder'` - `pattern_type = 'kitten'` 
-
-
-```r
-if (require("magick")) {
-
-df2 <- data.frame(
-  group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
-  value = c(10, 20, 30, 40)
-)
-
-ggplot(df2, aes(x="", y = value, pattern_angle = group))+
-  geom_bar_pattern(
-    pattern      = 'placeholder',
-    pattern_type = 'kitten',
-    pattern_aspect_ratio = 1,
-    width        = 1,
-    stat         = "identity",
-    colour       = 'white',
-    size         = 2
-  ) +
-  coord_polar("y", start=0) +
-  theme_void(15) +
-  theme(legend.position = 'none') +
-  labs(
-    title    = "ggpattern::geom_col_pattern()",
-    subtitle = "pattern='placeholder', pattern_type='kitten'"
-  ) 
-
-}
-```
-
-![plot of chunk kitten](images/patterns-image-kitten-1.png)
+![](images/patterns-image-dummy-1.png)
 
 ## Resetting the image cache
 
 `{gridpattern}` stores the images used by the `"image"` and `"placeholder"` patterns in a cache.
 This is mainly to avoid the risk of re-downloading the same image over and over especially for
 the `"placeholder"` pattern.  However, this may cause [problems if you re-using the same image filename
-but the images in those files are changing](https://github.com/coolbutuseless/ggpattern/issues/95).
+but the images in those files are changing](https://github.com/trevorld/ggpattern/issues/95).
 You may reset this image cache with `gridpattern::reset_image_cache()`.

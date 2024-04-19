@@ -12,8 +12,11 @@ vignette: >
 
 ```r
 suppressPackageStartupMessages({
-  library(ggplot2)
-  library(ggpattern)
+  library("ggplot2")
+  library("ggpattern")
+  require("dplyr", quietly = TRUE)
+  require("maps", quietly = TRUE)
+  require("sf", quietly = TRUE)
 })
 ```
 
@@ -44,7 +47,7 @@ p <- ggplot(df, aes(level, outcome)) +
 p
 ```
 
-![plot of chunk bar-bw](images/gallery-geometry-bar-bw-1.png)
+![](images/gallery-geometry-bar-bw-1.png)
 
 ## Colour Example
 
@@ -68,7 +71,7 @@ p <- ggplot(df, aes(level, outcome)) +
 p
 ```
 
-![plot of chunk bar-colour](images/gallery-geometry-bar-colour-1.png)
+![](images/gallery-geometry-bar-colour-1.png)
 
 ## `geom_bar_pattern()`
 
@@ -93,7 +96,7 @@ p <- ggplot(mpg, aes(class)) +
 p
 ```
 
-![plot of chunk bar](images/gallery-geometry-bar-1.png)
+![](images/gallery-geometry-bar-1.png)
 
 ## pie graph with `geom_bar_pattern()`
 
@@ -123,7 +126,7 @@ p <- ggplot(df, aes(x="", y = value, pattern = group, pattern_angle = group))+
 p
 ```
 
-![plot of chunk pie](images/gallery-geometry-pie-1.png)
+![](images/gallery-geometry-pie-1.png)
 
 ## `geom_bin2d_pattern()`
 
@@ -131,16 +134,19 @@ p
 ```r
 p <- ggplot(diamonds, aes(x, y)) + 
   xlim(4, 10) + ylim(4, 10) +
-  geom_bin2d_pattern(aes(pattern_spacing = ..density..), fill = 'white', bins = 6, colour = 'black', size = 1) +
+  geom_bin2d_pattern(aes(pattern_spacing = after_stat(density)), 
+                     fill = 'white', bins = 6, 
+                     colour = 'black', linewidth = 1) +
   theme_bw(18) +
   theme(legend.position = 'none') + 
   labs(title = "ggpattern::geom_bin2d_pattern()")
 
 p
-#> Warning: Removed 478 rows containing non-finite values (stat_bin2d).
+#> Warning: Removed 478 rows containing non-finite outside the scale range
+#> (`stat_bin2d()`).
 ```
 
-![plot of chunk bin2d](images/gallery-geometry-bin2d-1.png)
+![](images/gallery-geometry-bin2d-1.png)
 
 ## `geom_boxplot_pattern()`
 
@@ -162,7 +168,7 @@ p <- ggplot(mpg, aes(class, hwy)) +
 p
 ```
 
-![plot of chunk boxplot](images/gallery-geometry-boxplot-1.png)
+![](images/gallery-geometry-boxplot-1.png)
 
 ## `geom_col_pattern()`
 
@@ -188,7 +194,7 @@ p <- ggplot(df, aes(trt, outcome)) +
 p
 ```
 
-![plot of chunk col](images/gallery-geometry-col-1.png)
+![](images/gallery-geometry-col-1.png)
 
 ## `geom_crossbar_pattern()`
 
@@ -220,7 +226,7 @@ p <- ggplot(df, aes(trt, resp, colour = group)) +
 p
 ```
 
-![plot of chunk crossbar](images/gallery-geometry-crossbar-1.png)
+![](images/gallery-geometry-crossbar-1.png)
 
 ## `geom_density_pattern()`
 
@@ -245,13 +251,13 @@ p <- ggplot(mtcars) +
 p
 ```
 
-![plot of chunk density](images/gallery-geometry-density-1.png)
+![](images/gallery-geometry-density-1.png)
 
 ## `geom_map_pattern()`
 
 
 ```r
-if (require(maps)) {
+if (require("maps")) {
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
 
@@ -285,7 +291,7 @@ p
 }
 ```
 
-![plot of chunk map](images/gallery-geometry-map-1.png)
+![](images/gallery-geometry-map-1.png)
 
 ## `geom_polygon_pattern()`
 
@@ -317,7 +323,7 @@ p <- ggplot(polygon_df) +
 p
 ```
 
-![plot of chunk polygon](images/gallery-geometry-polygon-1.png)
+![](images/gallery-geometry-polygon-1.png)
 
 ## `geom_rect_pattern()`
 
@@ -358,7 +364,7 @@ p <- ggplot(plot_df) +
 p
 ```
 
-![plot of chunk rect](images/gallery-geometry-rect-1.png)
+![](images/gallery-geometry-rect-1.png)
 ## `geom_ribbon_pattern()`
 
 
@@ -385,7 +391,7 @@ p <- ggplot(huron, aes(year)) +
 p
 ```
 
-![plot of chunk ribbon](images/gallery-geometry-ribbon-1.png)
+![](images/gallery-geometry-ribbon-1.png)
 ## `geom_sf_pattern()`
 
 
@@ -412,7 +418,7 @@ p
 }
 ```
 
-![plot of chunk sf](images/gallery-geometry-sf-1.png)
+![](images/gallery-geometry-sf-1.png)
 
 ## `geom_tile_pattern()`
 
@@ -444,7 +450,7 @@ p <- ggplot(df, aes(x, y)) +
 p
 ```
 
-![plot of chunk tile](images/gallery-geometry-tile-1.png)
+![](images/gallery-geometry-tile-1.png)
 
 ## `geom_violin_pattern()`
 
@@ -462,4 +468,4 @@ p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
 p
 ```
 
-![plot of chunk violin](images/gallery-geometry-violin-1.png)
+![](images/gallery-geometry-violin-1.png)
