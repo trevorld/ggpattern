@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
   fig.width = 6,
   fig.height = 4
 )
+require("gganimate", quietly = TRUE)
 ```
 
 
@@ -58,13 +59,8 @@ p <- ggplot(df, aes(trt, outcome)) +
 p <- p + transition_states(time, transition_length = 2,
                     state_length = 0, wrap = FALSE)
 
-animate(p, nframes = 60, fps = 20)
-
+anim_save("images/gganimate.gif", p, nframes = 60, fps = 20)
 }
 ```
 
-Future
-------------------------------------------------------------------------------
-
-* Include more examples
-
+<img src="images/gganimate.gif" alt="ggpattern + gganimate">
