@@ -107,7 +107,7 @@ template_discrete_roxygen_first <- "
 #' Scales for discrete pattern aesthetics
 #'
 #' @param choices vector of values to choose from.
-#' @param name,breaks,labels,limits,trans,guide,...,transform See
+#' @param name,breaks,labels,limits,trans,guide,...,transform,na.value See
 #'        \\code{{ggplot2}} documentation for more information on scales.
 #'
 #' @return A [ggplot2::Scale] object.

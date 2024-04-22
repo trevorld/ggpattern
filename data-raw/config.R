@@ -1,6 +1,5 @@
 ggpattern_aes <-readr::read_delim(
 "aes_name                | ggplot_name | aes_type   | scale_default
-pattern                  |             | discrete   | c('stripe', 'crosshatch', 'circle')
 pattern_type             |             | discrete   | NULL
 pattern_subtype          |             | discrete   | NULL
 

@@ -3,7 +3,7 @@ suppressPackageStartupMessages({
   library("glue")
 })
 
-sink("R/scale-pattern.R")
+sink("R/scale-pattern-auto.R")
 
 cat("#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
 cat("#\n")

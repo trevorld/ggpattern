@@ -32,6 +32,7 @@
 * `draw_key_boxplot_pattern()`, `draw_key_crossbar_pattern()`, and `draw_key_polygon_pattern()` `aspect_ratio` argument
   now defaults to `get_aspect_ratio()`.
 * Several (continuous) scales now have an `...` argument which will be passed to `ggplot2::continuous_scale()`.
+* The default `na.value` for `scale_pattern_continuous()`, `scale_pattern_discrete()`, and `scale_pattern_manual()` is now "none" (#107).
 
 # ggpattern 1.0.1
 
