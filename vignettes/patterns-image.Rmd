@@ -342,7 +342,7 @@ while they are developing a new site.
 
 | Aesthetic                  | Description                        | Default   |
 |----------------------------|------------------------------------|-----------|
-| `pattern_type`             | Image source                       | 'kitten'  |
+| `pattern_type`             | Image source                       | 'bear'  |
 | `pattern_alpha`            | Alpha                              | NA        |
 | `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
@@ -350,10 +350,10 @@ while they are developing a new site.
 ### `placeholder` option `pattern_type`
 
 The following is a list of all the `pattern_type` values which are valid. If
-unspecified or unknown, then `ggpattern` will use `pattern_type = 'kitten'`.
+unspecified or unknown, then `ggpattern` will use `pattern_type = 'bear'`.
 
 If you would like only greyscale images, append `bw` to the name, e.g. to 
-display only black and white kittens use `pattern_type = 'kittenbw'`.
+display only black and white bears use `pattern_type = 'bearbw'`.
 
 Click the link to see an example of each placeholder generator
 
