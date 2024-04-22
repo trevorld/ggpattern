@@ -18,7 +18,7 @@ Imports:
     ggplot2 (>= 3.5.0),
     glue,
     grid,
-    gridpattern (>= 1.2.0),
+    gridpattern (>= 1.2.0-4),
     lifecycle,
     rlang,
     scales,
