@@ -7,7 +7,7 @@ template_manual_roxygen_first <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Create your own discrete scale
 #'
-#' @param ...,values,breaks See \\code{{ggplot2}} for documentation on manual scales.
+#' @param ...,values,breaks,na.value See \\code{{ggplot2}} for documentation on manual scales.
 #'        e.g. \\code{{ggplot2::scale_colour_manual()}}
 #' @return A [ggplot2::Scale] object.
 #' @examples
@@ -32,14 +32,15 @@ template_manual_roxygen_first <- "
 #'        )
 #'     plot(gg)
 #'   }}
-#' @export
+#' @name scale_pattern_manual
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NULL
 
 "
 
 template_manual_roxygen_other <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_{aes_name}_manual
+#' @rdname scale_pattern_manual
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -62,6 +63,7 @@ for (i in seq(nrow(all_aes))) {
   this_aes <- all_aes[i,]
   if (i == 1) {
     cat(glue_data(this_aes, template_manual_roxygen_first))
+    cat(glue_data(first_aes, template_manual_roxygen_other))
   } else {
     cat(glue_data(first_aes, template_manual_roxygen_other))
   }

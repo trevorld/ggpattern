@@ -33,14 +33,15 @@ template_identity_roxygen_first <- "
 #'        )
 #'     plot(gg)
 #'   }}
-#' @export
+#' @name scale_pattern_identity
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NULL
 
 "
 
 template_identity_roxygen_other <- "
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname scale_{aes_name}_identity
+#' @rdname scale_pattern_identity
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -82,6 +83,7 @@ for (i in seq(nrow(all_aes))) {
   this_aes <- all_aes[i,]
   if (i == 1) {
     cat(glue_data(this_aes, template_identity_roxygen_first))
+    cat(glue_data(first_aes, template_identity_roxygen_other))
   } else {
     cat(glue_data(first_aes, template_identity_roxygen_other))
   }

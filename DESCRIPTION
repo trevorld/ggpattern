@@ -69,6 +69,7 @@ Collate:
     'pattern.R'
     'polygon_df.R'
     'scale-pattern-alpha.R'
+    'scale-pattern-auto.R'
     'scale-pattern-brewer.R'
     'scale-pattern-colour.R'
     'scale-pattern-gradient.R'

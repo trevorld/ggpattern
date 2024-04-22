@@ -50,4 +50,12 @@ test_that("scales work as expected", {
             scale_pattern_linetype() +
             scale_pattern_shape()
     })
+
+    expect_doppelganger("missing-pattern", function() {
+        df <- data.frame(x = c(1, 2, 3), y = c(1, 2, NA), fill = c("A", "B", NA))
+        gg <- ggplot(df, aes(x, y, fill = fill, pattern = fill)) +
+            geom_col_pattern(position = 'identity') +
+            theme_bw()
+        suppressWarnings(plot(gg))
+    })
 })
