@@ -1,7 +1,5 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname geom-docs
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname geom-docs
 geom_col_pattern <- function(mapping = NULL, data = NULL,
                              position = "stack",
                              ...,
@@ -19,7 +17,7 @@ geom_col_pattern <- function(mapping = NULL, data = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
+    params = list2(
       just = just,
       width = width,
       na.rm = na.rm,
@@ -28,10 +26,10 @@ geom_col_pattern <- function(mapping = NULL, data = NULL,
   )
 }
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname ggpattern-ggproto
 #' @format NULL
+#' @usage NULL
 #' @export
 #' @include geom-rect.R
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# TODO: deprecate this
 GeomColPattern <- ggproto("GeomColPattern", GeomBarPattern)

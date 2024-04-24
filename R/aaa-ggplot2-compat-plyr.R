@@ -1,7 +1,6 @@
+# This file was copied (mostly untouched) from ggplot2
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This file was copied (mostly untouched) from ggplot2 v3.3.0.9000
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+defaults <- function(x, y) c(x, y[setdiff(names(y), names(x))])
 
 #' Rename elements in a list, data.frame or vector
 #'

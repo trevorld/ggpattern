@@ -1,7 +1,5 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname geom-docs
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_ribbon_pattern <- function(mapping = NULL, data = NULL,
                                 stat = "identity", position = "identity",
                                 ...,
@@ -10,7 +8,13 @@ geom_ribbon_pattern <- function(mapping = NULL, data = NULL,
                                 show.legend = NA,
                                 inherit.aes = TRUE,
                                 outline.type = "both") {
-  outline.type <- match.arg(outline.type, c("both", "upper", "legacy"))
+  if (outline.type == "legacy") {
+    lifecycle::deprecate_warn("0.1.0",
+                              I('geom_ribbon_pattern(outline.type = "legacy")'),
+                              I('geom_ribbon_pattern(outline.type = "full")'))
+    outline.type <- "full"
+  }
+  outline.type <- arg_match0(outline.type, c("both", "upper", "lower", "full"))
 
   layer(
     data        = data,
@@ -20,7 +24,7 @@ geom_ribbon_pattern <- function(mapping = NULL, data = NULL,
     position    = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
+    params = list2(
       na.rm        = na.rm,
       orientation  = orientation,
       outline.type = outline.type,
@@ -29,45 +33,30 @@ geom_ribbon_pattern <- function(mapping = NULL, data = NULL,
   )
 }
 
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname ggpattern-ggproto
 #' @format NULL
+#' @usage NULL
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GeomRibbonPattern <- ggproto(
-  "GeomRibbonPattern", GeomRibbon,
-  default_aes = augment_aes(
-    pattern_aesthetics,
-    aes(
-      colour   = NA,
-      fill     = "grey20",
-      linewidth     = 0.5,
-      linetype = 1,
-      alpha    = NA
-    )
+GeomRibbonPattern <- ggproto("GeomRibbonPattern", GeomRibbon,
+  default_aes = defaults(aes(colour = NA, fill = "grey20", linewidth = 0.5, linetype = 1,
+      alpha = NA),
+    pattern_aesthetics
   ),
 
   draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Where the magic happens
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  draw_group = function(self, data, panel_params, coord, na.rm = FALSE, flipped_aes = FALSE, outline.type = "both") {
+  draw_group = function(self, data, panel_params, coord, lineend = "butt",
+                        linejoin = "round", linemitre = 10, na.rm = FALSE,
+                        flipped_aes = FALSE, outline.type = "both") {
+    data <- check_linewidth(data, snake_class(self))
     data <- flip_data(data, flipped_aes)
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group), ]
 
     # Check that aesthetics are constant
-    aes_names <- c(
-      "colour", "fill", "linewidth", "linetype", "alpha",
-      names(pattern_aesthetics)
-    )
-
-
-    aes <- unique(data[aes_names])
+    aes <- unique0(data[names(data) %in% c("colour", "fill", "linewidth", "linetype", "alpha", names(pattern_aesthetics))])
     if (nrow(aes) > 1) {
-      abort("Aesthetics can not vary with a ribbon")
+      cli::cli_abort("Aesthetics can not vary along a ribbon.")
     }
     aes <- as.list(aes)
 
@@ -83,32 +72,49 @@ GeomRibbonPattern <- ggproto(
     ids[missing_pos] <- NA
 
     data <- unclass(data) #for faster indexing
-    positions <- new_data_frame(list(
-      x = c(data$x, rev(data$x)),
-      y = c(data$ymax, rev(data$ymin)),
-      id = c(ids, rev(ids))
-    ))
 
-    positions <- flip_data(positions, flipped_aes)
+    # In case the data comes from stat_align
+    upper_keep <- if (is.null(data$align_padding)) TRUE else !data$align_padding
 
-    munched <- coord_munch(coord, positions, panel_params)
-
-    g_poly <- polygonGrob(
-      munched$x, munched$y, id = munched$id,
-      default.units = "native",
-      gp = gpar(
-        fill = fill_alpha(aes$fill, aes$alpha),
-        col  = if (identical(outline.type, "legacy")) aes$colour else NA
-      )
+    # The upper line and lower line need to processed separately (#4023)
+    positions_upper <- data_frame0(
+      x = data$x[upper_keep],
+      y = data$ymax[upper_keep],
+      id = ids[upper_keep]
     )
 
+    positions_lower <- data_frame0(
+      x = rev(data$x),
+      y = rev(data$ymin),
+      id = rev(ids)
+    )
 
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Calculate all the boundary_dfs for all the elements
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    stopifnot(!is.null(munched$id))
+    positions_upper <- flip_data(positions_upper, flipped_aes)
+    positions_lower <- flip_data(positions_lower, flipped_aes)
 
-    polygons <- split(munched, munched$id)
+    munched_upper <- coord_munch(coord, positions_upper, panel_params)
+    munched_lower <- coord_munch(coord, positions_lower, panel_params)
+
+    munched_poly <- vec_rbind(munched_upper, munched_lower)
+
+    is_full_outline <- identical(outline.type, "full")
+    g_poly_fn <- function(col, fill, lwd) { polygonGrob(
+      munched_poly$x, munched_poly$y, id = munched_poly$id,
+      default.units = "native",
+      gp = gpar(
+        col = col,
+        fill = fill,
+        lwd = lwd,
+        lty = if (is_full_outline) aes$linetype else 1,
+        lineend = lineend,
+        linejoin = linejoin,
+        linemitre = linemitre
+      )
+    )}
+    g_poly_fill <- g_poly_fn(NA, fill_alpha(aes$fill, aes$alpha), 0)
+
+    stopifnot(!is.null(munched_poly$id))
+    polygons <- split(munched_poly, munched_poly$id)
     boundary_dfs <- lapply(polygons, function(polygon) {
       create_polygon_df(
         x = polygon$x,
@@ -116,61 +122,59 @@ GeomRibbonPattern <- ggproto(
       )
     })
 
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # For polygons, every row in first_rows represents an element.
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    first_idx  <- !duplicated(munched$id)
-    first_rows <- munched[first_idx, ]
-    all_params <- first_rows
-    all_params <- cbind(all_params, aes)
-
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Create the pattern grobs given the current params for every element
-    # (given in all_params), and the boundary_dfs of all the elements
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    first_idx  <- !duplicated(munched_poly$id)
+    first_rows <- munched_poly[first_idx, ]
+    all_params <- cbind(first_rows, aes)
     pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
 
-    if (identical(outline.type, "legacy")) {
-      warn(glue('outline.type = "legacy" is only for backward-compatibility ',
-                'and might be removed eventually'))
-      return(ggname("geom_ribbon", grobTree(g_poly, pattern_grobs)))
+
+
+    if (is_full_outline) {
+      col <- if (is_full_outline) aes$colour else NA
+      lwd <- if (is_full_outline) aes$linewidth * .pt else 0
+      g_poly_border <- g_poly_fn(col, NA, lwd)
+      ggname("geom_ribbon_pattern", grobTree(g_poly_fill, pattern_grobs, g_poly_border))
+    } else {
+      # Increment the IDs of the lower line so that they will be drawn as separate lines
+      munched_lower$id <- munched_lower$id + max(ids, na.rm = TRUE)
+
+      munched_lines <- switch(outline.type,
+        both = vec_rbind(munched_upper, munched_lower),
+        upper = munched_upper,
+        lower = munched_lower
+      )
+      g_lines <- polylineGrob(
+        munched_lines$x, munched_lines$y, id = munched_lines$id,
+        default.units = "native",
+        gp = gpar(
+          col = aes$colour,
+          lwd = aes$linewidth * .pt,
+          lty = aes$linetype,
+          lineend = lineend,
+          linejoin = linejoin,
+          linemitre = linemitre
+        )
+      )
+      ggname("geom_ribbon_pattern", grobTree(g_poly_fill, pattern_grobs, g_lines))
     }
-
-    munched_lines <- munched
-    # increment the IDs of the lower line
-    munched_lines$id <- switch(
-      outline.type,
-      both = munched_lines$id + rep(c(0, max(ids, na.rm = TRUE)), each = length(ids)),
-      upper = munched_lines$id + rep(c(0, NA), each = length(ids)),
-      abort(glue("invalid outline.type: {outline.type}"))
-    )
-    g_lines <- polylineGrob(
-      munched_lines$x, munched_lines$y, id = munched_lines$id,
-      default.units = "native",
-      gp = gpar(
-        col = aes$colour,
-        lwd = aes$linewidth * .pt,
-        lty = aes$linetype)
-    )
-
-
-
-    ggname("geom_ribbon", grobTree(g_poly, pattern_grobs, g_lines))
   },
 
   rename_size = TRUE
-
 )
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname geom-docs
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-geom_area_pattern <- function(mapping = NULL, data = NULL, stat = "identity",
+geom_area_pattern <- function(mapping = NULL, data = NULL, stat = "align",
                               position = "stack", na.rm = FALSE, orientation = NA,
                               show.legend = NA, inherit.aes = TRUE, ...,
                               outline.type = "upper") {
-  outline.type <- match.arg(outline.type, c("both", "upper", "legacy"))
+  if (outline.type == "legacy") {
+    lifecycle::deprecate_warn("0.1.0",
+                              I('geom_area_pattern(outline.type = "legacy")'),
+                              I('geom_area_pattern(outline.type = "full")'))
+    outline.type <- "full"
+  }
+  outline.type <- arg_match0(outline.type, c("both", "upper", "lower", "full"))
 
   layer(
     data = data,
@@ -180,7 +184,7 @@ geom_area_pattern <- function(mapping = NULL, data = NULL, stat = "identity",
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
+    params = list2(
       na.rm = na.rm,
       orientation = orientation,
       outline.type = outline.type,
@@ -189,22 +193,14 @@ geom_area_pattern <- function(mapping = NULL, data = NULL, stat = "identity",
   )
 }
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname ggpattern-ggproto
 #' @format NULL
+#' @usage NULL
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GeomAreaPattern <- ggproto(
-  "GeomAreaPattern", GeomRibbonPattern,
-  default_aes = augment_aes(
-    pattern_aesthetics,
-    aes(
-      colour    = NA,
-      fill      = "grey20",
-      linewidth = 0.5,
-      linetype  = 1,
-      alpha     = NA
-    )
+GeomAreaPattern <- ggproto("GeomAreaPattern", GeomRibbonPattern,
+  default_aes = defaults(aes(colour = NA, fill = "grey20", linewidth = 0.5, linetype = 1,
+        alpha = NA),
+    pattern_aesthetics
   ),
 
   required_aes = c("x", "y"),
@@ -219,7 +215,5 @@ GeomAreaPattern <- ggproto(
     data <- flip_data(data, params$flipped_aes)
     data <- transform(data[order(data$PANEL, data$group, data$x), ], ymin = 0, ymax = y)
     flip_data(data, params$flipped_aes)
-  },
-
-  rename_size = TRUE
+  }
 )

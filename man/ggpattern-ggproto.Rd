@@ -19,33 +19,6 @@
 \alias{GeomTilePattern}
 \alias{GeomViolinPattern}
 \title{Geom ggproto objects}
-\usage{
-GeomRectPattern
-
-GeomBarPattern
-
-GeomBoxplotPattern
-
-GeomColPattern
-
-GeomCrossbarPattern
-
-GeomRibbonPattern
-
-GeomAreaPattern
-
-GeomDensityPattern
-
-GeomPolygonPattern
-
-GeomMapPattern
-
-GeomSfPattern
-
-GeomTilePattern
-
-GeomViolinPattern
-}
 \description{
 Geom ggproto objects that could be extended to create a new geom.
 }
