@@ -123,7 +123,6 @@ geom_bar_pattern <- function(mapping = NULL, data = NULL,
                              orientation = NA,
                              show.legend = NA,
                              inherit.aes = TRUE) {
-
   layer(
     data = data,
     mapping = mapping,
@@ -132,7 +131,7 @@ geom_bar_pattern <- function(mapping = NULL, data = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
+    params = list2(
       just = just,
       width = width,
       na.rm = na.rm,
@@ -142,7 +141,6 @@ geom_bar_pattern <- function(mapping = NULL, data = NULL,
   )
 }
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Geom ggproto objects
 #'
 #' Geom ggproto objects that could be extended to create a new geom.
@@ -150,12 +148,14 @@ geom_bar_pattern <- function(mapping = NULL, data = NULL,
 #' @seealso [ggplot2::Geom]
 #'
 #' @name ggpattern-ggproto
+NULL
+
+#' @rdname ggpattern-ggproto
 #' @format NULL
+#' @usage NULL
 #' @export
 #' @include geom-rect.R
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GeomBarPattern <- ggproto(
-  "GeomBarPattern", GeomRectPattern,
+GeomBarPattern <- ggproto( "GeomBarPattern", GeomRectPattern,
   required_aes = c("x", "y"),
 
   # These aes columns are created by setup_data(). They need to be listed here so
@@ -174,7 +174,10 @@ GeomBarPattern <- ggproto(
     data$flipped_aes <- params$flipped_aes
     data <- flip_data(data, params$flipped_aes)
     data$width <- data$width %||%
-      params$width %||% (resolution(data$x, FALSE) * 0.9)
+      params$width %||% (min(vapply(
+        split(data$x, data$PANEL, drop = TRUE),
+        resolution, numeric(1), zero = FALSE
+      )) * 0.9)
     data$just <- params$just %||% 0.5
     data <- transform(data,
                       ymin = pmin(y, 0), ymax = pmax(y, 0),
@@ -184,10 +187,16 @@ GeomBarPattern <- ggproto(
     flip_data(data, params$flipped_aes)
   },
 
-  draw_panel = function(self, data, panel_params, coord,
-                        width = NULL, flipped_aes = FALSE) {
+  draw_panel = function(self, data, panel_params, coord, lineend = "butt",
+                        linejoin = "mitre", width = NULL, flipped_aes = FALSE) {
     # Hack to ensure that width is detected as a parameter
-    ggproto_parent(GeomRectPattern, self)$draw_panel(data, panel_params, coord)
+    ggproto_parent(GeomRectPattern, self)$draw_panel(
+      data,
+      panel_params,
+      coord,
+      lineend = lineend,
+      linejoin = linejoin
+    )
   },
   rename_size = TRUE
 )

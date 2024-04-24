@@ -1,7 +1,5 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname geom-docs
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_polygon_pattern <- function(mapping = NULL, data = NULL,
                                  stat = "identity", position = "identity",
                                  rule = "evenodd",
@@ -17,7 +15,7 @@ geom_polygon_pattern <- function(mapping = NULL, data = NULL,
     position    = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
+    params = list2(
       na.rm = na.rm,
       rule  = rule,
       ...
@@ -25,18 +23,18 @@ geom_polygon_pattern <- function(mapping = NULL, data = NULL,
   )
 }
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname ggpattern-ggproto
 #' @format NULL
+#' @usage NULL
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
-
-  draw_panel = function(self, data, panel_params, coord, rule = "evenodd") {
+  draw_panel = function(self, data, panel_params, coord, rule = "evenodd",
+                        lineend = "butt", linejoin = "round", linemitre = 10) {
+    data <- check_linewidth(data, snake_class(self))
     n <- nrow(data)
     if (n == 1) return(zeroGrob())
 
-    munched <- coord_munch(coord, data, panel_params)
+    munched <- coord_munch(coord, data, panel_params, is_closed = TRUE)
 
     if (is.null(munched$subgroup)) {
       # Sort by group to make sure that colors, fill, etc. come in same order
@@ -48,9 +46,6 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       first_idx <- !duplicated(munched$group)
       first_rows <- munched[first_idx, ]
 
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Calculate all the boundary_dfs for all the elements
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       stopifnot(!is.null(munched$group))
       polygons <- split(munched, munched$group)
       boundary_dfs <- lapply(polygons, function(polygon) {
@@ -59,54 +54,43 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
           y = polygon$y
         )
       })
-
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # For polygons, every row in first_rows represents an element.
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      all_params <- first_rows
-
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Create the pattern grobs given the current params for every element
-      # (given in all_params), and the boundary_dfs of all the elements
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
-
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Adapt the returned geom to always be a grobTree with the
-      # pattern_grobs as the final element. Since the pattern grobs are
-      # drawn last, there can be z-ordering issues that the user will have
-      # to handle manually if there are overlapping elements
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      pattern_grobs <- create_pattern_grobs(first_rows, boundary_dfs)
 
       col <- first_rows$colour
       fill <- fill_alpha(first_rows$fill, first_rows$alpha)
       lwd <- first_rows$linewidth * .pt
 
       polygon_grob_fn <- function(col, fill, lwd) {
-          grid::polygonGrob(
+          polygonGrob(
             munched$x, munched$y, default.units = "native",
             id = munched$group,
-            gp = grid::gpar(col = col, fill = fill, lwd = lwd,
-                            lty  = first_rows$linetype)
+            gp = gpar(
+              col = col,
+              fill = fill,
+              lwd = lwd,
+              lty  = first_rows$linetype,
+              lineend = lineend,
+              linejoin = linejoin,
+              linemitre = linemitre
+            )
+
           )
       }
       ggname(
         "geom_polygon",
-        grid::grobTree(
+        grobTree(
           polygon_grob_fn(NA, fill, 0),
-          # verboseGrob("polygon"),
           pattern_grobs,
           polygon_grob_fn(col, NA, lwd)
         )
       )
     } else {
-      if (utils::packageVersion('grid') < "3.6") {
-        abort("Polygons with holes requires R 3.6 or above")
+      if (getRversion() < "3.6") {
+        cli::cli_abort("Polygons with holes requires R 3.6 or above.")
       }
-
       # Sort by group to make sure that colors, fill, etc. come in same order
       munched <- munched[order(munched$group, munched$subgroup), ]
-      id <- match(munched$subgroup, unique(munched$subgroup))
+      id <- match(munched$subgroup, unique0(munched$subgroup))
 
       # For gpar(), there is one entry per polygon (not one entry per point).
       # We'll pull the first value from each group, and assume all these values
@@ -114,9 +98,6 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       first_idx <- !duplicated(munched$group)
       first_rows <- munched[first_idx, ]
 
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Calculate all the boundary_dfs for all the elements
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       stopifnot(!is.null(munched$group))
       polygons <- split(munched, munched$group)
       boundary_grobs <- lapply(polygons, function(polygon) {
@@ -126,28 +107,21 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
                          id = polygon$subgroup, rule = rule)
       })
 
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # For polygons, every row in first_rows represents an element.
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      all_params <- first_rows
-
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Create the pattern grobs given the current params for every element
-      # (given in all_params), and the boundary_dfs of all the elements
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      pattern_grobs <- create_pattern_grobs(all_params, boundary_grobs)
+      pattern_grobs <- create_pattern_grobs(first_rows, boundary_grobs)
 
       gp_fill <- grid::gpar(
          col  = NA,
          fill = fill_alpha(first_rows$fill, first_rows$alpha),
-         lwd  = first_rows$linewidth * .pt,
-         lty  = first_rows$linetype
+         lwd  = 0
        )
       gp_border <- grid::gpar(
           col  = first_rows$colour,
           fill = NA,
           lwd  = first_rows$linewidth * .pt,
-          lty  = first_rows$linetype
+          lty  = first_rows$linetype,
+          lineend = lineend,
+          linejoin = linejoin,
+          linemitre = linemitre
         )
       path_grob_fn <- function(gp = gpar()) {
           grid::pathGrob(
@@ -157,12 +131,6 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
             gp = gp)
       }
 
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Adapt the returned geom to always be a grobTree with the
-      # pattern_grobs as the final element. Since the pattern grobs are
-      # drawn last, there can be z-ordering issues that the user will have
-      # to handle manually if there are overlapping elements
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       ggname(
         "geom_polygon",
         grid::grobTree(
@@ -172,22 +140,15 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
         )
       )
     }
-
   },
 
-  draw_key = function(self, ...) draw_key_polygon_pattern(...),
-
-  default_aes = augment_aes(
-    pattern_aesthetics,
-    aes(
-      colour           = "NA",
-      fill             = "grey20",
-      linewidth        = 0.5,
-      linetype         = 1,
-      alpha            = NA,
-      subgroup         = NULL,
-    )
+  default_aes = defaults(aes(colour = NA, fill = "grey20", linewidth = 0.5, linetype = 1,
+                             alpha = NA, subgroup = NULL),
+    pattern_aesthetics
   ),
+
+
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
 
   rename_size = TRUE
 )

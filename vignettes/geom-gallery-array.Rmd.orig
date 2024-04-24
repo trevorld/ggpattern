@@ -455,7 +455,7 @@ p <- ggplot(huron, aes(year)) +
     pattern         = 'image',
     pattern_type    = 'tile',
     pattern_filename = system.file('img', 'seamless2.jpg', package = 'ggpattern'),
-    outline.type    = 'legacy'
+    outline.type    = 'full'
   ) +
   theme_bw(18) +
   labs(

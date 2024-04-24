@@ -1,7 +1,5 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname geom-docs
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_tile_pattern <- function(mapping = NULL, data = NULL,
                               stat = "identity", position = "identity",
                               ...,
@@ -17,7 +15,7 @@ geom_tile_pattern <- function(mapping = NULL, data = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
+    params = list2(
       linejoin = linejoin,
       na.rm = na.rm,
       ...
@@ -25,20 +23,17 @@ geom_tile_pattern <- function(mapping = NULL, data = NULL,
   )
 }
 
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname ggpattern-ggproto
 #' @format NULL
+#' @usage NULL
 #' @export
 #' @include geom-rect.R
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GeomTilePattern <- ggproto(
-  "GeomTilePattern", GeomRectPattern,
+GeomTilePattern <- ggproto("GeomTilePattern", GeomRectPattern,
   extra_params = c("na.rm"),
 
   setup_data = function(data, params) {
-    data$width <- data$width %||% params$width %||% resolution(data$x, FALSE)
-    data$height <- data$height %||% params$height %||% resolution(data$y, FALSE)
+    data$width <- data$width %||% params$width %||% resolution(data$x, FALSE, TRUE)
+    data$height <- data$height %||% params$height %||% resolution(data$y, FALSE, TRUE)
 
     transform(data,
               xmin = x - width / 2,  xmax = x + width / 2,  width = NULL,
@@ -46,36 +41,11 @@ GeomTilePattern <- ggproto(
     )
   },
 
-  default_aes = augment_aes(
-    pattern_aesthetics,
-    aes(
-      fill      = "grey20",
-      colour    = NA,
-      linewidth = 0.1,
-      linetype  = 1,
-      alpha     = NA,
-      width     = NA,
-      height    = NA
-    )
+  default_aes = defaults(
+    aes(fill = "grey20", colour = NA, linewidth = 0.1, linetype = 1,
+      alpha = NA, width = NA, height = NA),
+    pattern_aesthetics
   ),
 
   required_aes = c("x", "y")
 )
-
-
-if (FALSE) {
-  library(ggplot2)
-
-  df <- data.frame(
-    x = rep(c(2, 5, 7, 9, 12), 2),
-    y = rep(c(1, 2), each = 5),
-    z = factor(rep(1:5, each = 2)),
-    w = rep(diff(c(0, 4, 6, 8, 10, 14)), 2)
-  )
-
-  ggplot(df, aes(x, y)) +
-    geom_tile_pattern(aes(fill = z, pattern = z), colour = "grey50") +
-    theme_bw() +
-    labs(title = "ggpattern::geom_tile_pattern()")
-
-}

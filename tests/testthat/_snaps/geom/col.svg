@@ -46,9 +46,9 @@
 <polyline points='170.41,464.35 170.41,98.39 ' style='stroke-width: 1.75; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='378.34,464.35 378.34,98.39 ' style='stroke-width: 1.75; stroke: #EBEBEB; stroke-linecap: butt;' />
 <polyline points='586.27,464.35 586.27,98.39 ' style='stroke-width: 1.75; stroke: #EBEBEB; stroke-linecap: butt;' />
-<rect x='76.84' y='208.59' width='187.14' height='239.12' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #F8766D;' />
-<rect x='284.77' y='250.18' width='187.14' height='197.53' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #00BA38;' />
-<rect x='492.71' y='115.02' width='187.14' height='332.69' style='stroke-width: 1.07; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #619CFF;' />
+<rect x='76.84' y='208.59' width='187.14' height='239.12' style='stroke-width: 0.00; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #F8766D;' />
+<rect x='284.77' y='250.18' width='187.14' height='197.53' style='stroke-width: 0.00; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BA38;' />
+<rect x='492.71' y='115.02' width='187.14' height='332.69' style='stroke-width: 0.00; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #619CFF;' />
 <polygon points='263.98,426.63 263.98,437.19 245.76,447.71 227.46,447.71 263.98,426.63 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: square; fill: #CCCCCC;' />
 <polygon points='263.98,405.50 263.98,416.06 209.16,447.71 190.86,447.71 263.98,405.50 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: square; fill: #CCCCCC;' />
 <polygon points='263.98,384.37 263.98,394.94 172.57,447.71 154.27,447.71 263.98,384.37 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: square; fill: #CCCCCC;' />
@@ -294,9 +294,9 @@
 <polygon points='679.69,299.49 679.47,299.30 679.27,299.10 679.07,298.89 678.89,298.67 678.73,298.43 678.57,298.19 678.44,297.94 678.32,297.67 678.22,297.41 678.13,297.13 678.06,296.85 678.01,296.57 677.98,296.28 677.96,296.00 677.96,295.71 677.99,295.42 678.02,295.14 678.08,294.86 678.16,294.58 678.25,294.31 678.36,294.04 678.48,293.78 678.62,293.53 678.78,293.29 678.95,293.06 679.14,292.84 679.33,292.63 679.55,292.44 679.77,292.26 679.84,292.21 679.84,299.60 679.69,299.49 ' style='stroke-width: 1.07; stroke: #333333; fill: #CCCCCC;' />
 <polygon points='679.73,446.41 679.55,446.19 679.38,445.96 679.23,445.71 679.09,445.46 678.98,445.20 678.87,444.93 678.79,444.65 678.72,444.37 678.67,444.09 678.63,443.81 678.62,443.52 678.62,443.23 678.64,442.95 678.68,442.66 678.74,442.38 678.81,442.10 678.90,441.83 679.01,441.56 679.14,441.30 679.28,441.05 679.44,440.81 679.61,440.58 679.79,440.36 679.84,440.31 679.84,446.54 679.73,446.41 ' style='stroke-width: 1.07; stroke: #333333; fill: #CCCCCC;' />
 <polygon points='679.80,189.89 679.77,189.61 679.76,189.32 679.76,189.03 679.78,188.74 679.82,188.46 679.84,188.34 679.84,190.11 679.80,189.89 ' style='stroke-width: 1.07; stroke: #333333; fill: #CCCCCC;' />
-<rect x='76.84' y='208.59' width='187.14' height='239.12' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter;' />
-<rect x='284.77' y='250.18' width='187.14' height='197.53' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter;' />
-<rect x='492.71' y='115.02' width='187.14' height='332.69' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter;' />
+<rect x='76.84' y='208.59' width='187.14' height='239.12' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter;' />
+<rect x='284.77' y='250.18' width='187.14' height='197.53' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter;' />
+<rect x='492.71' y='115.02' width='187.14' height='332.69' style='stroke-width: 1.07; stroke-linecap: butt; stroke-linejoin: miter;' />
 <rect x='45.65' y='98.39' width='665.38' height='365.96' style='stroke-width: 1.75; stroke: #333333;' />
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>

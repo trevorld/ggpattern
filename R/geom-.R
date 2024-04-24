@@ -1,9 +1,6 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# This is the list of all pattern aesthetics.
+# * This is the list of all pattern aesthetics.
 # * List is shared across every geom
 # * Not all aesthetics are used by all patterns.
-#   is only used by the 'point' pattern.
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 pattern_aesthetics <- aes(
   pattern                  = 'stripe',
   pattern_type             = NA,
@@ -45,60 +42,6 @@ pattern_aesthetics <- aes(
   pattern_rot              = 0,
   pattern_res              = getOption("ggpattern_res", NA)
 )
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Utils for debugging viewports
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-print_vp_tree <- function() {
-  startport <- grid::current.viewport()$name
-  on.exit({
-    if (startport != 'ROOT') {
-      grid::seekViewport(startport)
-    }
-  })
-
-  # myvp <<- grid::current.viewport()
-
-  while (TRUE) {
-    vp <- grid::current.viewport()
-    message(
-      "-------------- ",
-      sprintf("%20s", vp$name),
-      "  ",
-      round(get_aspect_ratio(), 3)
-    )
-    tmat <- grid::current.transform()
-    print(tmat)
-    message(
-      round(tmat[3, 1]/tmat[3, 2], 3), "  ",
-      round(tmat[3, 2]/tmat[3, 1], 3)
-    )
-
-    if (vp$name == 'layout') {
-      # myll <<- grid::current.viewport()
-    }
-
-
-    if (vp$name == 'ROOT') {
-      message("ROOT. done")
-      break
-    }
-
-    grid::upViewport()
-  }
-}
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Utils for debugging viewports
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-verboseGrob <- function(name = "Viewport Tree") {
-  delayGrob({
-    message("=================== ", name, " ===================")
-    print_vp_tree()
-    nullGrob()
-  }, list=list(name = name))
-}
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Create the patterned area to be used in the legend key
@@ -376,4 +319,14 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_asp
     key_pattern_grob,
     key_grob_line
   )
+}
+
+check_linewidth <- function(data, name) {
+  if (is.null(data$linewidth) && !is.null(data$size)) {
+    lifecycle::deprecate_warn("1.0.1",
+                              I(paste0("Using the `size` aesthetic with ", name)),
+                              I("the `linewidth` aesthetic"))
+    data$linewidth <- data$size
+  }
+  data
 }

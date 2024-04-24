@@ -1,7 +1,5 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname geom-docs
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname geom-docs
 geom_rect_pattern <- function(mapping = NULL, data = NULL,
                               stat = "identity", position = "identity",
                               ...,
@@ -17,7 +15,7 @@ geom_rect_pattern <- function(mapping = NULL, data = NULL,
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
-    params = list(
+    params = list2(
       linejoin = linejoin,
       na.rm = na.rm,
       ...
@@ -25,48 +23,35 @@ geom_rect_pattern <- function(mapping = NULL, data = NULL,
   )
 }
 
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname ggpattern-ggproto
 #' @format NULL
+#' @usage NULL
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GeomRectPattern <- ggproto(
-  "GeomRectPattern", GeomRect,
-
-  default_aes = augment_aes(
-    pattern_aesthetics,
-    aes(
-      colour          = NA,
-      fill            = "grey35",
-      linewidth       = 0.5,
-      linetype        = 1,
-      alpha           = NA
-    )
+GeomRectPattern <- ggproto( "GeomRectPattern", GeomRect,
+  default_aes = defaults(aes(colour = NA, fill = "grey35", linewidth = 0.5, linetype = 1,
+      alpha = NA),
+    pattern_aesthetics
   ),
 
-  draw_key = function(self, ...) draw_key_polygon_pattern(...),
-
-  draw_panel = function(self, data, panel_params, coord, linejoin = "mitre") {
+  draw_panel = function(self, data, panel_params, coord, lineend = "butt", linejoin = "mitre") {
+    data <- check_linewidth(data, snake_class(self))
     if (!coord$is_linear()) {
       aesthetics <- setdiff(
         names(data), c("x", "y", "xmin", "xmax", "ymin", "ymax")
       )
+      index <- rep(seq_len(nrow(data)), each = 4)
 
-      polys <- lapply(split(data, seq_len(nrow(data))), function(row) {
-        poly <- rect_to_poly(row$xmin, row$xmax, row$ymin, row$ymax)
-        aes <- new_data_frame(row[aesthetics])[rep(1,5), ]
+      new <- data[index, aesthetics, drop = FALSE]
+      new$x <- vec_interleave(data$xmin, data$xmax, data$xmax, data$xmin)
+      new$y <- vec_interleave(data$ymax, data$ymax, data$ymin, data$ymin)
+      new$group <- index
 
-        GeomPolygonPattern$draw_panel(cbind(poly, aes), panel_params, coord)
-      })
-
-      ggname("bar", do.call("grobTree", polys))
+      ggname("geom_rect_pattern", GeomPolygonPattern$draw_panel(
+        new, panel_params, coord, lineend = lineend, linejoin = linejoin
+      ))
     } else {
       coords <- coord$transform(data, panel_params)
 
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Calculate all the boundary_dfs for all the elements
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       boundary_dfs <- lapply(seq(nrow(coords)), function(i) {
         params <- coords[i,]
         create_polygon_df(
@@ -74,90 +59,36 @@ GeomRectPattern <- ggproto(
           x = with(params, c(xmin, xmax, xmax, xmin, xmin))
         )
       })
+      pattern_grobs <- create_pattern_grobs(coords, boundary_dfs)
 
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # For rectangles, every row in coords represents an element.
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      all_params <- coords
-
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Create the pattern grobs given the current params for every element
-      # (given in coords), and the boundary_dfs of all the elements
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      pattern_grobs <- create_pattern_grobs(all_params, boundary_dfs)
-
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      # Adapt the returned geom to always be a grobTree with the
-      # pattern_grobs as the final element. Since the pattern grobs are
-      # drawn last, there can be z-ordering issues that the user will have
-      # to handle manually if there are overlapping rects
-      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      ggname(
-        "geom_rect",
-        grid::grobTree(
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          # The area fill of the rect
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          grid::rectGrob(
+      rect_grob_fn <- function(col, fill, lwd) {
+          rectGrob(
             coords$xmin, coords$ymax,
             width         = coords$xmax - coords$xmin,
             height        = coords$ymax - coords$ymin,
             default.units = "native",
             just          = c("left", "top"),
-            gp = grid::gpar(
-              col      = NA,
-              fill     = fill_alpha(coords$fill, coords$alpha),
-              lwd      = coords$linewidth * .pt,
-              lty      = coords$linetype,
+            gp = gpar(
+              col = col,
+              fill = fill,
+              lwd = lwd,
+              lty = coords$linetype,
               linejoin = linejoin,
-              lineend  = if (identical(linejoin, "round")) "round" else "square"
-            )
-          ),
-
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          # The pattern over the top of the fill
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          pattern_grobs,
-
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          # The edge of the rect
-          #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          grid::rectGrob(
-            coords$xmin, coords$ymax,
-            width         = coords$xmax - coords$xmin,
-            height        = coords$ymax - coords$ymin,
-            default.units = "native",
-            just          = c("left", "top"),
-            gp = grid::gpar(
-              col      = coords$colour,
-              fill     = NA,
-              lwd      = coords$linewidth * .pt,
-              lty      = coords$linetype,
-              linejoin = linejoin,
-              lineend  = if (identical(linejoin, "round")) "round" else "square"
+              lineend = lineend
             )
           )
+      }
+
+      ggname("geom_rect_pattern", grobTree(
+          rect_grob_fn(NA, fill_alpha(coords$fill, coords$alpha), 0),
+          pattern_grobs,
+          rect_grob_fn(coords$colour, NA, coords$linewidth * .pt)
         )
       )
     }
   },
 
+  draw_key = function(self, ...) draw_key_polygon_pattern(...),
+
   rename_size = TRUE
 )
-
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Convert rectangle to polygon
-# Useful for non-Cartesian coordinate systems where it's easy to work purely in
-# terms of locations, rather than locations and dimensions. Note that, though
-# `polygonGrob()` expects an open form, closed form is needed for correct
-# munching (c.f. https://github.com/tidyverse/ggplot2/issues/3037#issuecomment-458406857).
-#
-# @keyword internal
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-rect_to_poly <- function(xmin, xmax, ymin, ymax) {
-  new_data_frame(list(
-    y = c(ymax, ymax, ymin, ymin, ymax),
-    x = c(xmin, xmax, xmax, xmin, xmin)
-  ))
-}

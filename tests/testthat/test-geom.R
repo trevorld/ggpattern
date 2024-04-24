@@ -189,7 +189,6 @@ test_that("geometry patterns work as expected", {
           theme(legend.key.size = unit(1.5, 'cm'))
     })
 
-    suppressWarnings( # outline.type = "legacy" is only for backward-compatibility...
     expect_doppelganger("ribbon", {
         huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
 
@@ -205,11 +204,11 @@ test_that("geometry patterns work as expected", {
               pattern_spacing = 0.03,
               pattern_density = 0.5,
               pattern_angle   = 30,
-              outline.type    = 'legacy'
+              outline.type    = 'full'
           ) +
           theme_bw(18) +
           labs(title = "ggpattern::geom_ribbon_pattern()")
-    }))
+    })
 
     expect_doppelganger("tile", {
         df <- data.frame(

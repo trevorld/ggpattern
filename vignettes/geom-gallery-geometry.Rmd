@@ -383,7 +383,7 @@ p <- ggplot(huron, aes(year)) +
     pattern_spacing = 0.03, 
     pattern_density = 0.5,
     pattern_angle   = 30,
-    outline.type    = 'legacy'
+    outline.type    = 'full'
   ) +
   theme_bw(18) +
   labs(title = "ggpattern::geom_ribbon_pattern()")

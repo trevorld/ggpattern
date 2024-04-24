@@ -1,7 +1,5 @@
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname geom-docs
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 geom_sf_pattern <- function(mapping = aes(), data = NULL, stat = "sf",
                             position = "identity", na.rm = FALSE, show.legend = NA,
                             inherit.aes = TRUE, ...) {
@@ -24,38 +22,28 @@ geom_sf_pattern <- function(mapping = aes(), data = NULL, stat = "sf",
 }
 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' @rdname ggpattern-ggproto
-#' @format NULL
 #' @export
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GeomSfPattern <- ggproto(
-  "GeomSfPattern", Geom,
+#' @rdname ggpattern-ggproto
+#' @usage NULL
+#' @format NULL
+GeomSfPattern <- ggproto("GeomSfPattern", Geom,
   required_aes = "geometry",
-  default_aes = augment_aes(
-    pattern_aesthetics,
-    aes(
-      shape    = NULL,
-      colour   = NULL,
-      fill     = NULL,
-      size     = NULL,
-      linetype = 1,
-      linewidth = NULL,
-      alpha    = NA,
-      stroke   = 0.5
-    )
+  default_aes = defaults(aes(shape = NULL, colour = NULL, fill = NULL, size = NULL, linewidth = NULL, linetype = 1,
+      alpha = NA, stroke = 0.5),
+    pattern_aesthetics
   ),
 
-  draw_panel = function(data, panel_params, coord, legend = NULL,
+  draw_panel = function(self, data, panel_params, coord, legend = NULL,
                         lineend = "butt", linejoin = "round", linemitre = 10,
-                        na.rm = TRUE) {
+                        arrow = NULL, na.rm = TRUE) {
     if (!inherits(coord, "CoordSf")) {
-      abort("geom_sf_pattern() must be used with coord_sf()")
+      cli::cli_abort("{.fn {snake_class(self)}} can only be used with {.fn coord_sf}.")
     }
 
     # Need to refactor this to generate one grob per geometry type
     coord <- coord$transform(data, panel_params)
-    sf_grob(coord, lineend = lineend, linejoin = linejoin, linemitre = linemitre, na.rm = na.rm, panel_params)
+    sf_grob(coord, lineend = lineend, linejoin = linejoin, linemitre = linemitre,
+            arrow = arrow, na.rm = na.rm, panel_params)
   },
 
   draw_key = function(data, params, size) {
@@ -82,7 +70,8 @@ default_aesthetics <- function(type) {
 
 
 # ggpattern note: panel params added to arguments
-sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.rm = TRUE, panel_params) {
+sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10,
+                   arrow = NULL, na.rm = TRUE, panel_params) {
   if (!requireNamespace("sf"))
       abort(c("Suggested package {sf} must be installed",
               i = 'Install using `install.packages("sf")`'))
@@ -98,9 +87,10 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   remove[is_other] <- detect_missing(x, c(GeomPolygonPattern$required_aes, GeomPolygonPattern$non_missing_aes))[is_other]
   if (any(remove)) {
     if (!na.rm) {
-      warning_wrap(
-        "Removed ", sum(remove), " rows containing missing values (geom_sf_pattern)."
-      )
+      cli::cli_warn(paste0(
+        "Removed {sum(remove)} row{?s} containing missing values or values ",
+        "outside the scale range ({.fn geom_sf})."
+      ))
     }
     x <- x[!remove, , drop = FALSE]
     type_ind <- type_ind[!remove]
@@ -109,40 +99,34 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
   defaults <- list(
     GeomPoint$default_aes,
     GeomLine$default_aes,
-    modify_list(GeomPolygonPattern$default_aes, list(fill = "grey90", colour = "grey35"))
+    modify_list(GeomPolygonPattern$default_aes, list(fill = "grey90", colour = "grey35", linewidth = 0.2))
   )
   defaults[[4]] <- modify_list(
     defaults[[3]],
     rename(GeomPoint$default_aes, c(size = "point_size", fill = "point_fill"))
   )
-  default_names <- unique(unlist(lapply(defaults, names)))
+  default_names <- unique0(unlist(lapply(defaults, names)))
   defaults <- lapply(setNames(default_names, default_names), function(n) {
     unlist(lapply(defaults, function(def) def[[n]] %||% NA))
   })
   alpha <- x$alpha %||% defaults$alpha[type_ind]
   col   <- x$colour %||% defaults$colour[type_ind]
-  col[is_point | is_line] <- scales::alpha(col[is_point | is_line], alpha[is_point | is_line])
+  col[is_point | is_line] <- alpha(col[is_point | is_line], alpha[is_point | is_line])
   fill       <- x$fill %||% defaults$fill[type_ind]
   fill       <- fill_alpha(fill, alpha)
   size       <- x$size %||% defaults$size[type_ind]
   linewidth <- x$linewidth %||% defaults$linewidth[type_ind]
-  point_size <- ifelse(is_collection,
+  point_size <- ifelse(
+                       is_collection,
                        x$size %||% defaults$point_size[type_ind],
-                       ifelse(is_point, size, linewidth))
+                       ifelse(is_point, size, linewidth)
+  )
   stroke     <- (x$stroke %||% defaults$stroke[1]) * .stroke / 2
   fontsize   <- point_size * .pt + stroke
   lwd        <- ifelse(is_point, stroke, linewidth * .pt)
   pch        <- x$shape %||% defaults$shape[type_ind]
   lty        <- x$linetype %||% defaults$linetype[type_ind]
 
-  gp_fill <- gpar(
-    col = NA, fill = fill, fontsize = fontsize, lwd = lwd, lty = lty,
-    lineend = lineend, linejoin = linejoin, linemitre = linemitre
-  )
-  gp_border <- gpar(
-    col = col, fill = NA, fontsize = fontsize, lwd = lwd, lty = lty,
-    lineend = lineend, linejoin = linejoin, linemitre = linemitre
-  )
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # For each row in 'x',
@@ -169,20 +153,20 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10, na.
       pattern_grobs_list <- append(pattern_grobs_list, list(pattern_grobs))
     }
   }
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Combine all the individual pattern grobs into a grob tree
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   pattern_grobs <- do.call(grid::grobTree, pattern_grobs_list)
 
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Plot the {sf} geometry first, then plot the tree of pattern grobs
-  # over the top.
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  grob_sf <- sf::st_as_grob(x$geometry, pch = pch, gp = gp_fill)
+  gp_fill <- gpar(
+    col = NA, fill = fill, fontsize = fontsize, lwd = 0, lty = lty,
+    lineend = lineend, linejoin = linejoin, linemitre = linemitre
+  )
+  gp_border <- gpar(
+    col = col, fill = NA, fontsize = fontsize, lwd = lwd, lty = lty,
+    lineend = lineend, linejoin = linejoin, linemitre = linemitre
+  )
+  grob_fill <- sf::st_as_grob(x$geometry, pch = pch, gp = gp_fill)
   grob_border <- sf::st_as_grob(x$geometry, pch = pch, gp = gp_border)
   grid::grobTree(
-    grob_sf,
+    grob_fill,
     pattern_grobs,
     grob_border
   )

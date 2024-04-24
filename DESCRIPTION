@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: 'ggplot2' Pattern Geoms
-Version: 1.1.0-7
+Version: 1.1.0-8
 Authors@R: c(person("Mike", "FC", role = "aut"),
              person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
@@ -15,13 +15,15 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports:
-    ggplot2 (>= 3.5.0),
+    cli,
+    ggplot2 (>= 3.5.1),
     glue,
     grid,
     gridpattern (>= 1.2.0-4),
     lifecycle,
-    rlang,
+    rlang (>= 1.1.3),
     scales,
+    vctrs
 Suggests: 
     ambient,
     dplyr,
@@ -47,7 +49,6 @@ Collate:
     'aaa-ggplot2-scale-manual.R'
     'aaa-ggplot2-utilities-grid.R'
     'aaa-ggplot2-utilities.R'
-    'aab-utils.R'
     'geom-.R'
     'geom-rect.R'
     'geom-bar.R'
