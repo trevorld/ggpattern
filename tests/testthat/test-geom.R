@@ -4,6 +4,12 @@ test_that("geometry patterns work as expected", {
     skip_if_not_installed("vdiffr")
     library("vdiffr")
 
+    expect_doppelganger("area", {
+        huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
+        ggplot(huron, aes(year)) +
+            geom_area_pattern(aes(y = level))
+    })
+
     expect_doppelganger("bar", {
         ggplot(ggplot2::mpg, aes(class)) +
           geom_bar_pattern(
@@ -107,6 +113,11 @@ test_that("geometry patterns work as expected", {
         labs(title = "ggpattern::geom_density_pattern()") +
         theme(legend.key.size = unit(2, 'cm')) +
         coord_fixed(ratio = 100)
+    })
+
+    expect_doppelganger("histogram", {
+         ggplot(diamonds, aes(carat)) +
+             geom_histogram_pattern(pattern = "stripe", bins = 30)
     })
 
     expect_doppelganger("polygon", {
