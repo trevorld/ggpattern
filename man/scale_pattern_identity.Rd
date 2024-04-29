@@ -29,6 +29,7 @@
 \alias{scale_pattern_grid_identity}
 \alias{scale_pattern_res_identity}
 \alias{scale_pattern_rot_identity}
+\alias{scale_pattern_units_identity}
 \alias{scale_pattern_color_identity}
 \title{Use values without scaling}
 \usage{
@@ -83,6 +84,8 @@ scale_pattern_grid_identity(..., guide = "none")
 scale_pattern_res_identity(..., guide = "none")
 
 scale_pattern_rot_identity(..., guide = "none")
+
+scale_pattern_units_identity(..., guide = "none")
 
 scale_pattern_identity(..., guide = "none")
 }

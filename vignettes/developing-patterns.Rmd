@@ -90,11 +90,12 @@ so may make your pattern more useful for others:
 | `pattern_scale`            | Scale                                         | 1          | Multiplier                         |
 | `pattern_shape`            | Plotting shape                                | 1          | shapes                             |
 | `pattern_size`             | Stroke linewidth                              | 1          | linewidth                          |
-| `pattern_spacing`          | Spacing between repetitions of pattern        | 0.05       | value in range [0, 1] (snpc units) |
+| `pattern_spacing`          | Spacing between repetitions of pattern        | 0.05       | value in  `pattern_units` grid units |
 | `pattern_subtype`          | Generic control option                        | NA         | pattern-dependent                  |
 | `pattern_type`             | Generic control option                        | NA         | pattern-dependent                  |
-| `pattern_xoffset`          | Shift pattern along x axis                    | 0          | value in range [0, 1] (snpc units) |
-| `pattern_yoffset`          | Shift pattern along y axis                    | 0          | value in range [0, 1] (snpc units) |
+| `pattern_units`            | Pattern grid unit                             | 'snpc'     | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
+| `pattern_xoffset`          | Shift pattern along x axis                    | 0          | value in  `pattern_units` grid units |
+| `pattern_yoffset`          | Shift pattern along y axis                    | 0          | value in  `pattern_units` grid units |
 
 </summary>
 </details>

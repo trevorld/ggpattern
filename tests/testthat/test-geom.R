@@ -116,7 +116,7 @@ test_that("geometry patterns work as expected", {
     })
 
     expect_doppelganger("histogram", {
-         ggplot(diamonds, aes(carat)) +
+         ggplot(ggplot2::diamonds, aes(carat)) +
              geom_histogram_pattern(pattern = "stripe", bins = 30)
     })
 

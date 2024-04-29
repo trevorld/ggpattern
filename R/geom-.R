@@ -40,7 +40,8 @@ pattern_aesthetics <- aes(
 
   pattern_grid             = 'square',
   pattern_rot              = 0,
-  pattern_res              = getOption("ggpattern_res", NA)
+  pattern_res              = getOption("ggpattern_res", NA),
+  pattern_units            = 'snpc'
 )
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -57,46 +58,50 @@ create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_d
   data$size <- data$linewidth %||% data$size %||% 0.5
   lwd <- min(data$size, min(size) / 4) * .pt
 
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Convert the width/height of the key into npc sizes
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_native_x <- abs(as.numeric(grid::convertWidth (unit(size[1], 'mm'), 'native')))
-  key_native_y <- abs(as.numeric(grid::convertHeight(unit(size[2], 'mm'), 'native')))
+  if (data$pattern_units == "snpc") {
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # Convert the width/height of the key into npc sizes
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      key_native_x <- abs(as.numeric(grid::convertWidth (unit(size[1], 'mm'), 'native')))
+      key_native_y <- abs(as.numeric(grid::convertHeight(unit(size[2], 'mm'), 'native')))
 
-  vp <- grid::current.viewport()
-  vp_native_x <- abs(diff(vp$xscale))
-  vp_native_y <- abs(diff(vp$yscale))
+      vp <- grid::current.viewport()
+      vp_native_x <- abs(diff(vp$xscale))
+      vp_native_y <- abs(diff(vp$yscale))
 
 
-  key_npc_x <- abs(as.numeric(grid::convertWidth (unit(size[1], 'mm'), 'npc')))
-  key_npc_y <- abs(as.numeric(grid::convertHeight(unit(size[2], 'mm'), 'npc')))
+      key_npc_x <- abs(as.numeric(grid::convertWidth (unit(size[1], 'mm'), 'npc')))
+      key_npc_y <- abs(as.numeric(grid::convertHeight(unit(size[2], 'mm'), 'npc')))
 
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # What's the overall scale_factor?
-  # The legend is actually drawn in its own viewport with an area of 1x1 npc.
-  # I have to do some fancy scaling to draw the current pattern in this
-  # scaled viewport as currently appears in the full viewport of the plot.
-  # i.e. I need to make the pattern in the legend look like the pattern in the
-  # plot.
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # What's the overall scale_factor?
+      # The legend is actually drawn in its own viewport with an area of 1x1 npc.
+      # I have to do some fancy scaling to draw the current pattern in this
+      # scaled viewport as currently appears in the full viewport of the plot.
+      # i.e. I need to make the pattern in the legend look like the pattern in the
+      # plot.
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  denom <- sqrt(2) * (1/aspect_ratio) * 9/8
+      denom <- sqrt(2) * (1/aspect_ratio) * 9/8
 
-  if (vp_native_x/vp_native_y < aspect_ratio) {
-    scale_factor <- 1/key_npc_x / aspect_ratio / denom
+      if (vp_native_x/vp_native_y < aspect_ratio) {
+        scale_factor <- 1/key_npc_x / aspect_ratio / denom
+      } else {
+        scale_factor <- 1/key_npc_y/denom
+      }
+
+      scale_factor <- scale_factor * data$pattern_key_scale_factor
+
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # Compensate for box the key is rendered in being different aspect ratios
+      # i.e. theme(legend.key.width  = unit(2, 'cm'),
+      #            legend.key.height = unit(3, 'cm')
+      #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      key_aspect_ratio <- key_native_x/key_native_y
+      scale_factor <- scale_factor / key_aspect_ratio
   } else {
-    scale_factor <- 1/key_npc_y/denom
+      scale_factor <- 1.00 * data$pattern_key_scale_factor
   }
-
-  scale_factor <- scale_factor * data$pattern_key_scale_factor
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Compensate for box the key is rendered in being different aspect ratios
-  # i.e. theme(legend.key.width  = unit(2, 'cm'),
-  #            legend.key.height = unit(3, 'cm')
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_aspect_ratio <- key_native_x/key_native_y
-  scale_factor <- scale_factor / key_aspect_ratio
 
   this_params <- fill_default_params(data)
 

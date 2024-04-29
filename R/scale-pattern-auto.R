@@ -1128,6 +1128,64 @@ scale_pattern_rot_discrete <- function(..., range = c(0, 360)) {
     ...
   )
 }
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_discrete
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_units_continuous <- function(name = waiver(),
+                                        breaks = waiver(),
+                                        labels = waiver(),
+                                        limits = NULL,
+                                        choices = c('snpc', 'cm', 'inches'),
+                                        trans = deprecated(),
+                                        guide = 'legend',
+                                        ...,
+                                        transform = 'identity') {
+
+  if (is.null(choices)) {
+     abort('scale_pattern_units_continuous(): must specify "choices" argument')
+  }
+  if (lifecycle::is_present(trans)) {
+     lifecycle::deprecate_warn('1.1.1',
+                               'scale_pattern_units_continuous(trans)',
+                               'scale_pattern_units_continuous(transform)')
+     transform <- trans
+  }
+
+  ggplot2::continuous_scale(
+    aesthetics = 'pattern_units',
+    palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
+    name       = name,
+    breaks     = breaks,
+    labels     = labels,
+    limits     = limits,
+    transform  = transform,
+    guide      = guide,
+    ...)
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_discrete
+#' @importFrom utils head
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_units_discrete <- function(..., choices = c('snpc', 'cm', 'inches'), guide = 'legend') {
+  force(range)
+
+  if (is.null(choices)) {
+     abort('scale_pattern_units_discrete(): must specify "choices" argument')
+  }
+
+  ggplot2::discrete_scale(
+    aesthetics = 'pattern_units',
+    palette    = function(n) {
+      idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
+      choices[idx]
+    },
+    guide = guide,
+    ...
+  )
+}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Create your own discrete scale
 #'
@@ -1340,6 +1398,13 @@ scale_pattern_res_manual <- function(..., values, breaks = waiver()) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_rot_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_rot', values, breaks, ...)
+}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_manual
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_units_manual <- function(..., values, breaks = waiver()) {
+  manual_scale('pattern_units', values, breaks, ...)
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Use values without scaling
@@ -1709,5 +1774,18 @@ scale_pattern_rot_identity <- function(..., guide = 'none') {
     ...,
     guide      = guide,
     super      = ScaleContinuousIdentity
+  )
+}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_identity
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_units_identity <- function(..., guide = 'none') {
+  discrete_scale(
+    aesthetics = 'pattern_units',
+    palette    = identity_pal(),
+    ...,
+    guide      = guide,
+    super      = ScaleDiscreteIdentity
   )
 }
