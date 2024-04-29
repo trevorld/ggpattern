@@ -16,6 +16,8 @@
 \alias{scale_pattern_orientation_discrete}
 \alias{scale_pattern_grid_continuous}
 \alias{scale_pattern_grid_discrete}
+\alias{scale_pattern_units_continuous}
+\alias{scale_pattern_units_discrete}
 \alias{scale_pattern_continuous}
 \alias{scale_pattern_discrete}
 \title{Scales for discrete pattern aesthetics}
@@ -133,6 +135,24 @@ scale_pattern_grid_continuous(
 scale_pattern_grid_discrete(
   ...,
   choices = c("square", "hex"),
+  guide = "legend"
+)
+
+scale_pattern_units_continuous(
+  name = waiver(),
+  breaks = waiver(),
+  labels = waiver(),
+  limits = NULL,
+  choices = c("snpc", "cm", "inches"),
+  trans = deprecated(),
+  guide = "legend",
+  ...,
+  transform = "identity"
+)
+
+scale_pattern_units_discrete(
+  ...,
+  choices = c("snpc", "cm", "inches"),
   guide = "legend"
 )
 

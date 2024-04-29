@@ -29,6 +29,7 @@
 \alias{scale_pattern_grid_manual}
 \alias{scale_pattern_res_manual}
 \alias{scale_pattern_rot_manual}
+\alias{scale_pattern_units_manual}
 \alias{scale_pattern_color_manual}
 \title{Create your own discrete scale}
 \usage{
@@ -83,6 +84,8 @@ scale_pattern_grid_manual(..., values, breaks = waiver())
 scale_pattern_res_manual(..., values, breaks = waiver())
 
 scale_pattern_rot_manual(..., values, breaks = waiver())
+
+scale_pattern_units_manual(..., values, breaks = waiver())
 
 scale_pattern_manual(..., values, breaks = waiver(), na.value = "none")
 }

@@ -47,9 +47,10 @@ suppressPackageStartupMessages({
 | pattern\_fill             | Fill colour                                   | 'grey80'  | colour                            |
 | pattern\_angle            | Rotation angle                                | 30        | angle in degrees                  |
 | pattern\_density          | Approx. fraction of area the pattern fills    | 0.2       | value in range [0, 1] (fraction)  |
-| pattern\_spacing          | Spacing between repetitions of pattern        | 0.05      | value in range [0, 1] (snpc units) |
-| pattern\_xoffset          | Shift pattern along x axis                    | 0         | value in range [0, 1] (snpc units) |
-| pattern\_yoffset          | Shift pattern along y axis                    | 0         | value in range [0, 1] (snpc units) |
+| pattern\_spacing          | Spacing between repetitions of pattern        | 0.05      | value in  `pattern_units` grid units |
+| pattern\_xoffset          | Shift pattern along x axis                    | 0         | value in  `pattern_units` grid units |
+| pattern\_yoffset          | Shift pattern along y axis                    | 0         | value in  `pattern_units` grid units |
+| pattern\_units            | Pattern grid unit                             | 'snpc'     | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
 | pattern\_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
 | pattern\_linetype         | Stroke linetype                               | 1         | linetype                          |
 | pattern\_size             | Stroke linewidth                              | 1         | linewidth                         |

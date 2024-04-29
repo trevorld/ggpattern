@@ -39,6 +39,12 @@
   (in addition to color strings) (#112).
   Note using gradient/pattern fills will require R (>= 4.2) and a graphics device with support for the gradient/pattern fill feature.
   Use of just color fills should continue to work on a wider variety of R versions and graphics devices.
+* {ggpattern} now supports the `pattern_units` aesthetic (#81).
+  Supported by most "geometry" patterns.
+  It sets the `grid::unit()` used by the `pattern_spacing`, `pattern_xoffset`, `pattern_yoffset`,
+  and (for the "wave" pattern) the `pattern_frequency` aesthetics.
+  Default is "snpc" while "cm" and "inches" are likely alternatives.
+
 * `geom_bin_2d_pattern()` is now an alias for `geom_bin2d_pattern()`.
   This matches `{ggplot2}` which has both `geom_bin_2d()` and `geom_bin2d()`.
 
