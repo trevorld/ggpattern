@@ -1,4 +1,4 @@
-# ggpattern 1.1.0 (development)
+# ggpattern 1.1.1
 
 ## Breaking changes
 
