@@ -13,6 +13,7 @@
 ^_pkgdown.yml$
 ^doc$
 ^Meta$
+^revdep$
 vignettes/precompute_vignettes.R
 vignettes/*.Rmd.orig
 
