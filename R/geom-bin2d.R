@@ -22,6 +22,6 @@ geom_bin_2d_pattern <- function(mapping = NULL, data = NULL,
   )
 }
 
-#' @export
 #' @rdname geom-docs
+#' @export
 geom_bin2d_pattern <- geom_bin_2d_pattern

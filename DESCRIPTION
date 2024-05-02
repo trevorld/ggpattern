@@ -42,6 +42,7 @@ Suggests:
     vdiffr (>= 1.0.6)
 VignetteBuilder: knitr, ragg, rmarkdown
 Collate: 
+    'a-geom-docs.R'
     'aaa-ggplot2-compat-plyr.R'
     'aaa-ggplot2-ggplot-global.R'
     'aaa-ggplot2-performance.R'

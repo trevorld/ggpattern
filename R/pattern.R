@@ -14,7 +14,7 @@ munge_params <- function(params) {
     l <- as.list(params)
     nms <- grep("^pattern_", names(l), value = TRUE)
     # must avoid unlisting `grid::pattern()` fill values
-    nms <- grep("^pattern_fill$", nms, invert = TRUE, value = TRUE)
+    nms <- grep("^pattern_fill", nms, invert = TRUE, value = TRUE)
     for (nm in nms) {
         l[[nm]] <- unlist(l[[nm]])
     }
