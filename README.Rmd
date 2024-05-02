@@ -173,7 +173,7 @@ There are also scale functions to control each of these new aesthetics e.g.
 
 Not all aesthetics apply to all patterns.  See the individual pattern vignettes
 for which aesthetics it uses, or see the first vignette on developing user-defined
-patterns for a [table of aesthetic use by pattern](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns-1.html#aes-by-pattern),
+patterns for a [table of aesthetic use by pattern](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns.html#aes-by-pattern),
 or see the individual vignettes for each pattern.
 
 <details>
