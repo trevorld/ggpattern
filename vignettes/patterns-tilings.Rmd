@@ -46,7 +46,7 @@ those pixel patterns to fill the geom.
 | Aesthetic                  | Description                        | Default   |
 |----------------------------|------------------------------------|-----------|
 | `pattern_type`             | Image scaling type                 | 'fit'     |
-| `pattern_fill`             | Colour                             | 'grey20'  |
+| `pattern_fill`             | Colour (or grid pattern/gradient)  | 'grey20'  |
 | `pattern_scale`            | Extra scaling                      | 1         |
 | `pattern_filter`           | Filter to use when scaling         | 'box    ' |
 | `pattern_alpha`            | Alpha                              | NA        |

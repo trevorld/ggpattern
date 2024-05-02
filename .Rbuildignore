@@ -14,5 +14,6 @@
 ^doc$
 ^Meta$
 ^revdep$
+^tmp$
 vignettes/precompute_vignettes.R
 vignettes/*.Rmd.orig

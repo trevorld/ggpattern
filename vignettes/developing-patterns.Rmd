@@ -74,8 +74,8 @@ so may make your pattern more useful for others:
 | `pattern_colour`           | Stroke colour                                 | 'grey20'   | colour                             |
 | `pattern_density`          | Approx. fraction of area the pattern fills    | 0.2        | value in range [0, 1]              |
 | `pattern_filename`         | Image filename/URL                            | ''         | Filename/URL                       |
-| `pattern_fill2`            | Second fill colour                            | '#4169E1'  | colour                             |
-| `pattern_fill`             | Fill colour                                   | 'grey80'   | colour                             |
+| `pattern_fill`             | Fill colour                                   | 'grey80'   | colour (or grid pattern/gradient)  |
+| `pattern_fill2`            | Second fill colour                            | '#4169E1'  | colour (or grid pattern/gradient)  |
 | `pattern_filter`           | Image scaling filter                          | 'lanczos'  | `magick::filter_types`             |
 | `pattern_frequency`        | Frequency                                     | 0.1        |                                    |
 | `pattern_gravity`          | Image placement                               | 'center'   | `magick::gravity_types`            |
@@ -244,4 +244,4 @@ ggplot(df, aes(trt, outcome)) +
 
 The `{gridpattern}` package contains a vignette on developing `{gridpattern}` / `{ggpattern}` patterns with a few more examples including an example of layering patterns on top of each other.  Use [`vignette("developing-patterns", package="gridpattern")`](https://trevorldavis.com/R/gridpattern/dev/articles/developing-patterns.html) to see it.
 
-Also the `{gridpattern}` source contains the full source code for seventeen patterns: https://github.com/trevorld/gridpattern/tree/main/R
+Also the `{gridpattern}` source contains the full source code for  `r length(gridpattern::names_pattern)`patterns: https://github.com/trevorld/gridpattern/tree/main/R

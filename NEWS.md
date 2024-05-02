@@ -35,10 +35,11 @@
 * Each pattern aesthetic may now be a list of vectors with each list element
   providing that aesthetic for a different pattern (#100).
   Most builtin `{gridpattern}` "geometry" patterns support multiple fill colors etc. which previously we could only access in `{ggpattern}` via custom patterns.
-* The `fill` and `pattern_fill` aesthetics may now be (a list of) gradient/pattern fills
+* The `fill`, `pattern_fill`, and `pattern_fill2` aesthetics may now be (a list of) gradient/pattern fills
   (in addition to color strings) (#112).
-  Note using gradient/pattern fills will require R (>= 4.2) and a graphics device with support for the gradient/pattern fill feature.
-  Use of just color fills should continue to work on a wider variety of R versions and graphics devices.
+  Note using gradient/pattern fills will require R (>= 4.2), a graphics device with support for the gradient/pattern fill feature,
+  and will work only for a subset of patterns (i.e. most of the "geometry" patterns).
+  Use of just color fills should continue to work on a wider variety of R versions, graphics devices, and patterns.
 * {ggpattern} now supports the `pattern_units` aesthetic (#81).
   Supported by most "geometry" patterns.
   It sets the `grid::unit()` used by the `pattern_spacing`, `pattern_xoffset`, `pattern_yoffset`,
