@@ -18,16 +18,15 @@ knitr::opts_chunk$set(
 require("gganimate", quietly = TRUE)
 ```
 
-
 Using `gganimate` with `ggpattern`
 ------------------------------------------------------------------------------
 
 This is a very simple proof-of-concept of animating a ggpattern with gganimate.
 
-```{r}
-library(ggplot2)
-library(ggpattern)
-if (require("gganimate")) {
+```{r, eval = requireNamespace("gganimate", quietly = TRUE)}
+library("ggplot2")
+library("ggpattern")
+library("gganimate")
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Create a dataset with 2 different states
@@ -59,8 +58,4 @@ p <- ggplot(df, aes(trt, outcome)) +
 p <- p + transition_states(time, transition_length = 2,
                     state_length = 0, wrap = FALSE)
 
-anim_save("images/gganimate.gif", p, nframes = 60, fps = 20)
-}
-```
-
-<img src="images/gganimate.gif" alt="ggpattern + gganimate">
+animate(p, nframes = 60, fps = 20)
