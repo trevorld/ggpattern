@@ -338,19 +338,17 @@ display only black and white bears use `pattern_type = 'bearbw'`.
 
 Click the link to see an example of each placeholder generator
 
-* 'kitten'         - [kitten](https://placekitten.com/400/300)
-* 'picsum'         - [random picture from picsum](https://picsum.photos/400/300)
-* 'murray'         - [bill murray](http://www.fillmurray.com/400/300)
-* 'cage'           - [nicholas cage](https://www.placecage.com/400/300)
 * 'bear'           - [bears](https://placebear.com/400/300)
-* 'seagal'         - [steven seagal](https://www.stevensegallery.com/400/300)
-* 'placeholder'    - [placeholder.com](https://via.placeholder.com/400x300.png)
+* 'beard'          - [beards](https://placebeard.it/400/300)
+* 'cage'           - [nicholas cage](https://placecage.lucidinternets.com/400/300)
 * 'dummy'          - [image showing dimensions](https://dummyimage.com/400x300)
 * 'flickr'         - [random picture from flickr](https://loremflickr.com/400/300)
-* 'beard'          - [beards](http://placebeard.it/400/300)
-* 'lorempixel'     - [lorempixel](http://lorempixel.com/400/300/)
-* 'placeimg'       - [random pic from placeimg.com](http://placeimg.com/400/300/any)
 * 'keanu'          - [Keanu](https://placekeanu.com/400/300)
+* 'kitten'         - [kitten](https://placekitten.com/400/300)
+* 'murray'         - [bill murray](https://fillmurray.lucidinternets.com/400/300)
+* 'picsum'         - [random picture from picsum](https://picsum.photos/400/300)
+* 'placeholder'    - [placeholder.com](https://via.placeholder.com/400x300.png)
+* 'seagal'         - [steven seagal](https://stevensegallery.lucidinternets.com/400/300)
 
 All placeholder names are available in `gridpattern::names_placeholder`.
 
