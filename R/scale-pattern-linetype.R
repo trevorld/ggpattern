@@ -5,7 +5,7 @@
 #' University of Manchester. Continuous values can not be mapped to
 #' line types.
 #'
-#' @param ... see \code{ggplot2::scale_linetype} for more information
+#' @param ... see [ggplot2::scale_linetype()] for more information
 #' @param na.value The linetype to use for `NA` values.
 #' @return A [ggplot2::Scale] object.
 #' @examples

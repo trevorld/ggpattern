@@ -72,8 +72,8 @@ scale_pattern_fill2_distiller(
 )
 }
 \arguments{
-\item{...}{Other arguments passed on to \code{\link[=discrete_scale]{discrete_scale()}}, \code{\link[=continuous_scale]{continuous_scale()}},
-or \code{\link[=binned_scale]{binned_scale()}}, for \code{brewer}, \code{distiller}, and \code{fermenter} variants
+\item{...}{Other arguments passed on to \code{\link[ggplot2:discrete_scale]{ggplot2::discrete_scale()}}, \code{\link[ggplot2:continuous_scale]{ggplot2::continuous_scale()}},
+or \code{\link[ggplot2:binned_scale]{ggplot2::binned_scale()}}, for \code{brewer}, \code{distiller}, and \code{fermenter} variants
 respectively, to control name, limits, breaks, labels and so forth.}
 
 \item{palette}{If a string, will use that named palette. If a number, will index into

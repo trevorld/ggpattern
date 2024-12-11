@@ -11,7 +11,7 @@ output: github_document
 <!-- badges: start -->
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version/ggpattern)](https://cran.r-project.org/package=ggpattern)
 ![](http://img.shields.io/badge/cool-useless-green.svg)
-[![R build status](https://github.com/trevorld/ggpattern/workflows/R-CMD-check/badge.svg)](https://github.com/trevorld/ggpattern/actions)
+[![R build status](https://github.com/trevorld/ggpattern/actions/workflows/R-CMD-check.yaml/badge.svg?branch=master)](https://github.com/trevorld/ggpattern/actions)
 <!-- badges: end -->
 
 <span style="font-size: xx-large; font-weight: normal;">`ggpattern` provides custom `ggplot2` geoms which support filled areas with 

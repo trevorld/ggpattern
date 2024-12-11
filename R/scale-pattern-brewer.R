@@ -31,8 +31,8 @@
 #' @param palette If a string, will use that named palette. If a number, will index into
 #'   the list of palettes of appropriate `type`. The list of available palettes can found
 #'   in the Palettes section.
-#' @param ... Other arguments passed on to [discrete_scale()], [continuous_scale()],
-#'   or [binned_scale()], for `brewer`, `distiller`, and `fermenter` variants
+#' @param ... Other arguments passed on to [ggplot2::discrete_scale()], [ggplot2::continuous_scale()],
+#'   or [ggplot2::binned_scale()], for `brewer`, `distiller`, and `fermenter` variants
 #'   respectively, to control name, limits, breaks, labels and so forth.
 #' @examples
 #'   if (require("ggplot2")) {
