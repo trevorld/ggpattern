@@ -88,11 +88,11 @@ scale_pattern_fill2_viridis_c(
 )
 }
 \arguments{
-\item{...}{Other arguments passed on to \code{\link[=discrete_scale]{discrete_scale()}},
-\code{\link[=continuous_scale]{continuous_scale()}}, or \link{binned_scale} to control name, limits, breaks,
+\item{...}{Other arguments passed on to \code{\link[ggplot2:discrete_scale]{ggplot2::discrete_scale()}},
+\code{\link[ggplot2:continuous_scale]{ggplot2::continuous_scale()}}, or \code{\link[ggplot2:binned_scale]{ggplot2::binned_scale()}} to control name, limits, breaks,
 labels and so forth.}
 
-\item{begin, end, alpha, direction, option, values, space, na.value, guide}{See \code{ggplot2::scale_colour_viridis_d} for more information}
+\item{begin, end, alpha, direction, option, values, space, na.value, guide}{See \code{\link[ggplot2:scale_viridis]{ggplot2::scale_colour_viridis_d()}} for more information}
 
 \item{aesthetics}{Character string or vector of character strings listing the
 name(s) of the aesthetic(s) that this scale works with. This can be useful, for

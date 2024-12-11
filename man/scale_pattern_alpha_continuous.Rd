@@ -16,8 +16,8 @@ scale_pattern_alpha_discrete(...)
 scale_pattern_alpha_ordinal(..., range = c(0.1, 1))
 }
 \arguments{
-\item{...}{Other arguments passed on to \code{\link[=continuous_scale]{continuous_scale()}}, \link{binned_scale},
-or \code{\link[=discrete_scale]{discrete_scale()}} as appropriate, to control name, limits,
+\item{...}{Other arguments passed on to \code{\link[ggplot2:continuous_scale]{ggplot2::continuous_scale()}}, \code{\link[ggplot2:binned_scale]{ggplot2::binned_scale()}},
+or \code{\link[ggplot2:discrete_scale]{ggplot2::discrete_scale()}} as appropriate, to control name, limits,
 breaks, labels and so forth.}
 
 \item{range}{Output range of alpha values. Must lie between 0 and 1.}
@@ -26,7 +26,7 @@ breaks, labels and so forth.}
 A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
 }
 \description{
-See \code{ggplot2::scale_alpha()} for details.
+See \code{\link[ggplot2:scale_alpha]{ggplot2::scale_alpha()}} for details.
 }
 \examples{
   if (require("ggplot2")) {

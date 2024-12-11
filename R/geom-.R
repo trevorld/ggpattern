@@ -129,7 +129,7 @@ create_key_pattern_grob <- function(data, params, size, aspect_ratio, boundary_d
 #' to be displayed in a legend. These functions are called `draw_key_*()`, where
 #' `*` stands for the name of the respective key glyph. The key glyphs can be
 #' customized for individual geoms by providing a geom with the `key_glyph`
-#' argument (see [`layer()`] or examples below.)
+#' argument (see [ggplot2::layer()] or examples below.)
 #'
 #' @param data A single row data frame containing the scaled aesthetics to
 #'   display in this key
