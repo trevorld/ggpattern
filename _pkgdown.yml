@@ -2,6 +2,8 @@ destination: "../../websites/R/ggpattern/"
 url: "https://trevorldavis.com/R/ggpattern"
 development:
     mode: auto
+template:
+  bootstrap: 5
 reference:
   - title: "ggpattern package"
     desc: "High level package description"

@@ -116,7 +116,7 @@ If `pattern_type = 'none'` then no attempt is made at snugly filling the area.
 Instead a single copy of the image is scaled (`pattern_scale`) and 
 placed (`pattern_gravity`) in the geom area.
 
-```{r none, fig.cap=""}
+```{r none, fig.cap="", fig.alt="Example of 'image' pattern 'none' type"}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -154,7 +154,7 @@ left-to-right:
   that the entire geom is covered.  `pattern_gravity = 'West'` anchors the image
   to the left side of the geom.
 
-```{r covering, fig.cap=""}
+```{r covering, fig.cap="", fig.alt="Example of 'image' pattern with various types"}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -188,7 +188,7 @@ In this example, `pattern_scale` is also applied to the image so that it appears
 different sizes.
 
 
-```{r tiling, fig.cap=""}
+```{r tiling, fig.cap="", fig.alt="Example of 'image' pattern 'tile' type"}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -219,7 +219,7 @@ ggplot(df1, aes(trt, outcome)) +
 
 By choosing a seamlessly tiling image, then a tiled fill will not have visible discontinuities.
 
-```{r tiling-seamless, fig.cap=""}
+```{r tiling-seamless, fig.cap="", fig.alt="Example of 'image' pattern 'tile' type with seamless patterns."}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -245,7 +245,7 @@ ggplot(mtcars) +
 
 ### Example: `pattern = 'image'` - Tiling with seamless patterns (with scaling)
 
-```{r tiling-seamless-scaling, fig.cap=""}
+```{r tiling-seamless-scaling, fig.cap="", fig.alt="Example of 'image' pattern 'tile' type with seamless patterns and scaling."}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -279,7 +279,7 @@ This is useful for bar charts.
 Specify `pattern_scale = -1` to fit the width of the geom, and `pattern_scale = -2` to 
 fit the height of the geom.
 
-```{r tiling-fit, fig.cap=""}
+```{r tiling-fit, fig.cap="", fig.alt="Example of 'image' pattern 'tile' type with fit to width"}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -364,7 +364,7 @@ df1 <- data.frame(
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'bear'` 
 
-```{r bear, fig.cap=""}
+```{r bear, fig.cap="", fig.alt="Example of 'placeholder' pattern 'bear' type"}
 if (require("magick")) { 
 
 ggplot(df1, aes(trt, outcome)) +
@@ -387,7 +387,7 @@ ggplot(df1, aes(trt, outcome)) +
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'picsum'`  
 
-```{r picsum, fig.cap=""}
+```{r picsum, fig.cap="", fig.alt="Example of 'placeholder' pattern 'picsum' type"}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -409,7 +409,7 @@ ggplot(mtcars) +
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'dummy'` 
 
-```{r dummy, fig.cap=""}
+```{r dummy, fig.cap="", fig.alt="Example of 'placeholder' pattern 'dummy' type"}
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -426,7 +426,6 @@ ggplot(df1, aes(trt, outcome)) +
   ) +
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1/2)
-
 }
 ```
 

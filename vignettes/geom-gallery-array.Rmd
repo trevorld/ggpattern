@@ -9,7 +9,7 @@ vignette: >
 
 
 
-```r
+``` r
 suppressPackageStartupMessages({
   library("ggplot2")
   library("ggpattern")
@@ -23,7 +23,7 @@ suppressPackageStartupMessages({
 ## `geom_bar_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 p <- ggplot(mpg, aes(class)) +
   geom_bar_pattern(
@@ -46,12 +46,12 @@ p
 }
 ```
 
-![](images/gallery-array-bar-1.png)
+<img src="images/gallery-array-bar-1.png" alt="Example of 'geom_bar_pattern()'"  />
 
 ## `geom_bar_pattern()` - fit image to width and tile.
 
 
-```r
+``` r
 if (require("magick")) {
 
 flags <- c(
@@ -91,12 +91,12 @@ p
 }
 ```
 
-![](images/gallery-array-bar2-1.png)
+<img src="images/gallery-array-bar2-1.png" alt="Example of 'geom_bar_pattern()'"  />
 
 ## `geom_bar_pattern()` + `coord_flip` and fit image to height and graivty towards the east.
 
 
-```r
+``` r
 if (require("magick")) {
 
 p <- ggplot(mpg, aes(class)) +
@@ -127,14 +127,14 @@ p
 }
 ```
 
-![](images/gallery-array-bar3-1.png)
+<img src="images/gallery-array-bar3-1.png" alt="Example of 'geom_bar_pattern()'"  />
 
 ## pie graph with `geom_bar_pattern()`
 
 * See `gridpattern::names_magick` for a list of all image based patterns from `imagemagick`
 
 
-```r
+``` r
 if (require("magick")) {
 
 df <- data.frame(
@@ -170,12 +170,12 @@ p
 }
 ```
 
-![](images/gallery-array-pie-1.png)
+<img src="images/gallery-array-pie-1.png" alt="Example of 'geom_bar_pattern()'"  />
 
 ## `geom_bin2d_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 p <- ggplot(diamonds, aes(x, y)) + 
@@ -205,11 +205,11 @@ p
 #> (`stat_bin2d()`).
 ```
 
-![](images/gallery-array-bin2d-1.png)
+<img src="images/gallery-array-bin2d-1.png" alt="Example of 'geom_bin2d_pattern()'"  />
 ## `geom_boxplot_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 standard_image_filenames <- c(
@@ -244,12 +244,12 @@ p
 }
 ```
 
-![](images/gallery-array-boxplot-1.png)
+<img src="images/gallery-array-boxplot-1.png" alt="Example of 'geom_boxplot_pattern()'"  />
 
 ## `geom_col_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 
@@ -271,12 +271,12 @@ p
 }
 ```
 
-![](images/gallery-array-col-1.png)
+<img src="images/gallery-array-col-1.png" alt="Example of 'geom_col_pattern()'"  />
 
 ## `geom_crossbar_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 df <- data.frame(
@@ -310,12 +310,12 @@ p
 }
 ```
 
-![](images/gallery-array-crossbar-1.png)
+<img src="images/gallery-array-crossbar-1.png" alt="Example of 'geom_crossbar_pattern()'"  />
 
 ## `geom_density_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 seamless_image_filenames <- c(
@@ -347,12 +347,12 @@ p
 }
 ```
 
-![](images/gallery-array-density-1.png)
+<img src="images/gallery-array-density-1.png" alt="Example of 'geom_density_pattern()'"  />
 
 ## `geom_map_pattern()`
 
 
-```r
+``` r
 if (require("magick") && require("maps")) {
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
@@ -387,12 +387,12 @@ p
 }
 ```
 
-![](images/gallery-array-map-1.png)
+<img src="images/gallery-array-map-1.png" alt="Example of 'geom_map_pattern()'"  />
 
 ## `geom_polygon_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 angle <- seq(0, 2*pi, length.out = 7) + pi/6
@@ -420,12 +420,12 @@ p
 }
 ```
 
-![](images/gallery-array-polygon-1.png)
+<img src="images/gallery-array-polygon-1.png" alt="Example of 'geom_polygon_pattern()'"  />
 
 ## `geom_rect_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 plot_df <- data.frame(
@@ -465,12 +465,12 @@ p
 }
 ```
 
-![](images/gallery-array-rect-1.png)
+<img src="images/gallery-array-rect-1.png" alt="Example of 'geom_rect_pattern()'"  />
 
 ## `geom_ribbon_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
@@ -499,12 +499,12 @@ p
 }
 ```
 
-![](images/gallery-array-ribbon-1.png)
+<img src="images/gallery-array-ribbon-1.png" alt="Example of 'geom_ribbon_pattern()'"  />
 
 ## `geom_sf_pattern()`
 
 
-```r
+``` r
 if (require("dplyr") && require("magick") && require("sf")) {
 
 nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
@@ -533,12 +533,12 @@ p
 }
 ```
 
-![](images/gallery-array-sf-1.png)
+<img src="images/gallery-array-sf-1.png" alt="Example of 'geom_sf_pattern()'"  />
 
 ## `geom_tile_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 df <- data.frame(
@@ -578,12 +578,12 @@ p
 }
 ```
 
-![](images/gallery-array-tile-1.png)
+<img src="images/gallery-array-tile-1.png" alt="Example of 'geom_tile_pattern()'"  />
 
 ## `geom_violin_pattern()`
 
 
-```r
+``` r
 if (require("magick")) {
 
 p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
@@ -608,4 +608,4 @@ p
 }
 ```
 
-![](images/gallery-array-violin-1.png)
+<img src="images/gallery-array-violin-1.png" alt="Example of 'geom_violin_pattern()'"  />

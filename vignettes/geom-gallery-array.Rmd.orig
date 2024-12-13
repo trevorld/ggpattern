@@ -30,7 +30,7 @@ suppressPackageStartupMessages({
 
 ## `geom_bar_pattern()`
 
-```{r bar, fig.cap=""}
+```{r bar, fig.cap="", fig.alt="Example of 'geom_bar_pattern()'"}
 if (require("magick")) {
 p <- ggplot(mpg, aes(class)) +
   geom_bar_pattern(
@@ -55,7 +55,7 @@ p
 
 ## `geom_bar_pattern()` - fit image to width and tile.
 
-```{r bar2, fig.cap=""}
+```{r bar2, fig.cap="", fig.alt="Example of 'geom_bar_pattern()'"}
 if (require("magick")) {
 
 flags <- c(
@@ -97,7 +97,7 @@ p
 
 ## `geom_bar_pattern()` + `coord_flip` and fit image to height and graivty towards the east.
 
-```{r bar3, fig.cap=""}
+```{r bar3, fig.cap="", fig.alt="Example of 'geom_bar_pattern()'"}
 if (require("magick")) {
 
 p <- ggplot(mpg, aes(class)) +
@@ -132,7 +132,7 @@ p
 
 * See `gridpattern::names_magick` for a list of all image based patterns from `imagemagick`
 
-```{r pie, fig.cap=""}
+```{r pie, fig.cap="", fig.alt="Example of 'geom_bar_pattern()'"}
 if (require("magick")) {
 
 df <- data.frame(
@@ -170,7 +170,7 @@ p
 
 ## `geom_bin2d_pattern()`
 
-```{r bin2d, fig.cap=""}
+```{r bin2d, fig.cap="", fig.alt="Example of 'geom_bin2d_pattern()'"}
 if (require("magick")) {
 
 p <- ggplot(diamonds, aes(x, y)) + 
@@ -199,7 +199,7 @@ p
 ```
 ## `geom_boxplot_pattern()`
 
-```{r boxplot, fig.cap=""}
+```{r boxplot, fig.cap="", fig.alt="Example of 'geom_boxplot_pattern()'"}
 if (require("magick")) {
 
 standard_image_filenames <- c(
@@ -236,7 +236,7 @@ p
 
 ## `geom_col_pattern()`
 
-```{r col, fig.cap=""}
+```{r col, fig.cap="", fig.alt="Example of 'geom_col_pattern()'"}
 if (require("magick")) {
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 
@@ -260,7 +260,7 @@ p
 
 ## `geom_crossbar_pattern()`
 
-```{r crossbar, fig.cap=""}
+```{r crossbar, fig.cap="", fig.alt="Example of 'geom_crossbar_pattern()'"}
 if (require("magick")) {
 
 df <- data.frame(
@@ -296,7 +296,7 @@ p
 
 ## `geom_density_pattern()`
 
-```{r density, fig.cap=""}
+```{r density, fig.cap="", fig.alt="Example of 'geom_density_pattern()'"}
 if (require("magick")) {
 
 seamless_image_filenames <- c(
@@ -330,7 +330,7 @@ p
 
 ## `geom_map_pattern()`
 
-```{r map, fig.width=12, fig.height=9, fig.cap=""}
+```{r map, fig.width=12, fig.height=9, fig.cap="", fig.alt="Example of 'geom_map_pattern()'"}
 if (require("magick") && require("maps")) {
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
@@ -367,7 +367,7 @@ p
 
 ## `geom_polygon_pattern()`
 
-```{r polygon, fig.cap=""}
+```{r polygon, fig.cap="", fig.alt="Example of 'geom_polygon_pattern()'"}
 if (require("magick")) {
 
 angle <- seq(0, 2*pi, length.out = 7) + pi/6
@@ -397,7 +397,7 @@ p
 
 ## `geom_rect_pattern()`
 
-```{r rect, fig.cap=""}
+```{r rect, fig.cap="", fig.alt="Example of 'geom_rect_pattern()'"}
 if (require("magick")) {
 
 plot_df <- data.frame(
@@ -439,7 +439,7 @@ p
 
 ## `geom_ribbon_pattern()`
 
-```{r ribbon, warning=FALSE, fig.cap=""}
+```{r ribbon, warning=FALSE, fig.cap="", fig.alt="Example of 'geom_ribbon_pattern()'"}
 if (require("magick")) {
 
 huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
@@ -470,7 +470,7 @@ p
 
 ## `geom_sf_pattern()`
 
-```{r sf, fig.cap="", warning=FALSE}
+```{r sf, fig.cap="", warning=FALSE, fig.alt="Example of 'geom_sf_pattern()'"}
 if (require("dplyr") && require("magick") && require("sf")) {
 
 nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
@@ -501,7 +501,7 @@ p
 
 ## `geom_tile_pattern()`
 
-```{r tile, fig.cap=""}
+```{r tile, fig.cap="", fig.alt="Example of 'geom_tile_pattern()'"}
 if (require("magick")) {
 
 df <- data.frame(
@@ -543,7 +543,7 @@ p
 
 ## `geom_violin_pattern()`
 
-```{r violin, fig.cap=""}
+```{r violin, fig.cap="", fig.alt="Example of 'geom_violin_pattern()'"}
 if (require("magick")) {
 
 p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
