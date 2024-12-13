@@ -1,4 +1,4 @@
-# ggpattern 1.1.2 (development)
+# ggpattern 1.1.3
 
 ## Bug fixes and minor improvements
 
