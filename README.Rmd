@@ -1,7 +1,3 @@
----
-output: github_document
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
@@ -66,7 +62,13 @@ probably the best way to get started.
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/trevorld/ggpattern) with the following instructions:
+You can install the development version from [R-universe](https://trevorld.r-universe.dev/ggpattern)
+
+``` r
+install.packages('ggpattern', repos = c('https://trevorld.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+or straight from the source hosted on Github using the `{remotes}` package:
 
 ``` r
 # install.packages("remotes")
@@ -79,7 +81,7 @@ You can install the CRAN release version using:
 install.packages("ggpattern")
 ```
 
-Do note though that due to CRAN size limitations **the CRAN version omits several vignettes** that are contained in the development version.
+Do note though that due to CRAN size limitations **the CRAN version omits several vignettes** that are contained in the development version (as well as on the [package website](https://trevorldavis.com/R/ggpattern/).
 
 An installation error is highly unlikely to be an issue with `{ggpattern}` itself.  Please don't open up a Github Issues unless you are **sure** it is an issue with `{ggpattern}` itself.  If you have an error installing the package we strongly suggest that you look at **all** your error messages more closely to figure out which package dependency is failing to install and why.  See https://thomasadventure.blog/posts/install-r-packages/ for more info on installing R packages.
 
@@ -91,7 +93,7 @@ An installation error is highly unlikely to be an issue with `{ggpattern}` itsel
    and set other options using `pattern_*` aesthetics
 
 
-```{r fig.width = 8, fig.height = 4, fig.cap = ""}
+```{r fig.width = 8, fig.height = 4, fig.cap = "", fig.alt= "A bar chart with striped bars"}
 df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
 
 ggplot(df) +
@@ -114,14 +116,14 @@ ggplot(df) +
 # Gallery
 
 <div>
-<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-bar-pattern-"><img width="45%" src="man/figures/readme/gallery-bar-array.jpg" /> </a>
-<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#b-w-example"><img width="45%" src="man/figures/readme/gallery-bar-bw.jpg" /> </a>
-<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#colour-example-1"><img width="45%" src="man/figures/readme/gallery-bar-colour.jpg" /> </a>
-<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-bar-pattern-coord-flip-and-fit-image-to-height-and-graivty-towards-the-east-"><img width="45%" src="man/figures/readme/gallery-bar2-array.jpg" /> </a>
-<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-density-pattern-"><img width="45%" src="man/figures/readme/gallery-density-array.jpg" /> </a>
-<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#geom-density-pattern-"><img width="45%" src="man/figures/readme/gallery-density-grid.jpg" /> </a>
-<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-map-pattern-"><img width="45%" src="man/figures/readme/gallery-map-array.jpg" /> </a>
-<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-rect-pattern-"><img width="45%" src="man/figures/readme/gallery-rect-array.jpg" /> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-bar-pattern-"><img width="45%" src="man/figures/readme/gallery-bar-array.jpg" alt="Example of bar chart filled with the 'kitten' 'placeholder' pattern"/> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#b-w-example"><img width="45%" src="man/figures/readme/gallery-bar-bw.jpg" alt="Example of bar chart filled with black and white 'geometry' patterns"/> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#colour-example-1"><img width="45%" src="man/figures/readme/gallery-bar-colour.jpg" alt="Example of a bar chart filled with colored 'geometry' patterns"/> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-bar-pattern-coord-flip-and-fit-image-to-height-and-graivty-towards-the-east-"><img width="45%" src="man/figures/readme/gallery-bar2-array.jpg" alt="A horizontal bar charts with flag images at the end of each bar"/> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-density-pattern-"><img width="45%" src="man/figures/readme/gallery-density-array.jpg" alt="A density chart filled with 'image' patterns"/> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html#geom-density-pattern-"><img width="45%" src="man/figures/readme/gallery-density-grid.jpg" alt="A density chart filled with 'geometry' patterns"/> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-map-pattern-"><img width="45%" src="man/figures/readme/gallery-map-array.jpg" alt="A map filled with greyscale 'magick' patterns"/> </a>
+<a href="https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html#geom-rect-pattern-"><img width="45%" src="man/figures/readme/gallery-rect-array.jpg" alt="Rectangles filled with gradients"/> </a>
 <div>
 
 

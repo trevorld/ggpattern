@@ -37,7 +37,7 @@ support any/all these features.  See \url{https://www.stat.auckland.ac.nz/~paul/
 Useful links:
 \itemize{
   \item \url{https://github.com/trevorld/ggpattern}
-  \item \url{https://trevorldavis.com/R/ggpattern/dev/}
+  \item \url{https://trevorldavis.com/R/ggpattern/}
   \item Report bugs at \url{https://github.com/trevorld/ggpattern/issues}
 }
 

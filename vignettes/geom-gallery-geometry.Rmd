@@ -10,7 +10,7 @@ vignette: >
 
 
 
-```r
+``` r
 suppressPackageStartupMessages({
   library("ggplot2")
   library("ggpattern")
@@ -23,7 +23,7 @@ suppressPackageStartupMessages({
 ## B&W Example
 
 
-```r
+``` r
 df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
 
 p <- ggplot(df, aes(level, outcome)) +
@@ -47,12 +47,12 @@ p <- ggplot(df, aes(level, outcome)) +
 p
 ```
 
-![](images/gallery-geometry-bar-bw-1.png)
+<img src="images/gallery-geometry-bar-bw-1.png" alt="Example of 'geom_col_pattern()'"  />
 
 ## Colour Example
 
 
-```r
+``` r
 p <- ggplot(df, aes(level, outcome)) +
   geom_col_pattern(
     aes(pattern = level, fill = level, pattern_fill = level), 
@@ -71,12 +71,12 @@ p <- ggplot(df, aes(level, outcome)) +
 p
 ```
 
-![](images/gallery-geometry-bar-colour-1.png)
+<img src="images/gallery-geometry-bar-colour-1.png" alt="Example of 'geom_col_pattern()'"  />
 
 ## `geom_bar_pattern()`
 
 
-```r
+``` r
 p <- ggplot(mpg, aes(class)) +
   geom_bar_pattern(
     aes(
@@ -96,12 +96,12 @@ p <- ggplot(mpg, aes(class)) +
 p
 ```
 
-![](images/gallery-geometry-bar-1.png)
+<img src="images/gallery-geometry-bar-1.png" alt="Example of 'geom_bar_pattern()'"  />
 
 ## pie graph with `geom_bar_pattern()`
 
 
-```r
+``` r
 df <- data.frame(
   group = factor(c("Cool", "But", "Use", "Less"), levels = c("Cool", "But", "Use", "Less")),
   value = c(10, 20, 30, 40)
@@ -126,12 +126,12 @@ p <- ggplot(df, aes(x="", y = value, pattern = group, pattern_angle = group))+
 p
 ```
 
-![](images/gallery-geometry-pie-1.png)
+<img src="images/gallery-geometry-pie-1.png" alt="Example of 'geom_bar_pattern()'"  />
 
 ## `geom_bin2d_pattern()`
 
 
-```r
+``` r
 p <- ggplot(diamonds, aes(x, y)) + 
   xlim(4, 10) + ylim(4, 10) +
   geom_bin2d_pattern(aes(pattern_spacing = after_stat(density)), 
@@ -146,12 +146,12 @@ p
 #> (`stat_bin2d()`).
 ```
 
-![](images/gallery-geometry-bin2d-1.png)
+<img src="images/gallery-geometry-bin2d-1.png" alt="Example of 'geom_bin2d_pattern()'"  />
 
 ## `geom_boxplot_pattern()`
 
 
-```r
+``` r
 p <- ggplot(mpg, aes(class, hwy)) +
   geom_boxplot_pattern(
     aes(
@@ -168,12 +168,12 @@ p <- ggplot(mpg, aes(class, hwy)) +
 p
 ```
 
-![](images/gallery-geometry-boxplot-1.png)
+<img src="images/gallery-geometry-boxplot-1.png" alt="Example of 'geom_boxplot_pattern()'"  />
 
 ## `geom_col_pattern()`
 
 
-```r
+``` r
 df <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
 
 p <- ggplot(df, aes(trt, outcome)) +
@@ -194,12 +194,12 @@ p <- ggplot(df, aes(trt, outcome)) +
 p
 ```
 
-![](images/gallery-geometry-col-1.png)
+<img src="images/gallery-geometry-col-1.png" alt="Example of 'geom_col_pattern()'"  />
 
 ## `geom_crossbar_pattern()`
 
 
-```r
+``` r
 df <- data.frame(
   trt = factor(c(1, 1, 2, 2)),
   resp = c(1, 5, 3, 4),
@@ -226,12 +226,12 @@ p <- ggplot(df, aes(trt, resp, colour = group)) +
 p
 ```
 
-![](images/gallery-geometry-crossbar-1.png)
+<img src="images/gallery-geometry-crossbar-1.png" alt="Example of 'geom_crossbar_pattern()'"  />
 
 ## `geom_density_pattern()`
 
 
-```r
+``` r
 p <- ggplot(mtcars) +
    geom_density_pattern(
      aes(
@@ -251,12 +251,12 @@ p <- ggplot(mtcars) +
 p
 ```
 
-![](images/gallery-geometry-density-1.png)
+<img src="images/gallery-geometry-density-1.png" alt="Example of 'geom_density_pattern()'"  />
 
 ## `geom_map_pattern()`
 
 
-```r
+``` r
 if (require("maps")) {
 
 crimes <- data.frame(state = tolower(rownames(USArrests)), USArrests)
@@ -291,12 +291,12 @@ p
 }
 ```
 
-![](images/gallery-geometry-map-1.png)
+<img src="images/gallery-geometry-map-1.png" alt="Example of 'geom_map_pattern()'"  />
 
 ## `geom_polygon_pattern()`
 
 
-```r
+``` r
 angle <- seq(0, 2*pi, length.out = 7) + pi/6
 polygon_df <- data.frame(
   angle = angle,
@@ -323,12 +323,12 @@ p <- ggplot(polygon_df) +
 p
 ```
 
-![](images/gallery-geometry-polygon-1.png)
+<img src="images/gallery-geometry-polygon-1.png" alt="Example of 'geom_polygon_pattern()'"  />
 
 ## `geom_rect_pattern()`
 
 
-```r
+``` r
 plot_df <- data.frame(
   xmin    = c(0, 10),
   xmax    = c(8, 18),
@@ -364,11 +364,11 @@ p <- ggplot(plot_df) +
 p
 ```
 
-![](images/gallery-geometry-rect-1.png)
+<img src="images/gallery-geometry-rect-1.png" alt="Example of 'geom_rect_pattern()'"  />
 ## `geom_ribbon_pattern()`
 
 
-```r
+``` r
 huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
 
 p <- ggplot(huron, aes(year)) +
@@ -391,11 +391,11 @@ p <- ggplot(huron, aes(year)) +
 p
 ```
 
-![](images/gallery-geometry-ribbon-1.png)
+<img src="images/gallery-geometry-ribbon-1.png" alt="Example of 'geom_ribbon_pattern()'"  />
 ## `geom_sf_pattern()`
 
 
-```r
+``` r
 if (require("dplyr") && require("sf")) {
 
 nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE)
@@ -418,12 +418,12 @@ p
 }
 ```
 
-![](images/gallery-geometry-sf-1.png)
+<img src="images/gallery-geometry-sf-1.png" alt="Example of 'geom_sf_pattern()'"  />
 
 ## `geom_tile_pattern()`
 
 
-```r
+``` r
 df <- data.frame(
   x = rep(c(2, 5, 7, 9, 12), 2),
   y = rep(c(1, 2), each = 5),
@@ -450,12 +450,12 @@ p <- ggplot(df, aes(x, y)) +
 p
 ```
 
-![](images/gallery-geometry-tile-1.png)
+<img src="images/gallery-geometry-tile-1.png" alt="Example of 'geom_tile_pattern()'"  />
 
 ## `geom_violin_pattern()`
 
 
-```r
+``` r
 p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
   geom_violin_pattern(aes(pattern = as.factor(cyl))) +
   theme_bw(18) +
@@ -468,4 +468,4 @@ p <- ggplot(mtcars, aes(as.factor(cyl), mpg)) +
 p
 ```
 
-![](images/gallery-geometry-violin-1.png)
+<img src="images/gallery-geometry-violin-1.png" alt="Example of 'geom_violin_pattern()'"  />

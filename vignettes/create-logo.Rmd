@@ -26,7 +26,7 @@ suppressPackageStartupMessages({
 Creating the hex logo for `ggpattern`
 ------------------------------------------------------------------------------
 
-```{r logo}
+```{r logo, fig.alt="The ggpattern logo: a ggplot2 plot of a striped hexagon."}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Data frame for a polygon
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -10,7 +10,7 @@ vignette: >
 
 
 
-```r
+``` r
 suppressPackageStartupMessages({
   library("ggplot2")
   library("ggpattern")
@@ -73,7 +73,7 @@ Note: not all combinations of aesthetics are useful e.g. if `pattern_type = 'fit
 These examples use some of the built-in images in the `ggpattern` package.
 
 
-```r
+``` r
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # filenames of images
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,7 +118,7 @@ Instead a single copy of the image is scaled (`pattern_scale`) and
 placed (`pattern_gravity`) in the geom area.
 
 
-```r
+``` r
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -144,7 +144,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![](images/patterns-image-none-1.png)
+<img src="images/patterns-image-none-1.png" alt="Example of 'image' pattern 'none' type"  />
 
 ### Example: `pattern = 'image'` - Covering the area (`pattern_type = 'fit', 'squish', 'expand'`)
 
@@ -159,7 +159,7 @@ left-to-right:
   to the left side of the geom.
 
 
-```r
+``` r
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -186,7 +186,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![](images/patterns-image-covering-1.png)
+<img src="images/patterns-image-covering-1.png" alt="Example of 'image' pattern with various types"  />
 
 ### Example: `pattern = 'image'` - Tiling (`pattern_type = 'tile'`)
 
@@ -196,7 +196,7 @@ different sizes.
 
 
 
-```r
+``` r
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -223,14 +223,14 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![](images/patterns-image-tiling-1.png)
+<img src="images/patterns-image-tiling-1.png" alt="Example of 'image' pattern 'tile' type"  />
 
 ### Example: `pattern = 'image'` - Tiling with seamless patterns
 
 By choosing a seamlessly tiling image, then a tiled fill will not have visible discontinuities.
 
 
-```r
+``` r
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -254,12 +254,12 @@ ggplot(mtcars) +
 }
 ```
 
-![](images/patterns-image-tiling-seamless-1.png)
+<img src="images/patterns-image-tiling-seamless-1.png" alt="Example of 'image' pattern 'tile' type with seamless patterns."  />
 
 ### Example: `pattern = 'image'` - Tiling with seamless patterns (with scaling)
 
 
-```r
+``` r
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -284,7 +284,7 @@ ggplot(mtcars) +
 }
 ```
 
-![](images/patterns-image-tiling-seamless-scaling-1.png)
+<img src="images/patterns-image-tiling-seamless-scaling-1.png" alt="Example of 'image' pattern 'tile' type with seamless patterns and scaling."  />
 
 ### Example: `pattern = 'image'` - Tiling with fit to width (of element bounding box)
 
@@ -296,7 +296,7 @@ Specify `pattern_scale = -1` to fit the width of the geom, and `pattern_scale = 
 fit the height of the geom.
 
 
-```r
+``` r
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -322,7 +322,7 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![](images/patterns-image-tiling-fit-1.png)
+<img src="images/patterns-image-tiling-fit-1.png" alt="Example of 'image' pattern 'tile' type with fit to width"  />
 
 ## `placeholder` - Filling with an image placeholder
 
@@ -364,7 +364,7 @@ Click the link to see an example of each placeholder generator
 * 'flickr'         - [random picture from flickr](https://loremflickr.com/400/300)
 * 'keanu'          - [Keanu](https://placekeanu.com/400/300)
 * 'kitten'         - [kitten](https://placekitten.com/400/300)
-* 'murray'         - [bill murray](http://fillmurray.lucidinternets.com/400/300)
+* 'murray'         - [bill murray](https://fillmurray.lucidinternets.com/400/300)
 * 'picsum'         - [random picture from picsum](https://picsum.photos/400/300)
 * 'placeholder'    - [placeholder.com](https://via.placeholder.com/400x300.png)
 * 'seagal'         - [steven seagal](https://stevensegallery.lucidinternets.com/400/300)
@@ -374,7 +374,7 @@ All placeholder names are available in `gridpattern::names_placeholder`.
 ### Example Data
 
 
-```r
+``` r
 df1 <- data.frame(
   trt     = c("a", "b", "c"), 
   outcome = c(2.3, 1.9, 3.2),
@@ -385,7 +385,7 @@ df1 <- data.frame(
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'bear'` 
 
 
-```r
+``` r
 if (require("magick")) { 
 
 ggplot(df1, aes(trt, outcome)) +
@@ -406,12 +406,12 @@ ggplot(df1, aes(trt, outcome)) +
 }
 ```
 
-![](images/patterns-image-bear-1.png)
+<img src="images/patterns-image-bear-1.png" alt="Example of 'placeholder' pattern 'bear' type"  />
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'picsum'`  
 
 
-```r
+``` r
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -431,12 +431,12 @@ ggplot(mtcars) +
 }
 ```
 
-![](images/patterns-image-picsum-1.png)
+<img src="images/patterns-image-picsum-1.png" alt="Example of 'placeholder' pattern 'picsum' type"  />
 
 ### Example: `pattern = 'placeholder'` - `pattern_type = 'dummy'` 
 
 
-```r
+``` r
 if (require("magick")) {
 
 ggplot(df1, aes(trt, outcome)) +
@@ -453,11 +453,10 @@ ggplot(df1, aes(trt, outcome)) +
   ) +
   theme(legend.position = 'none') +
   coord_fixed(ratio = 1/2)
-
 }
 ```
 
-![](images/patterns-image-dummy-1.png)
+<img src="images/patterns-image-dummy-1.png" alt="Example of 'placeholder' pattern 'dummy' type"  />
 
 ## Resetting the image cache
 

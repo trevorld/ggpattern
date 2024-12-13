@@ -35,7 +35,7 @@ Given the same locations for the pattern elements, changing the `pattern_density
 changes how far the elements extend towards their neighbours.  It is a fraction, 
 and usually requires values in the range [0, 1].  Not settable in the "polygon_tiling" pattern.
 
-```{r echo=FALSE}
+```{r pattern_density, echo=FALSE, fig.cap="", fig.alt="Plot of various patterns with different 'pattern_density' values."}
 density  <- c(0.01, 0.04, 0.1, 0.2, 0.4, 0.7)
 rotation <- head(seq(0, 90, length.out = 7), -1)
 spacing  <- c(0.01, 0.02, 0.04, 0.08, 0.16, 0.32)
@@ -88,7 +88,7 @@ p
 `pattern_spacing` determines how far away individual elements are from each
 other.
 
-```{r echo=FALSE}
+```{r pattern_spacing, echo=FALSE, fig.cap="", fig.alt="Plot of various patterns with different 'pattern_spacing' values."}
 density  <- c(0.01, 0.04, 0.1, 0.2, 0.4, 0.7)
 rotation <- head(seq(0, 90, length.out = 7), -1)
 spacing  <- rev(c(0.01, 0.02, 0.03, 0.04, 0.08, 0.16))
@@ -134,7 +134,7 @@ p
 `pattern_angle`
 -------------------------------------------------------------------------------
 
-```{r echo=FALSE}
+```{r pattern_angle, echo=FALSE, fig.cap="", fig.alt="Plot of various patterns with different 'pattern_angle' values."}
 density  <- c(0.01, 0.04, 0.1, 0.2, 0.4, 0.7)
 angle    <- head(seq(0, 90, length.out = 7), -1)
 spacing  <- c(0.01, 0.02, 0.04, 0.08, 0.16, 0.32)
@@ -180,5 +180,3 @@ p <- ggplot(plot_df, aes(x = col, y = row)) +
 
 p
 ```
-
-

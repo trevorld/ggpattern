@@ -76,7 +76,7 @@ df
 
 ## Vanilla ggplot2
 
-```{r}
+```{r plain, fig.cap="", fig.alt="Example of a plain ggplot2"}
 ggplot(df, aes(trt, outcome)) +
   geom_col(aes(fill=trt),colour='black') +
   theme_bw() +
@@ -90,7 +90,7 @@ ggplot(df, aes(trt, outcome)) +
 * Default legends in `ggplot2` are usually too small to show off an example of
   the pattern, so it will usually be necessary to increase the key size.
 
-```{r}
+```{r ggpattern, fig.cap="", fig.alt="Example using ggpattern to make patterned geoms"}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(aes(fill=trt),colour='black', pattern = 'circle') +
   theme_bw() +
@@ -105,7 +105,7 @@ area which should be covered by the pattern.
 
 In the following plot the density of striping is increased to 50% of the fill area.
 
-```{r}
+```{r density, fig.cap="", fig.alt="Example of increasing density of striping"}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill=trt, pattern_shape=trt),
@@ -120,7 +120,7 @@ ggplot(df, aes(trt, outcome)) +
 
 ## The Density Aesthetic as a Mapped Aesthetic
 
-```{r}
+```{r density2, fig.cap="", fig.alt="Example from using the density aesthetic as a mapped aesthetic"}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_density = trt),
@@ -137,7 +137,7 @@ ggplot(df, aes(trt, outcome)) +
 `scale_pattern_density_manual()` can be used to manually control how the variable 
 is mapped to the density.
 
-```{r}
+```{r density3, fig.cap="", fig.alt="Example from using the density aesthetic as a mapped aesthetic with manual scale."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_density = trt),
@@ -156,7 +156,7 @@ ggplot(df, aes(trt, outcome)) +
 
 ## The Spacing Aesthetic as a Mapped Aesthetic
 
-```{r}
+```{r spacing, fig.cap="", fig.alt="Example from using the spacing aesthetic as a mapped aesthetic."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_spacing = trt, pattern_shape = trt),
@@ -173,7 +173,7 @@ ggplot(df, aes(trt, outcome)) +
 
 ## The Fill Aesthetic as a Mapped Aesthetic ('rose' example)
 
-```{r}
+```{r fill, fig.cap="", fig.alt="Example from using the fill aesthetic as a mapped aesthetic."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_fill = trt),

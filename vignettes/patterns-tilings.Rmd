@@ -60,7 +60,7 @@ Patterns have been scaled (using `pattern_scale`) to make them more visible for 
 
 Note that these are all pixel patterns and will always look blocky.
 
-```{r fig.width=7, fig.height = 12, echo = TRUE}
+```{r magic, fig.width=7, fig.height = 12, echo = TRUE, fig.cap="", fig.alt="A chart of all the various 'magick' pattern type names"}
 if (require("magick")) {
 
 df1 <- data.frame(
@@ -91,37 +91,7 @@ ggplot(df1) +
 
 ### Example: `pattern = 'magick'` - Transparent patterns
 
-```{r}
-if (require("magick")) {
-
-df1 <- data.frame(trt = c("a", "b", "c"), outcome = c(2.3, 1.9, 3.2))
-
-ggplot(df1, aes(trt, outcome)) +
-  geom_col_pattern(
-    aes(
-      pattern_type = trt, 
-      pattern_fill = trt
-    ),
-    pattern       = 'magick',
-    pattern_key_scale_factor = 0.7,
-    fill          = 'white',
-    colour        = 'black'
-  ) +
-  theme_bw(15) +
-  labs(
-    title    = "ggpattern::geom_col_pattern()",
-    subtitle = "pattern='magick'"
-  ) +
-  theme(legend.key.size = unit(2, 'cm')) +
-  scale_pattern_type_discrete(choices = c('bricks', 'fishscales', 'right45')) +
-  coord_fixed(ratio = 1/2)
-
-}
-```
-
-### Example: `pattern = 'magick'` - Transparent patterns (2)
-
-```{r}
+```{r magick2, fig.cap="", fig.alt="A density plot filled with overlapping transparent 'magick' patterns"}
 if (require("magick")) {
 
 ggplot(mtcars) +
@@ -148,7 +118,7 @@ ggplot(mtcars) +
 
 ### Example: `pattern = 'magick'` - Pie chart
 
-```{r}
+```{r magick4, fig.cap="", fig.alt="A pie chart with segments filled with various 'magick' pattern types"}
 if (require("magick")) {
 
 df2 <- data.frame(
@@ -176,7 +146,6 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
     title    = "ggpattern::geom_bar_pattern()",
     subtitle = "pattern='magick'"
   ) 
-
 }
 ```
 
@@ -200,7 +169,7 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
 
 ### `pattern = 'polygon_tiling'` - `pattern_type` options
 
-```{r fig.width=7, fig.height = 12, echo = TRUE}
+```{r polygon_tiling, fig.width=7, fig.height = 12, echo = TRUE, fig.cap="", fig.alt="A chart of all the 'polygon_tiling' pattern type names"}
 
 df1 <- data.frame(
   x    = rep(1:4, 9),
@@ -227,7 +196,7 @@ ggplot(df1) +
 
 ### `pattern = 'polygon_tiling'` - Bar chart
 
-```{r}
+```{r polygon_tiling2, fig.cap = "", fig.alt = "A bar chart filled with the 'polygon_tiling' pattern"}
 gg <- ggplot(mtcars) +
    geom_density_pattern(
      aes(
@@ -248,5 +217,3 @@ gg <- ggplot(mtcars) +
    )
 plot(gg)
 ```
-
-

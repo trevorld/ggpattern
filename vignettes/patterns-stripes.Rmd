@@ -73,7 +73,7 @@ df
 
 ## Vanilla ggplot2
 
-```{r}
+```{r vanilla, fig.cap="", fig.alt="A plot using vanilla ggplot2"}
 ggplot(df, aes(trt, outcome)) +
   geom_col(aes(fill=trt),colour='black') +
   theme_bw() +
@@ -87,7 +87,7 @@ ggplot(df, aes(trt, outcome)) +
 * Default legends in `ggplot2` are usually too small to show off an example of
   the pattern, so it will usually be necessary to increase the key size.
   
-```{r}
+```{r ggpattern, fig.cap="", fig.alt="A plot using ggpattern with a patterned geom"}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(aes(fill=trt),colour='black',
                    pattern='stripe') +
@@ -105,7 +105,7 @@ ggplot(df, aes(trt, outcome)) +
 * The 'wave' pattern supports two subtypes: 'triangle' waves (default) have a zig-zag appearance
   whereas 'sine' waves have a curvy appearance.
 
-```{r}
+```{r mixing, fig.cap="", fig.alt="A plot with both a 'stripe' pattern and a 'wave' pattern."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(aes(fill=trt, pattern=trt, pattern_type=trt),colour='black') + 
   theme_bw() +
@@ -122,7 +122,7 @@ area which should be covered by the pattern.
 
 In the following plot the density of striping is increased to 50% of the fill area.
 
-```{r}
+```{r density, fig.cap="", fig.alt="A plot with the density of striping increased to 50% of fill area"}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill=trt, pattern=trt),
@@ -139,7 +139,7 @@ ggplot(df, aes(trt, outcome)) +
 
 The 'weave' pattern supports a rich set of weave types and subtypes including irregular 'matt', 'twill' (including 'herringbone' and 'zigzag' variations), and 'satin' weaves .  See the [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern_weave.html) pattern documentation for more information.
 
-```{r}
+```{r weave, fig.cap="", fig.alt="A plot with 'plain', 'twill', 'satin' weave patterns"}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(pattern_fill2=trt, pattern_type=trt),
@@ -157,7 +157,7 @@ ggplot(df, aes(trt, outcome)) +
 
 ## The Density Aesthetic as a Mapped Aesthetic
 
-```{r}
+```{r density2, fig.cap="", fig.alt="Example plot from using the density aesthetic as a mapped aesthetic."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_density = trt),
@@ -177,7 +177,7 @@ ggplot(df, aes(trt, outcome)) +
 is mapped to the density.
 
 
-```{r}
+```{r density3, fig.cap="", fig.alt="Example plot from using the density aesthetic as a mapped aesthetic with manual scale."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_density = trt),
@@ -193,7 +193,7 @@ ggplot(df, aes(trt, outcome)) +
 
 ## The Spacing Aesthetic as a Mapped Aesthetic
 
-```{r}
+```{r spacing, fig.cap="", fig.alt="Example plot from using the spacing aesthetic as a mapped aesthetic."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_spacing = trt),
@@ -208,7 +208,7 @@ ggplot(df, aes(trt, outcome)) +
 
 ## The Fill Aesthetic as a Mapped Aesthetic
 
-```{r}
+```{r fill, fig.cap="", fig.alt="Example plot from using the fill aesthetic as a mapped aesthetic."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_fill = trt),
