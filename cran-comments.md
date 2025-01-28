@@ -1,8 +1,9 @@
-Added missing package anchors to a few Rd cross-references.
-These should eliminate the "Rd cross-references" check NOTEs on CRAN.
+In `vignettes/patterns-noise.Rmd` we now save images with
+`png(type="cairo")` instead of `ragg::agg_png()` which should
+prevent any UBSAN warnings occurring on CRAN checks
 
 In order to keep the package tarball
-under 5 MB we omit the package (visual) unit tests 
+under 5 MB we omit the package (visual) unit tests
 and we omit seven package vignettes.
 
 ## Test environments
