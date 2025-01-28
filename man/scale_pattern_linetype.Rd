@@ -37,7 +37,7 @@ line types.
         pattern = 'stripe',
         fill    = 'white',
         colour  = 'black',
-        size = 1.5
+        linewidth = 1.5
       ) +
       theme_bw(18) +
       theme(legend.position = 'none') +

@@ -12,7 +12,7 @@
 #'     gg <- ggplot(df) +
 #'       geom_col_pattern(
 #'         aes(level, outcome, pattern_fill = level,
-#'             size = outcome, pattern_size = outcome),
+#'             linewidth = outcome, pattern_size = outcome),
 #'         pattern_density = 0.4,
 #'         pattern_spacing = 0.3,
 #'         pattern = 'circle',

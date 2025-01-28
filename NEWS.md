@@ -1,3 +1,10 @@
+# ggpattern 1.1.4
+
+## Bug fixes and minor improvements
+
+* Updated a couple of examples to use the `linewidth` aesthetic
+  instead of the `size` aesthetic which was deprecated in `{ggplot2}` 3.4.0.
+
 # ggpattern 1.1.3
 
 ## Bug fixes and minor improvements
