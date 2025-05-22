@@ -344,10 +344,10 @@ Click the link to see an example of each placeholder generator
 * 'dummy'          - [image showing dimensions](https://dummyimage.com/400x300)
 * 'flickr'         - [random picture from flickr](https://loremflickr.com/400/300)
 * 'keanu'          - [Keanu](https://placekeanu.com/400/300)
-* 'kitten'         - [kitten](https://placekitten.com/400/300)
+* 'kitten'         - [kitten](https://placecats.com/400/300)
 * 'murray'         - [bill murray](https://fillmurray.lucidinternets.com/400/300)
 * 'picsum'         - [random picture from picsum](https://picsum.photos/400/300)
-* 'placeholder'    - [placeholder.com](https://via.placeholder.com/400x300.png)
+* 'placeholder'    - [placehold.co](https://placehold.co/400x300/png)
 * 'seagal'         - [steven seagal](https://stevensegallery.lucidinternets.com/400/300)
 
 All placeholder names are available in `gridpattern::names_placeholder`.
