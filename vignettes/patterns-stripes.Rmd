@@ -1,6 +1,6 @@
 ---
 title: "Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples"
-output: 
+output:
   rmarkdown::html_vignette:
   toc: true
 vignette: >
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   dev = "ragg_png",
-  fig.width = 7, 
+  fig.width = 7,
   fig.height = 4
 )
 ```
@@ -28,7 +28,7 @@ suppressPackageStartupMessages({
 
 ## Introduction to the 'stripe', 'wave', 'crosshatch', and 'weave' patterns
 
-* The 'stripe' pattern draws a set of (horizontal) **straight** lines.  
+* The 'stripe' pattern draws a set of (horizontal) **straight** lines.
 * The 'wave' pattern draws a set of (horizontal) **wavy** lines.
 * The 'crosshatch' pattern draws a set of vertical lines on top of a set of horizontal lines.
 * The 'weave' pattern draws a set of vertical lines interlaced with a set of horizontal lines.
@@ -59,7 +59,7 @@ suppressPackageStartupMessages({
 | pattern\_frequency        | Frequency                                     | 0.1       | Frequency of waves in 'wave' pattern |
 
 There are also a number of parameters for extra control of legend sizing and
-aspect ratio adjustments. See the 'Pattern Parameters - Common' for more 
+aspect ratio adjustments. See the 'Pattern Parameters - Common' for more
 information.
 
 ## Data
@@ -83,10 +83,10 @@ ggplot(df, aes(trt, outcome)) +
 ## Use the `{ggpattern}` geom
 
 * Use `ggpattern::geom_col_pattern()` instead of `ggplot2::geom_col()`.
-* Set `pattern = 'stripe'` 
+* Set `pattern = 'stripe'`
 * Default legends in `ggplot2` are usually too small to show off an example of
   the pattern, so it will usually be necessary to increase the key size.
-  
+
 ```{r ggpattern, fig.cap="", fig.alt="A plot using ggpattern with a patterned geom"}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(aes(fill=trt),colour='black',
@@ -98,7 +98,7 @@ ggplot(df, aes(trt, outcome)) +
 
 ## Mixing patterns
 
-* Often we'll want to mix patterns.  
+* Often we'll want to mix patterns.
   To get the legend right we'll often want to set them with a pattern scale function
   like 'pattern_scale_manual()' instead of simply setting them with the 'pattern' aesthetic.
 * Here we'll use the 'stripe' pattern and 'wave' pattern.
@@ -107,9 +107,11 @@ ggplot(df, aes(trt, outcome)) +
 
 ```{r mixing, fig.cap="", fig.alt="A plot with both a 'stripe' pattern and a 'wave' pattern."}
 ggplot(df, aes(trt, outcome)) +
-  geom_col_pattern(aes(fill=trt, pattern=trt, pattern_type=trt),colour='black') + 
+  geom_col_pattern(aes(fill=trt, pattern=trt, pattern_type=trt),
+                   colour='black', pattern_key_scale_factor=0.5,
+                   pattern_spacing=0.7, pattern_frequency=0.7, pattern_units='cm') +
   theme_bw() +
-  labs(title = "Use 'stripe' and 'wave' patterns") + 
+  labs(title = "Use 'stripe' and 'wave' patterns") +
   theme(legend.key.size = unit(1.5, 'cm')) +
   scale_pattern_manual(values=c('stripe', 'wave', 'wave')) +
   scale_pattern_type_manual(values=c(NA, 'triangle', 'sine'))
@@ -126,11 +128,11 @@ In the following plot the density of striping is increased to 50% of the fill ar
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill=trt, pattern=trt),
-    colour          = 'black', 
+    colour          = 'black',
     pattern_density = 0.5
   ) +
   theme_bw() +
-  labs(title = "Fixed density of 0.5 (50% of the fill area)") + 
+  labs(title = "Fixed density of 0.5 (50% of the fill area)") +
   scale_pattern_manual(values=c('stripe', 'crosshatch', 'weave')) +
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
@@ -144,13 +146,13 @@ ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(pattern_fill2=trt, pattern_type=trt),
     pattern = 'weave',
-    colour          = 'black', 
+    colour          = 'black',
     pattern_density = 1.0,
     pattern_fill = 'grey',
     pattern_key_scale_factor = 0.5,
   ) +
   theme_bw() +
-  labs(title = "Some 'weave' types") + 
+  labs(title = "Some 'weave' types") +
   scale_pattern_type_manual(values=c('plain', 'twill', 'satin')) +
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
@@ -161,11 +163,11 @@ ggplot(df, aes(trt, outcome)) +
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_density = trt),
-    colour          = 'black', 
+    colour          = 'black',
     pattern         = 'stripe'
   ) +
   theme_bw() +
-  labs(title = "Aesthetic Mapping of 'trt' to Density") + 
+  labs(title = "Aesthetic Mapping of 'trt' to Density") +
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
 
@@ -173,7 +175,7 @@ ggplot(df, aes(trt, outcome)) +
 ## The Density Aesthetic as a Mapped Aesthetic with Manual Scale
 
 
-`scale_pattern_density_manual()` can be used to manually control how the variable 
+`scale_pattern_density_manual()` can be used to manually control how the variable
 is mapped to the density.
 
 
@@ -181,12 +183,12 @@ is mapped to the density.
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_density = trt),
-    colour          = 'black', 
+    colour          = 'black',
     pattern         = 'stripe'
   ) +
   theme_bw() +
-  labs(title = "Aesthetic Mapping of 'trt' to Density") + 
-  theme(legend.key.size = unit(1.5, 'cm')) + 
+  labs(title = "Aesthetic Mapping of 'trt' to Density") +
+  theme(legend.key.size = unit(1.5, 'cm')) +
   scale_pattern_density_manual(values = c(a = 0.1, b=0.3, c=0.5))
 ```
 
@@ -197,11 +199,11 @@ ggplot(df, aes(trt, outcome)) +
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_spacing = trt),
-    colour          = 'black', 
+    colour          = 'black',
     pattern         = 'stripe'
   ) +
   theme_bw() +
-  labs(title = "Aesthetic Mapping of 'trt' to Spacing") + 
+  labs(title = "Aesthetic Mapping of 'trt' to Spacing") +
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
 
@@ -212,11 +214,11 @@ ggplot(df, aes(trt, outcome)) +
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(
     aes(fill = trt, pattern_fill = trt),
-    colour          = 'black', 
+    colour          = 'black',
     pattern         = 'stripe'
   ) +
   theme_bw() +
-  labs(title = "Aesthetic Mapping of 'trt' to Pattern Fill") + 
-  scale_pattern_fill_viridis_d() + 
+  labs(title = "Aesthetic Mapping of 'trt' to Pattern Fill") +
+  scale_pattern_fill_viridis_d() +
   theme(legend.key.size = unit(1.5, 'cm'))
 ```
