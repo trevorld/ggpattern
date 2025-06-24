@@ -81,9 +81,11 @@ You can install the CRAN release version using:
 install.packages("ggpattern")
 ```
 
-Do note though that due to CRAN size limitations **the CRAN version omits several vignettes** that are contained in the development version (as well as on the [package website](https://trevorldavis.com/R/ggpattern/).
+Do note though that due to CRAN size limitations **the CRAN version omits several vignettes** that are contained in the development version (as well as on the [package website](https://trevorldavis.com/R/ggpattern/)).
 
-An installation error is highly unlikely to be an issue with `{ggpattern}` itself.  Please don't open up a Github Issues unless you are **sure** it is an issue with `{ggpattern}` itself.  If you have an error installing the package we strongly suggest that you look at **all** your error messages more closely to figure out which package dependency is failing to install and why.  See https://thomasadventure.blog/posts/install-r-packages/ for more info on installing R packages.
+Depending on your operating system, which dependencies you have not previously installed, and the method you choose to install `{ggpattern}` it is possible that you may need to first install some system libraries manually using a tool like `apt`, `brew`, `dnf`, etc.  In particular as of June 2025 `{ggpattern}` depends on `{gridpattern}` which depends on `{sf}` which depends on `{s2}` and `{units}` which may need you to install the system development libraries for Abseil, OpenSSL, and `udunits2`.  If you pay close attention to any `install.packages()` error messages it will often tell you the name of the missing system library you need to install with `apt`, `brew`, `dnf`, etc.  Alternative R package installers like [`{pak}`](https://pak.r-lib.org/index.html) or [r2u](https://eddelbuettel.github.io/r2u/) may also be able to help install such system library dependencies if necessary.
+
+An installation error is highly unlikely to be an issue with `{ggpattern}` itself.  Please don't open a Github issue unless you are **sure** it is an issue with `{ggpattern}` itself.  If you have an error installing the package we strongly suggest that you look at **all** your error messages more closely to figure out which package dependency is failing to install and why.  If necessary look up that package's documentation for additional information in installing it.  See https://thomasadventure.blog/posts/install-r-packages/ for more info on installing R packages.
 
 ## Quickstart
 
