@@ -1,9 +1,10 @@
-# ggpattern 1.1.5 (development
+# ggpattern 1.1.5 (development)
 
 ## Bug fixes and minor improvements
 
-* Fixed broken 'wave' pattern example in the *Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples* vignette (#136)
-* Updated placeholder website links in the *Patterns 'image' and 'placeholder' - Parameters and Examples* vignette
+* `GeomSfPattern` now extends `GeomSf` (#141).
+* Fixed broken 'wave' pattern example in the *Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples* vignette (#136).
+* Updated placeholder website links in the *Patterns 'image' and 'placeholder' - Parameters and Examples* vignette.
 
 # ggpattern 1.1.4
 
