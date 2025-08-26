@@ -26,7 +26,7 @@ geom_sf_pattern <- function(mapping = aes(), data = NULL, stat = "sf",
 #' @rdname ggpattern-ggproto
 #' @usage NULL
 #' @format NULL
-GeomSfPattern <- ggproto("GeomSfPattern", Geom,
+GeomSfPattern <- ggproto("GeomSfPattern", GeomSf,
   required_aes = "geometry",
   default_aes = defaults(aes(shape = NULL, colour = NULL, fill = NULL, size = NULL, linewidth = NULL, linetype = 1,
       alpha = NA, stroke = 0.5),
