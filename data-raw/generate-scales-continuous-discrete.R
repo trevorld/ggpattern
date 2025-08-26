@@ -85,7 +85,7 @@ template_discrete_var_cont_aes <- "
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_{aes_name}_discrete <- function(..., range = {scale_default}) {{
+scale_{aes_name}_discrete <- function(..., range = {scale_default}, guide = 'legend') {{
   force(range)
 
   if (is.null(range)) {{
@@ -95,7 +95,7 @@ scale_{aes_name}_discrete <- function(..., range = {scale_default}) {{
   ggplot2::discrete_scale(
     aesthetics = '{aes_name}',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }}

@@ -40,7 +40,7 @@ scale_pattern_angle_continuous(
   transform = "identity"
 )
 
-scale_pattern_angle_discrete(..., range = c(0, 90))
+scale_pattern_angle_discrete(..., range = c(0, 90), guide = "legend")
 
 scale_pattern_density_continuous(
   name = waiver(),
@@ -54,7 +54,7 @@ scale_pattern_density_continuous(
   transform = "identity"
 )
 
-scale_pattern_density_discrete(..., range = c(0, 0.5))
+scale_pattern_density_discrete(..., range = c(0, 0.5), guide = "legend")
 
 scale_pattern_spacing_continuous(
   name = waiver(),
@@ -68,7 +68,7 @@ scale_pattern_spacing_continuous(
   transform = "identity"
 )
 
-scale_pattern_spacing_discrete(..., range = c(0.01, 0.1))
+scale_pattern_spacing_discrete(..., range = c(0.01, 0.1), guide = "legend")
 
 scale_pattern_xoffset_continuous(
   name = waiver(),
@@ -82,7 +82,7 @@ scale_pattern_xoffset_continuous(
   transform = "identity"
 )
 
-scale_pattern_xoffset_discrete(..., range = c(0.01, 0.1))
+scale_pattern_xoffset_discrete(..., range = c(0.01, 0.1), guide = "legend")
 
 scale_pattern_yoffset_continuous(
   name = waiver(),
@@ -96,7 +96,7 @@ scale_pattern_yoffset_continuous(
   transform = "identity"
 )
 
-scale_pattern_yoffset_discrete(..., range = c(0.01, 0.1))
+scale_pattern_yoffset_discrete(..., range = c(0.01, 0.1), guide = "legend")
 
 scale_pattern_aspect_ratio_continuous(
   name = waiver(),
@@ -110,7 +110,7 @@ scale_pattern_aspect_ratio_continuous(
   transform = "identity"
 )
 
-scale_pattern_aspect_ratio_discrete(..., range = c(0.5, 2))
+scale_pattern_aspect_ratio_discrete(..., range = c(0.5, 2), guide = "legend")
 
 scale_pattern_key_scale_factor_continuous(
   name = waiver(),
@@ -124,7 +124,11 @@ scale_pattern_key_scale_factor_continuous(
   transform = "identity"
 )
 
-scale_pattern_key_scale_factor_discrete(..., range = c(0.5, 2))
+scale_pattern_key_scale_factor_discrete(
+  ...,
+  range = c(0.5, 2),
+  guide = "legend"
+)
 
 scale_pattern_scale_continuous(
   name = waiver(),
@@ -138,7 +142,7 @@ scale_pattern_scale_continuous(
   transform = "identity"
 )
 
-scale_pattern_scale_discrete(..., range = c(0.5, 2))
+scale_pattern_scale_discrete(..., range = c(0.5, 2), guide = "legend")
 
 scale_pattern_phase_continuous(
   name = waiver(),
@@ -152,7 +156,7 @@ scale_pattern_phase_continuous(
   transform = "identity"
 )
 
-scale_pattern_phase_discrete(..., range = NULL)
+scale_pattern_phase_discrete(..., range = NULL, guide = "legend")
 
 scale_pattern_frequency_continuous(
   name = waiver(),
@@ -166,7 +170,7 @@ scale_pattern_frequency_continuous(
   transform = "identity"
 )
 
-scale_pattern_frequency_discrete(..., range = NULL)
+scale_pattern_frequency_discrete(..., range = NULL, guide = "legend")
 
 scale_pattern_res_continuous(
   name = waiver(),
@@ -180,7 +184,7 @@ scale_pattern_res_continuous(
   transform = "identity"
 )
 
-scale_pattern_res_discrete(..., range = NULL)
+scale_pattern_res_discrete(..., range = NULL, guide = "legend")
 
 scale_pattern_rot_continuous(
   name = waiver(),
@@ -194,7 +198,7 @@ scale_pattern_rot_continuous(
   transform = "identity"
 )
 
-scale_pattern_rot_discrete(..., range = c(0, 360))
+scale_pattern_rot_discrete(..., range = c(0, 360), guide = "legend")
 }
 \arguments{
 \item{name, breaks, labels, limits, range, trans, guide, ..., transform}{See
