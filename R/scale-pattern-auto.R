@@ -230,7 +230,7 @@ scale_pattern_angle_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_angle_discrete <- function(..., range = c(0, 90)) {
+scale_pattern_angle_discrete <- function(..., range = c(0, 90), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -240,7 +240,7 @@ scale_pattern_angle_discrete <- function(..., range = c(0, 90)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_angle',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -284,7 +284,7 @@ scale_pattern_density_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_density_discrete <- function(..., range = c(0, 0.5)) {
+scale_pattern_density_discrete <- function(..., range = c(0, 0.5), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -294,7 +294,7 @@ scale_pattern_density_discrete <- function(..., range = c(0, 0.5)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_density',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -338,7 +338,7 @@ scale_pattern_spacing_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_spacing_discrete <- function(..., range = c(0.01, 0.1)) {
+scale_pattern_spacing_discrete <- function(..., range = c(0.01, 0.1), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -348,7 +348,7 @@ scale_pattern_spacing_discrete <- function(..., range = c(0.01, 0.1)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_spacing',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -392,7 +392,7 @@ scale_pattern_xoffset_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_xoffset_discrete <- function(..., range = c(0.01, 0.1)) {
+scale_pattern_xoffset_discrete <- function(..., range = c(0.01, 0.1), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -402,7 +402,7 @@ scale_pattern_xoffset_discrete <- function(..., range = c(0.01, 0.1)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_xoffset',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -446,7 +446,7 @@ scale_pattern_yoffset_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_yoffset_discrete <- function(..., range = c(0.01, 0.1)) {
+scale_pattern_yoffset_discrete <- function(..., range = c(0.01, 0.1), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -456,7 +456,7 @@ scale_pattern_yoffset_discrete <- function(..., range = c(0.01, 0.1)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_yoffset',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -500,7 +500,7 @@ scale_pattern_aspect_ratio_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_aspect_ratio_discrete <- function(..., range = c(0.5, 2)) {
+scale_pattern_aspect_ratio_discrete <- function(..., range = c(0.5, 2), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -510,7 +510,7 @@ scale_pattern_aspect_ratio_discrete <- function(..., range = c(0.5, 2)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_aspect_ratio',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -554,7 +554,7 @@ scale_pattern_key_scale_factor_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_key_scale_factor_discrete <- function(..., range = c(0.5, 2)) {
+scale_pattern_key_scale_factor_discrete <- function(..., range = c(0.5, 2), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -564,7 +564,7 @@ scale_pattern_key_scale_factor_discrete <- function(..., range = c(0.5, 2)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_key_scale_factor',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -782,7 +782,7 @@ scale_pattern_scale_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_scale_discrete <- function(..., range = c(0.5, 2)) {
+scale_pattern_scale_discrete <- function(..., range = c(0.5, 2), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -792,7 +792,7 @@ scale_pattern_scale_discrete <- function(..., range = c(0.5, 2)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_scale',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -894,7 +894,7 @@ scale_pattern_phase_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_phase_discrete <- function(..., range = NULL) {
+scale_pattern_phase_discrete <- function(..., range = NULL, guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -904,7 +904,7 @@ scale_pattern_phase_discrete <- function(..., range = NULL) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_phase',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -948,7 +948,7 @@ scale_pattern_frequency_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_frequency_discrete <- function(..., range = NULL) {
+scale_pattern_frequency_discrete <- function(..., range = NULL, guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -958,7 +958,7 @@ scale_pattern_frequency_discrete <- function(..., range = NULL) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_frequency',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -1060,7 +1060,7 @@ scale_pattern_res_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_res_discrete <- function(..., range = NULL) {
+scale_pattern_res_discrete <- function(..., range = NULL, guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -1070,7 +1070,7 @@ scale_pattern_res_discrete <- function(..., range = NULL) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_res',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }
@@ -1114,7 +1114,7 @@ scale_pattern_rot_continuous <- function(name = waiver(),
 #' @rdname scale_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_rot_discrete <- function(..., range = c(0, 360)) {
+scale_pattern_rot_discrete <- function(..., range = c(0, 360), guide = 'legend') {
   force(range)
 
   if (is.null(range)) {
@@ -1124,7 +1124,7 @@ scale_pattern_rot_discrete <- function(..., range = c(0, 360)) {
   ggplot2::discrete_scale(
     aesthetics = 'pattern_rot',
     palette    = function(n) seq(range[1], range[2], length.out = n),
-    guide      = 'legend',
+    guide      = guide,
     ...
   )
 }

@@ -1,4 +1,8 @@
-# ggpattern 1.1.5 (development)
+# ggpattern 1.2.0 (development)
+
+## New features
+
+* Adds `guide` argument to `scale_pattern_angle_discrete()`, `scale_pattern_density_discrete()`, `scale_pattern_spacing_discrete()`, `scale_pattern_xoffset_discrete()`, `scale_pattern_yoffset_discrete()`, `scale_pattern_aspect_ratio_discrete()`, `scale_pattern_key_scale_factor_discrete()`, `scale_pattern_scale_discrete()`, `scale_pattern_phase_discrete()`, `scale_pattern_frequency_discrete()`, `scale_pattern_res_discrete()`, `scale_pattern_rot_discrete()` (#139).
 
 ## Bug fixes and minor improvements
 
