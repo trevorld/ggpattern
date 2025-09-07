@@ -2,7 +2,7 @@ The MIT License (MIT)
 =====================
 
 Copyright © 2021 ggpattern authors  
-Copyright © 2020 mikefc@coolbutuseless.com 
+Copyright © 2020 mikefc@coolbutuseless.com  
 Copyright © 2020 ggplot2 authors 
 
 Permission is hereby granted, free of charge, to any person
