@@ -183,7 +183,7 @@ scale_pattern_discrete(
 \item{choices}{vector of values to choose from.}
 }
 \value{
-A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+A \link[ggplot2:Scale]{ggplot2::Scale} object.
 }
 \description{
 Scales for discrete pattern aesthetics

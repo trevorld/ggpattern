@@ -1,54 +1,24 @@
-#' @rdname geom-docs
-#' @export
-geom_ribbon_pattern <- function(mapping = NULL, data = NULL,
-                                stat = "identity", position = "identity",
-                                ...,
-                                na.rm = FALSE,
-                                orientation = NA,
-                                show.legend = NA,
-                                inherit.aes = TRUE,
-                                outline.type = "both") {
-  if (outline.type == "legacy") {
-    lifecycle::deprecate_warn("0.1.0",
-                              I('geom_ribbon_pattern(outline.type = "legacy")'),
-                              I('geom_ribbon_pattern(outline.type = "full")'))
-    outline.type <- "full"
-  }
-  outline.type <- arg_match0(outline.type, c("both", "upper", "lower", "full"))
-
-  layer(
-    data        = data,
-    mapping     = mapping,
-    stat        = stat,
-    geom        = GeomRibbonPattern,
-    position    = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list2(
-      na.rm        = na.rm,
-      orientation  = orientation,
-      outline.type = outline.type,
-      ...
-    )
-  )
-}
-
 #' @rdname ggpattern-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
 GeomRibbonPattern <- ggproto("GeomRibbonPattern", GeomRibbon,
-  default_aes = defaults(aes(colour = NA, fill = "grey20", linewidth = 0.5, linetype = 1,
-      alpha = NA),
+  default_aes = defaults(aes(
+	colour = from_theme(colour %||% NA),
+    fill = from_theme(fill %||% col_mix(ink, paper, 0.2)),
+    linewidth = from_theme(borderwidth),
+	linetype = from_theme(bordertype),
+    alpha = NA
+	),
     pattern_aesthetics
   ),
 
-  draw_key = function(self, ...) draw_key_polygon_pattern(...),
+  draw_key = draw_key_polygon_pattern,
 
   draw_group = function(self, data, panel_params, coord, lineend = "butt",
                         linejoin = "round", linemitre = 10, na.rm = FALSE,
                         flipped_aes = FALSE, outline.type = "both") {
-    data <- check_linewidth(data, snake_class(self))
+    data <- fix_linewidth(data, snake_class(self))
     data <- flip_data(data, flipped_aes)
     if (na.rm) data <- data[stats::complete.cases(data[c("x", "ymin", "ymax")]), ]
     data <- data[order(data$group), ]
@@ -74,7 +44,12 @@ GeomRibbonPattern <- ggproto("GeomRibbonPattern", GeomRibbon,
     data <- unclass(data) #for faster indexing
 
     # In case the data comes from stat_align
-    upper_keep <- if (is.null(data$align_padding)) TRUE else !data$align_padding
+    upper_keep <- TRUE
+    if (!is.null(data$align_padding)) {
+      upper_keep <- !data$align_padding
+      # `align_padding` can be NA when group is the only group in panel
+      upper_keep[is.na(upper_keep)] <- TRUE
+    }
 
     # The upper line and lower line need to processed separately (#4023)
     positions_upper <- data_frame0(
@@ -162,58 +137,34 @@ GeomRibbonPattern <- ggproto("GeomRibbonPattern", GeomRibbon,
   rename_size = TRUE
 )
 
-#' @rdname geom-docs
-#' @export
-geom_area_pattern <- function(mapping = NULL, data = NULL, stat = "align",
-                              position = "stack", na.rm = FALSE, orientation = NA,
-                              show.legend = NA, inherit.aes = TRUE, ...,
-                              outline.type = "upper") {
-  if (outline.type == "legacy") {
-    lifecycle::deprecate_warn("0.1.0",
-                              I('geom_area_pattern(outline.type = "legacy")'),
-                              I('geom_area_pattern(outline.type = "full")'))
-    outline.type <- "full"
-  }
-  outline.type <- arg_match0(outline.type, c("both", "upper", "lower", "full"))
-
-  layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomAreaPattern,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list2(
-      na.rm = na.rm,
-      orientation = orientation,
-      outline.type = outline.type,
-      ...
-    )
-  )
-}
-
 #' @rdname ggpattern-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
 GeomAreaPattern <- ggproto("GeomAreaPattern", GeomRibbonPattern,
-  default_aes = defaults(aes(colour = NA, fill = "grey20", linewidth = 0.5, linetype = 1,
-        alpha = NA),
-    pattern_aesthetics
-  ),
 
-  required_aes = c("x", "y"),
+	required_aes = c("x", "y"),
 
-  setup_params = function(data, params) {
-    params$flipped_aes <- has_flipped_aes(data, params, ambiguous = TRUE)
-    params
-  },
+	setup_params = GeomArea$setup_params,
 
-  setup_data = function(data, params) {
-    data$flipped_aes <- params$flipped_aes
-    data <- flip_data(data, params$flipped_aes)
-    data <- transform(data[order(data$PANEL, data$group, data$x), ], ymin = 0, ymax = y)
-    flip_data(data, params$flipped_aes)
-  }
+	setup_data = GeomArea$setup_data
+)
+
+#' @rdname geom-docs
+#' @export
+geom_ribbon_pattern <- make_constructor(
+  GeomRibbonPattern, orientation = NA,
+  checks = exprs(
+    outline.type <- arg_match0(outline.type, c("both", "upper", "lower", "full"))
+  )
+)
+
+#' @rdname geom-docs
+#' @export
+geom_area_pattern <- make_constructor(
+  GeomAreaPattern, stat = "align", position = "stack",
+  orientation = NA, outline.type = "upper",
+  checks = exprs(
+    outline.type <- arg_match0(outline.type, c("both", "upper", "lower", "full"))
+  )
 )

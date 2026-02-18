@@ -1,35 +1,19 @@
-#' @rdname geom-docs
-#' @export
-geom_sf_pattern <- function(mapping = aes(), data = NULL, stat = "sf",
-                            position = "identity", na.rm = FALSE, show.legend = NA,
-                            inherit.aes = TRUE, ...) {
-  c(
-    layer_sf(
-      geom = GeomSfPattern,
-      data = data,
-      mapping = mapping,
-      stat = stat,
-      position = position,
-      show.legend = show.legend,
-      inherit.aes = inherit.aes,
-      params = list(
-        na.rm = na.rm,
-        ...
-      )
-    ),
-    coord_sf(default = TRUE)
-  )
-}
-
-
 #' @export
 #' @rdname ggpattern-ggproto
 #' @usage NULL
 #' @format NULL
 GeomSfPattern <- ggproto("GeomSfPattern", GeomSf,
   required_aes = "geometry",
-  default_aes = defaults(aes(shape = NULL, colour = NULL, fill = NULL, size = NULL, linewidth = NULL, linetype = 1,
-      alpha = NA, stroke = 0.5),
+  default_aes = defaults(aes(
+	shape = NULL,
+	colour = NULL,
+	fill = NULL,
+    size = NULL,
+	linewidth = NULL,
+	linetype = from_theme(linetype),
+    alpha = NA,
+	stroke = 0.5
+  ),
     pattern_aesthetics
   ),
 
@@ -171,6 +155,30 @@ sf_grob <- function(x, lineend = "butt", linejoin = "round", linemitre = 10,
     grob_border
   )
 }
+
+#' @rdname geom-docs
+#' @export
+geom_sf_pattern <- function(mapping = aes(), data = NULL, stat = "sf",
+                            position = "identity", na.rm = FALSE, show.legend = NA,
+                            inherit.aes = TRUE, ...) {
+  c(
+    layer_sf(
+      geom = GeomSfPattern,
+      data = data,
+      mapping = mapping,
+      stat = stat,
+      position = position,
+      show.legend = show.legend,
+      inherit.aes = inherit.aes,
+      params = list(
+        na.rm = na.rm,
+        ...
+      )
+    ),
+    coord_sf(default = TRUE)
+  )
+}
+
 
 sf_types <- c(GEOMETRY = "other", POINT = "point", LINESTRING = "line",
               POLYGON = "other", MULTIPOINT = "point", MULTILINESTRING = "line",

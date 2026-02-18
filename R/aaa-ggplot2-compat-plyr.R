@@ -2,6 +2,11 @@
 
 defaults <- function(x, y) c(x, y[setdiff(names(y), names(x))])
 
+compact <- function(x) {
+  null <- vapply(x, is.null, logical(1))
+  x[!null]
+}
+
 #' Rename elements in a list, data.frame or vector
 #'
 #' This is akin to `dplyr::rename` and `plyr::rename`. It renames elements given

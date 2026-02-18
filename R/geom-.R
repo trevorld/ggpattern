@@ -326,7 +326,7 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_asp
   )
 }
 
-check_linewidth <- function(data, name) {
+fix_linewidth <- function(data, name) {
   if (is.null(data$linewidth) && !is.null(data$size)) {
     lifecycle::deprecate_warn("1.0.1",
                               I(paste0("Using the `size` aesthetic with ", name)),

@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: 'ggplot2' Pattern Geoms
-Version: 1.2.1-0
+Version: 1.3.0-1
 Authors@R: c(person("Mike", "FC", role = "aut"),
              person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
@@ -13,10 +13,12 @@ BugReports: https://github.com/trevorld/ggpattern/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
+Depends:
+	R (>= 4.1)
 Imports:
     cli,
-    ggplot2 (>= 3.5.1),
+    ggplot2 (>= 4.0.2),
     glue,
     grid,
     gridpattern (>= 1.2.2),
@@ -52,6 +54,7 @@ Collate:
     'geom-.R'
     'geom-rect.R'
     'geom-bar.R'
+    'geom-tile.R'
     'geom-bin2d.R'
     'geom-boxplot.R'
     'geom-col.R'
@@ -62,7 +65,6 @@ Collate:
     'geom-polygon.R'
     'geom-map.R'
     'geom-sf.R'
-    'geom-tile.R'
     'geom-violin.R'
     'ggpattern-defunct.R'
     'ggpattern-deprecated.R'
@@ -81,5 +83,5 @@ Collate:
     'scale-pattern-size.R'
     'scale-pattern-viridis.R'
     'scale-pattern.R'
-    'zxx.r'
+    'zxx.R'
     'zzz.R'

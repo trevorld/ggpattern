@@ -1,0 +1,12 @@
+test_that("defunct functions", {
+  expect_error(calculate_bbox_polygon_df(), class = "defunctError")
+  expect_error(convert_img_to_array(), class = "defunctError")
+  expect_error(convert_polygon_df_to_alpha_channel(), class = "defunctError")
+  expect_error(convert_polygon_df_to_polygon_grob(), class = "defunctError")
+  expect_error(convert_polygon_df_to_polygon_sf(), class = "defunctError")
+  expect_error(convert_polygon_sf_to_polygon_df(), class = "defunctError")
+  expect_error(create_gradient_img(), class = "defunctError")
+  expect_error(fetch_placeholder_img(), class = "defunctError")
+  expect_error(fill_area_with_img(), class = "defunctError")
+  expect_error(rotate_polygon_df(), class = "defunctError")
+})
