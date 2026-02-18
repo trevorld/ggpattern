@@ -1,3 +1,52 @@
+# ggpattern (development version)
+
+## Breaking changes
+
+* Now requires `ggplot2` (>= 4.0.2) and thus `R` (>= 4.1).
+* All geom default aesthetics now use `from_theme()` for colours, line widths, and line types.
+  These changes were made to the `{ggplot2}` analogues in `{ggplot2}` 4.0.0.
+* Turned off fallback for `size` to `linewidth` translation in `geom_bar_pattern()`/`geom_col_pattern()`.
+  This fallback was turned off in `geom_bar()` and `geom_col()` in `{ggplot2}` 4.0.0.
+
+## Deprecated features
+
+* `geom_boxplot_pattern(fatten)` is deprecated.
+  Use `geom_boxplot_pattern(median.linewidth)` instead.
+  `fatten` was deprecated in `geom_boxplot()` in `{ggplot2}` 4.0.0.
+* The `fatten` argument of `geom_crossbar_pattern()` is deprecated.
+  Use `middle.linewidth` instead.
+  `fatten` was deprecated in `geom_crossbar()` in `{ggplot2}` 4.0.0.
+* The `draw_quantiles` parameter of `geom_violin_pattern()` is deprecated.
+  Use `quantile.linetype` instead.
+  `draw_quantiles` was deprecated in `geom_violin()` in `{ggplot2}` 4.0.0.
+
+## New features
+
+* We now export `GeomBin2dPattern`.
+* `geom_boxplot_pattern()` gains `whisker.colour`, `whisker.color`,
+  `whisker.linetype`, `whisker.linewidth`, `staple.colour`, `staple.color`,
+  `staple.linetype`, `staple.linewidth`, `median.colour`, `median.color`,
+  `median.linetype`, `median.linewidth`, `box.colour`, `box.color`,
+  `box.linetype`, and `box.linewidth` parameters for per-component styling.
+  This matches the changes in `geom_boxplot()` in `{ggplot2}` 4.0.0.
+* `geom_crossbar_pattern()` gains `middle.colour`, `middle.color`,
+  `middle.linetype`, `middle.linewidth`, `box.colour`, `box.color`,
+  `box.linetype`, and `box.linewidth` parameters for per-component styling.
+  This matches the changes in `geom_crossbar()` in `{ggplot2}` 4.0.0.
+* `geom_violin_pattern()` gains `quantile.colour`, `quantile.color`,
+  `quantile.linetype`, and `quantile.linewidth` parameters for styling
+  quantile lines.
+  This matches the changes in `geom_violin()` in `{ggplot2}` 4.0.0.
+
+## Bug fixes and minor improvements
+
+* We now construct several geom functions from the `{ggpattern}` `Geom` objects with `make_constructor()` and
+  these `{ggpattern}` `Geom` objects now directly inherit more methods from the `{ggplot2}` `Geom` objects they extend.
+* `width` is now an aesthetic (default `0.9`) in `geom_bar_pattern()` and `geom_col_pattern()` rather than a function parameter and
+  `GeomBoxplotPattern` and `GeomViolinPattern` default aesthetics now
+  include `width = 0.9`.
+  These match upstream changes in `{ggplot2}` 4.0.0.
+
 # ggpattern 1.2.1
 
 ## New features

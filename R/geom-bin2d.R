@@ -1,26 +1,13 @@
+#' @rdname ggpattern-ggproto
+#' @format NULL
+#' @usage NULL
+#' @include geom-tile.R
+#' @export
+GeomBin2dPattern <- ggproto("GeomBin2dPattern", GeomTilePattern)
+
 #' @rdname geom-docs
 #' @export
-geom_bin_2d_pattern <- function(mapping = NULL, data = NULL,
-                       stat = "bin2d", position = "identity",
-                       ...,
-                       na.rm = FALSE,
-                       show.legend = NA,
-                       inherit.aes = TRUE) {
-
-  layer(
-    data = data,
-    mapping = mapping,
-    stat = stat,
-    geom = GeomTilePattern,
-    position = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list2(
-      na.rm = na.rm,
-      ...
-    )
-  )
-}
+geom_bin_2d_pattern <- make_constructor(GeomBin2dPattern, stat = "bin2d")
 
 #' @rdname geom-docs
 #' @export

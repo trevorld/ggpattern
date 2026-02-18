@@ -22,7 +22,7 @@ scale_pattern_shape_continuous(...)
 \code{FALSE}?}
 }
 \value{
-A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+A \link[ggplot2:Scale]{ggplot2::Scale} object.
 }
 \description{
 \code{scale_pattern_shape} maps discrete variables to six easily discernible shapes.

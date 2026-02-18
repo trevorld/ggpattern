@@ -38,7 +38,7 @@ scale_pattern_size(
 maximum size of the plotting symbol after transformation.}
 }
 \value{
-A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+A \link[ggplot2:Scale]{ggplot2::Scale} object.
 }
 \description{
 Scales for area or radius

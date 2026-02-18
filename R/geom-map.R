@@ -86,11 +86,13 @@ GeomMapPattern <- ggproto("GeomMapPattern", GeomPolygonPattern,
         )
       )
     }
-
-    grobTree(
-      polygon_grob_fn(NA, fill, 0),
-      pattern_grobs,
-      polygon_grob_fn(col, NA, lwd)
+	
+    ggname("geom_map_pattern",
+      grobTree(
+        polygon_grob_fn(NA, fill, 0),
+        pattern_grobs,
+        polygon_grob_fn(col, NA, lwd)
+      )
     )
   },
 

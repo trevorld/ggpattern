@@ -205,7 +205,7 @@ scale_pattern_rot_discrete(..., range = c(0, 360), guide = "legend")
 \code{{ggplot2}} documentation for more information on scales.}
 }
 \value{
-A \link[ggplot2:ggplot2-ggproto]{ggplot2::Scale} object.
+A \link[ggplot2:Scale]{ggplot2::Scale} object.
 }
 \description{
 Scales for continuous pattern aesthetics

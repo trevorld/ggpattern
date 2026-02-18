@@ -1,28 +1,3 @@
-#' @rdname geom-docs
-#' @export
-geom_polygon_pattern <- function(mapping = NULL, data = NULL,
-                                 stat = "identity", position = "identity",
-                                 rule = "evenodd",
-                                 ...,
-                                 na.rm = FALSE,
-                                 show.legend = NA,
-                                 inherit.aes = TRUE) {
-  layer(
-    data        = data,
-    mapping     = mapping,
-    stat        = stat,
-    geom        = GeomPolygonPattern,
-    position    = position,
-    show.legend = show.legend,
-    inherit.aes = inherit.aes,
-    params = list2(
-      na.rm = na.rm,
-      rule  = rule,
-      ...
-    )
-  )
-}
-
 #' @rdname ggpattern-ggproto
 #' @format NULL
 #' @usage NULL
@@ -30,7 +5,7 @@ geom_polygon_pattern <- function(mapping = NULL, data = NULL,
 GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
   draw_panel = function(self, data, panel_params, coord, rule = "evenodd",
                         lineend = "butt", linejoin = "round", linemitre = 10) {
-    data <- check_linewidth(data, snake_class(self))
+    data <- fix_linewidth(data, snake_class(self))
     n <- nrow(data)
     if (n == 1) return(zeroGrob())
 
@@ -77,7 +52,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
           )
       }
       ggname(
-        "geom_polygon",
+        "geom_polygon_pattern",
         grobTree(
           polygon_grob_fn(NA, fill, 0),
           pattern_grobs,
@@ -85,9 +60,6 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
         )
       )
     } else {
-      if (getRversion() < "3.6") {
-        cli::cli_abort("Polygons with holes requires R 3.6 or above.")
-      }
       # Sort by group to make sure that colors, fill, etc. come in same order
       munched <- munched[order(munched$group, munched$subgroup), ]
       id <- match(munched$subgroup, unique0(munched$subgroup))
@@ -132,7 +104,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       }
 
       ggname(
-        "geom_polygon",
+        "geom_polygon_pattern",
         grid::grobTree(
           path_grob_fn(gp_fill), # area filled of the polygon
           pattern_grobs, # the pattern fill
@@ -142,13 +114,20 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
     }
   },
 
-  default_aes = defaults(aes(colour = NA, fill = "grey20", linewidth = 0.5, linetype = 1,
-                             alpha = NA, subgroup = NULL),
+  default_aes = defaults(aes(
+		colour = from_theme(colour %||% NA),
+		fill = from_theme(fill %||% col_mix(ink, paper, 0.2)),
+		linewidth = from_theme(borderwidth),
+		linetype = from_theme(bordertype),
+		alpha = NA, subgroup = NULL
+	),
     pattern_aesthetics
   ),
 
 
-  draw_key = function(self, ...) draw_key_polygon_pattern(...),
-
-  rename_size = TRUE
+  draw_key = draw_key_polygon_pattern,
 )
+
+#' @rdname geom-docs
+#' @export
+geom_polygon_pattern <- make_constructor(GeomPolygonPattern)

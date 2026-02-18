@@ -3,14 +3,46 @@
 geom_violin_pattern <- function(mapping = NULL, data = NULL,
                                 stat = "ydensity", position = "dodge",
                                 ...,
-                                draw_quantiles = NULL,
                                 trim = TRUE,
                                 bounds = c(-Inf, Inf),
+                                quantile.colour = NULL,
+                                quantile.color = NULL,
+                                quantile.linetype = 0L,
+                                quantile.linewidth = NULL,
+                                draw_quantiles = deprecated(),
                                 scale = "area",
                                 na.rm = FALSE,
                                 orientation = NA,
                                 show.legend = NA,
                                 inherit.aes = TRUE) {
+
+  extra <- list()
+  if (lifecycle::is_present(draw_quantiles)) {
+    deprecate_soft(
+	  "1.3.1",
+      what = "geom_violin_pattern(draw_quantiles)",
+      with = "geom_violin_pattern(quantile.linetype)"
+	)
+    stopifnot(is.numeric(draw_quantiles))
+
+	# Pass on to stat when stat accepts 'quantiles'
+    # stat <- validate_subclass(stat, "Stat", current_call(), caller_env())
+    if ("quantiles" %in% stat$parameters()) {
+      extra$quantiles <- draw_quantiles
+    }
+
+    # Turn on quantile lines
+    if (!is.null(quantile.linetype)) {
+      quantile.linetype <- max(quantile.linetype, 1)
+    }
+  }
+
+  quantile_gp <- list(
+    colour = quantile.color %||% quantile.colour,
+    linetype = quantile.linetype,
+    linewidth = quantile.linewidth
+  )
+
   layer(
     data = data,
     mapping = mapping,
@@ -22,10 +54,11 @@ geom_violin_pattern <- function(mapping = NULL, data = NULL,
     params = list2(
       trim = trim,
       scale = scale,
-      draw_quantiles = draw_quantiles,
       na.rm = na.rm,
       orientation = orientation,
       bounds = bounds,
+      quantile_gp = quantile_gp,
+      !!!extra,
       ...
     )
   )
@@ -37,7 +70,7 @@ geom_violin_pattern <- function(mapping = NULL, data = NULL,
 #' @export
 GeomViolinPattern <- ggproto("GeomViolinPattern", GeomViolin,
 
-  draw_group = function(self, data, ..., draw_quantiles = NULL, flipped_aes = FALSE) {
+  draw_group = function(self, data, ..., quantile_gp = list(linetype = 0), flipped_aes = FALSE) {
     data <- flip_data(data, flipped_aes)
     # Find the points for the line to go all the way around
     data <- transform(data,
@@ -56,45 +89,41 @@ GeomViolinPattern <- ggproto("GeomViolinPattern", GeomViolin,
     newdata <- vec_rbind(newdata, newdata[1,])
     newdata <- flip_data(newdata, flipped_aes)
 
-    # Draw quantiles if requested, so long as there is non-zero y range
-    if (length(draw_quantiles) > 0 & !scales::zero_range(range(data$y))) {
-      if (!(all(draw_quantiles >= 0) && all(draw_quantiles <= 1))) {
-        cli::cli_abort("{.arg draw_quantiles} must be between 0 and 1.")
-      }
+	violin_grob <- GeomPolygonPattern$draw_panel(newdata, ...)
 
-      # Compute the quantile segments and combine with existing aesthetics
-      quantiles <- create_quantile_segment_frame(data, draw_quantiles)
-      aesthetics <- data[
-        rep(1, nrow(quantiles)),
-        setdiff(names(data), c("x", "y", "group")),
-        drop = FALSE
-      ]
-      aesthetics$alpha <- rep(1, nrow(quantiles))
-      both <- vec_cbind(quantiles, aesthetics)
-      both <- both[!is.na(both$group), , drop = FALSE]
-      both <- flip_data(both, flipped_aes)
-      quantile_grob <- if (nrow(both) == 0) {
+    if (!"quantile" %in% names(newdata) ||
+        all(quantile_gp$linetype == 0) ||
+        all(quantile_gp$linetype == "blank")) {
+      return(ggname("geom_violin_pattern", violin_grob))
+    }
+
+    # Draw quantiles if requested, so long as there is non-zero y range
+      quantiles <- newdata[!is.na(newdata$quantile),]
+      quantiles$group <- match(quantiles$quantile, unique(quantiles$quantile))
+      quantiles$linetype <- quantile_gp$linetype %||% quantiles$linetype
+      quantiles$linewidth <- quantile_gp$linewidth %||% quantiles$linewidth
+      quantiles$colour <- quantile_gp$colour %||% quantiles$colour
+
+      quantile_grob <- if (nrow(quantiles) == 0) {
         zeroGrob()
       } else {
-        GeomPath$draw_panel(both, ...)
+        GeomPath$draw_panel(quantiles, ...)
       }
 
-      ggname("geom_violin_pattern", grobTree(
-        GeomPolygonPattern$draw_panel(newdata, ...),
-        quantile_grob)
-      )
-    } else {
-      ggname("geom_violin_pattern", GeomPolygonPattern$draw_panel(newdata, ...))
-    }
+      ggname("geom_violin_pattern", grobTree(violin_grob, quantile_grob))
   },
 
-  draw_key = function(self, ...) draw_key_polygon_pattern(...),
+  draw_key = draw_key_polygon_pattern,
 
-  default_aes = defaults(
-    aes(weight = 1, colour = "grey20", fill = "white", linewidth = 0.5,
-      alpha = NA, linetype = "solid"),
+  default_aes = defaults(aes(
+		weight = 1,
+        colour = from_theme(colour %||% col_mix(ink, paper, 0.2)),
+        fill = from_theme(fill %||% paper),
+        linewidth = from_theme(borderwidth),
+        linetype = from_theme(bordertype),
+        alpha = NA,
+		width = 0.9
+	),
     pattern_aesthetics
-  ),
-
-  rename_size = TRUE
+  )
 )

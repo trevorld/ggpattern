@@ -48,6 +48,7 @@
 #' @inheritParams ggplot2::geom_polygon
 #' @inheritParams ggplot2::geom_rect
 #' @inheritParams ggplot2::geom_ribbon
+#' @inheritParams ggplot2::geom_tile
 #' @inheritParams ggplot2::geom_violin
 #' @examples
 #'   if (require("ggplot2")) {
