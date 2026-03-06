@@ -25,3 +25,12 @@
 ^tmp$
 ^vignettes/precompute_vignettes.R$
 ^vignettes/*.Rmd.orig$
+^tests$
+^vignettes/images$
+^vignettes/create-logo.Rmd$
+^vignettes/geometry-based-pattern-parameters.Rmd$
+^vignettes/geom-gallery-array.*$
+^vignettes/geom-gallery-geometry.*$
+^vignettes/gganimate.Rmd$
+^vignettes/patterns-image.*$
+^vignettes/patterns-tilings.*$
