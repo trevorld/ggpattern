@@ -507,8 +507,8 @@ Not all arguments apply to all patterns.
 \item{\strong{\code{pattern_colour}}}{ Colour used for strokes and points. default: 'black'}
 \item{\strong{\code{pattern_density}}}{ Approximate fill fraction of the pattern. Usually in range [0, 1], but can be higher. default: 0.2}
 \item{\strong{\code{pattern_filename}}}{ Image filename/URL. }
-\item{\strong{\code{pattern_fill}}}{ Fill colour (or \code{\link[grid:patterns]{grid::pattern()}}/gradient fill). default: 'grey80'}
-\item{\strong{\code{pattern_fill2}}}{ Second fill colour (or \code{\link[grid:patterns]{grid::pattern()}}/gradient fill). default: '#4169E1'}
+\item{\strong{\code{pattern_fill}}}{ Fill colour (or \code{\link[grid:pattern]{grid::pattern()}}/gradient fill). default: 'grey80'}
+\item{\strong{\code{pattern_fill2}}}{ Second fill colour (or \code{\link[grid:pattern]{grid::pattern()}}/gradient fill). default: '#4169E1'}
 \item{\strong{\code{pattern_filter}}}{ (Image scaling) filter. default: 'lanczos' }
 \item{\strong{\code{pattern_frequency}}}{ Frequency. default: 0.1 }
 \item{\strong{\code{pattern_gravity}}}{ Image placement. default: 'center' }

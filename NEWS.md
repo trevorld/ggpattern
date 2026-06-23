@@ -1,8 +1,14 @@
+# ggpattern 1.3.2
+
+## Bug fixes and minor improvements
+
+* Bumps required version of `{gridpattern}` to v1.4.2 which should fix a bug with patterns sometimes not showing up in the legend with larger `pattern_key_scale_factor` values (#86).
+
 # ggpattern 1.3.1
 
 ## Breaking changes
 
-* Now requires `ggplot2` (>= 4.0.2) and thus `R` (>= 4.1).
+* Now requires `{ggplot2}` (>= 4.0.2) and thus `R` (>= 4.1).
 * All geom default aesthetics now use `from_theme()` for colours, line widths, and line types.
   These changes were made to the `{ggplot2}` analogues in `{ggplot2}` 4.0.0.
 * Turned off fallback for `size` to `linewidth` translation in `geom_bar_pattern()`/`geom_col_pattern()`.
