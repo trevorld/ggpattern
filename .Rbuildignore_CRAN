@@ -33,4 +33,5 @@
 ^vignettes/geom-gallery-geometry.*$
 ^vignettes/gganimate.Rmd$
 ^vignettes/patterns-image.*$
+^vignettes/patterns-other.*$
 ^vignettes/patterns-tilings.*$

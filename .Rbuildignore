@@ -23,5 +23,6 @@
 ^revdep$
 ^share$
 ^tmp$
+^Rplots.pdf$
 ^vignettes/precompute_vignettes.R$
 ^vignettes/*.Rmd.orig$
