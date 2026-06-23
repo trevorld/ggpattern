@@ -113,12 +113,15 @@
 <text x='681.39' y='259.07' style='font-size: 11.00px; font-family: sans;' textLength='9.77px' lengthAdjust='spacingAndGlyphs'>trt</text>
 <rect x='681.39' y='265.69' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='681.39' y='265.69' width='17.28' height='17.28' style='stroke-width: 0.00; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #F8766D;' />
+<polygon points='698.58,266.78 698.58,272.01 681.47,281.89 681.47,276.66 698.58,266.78 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: square; fill: #FFFFFF;' />
 <rect x='681.39' y='265.69' width='17.28' height='17.28' style='stroke-width: 0.75; stroke-linecap: square; stroke-linejoin: miter;' />
 <rect x='681.39' y='282.97' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='681.39' y='282.97' width='17.28' height='17.28' style='stroke-width: 0.00; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #00BA38;' />
+<polygon points='698.58,284.06 698.58,289.29 681.47,299.17 681.47,293.94 698.58,284.06 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: square; fill: #000000;' />
 <rect x='681.39' y='282.97' width='17.28' height='17.28' style='stroke-width: 0.75; stroke-linecap: square; stroke-linejoin: miter;' />
 <rect x='681.39' y='300.25' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='681.39' y='300.25' width='17.28' height='17.28' style='stroke-width: 0.00; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #619CFF;' />
+<polygon points='698.58,301.34 698.58,306.57 681.47,316.45 681.47,311.22 698.58,301.34 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: square; fill: #0000FF;' />
 <rect x='681.39' y='300.25' width='17.28' height='17.28' style='stroke-width: 0.75; stroke-linecap: square; stroke-linejoin: miter;' />
 <text x='704.15' y='277.36' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>a</text>
 <text x='704.15' y='294.64' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>b</text>

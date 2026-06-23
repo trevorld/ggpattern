@@ -3,7 +3,6 @@
 %   R/geom-bin2d.R, R/geom-boxplot.R, R/geom-col.R, R/geom-crossbar.R,
 %   R/geom-ribbon.R, R/geom-density.R, R/geom-polygon.R, R/geom-map.R,
 %   R/geom-sf.R, R/geom-violin.R
-\docType{data}
 \name{GeomRectPattern}
 \alias{GeomRectPattern}
 \alias{ggpattern-ggproto}
@@ -27,4 +26,3 @@ Geom ggproto objects that could be extended to create a new geom.
 \seealso{
 \link[ggplot2:Geom]{ggplot2::Geom}
 }
-\keyword{datasets}

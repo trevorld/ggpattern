@@ -206,6 +206,7 @@
 <text x='674.05' y='250.42' style='font-size: 11.00px; font-family: sans;' textLength='10.38px' lengthAdjust='spacingAndGlyphs'>fill</text>
 <rect x='674.05' y='257.04' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='674.05' y='257.04' width='17.28' height='17.28' style='stroke-width: 0.00; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #F8766D;' />
+<polygon points='691.29,258.11 691.29,263.33 674.10,273.26 674.10,268.03 691.29,258.11 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: square; fill: #CCCCCC;' />
 <rect x='674.05' y='257.04' width='17.28' height='17.28' style='stroke-width: 0.38; stroke: none; stroke-linecap: square; stroke-linejoin: miter;' />
 <rect x='674.05' y='274.32' width='17.28' height='17.28' style='stroke-width: 1.07; stroke: none; fill: #FFFFFF;' />
 <rect x='674.05' y='274.32' width='17.28' height='17.28' style='stroke-width: 0.00; stroke: none; stroke-linecap: square; stroke-linejoin: miter; fill: #00BFC4;' />

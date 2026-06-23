@@ -4,6 +4,7 @@ development:
     mode: auto
 template:
   bootstrap: 5
+llm-docs: false
 reference:
   - title: "ggpattern package"
     desc: "High level package description"
