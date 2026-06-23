@@ -3,6 +3,7 @@
 ## Bug fixes and minor improvements
 
 * Bumps required version of `{gridpattern}` to v1.4.2 which should fix a bug with patterns sometimes not showing up in the legend with larger `pattern_key_scale_factor` values (#86).
+* New *Other {gridpattern} Patterns* vignette (not included with CRAN version) (#79).
 
 # ggpattern 1.3.1
 

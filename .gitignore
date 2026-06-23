@@ -2,6 +2,7 @@
 .Rhistory
 *.Rproj
 .Rproj.user
+Rplots.pdf
 *.swp
 working
 *.txt

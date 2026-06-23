@@ -102,9 +102,8 @@ ggplot(df, aes(trt, outcome)) +
   To get the legend right we'll often want to set them with a pattern scale function
   like 'pattern_scale_manual()' instead of simply setting them with the 'pattern' aesthetic.
 * Here we'll use the 'stripe' pattern and 'wave' pattern.
-* The 'wave' pattern supports two subtypes: 'triangle' waves (default) have a zig-zag appearance
-  whereas 'sine' waves have a curvy appearance.
-
+* The 'wave' pattern supports `r length(gridpattern::names_wave)` subtypes:
+`r glue::glue_collapse(shQuote(gridpattern::names_wave), sep = ", ", last = ", and ")`
 ```{r mixing, fig.cap="", fig.alt="A plot with both a 'stripe' pattern and a 'wave' pattern."}
 ggplot(df, aes(trt, outcome)) +
   geom_col_pattern(aes(fill=trt, pattern=trt, pattern_type=trt),
@@ -114,7 +113,7 @@ ggplot(df, aes(trt, outcome)) +
   labs(title = "Use 'stripe' and 'wave' patterns") +
   theme(legend.key.size = unit(1.5, 'cm')) +
   scale_pattern_manual(values=c('stripe', 'wave', 'wave')) +
-  scale_pattern_type_manual(values=c(NA, 'triangle', 'sine'))
+  scale_pattern_type_manual(values=c(NA, 'indented', 'wavy'))
 ```
 
 ## The Density Aesthetic
