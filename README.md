@@ -207,6 +207,7 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 * [Patterns 'image' and 'placeholder' - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-image.html): `vignette("patterns-image", package = "ggpattern")`
 * [Patterns 'magick' and 'polygon_tiling' - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-tilings.html): `vignette("patterns-tilings", package = "ggpattern")`
 * [Patterns 'stripe', 'wave', 'crosshatch', 'weave' - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-stripes.html): `vignette("patterns-stripes", package = "ggpattern")`
+* [Other {gridpattern} Patterns - Parameters and Examples](https://trevorldavis.com/R/ggpattern/dev/articles/patterns-other.html): `vignette("patterns-other", package = "ggpattern")`
 
 * [Parameters for Geometry-based Patterns](https://trevorldavis.com/R/ggpattern/dev/articles/geometry-based-pattern-parameters.html): `vignette("geometry-based-pattern-parameters", package = "ggpattern")`
 
