@@ -217,7 +217,6 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 #### Other examples
 
 * [Animating Patterns with `{gganimate}`](https://trevorldavis.com/R/ggpattern/dev/articles/gganimate.html): `vignette("gganimate", package = "ggpattern")`
-* [Creating the Logo in R](https://trevorldavis.com/R/ggpattern/dev/articles/create-logo.html): `vignette("create-logo", package = "ggpattern")`
 
 # Limitations
 
