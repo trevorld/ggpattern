@@ -5,8 +5,7 @@
 * Most pattern aesthetics are now unset by default (internally `NaN`)
   so the pattern's own default applies (falling back to `{gridpattern}`'s generic defaults)
   instead of `{ggpattern}`'s one-size-fits-all values.
-  The exceptions are `pattern` and `pattern_key_scale_factor`
-  (and `pattern_res` which we compute ourselves when unset).
+  The only exception is `pattern` itself.
   The generic defaults match our previous defaults so most patterns render the same as before
   but this changes the default appearance of a few patterns:
 
@@ -23,7 +22,7 @@
   instead of us rescaling `pattern_spacing`, `pattern_xoffset`, and `pattern_yoffset`.
   All relative ("snpc") lengths now scale together in legend keys
   (including those of custom patterns e.g. a "wave" amplitude or a pattern-specific spacing default).
-  Absolute lengths (e.g. "cm" `pattern_units`) are no longer scaled by `pattern_key_scale_factor`
+  `pattern_key_scale_factor` still multiplies the spacing and offsets of absolute lengths (e.g. "cm" `pattern_units`)
   and "npc" `pattern_units` are now scaled like "snpc" units.
   Legend keys look essentially the same as before.
 * A numeric `pattern_shape` is no longer silently replaced with `"convex6"` for the "regular_polygon" pattern
@@ -47,6 +46,11 @@
     (which still work but may clobber other registrations).
     The *Developing Patterns* vignette has been updated accordingly.
 
+* The default `pattern_res` is now computed by `{gridpattern}` from the graphics device the plot is drawn on
+  (instead of by us when the plot is built) so a plot built on one device but drawn on another
+  now uses the resolution of the latter.
+  In legend keys the `ggpattern_res` option is now scaled up just like the device resolution
+  (an explicitly set `pattern_res` is still used as is).
 * New *Other {gridpattern} Patterns* vignette (not included with CRAN version) (#79).
 * The documentation of the pattern aesthetics' defaults has been updated
   (e.g. the default `pattern_alpha` is `NA` i.e. keep the colours' alpha rather than `1`).

@@ -27,7 +27,7 @@
 #' \item{\strong{`pattern_frequency`}}{ Frequency. default: pattern default (generic: 0.1) }
 #' \item{\strong{`pattern_gravity`}}{ Image placement. default: pattern default (generic: 'center') }
 #' \item{\strong{`pattern_grid`}}{ Pattern grid type. default: pattern default (generic: 'square') }
-#' \item{\strong{`pattern_key_scale_factor`}}{ Scale factor for pattern in legend (multiplies the size of relative i.e. 'snpc' lengths relative to the key, absolute lengths are unaffected). default: 1 }
+#' \item{\strong{`pattern_key_scale_factor`}}{ Zoom factor for the pattern in the legend key (multiplies the size of relative i.e. 'snpc' lengths relative to the key as well as the spacing and offsets of absolute lengths). default: 1 }
 #' \item{\strong{`pattern_linetype`}}{ Stroke linetype. default: pattern default (generic: 1) }
 #' \item{\strong{`pattern_option_1`}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
 #' \item{\strong{`pattern_option_2`}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }

@@ -3,7 +3,6 @@
 # * Not all aesthetics are used by all patterns.
 # * `NaN` means "unset" i.e. `{gridpattern}` fills in the pattern's default (or else its generic default)
 #   (unlike `NA` which may be meaningful e.g. a transparent colour or a "pch" shape that draws nothing).
-# * We need an actual value for `pattern_key_scale_factor` which we use ourselves to draw the legend key.
 pattern_aesthetics <- aes(
   pattern                  = 'stripe',
   pattern_type             = NaN,
@@ -24,7 +23,7 @@ pattern_aesthetics <- aes(
   pattern_fill2            = NaN,
 
   pattern_aspect_ratio     = NaN,
-  pattern_key_scale_factor = 1,
+  pattern_key_scale_factor = NaN,
 
   pattern_filename         = NaN,
   pattern_gravity          = NaN,   # magick::gravity_types()
@@ -43,7 +42,7 @@ pattern_aesthetics <- aes(
 
   pattern_grid             = NaN,
   pattern_rot              = NaN,
-  pattern_res              = getOption("ggpattern_res", NaN),
+  pattern_res              = NaN,
   pattern_units            = NaN
 )
 
@@ -102,14 +101,9 @@ create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
   # that many times larger than the key so relative ('snpc') lengths
   # look like what's drawn on the plot.
   # `{gridpattern}` additionally zooms the key by `pattern_key_scale_factor`
-  # (for absolute units by scaling the spacing and offsets).
+  # (for absolute units by scaling the spacing and offsets)
+  # and scales an unset `pattern_res` to match.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  if (is.null(data$pattern_res) || is.na(data$pattern_res)) {
-    native <- as.numeric(grid::convertWidth(unit(1, "npc"), "native"))
-    inches <- as.numeric(grid::convertWidth(unit(1, "npc"), "in"))
-    data$pattern_res <- 1.3 * geometric_factor * data$pattern_key_scale_factor * native / inches
-  }
-
   gridpattern_pattern(data, boundary_df, legend = geometric_factor)
 }
 
