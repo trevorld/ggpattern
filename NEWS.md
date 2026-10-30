@@ -6,7 +6,7 @@
   so the pattern's own default applies (falling back to `{gridpattern}`'s generic defaults)
   instead of `{ggpattern}`'s one-size-fits-all values.
   The exceptions are `pattern` and `pattern_key_scale_factor`
-  (and `pattern_aspect_ratio` / `pattern_res` which we compute ourselves when unset).
+  (and `pattern_res` which we compute ourselves when unset).
   The generic defaults match our previous defaults so most patterns render the same as before
   but this changes the default appearance of a few patterns:
 
