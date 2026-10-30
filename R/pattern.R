@@ -24,7 +24,7 @@ munge_params <- function(params) {
 get_aspect_ratio <- function() {
     width <- as.numeric(convertWidth(unit(1, "npc"), "in"))
     height <- as.numeric(convertHeight(unit(1, "npc"), "in"))
-    aspect_ratio <-  width / height
+    width / height
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -57,9 +57,6 @@ create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Convert the width/height of the key into npc sizes
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_native_x <- abs(as.numeric(grid::convertWidth (unit(size[1], 'mm'), 'native')))
-  key_native_y <- abs(as.numeric(grid::convertHeight(unit(size[2], 'mm'), 'native')))
-
   vp <- grid::current.viewport()
   vp_native_x <- abs(diff(vp$xscale))
   vp_native_y <- abs(diff(vp$yscale))
@@ -80,12 +77,12 @@ create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
   # i.e. I need to make the pattern in the legend look like the pattern in the
   # plot.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  denom <- sqrt(2) * (1/aspect_ratio) * 9/8
+  denom <- sqrt(2) * 9/8
 
   if (vp_native_x/vp_native_y < aspect_ratio) {
-    geometric_factor <- 1/key_npc_x / aspect_ratio / denom
+    geometric_factor <- 1 / (key_npc_x * denom)
   } else {
-    geometric_factor <- 1/key_npc_y/denom
+    geometric_factor <- aspect_ratio / (key_npc_y * denom)
   }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -93,7 +90,7 @@ create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
   # i.e. theme(legend.key.width  = unit(2, 'cm'),
   #            legend.key.height = unit(3, 'cm')
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_aspect_ratio <- key_native_x/key_native_y
+  key_aspect_ratio <- (key_npc_x * vp_native_x) / (key_npc_y * vp_native_y)
   geometric_factor <- geometric_factor / key_aspect_ratio
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -148,7 +145,6 @@ create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
 
-  # message("draw_key_polygon_pattern(): aspect_ratio = ", aspect_ratio)
   lwd <- min(data$linewidth %||% data$size, min(size) / 4) #* .pt
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
