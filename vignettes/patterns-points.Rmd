@@ -43,23 +43,23 @@ suppressPackageStartupMessages({
 
 | aesthetic                 | description                                   | default   | possible values                   |
 |---------------------------|-----------------------------------------------|-----------|-----------------------------------|
-| pattern\_colour           | Stroke colour                                 | 'grey20'  | colour                            |
-| pattern\_fill             | Fill colour                                   | 'grey80'  | colour                            |
-| pattern\_angle            | Rotation angle                                | 30        | angle in degrees                  |
-| pattern\_density          | Approx. fraction of area the pattern fills    | 0.2       | value in range [0, 1] (fraction)  |
+| pattern\_colour           | Stroke colour                                 | 'grey20'           | colour                            |
+| pattern\_fill             | Fill colour                                   | 'grey80'           | colour                            |
+| pattern\_angle            | Rotation angle                                | 30           | angle in degrees                  |
+| pattern\_density          | Approx. fraction of area the pattern fills    | 0.2           | value in range [0, 1] (fraction)  |
 | pattern\_spacing          | Spacing between repetitions of pattern        | 0.05      | value in  `pattern_units` grid units |
 | pattern\_xoffset          | Shift pattern along x axis                    | 0         | value in  `pattern_units` grid units |
 | pattern\_yoffset          | Shift pattern along y axis                    | 0         | value in  `pattern_units` grid units |
 | pattern\_units            | Pattern grid unit                             | 'snpc'     | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
-| pattern\_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
-| pattern\_linetype         | Stroke linetype                               | 1         | linetype                          |
-| pattern\_size             | Stroke linewidth                              | 1         | linewidth                         |
-| pattern\_type             | Pattern type                                  | NA        | See [circle](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_circle.html), [pch](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_pch.html), [regular\_polygon](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_regular\_polygon.html), and [rose](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_rose.html) pattern documentation |
-| pattern\_subtype          | Pattern subtype                               | NA        | See [circle](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_circle.html), [pch](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_pch.html), [regular\_polygon](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_regular\_polygon.html), and [rose](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_rose.html) pattern documentation |
-| pattern\_grid             | Grid type                                     | 'square'  | 'square', 'hex', or 'hex\_circle' |
-| pattern\_rot              | Pattern symbol rotation angle                 | 0         | angle in degrees                  |
-| pattern\_shape            | Pattern shape                                 | NA        | See [pch](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_pch.html) and [regular\_polygon](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_regular\_polygon.html) |
-| pattern\_frequency        | Frequency                                     | 0.1       | Angular frequency in 'rose' pattern |
+| pattern\_alpha            | Alpha                                         | NA           | value in range [0, 1] or NA |
+| pattern\_linetype         | Stroke linetype                               | 1           | linetype                          |
+| pattern\_size             | Stroke linewidth                              | 0.5           | linewidth                         |
+| pattern\_type             | Pattern type                                  | NA           | See [circle](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_circle.html), [pch](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_pch.html), [regular\_polygon](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_regular\_polygon.html), and [rose](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_rose.html) pattern documentation |
+| pattern\_subtype          | Pattern subtype                               | NA           | See [circle](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_circle.html), [pch](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_pch.html), [regular\_polygon](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_regular\_polygon.html), and [rose](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_rose.html) pattern documentation |
+| pattern\_grid             | Grid type                                     | 'square'           | 'square', 'hex', or 'hex\_circle' |
+| pattern\_rot              | Pattern symbol rotation angle                 | 0           | angle in degrees                  |
+| pattern\_shape            | Pattern shape                                 | 1 ('pch'), 'convex6' ('regular_polygon') | See [pch](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_pch.html) and [regular\_polygon](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_regular\_polygon.html) |
+| pattern\_frequency        | Frequency                                     | 0.1           | Angular frequency in 'rose' pattern |
 
 There are also a number of parameters for extra control of legend sizing and
 aspect ratio adjustments. See the 'Pattern Parameters - Common' for more 

@@ -43,20 +43,20 @@ suppressPackageStartupMessages({
 
 | aesthetic                | description                                   | default   | possible values                   |
 |--------------------------|-----------------------------------------------|-----------|-----------------------------------|
-| pattern\_colour           | Stroke colour                                 | 'grey20'  | colour                            |
-| pattern\_fill             | Fill colour                                   | 'grey80'  | colour                            |
-| pattern\_angle            | Rotation angle                                | 30        | angle in degrees                  |
-| pattern\_density          | Approx. fraction of area the pattern fills    | 0.2       | value in range [0, 1] (fraction)  |
+| pattern\_colour           | Stroke colour                                 | 'grey20'           | colour                            |
+| pattern\_fill             | Fill colour                                   | 'grey80'           | colour                            |
+| pattern\_angle            | Rotation angle                                | 30           | angle in degrees                  |
+| pattern\_density          | Approx. fraction of area the pattern fills    | 0.2           | value in range [0, 1] (fraction)  |
 | pattern\_spacing          | Spacing between repetitions of pattern        | 0.05      | value in  `pattern_units` grid units |
 | pattern\_xoffset          | Shift pattern along x axis                    | 0         | value in  `pattern_units` grid units |
 | pattern\_yoffset          | Shift pattern along y axis                    | 0         | value in  `pattern_units` grid units |
 | pattern\_units            | Pattern grid unit                             | 'snpc'     | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
-| pattern\_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
-| pattern\_linetype         | Stroke linetype                               | 1         | linetype                          |
-| pattern\_size             | Stroke linewidth                              | 1         | linewidth                         |
-| pattern\_type             | Pattern type                                  | NA        | See [wave](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_wave.html) and [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern\_weave.html) pattern documentation |
-| pattern\_subtype          | Pattern subtype                               | NA        | See [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern\_weave.html) pattern documentation |
-| pattern\_frequency        | Frequency                                     | 0.1       | Frequency of waves in 'wave' pattern |
+| pattern\_alpha            | Alpha                                         | NA           | value in range [0, 1] or NA |
+| pattern\_linetype         | Stroke linetype                               | 1           | linetype                          |
+| pattern\_size             | Stroke linewidth                              | 0.5           | linewidth                         |
+| pattern\_type             | Pattern type                                  | 'indented' ('wave'), 'plain' ('weave') | See [wave](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_wave.html) and [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern\_weave.html) pattern documentation |
+| pattern\_subtype          | Pattern subtype                               | NA           | See [weave](https://trevorldavis.com/R/gridpattern/dev/reference/pattern\_weave.html) pattern documentation |
+| pattern\_frequency        | Frequency                                     | `1 / pattern_spacing` | Frequency of waves in 'wave' pattern |
 
 There are also a number of parameters for extra control of legend sizing and
 aspect ratio adjustments. See the 'Pattern Parameters - Common' for more

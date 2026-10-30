@@ -48,13 +48,13 @@ images and SVGs are supported.
 
 | Aesthetic                  | Description                        | Default   |
 |----------------------------|------------------------------------|-----------|
-| `pattern_filename`         | Image filename or URL              | ''        |
-| `pattern_type`             | Image scaling type                 | 'fit'     |
-| `pattern_scale`            | Extra scaling                      | 1         |
-| `pattern_gravity`          | Position of image within area      | 'center'  |
-| `pattern_filter`           | Filter to use when scaling         | 'lanczos' |
-| `pattern_alpha`            | Alpha                              | NA        |
-| `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
+| `pattern_filename`         | Image filename or URL              | ''           |
+| `pattern_type`             | Image scaling type                 | 'fit'        |
+| `pattern_scale`            | Extra scaling                      | 1           |
+| `pattern_gravity`          | Position of image within area      | 'center' ('southwest' if `pattern_type = 'tile'`) |
+| `pattern_filter`           | Filter to use when scaling         | 'lanczos'    |
+| `pattern_alpha`            | Alpha                              | NA           |
+| `pattern_aspect_ratio`     | Override aspect ratio              | plot / key aspect ratio |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 
 | `pattern_type` | Description                                                                                                                     | `pattern_scale` | `pattern_gravity`           |
@@ -342,9 +342,9 @@ while they are developing a new site.
 
 | Aesthetic                  | Description                        | Default   |
 |----------------------------|------------------------------------|-----------|
-| `pattern_type`             | Image source                       | 'bear'  |
-| `pattern_alpha`            | Alpha                              | NA        |
-| `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
+| `pattern_type`             | Image source                       | 'bear'       |
+| `pattern_alpha`            | Alpha                              | NA           |
+| `pattern_aspect_ratio`     | Override aspect ratio              | plot / key aspect ratio |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 
 ### `placeholder` option `pattern_type`

@@ -14,8 +14,10 @@ Provides 'ggplot2' geoms filled with various patterns. Includes a patterned vers
 
 The following \code{ggpattern} options may be set globally via \code{\link[base:options]{base::options()}}:
 \describe{
-\item{ggpattern_array_funcs}{Set custom \dQuote{array} pattern functions.}
-\item{ggpattern_geometry_funcs}{Set custom \dQuote{geometry} pattern functions.}
+\item{ggpattern_array_funcs}{Set custom \dQuote{array} pattern functions (legacy).
+We now recommend registering custom patterns with \code{\link[gridpattern:register_pattern]{gridpattern::register_pattern()}} instead.}
+\item{ggpattern_geometry_funcs}{Set custom \dQuote{geometry} pattern functions (legacy).
+We now recommend registering custom patterns with \code{\link[gridpattern:register_pattern]{gridpattern::register_pattern()}} instead.}
 \item{ggpattern_res}{Set new default raster resolution default (pixels per inch)
 for the \code{pattern_res} aesthetic.}
 \item{ggpattern_use_R4.1_clipping}{If \code{TRUE} use the grid clipping path feature introduced in R v4.1.0

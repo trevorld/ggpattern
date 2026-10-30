@@ -25,7 +25,7 @@ To develop a pattern for use with `{ggpattern}` (and any other packages that use
 
 1. Decide whether this is a geometry-based pattern or an array-based pattern.
 2. Create a function with the required arguments and return value
-3. Use `options()` to let `{gridpattern}` know that a certain pattern name should be
+3. Use `gridpattern::register_pattern()` to let `{gridpattern}` know that a certain pattern name should be
    delegated to your function.
 
 This vignette shows how to:
@@ -62,40 +62,44 @@ within the grob's boundary.
 Although custom `{gridpattern}` pattern parameters need not limit itself to the set of aesthetics provided by `{ggpattern}` doing
 so may make your pattern more useful for others:
 
+A default of "pattern (x)" means the aesthetic is unset by default (internally `NaN`)
+so the pattern's own default applies, which for most patterns is `{gridpattern}`'s generic default `x`
+(see the documentation of the corresponding `gridpattern::grid.pattern_<name>()` function).
+
 <details open = "true">
 <summary> `{ggpattern}` aesthetic summary - click to open/close </summary>
 
 | aesthetic                  | description                                   | default    | possible values                    |
 |----------------------------|-----------------------------------------------|------------|------------------------------------|
 | `pattern`                  | Name of the pattern to draw                   | 'stripe'   | `gridpattern::names_pattern`       |
-| `pattern_alpha`            | Alpha                                         | 1          | value in range [0, 1] or `NA`      |
-| `pattern_angle`            | Rotation angle (entire pattern)               | 30         | angle in degrees                   |
-| `pattern_aspect_ratio`     | Aspect ratio adjustment                       | NA         | usual range [0.01, 10]             |
-| `pattern_colour`           | Stroke colour                                 | 'grey20'   | colour                             |
-| `pattern_density`          | Approx. fraction of area the pattern fills    | 0.2        | value in range [0, 1]              |
-| `pattern_filename`         | Image filename/URL                            | ''         | Filename/URL                       |
-| `pattern_fill`             | Fill colour                                   | 'grey80'   | colour (or grid pattern/gradient)  |
-| `pattern_fill2`            | Second fill colour                            | '#4169E1'  | colour (or grid pattern/gradient)  |
-| `pattern_filter`           | Image scaling filter                          | 'lanczos'  | `magick::filter_types`             |
-| `pattern_frequency`        | Frequency                                     | 0.1        |                                    |
-| `pattern_gravity`          | Image placement                               | 'center'   | `magick::gravity_types`            |
-| `pattern_grid`             | Pattern grid type                             | 'square'   | 'square', 'hex', 'hex\_circle'     |
+| `pattern_alpha`            | Alpha                                         | pattern (NA) | value in range [0, 1] or `NA`      |
+| `pattern_angle`            | Rotation angle (entire pattern)               | pattern (30) | angle in degrees                   |
+| `pattern_aspect_ratio`     | Aspect ratio adjustment                       | plot / key aspect ratio | usual range [0.01, 10]             |
+| `pattern_colour`           | Stroke colour                                 | pattern ('grey20') | colour                             |
+| `pattern_density`          | Approx. fraction of area the pattern fills    | pattern (0.2) | value in range [0, 1]              |
+| `pattern_filename`         | Image filename/URL                            | pattern ('') | Filename/URL                       |
+| `pattern_fill`             | Fill colour                                   | pattern ('grey80') | colour (or grid pattern/gradient)  |
+| `pattern_fill2`            | Second fill colour                            | pattern ('#4169E1') | colour (or grid pattern/gradient)  |
+| `pattern_filter`           | Image scaling filter                          | pattern ('lanczos') | `magick::filter_types()`           |
+| `pattern_frequency`        | Frequency                                     | pattern (0.1) |                                    |
+| `pattern_gravity`          | Image placement                               | pattern ('center') | `magick::gravity_types()`          |
+| `pattern_grid`             | Pattern grid type                             | pattern ('square') | 'square', 'hex', 'hex\_circle'     |
 | `pattern_key_scale_factor` | Scale factor for pattern in legend            | 1          |                                    |
-| `pattern_linetype`         | Stroke linetype                               | 1          | linetype                           |
-| `pattern_option_1 - 5`     | Generic options for expansion                 | 0          |                                    |
-| `pattern_orientation`      | Orientation                                   | 'vertical' | 'vertical', 'horizontal', 'radial' |
-| `pattern_phase`            | Phase                                         | 0          |                                    |
-| `pattern_res`              | Pattern resolution (pixels per inch)          | NA         |                                    |
-| `pattern_rot`              | Rotation angle (shape within pattern)         | 0          | angle in degrees                   |
-| `pattern_scale`            | Scale                                         | 1          | Multiplier                         |
-| `pattern_shape`            | Plotting shape                                | 1          | shapes                             |
-| `pattern_size`             | Stroke linewidth                              | 1          | linewidth                          |
-| `pattern_spacing`          | Spacing between repetitions of pattern        | 0.05       | value in  `pattern_units` grid units |
-| `pattern_subtype`          | Generic control option                        | NA         | pattern-dependent                  |
-| `pattern_type`             | Generic control option                        | NA         | pattern-dependent                  |
-| `pattern_units`            | Pattern grid unit                             | 'snpc'     | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
-| `pattern_xoffset`          | Shift pattern along x axis                    | 0          | value in  `pattern_units` grid units |
-| `pattern_yoffset`          | Shift pattern along y axis                    | 0          | value in  `pattern_units` grid units |
+| `pattern_linetype`         | Stroke linetype                               | pattern (1) | linetype                           |
+| `pattern_option_1 - 5`     | Generic options for expansion                 | pattern (0) |                                    |
+| `pattern_orientation`      | Orientation                                   | pattern ('vertical') | 'vertical', 'horizontal', 'radial' |
+| `pattern_phase`            | Phase                                         | pattern (0) |                                    |
+| `pattern_res`              | Pattern resolution (pixels per inch)          | ≈ device resolution |                                    |
+| `pattern_rot`              | Rotation angle (shape within pattern)         | pattern (0) | angle in degrees                   |
+| `pattern_scale`            | Scale                                         | pattern (1) | Multiplier                         |
+| `pattern_shape`            | Plotting shape                                | pattern (1) | shapes                             |
+| `pattern_size`             | Stroke linewidth                              | pattern (0.5) | linewidth                          |
+| `pattern_spacing`          | Spacing between repetitions of pattern        | pattern (0.05) | value in  `pattern_units` grid units |
+| `pattern_subtype`          | Generic control option                        | pattern (NA) | pattern-dependent                  |
+| `pattern_type`             | Generic control option                        | pattern (NA) | pattern-dependent                  |
+| `pattern_units`            | Pattern grid unit                             | pattern ('snpc') | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
+| `pattern_xoffset`          | Shift pattern along x axis                    | pattern (0) | value in  `pattern_units` grid units |
+| `pattern_yoffset`          | Shift pattern along y axis                    | pattern (0) | value in  `pattern_units` grid units |
 
 </summary>
 </details>
@@ -163,21 +167,47 @@ knitr::kable(x, caption = "example data in 'polygon_df' format")
 
 ## <a name="user-funcs"></a> Associating a function with  `{gridpattern}` pattern name
 
-There are two global `option()` values which can be set - one for geometry-based 
-patterns, and the other for array-based patterns.
-
-The global values should point to a named list, where the names are the pattern 
-names you want to use within `{gridpattern}`, and the named values are the
-actual functions.  Note for backwards-compatibility with the original `{ggpattern}` system
-these options start with `ggpattern` instead of `gridpattern`.
-
+Use `gridpattern::register_pattern()` to associate a pattern function with a pattern name.
+Use `kind = "geometry"` (the default) for geometry-based patterns
+and `kind = "array"` for array-based patterns.
 
 ```{r eval = FALSE}
-options(ggpattern_array_funcs    = list(your_pattern_name = your_pattern_function))
-options(ggpattern_geometry_funcs = list(your_pattern_name = your_pattern_function))
+gridpattern::register_pattern("your_pattern_name", your_geometry_pattern_function)
+gridpattern::register_pattern("your_pattern_name", your_array_pattern_function, kind = "array")
 ```
 
-Pattern names must be different from any of the builtin patterns included in `{gridpattern}`.
+* Packages should register their patterns in their `.onLoad()` function
+  (ideally wrapped in `rlang::on_package_load()`).
+  See the "Registering patterns from a package" section of `{gridpattern}`'s
+  [Developing Patterns](https://trevorldavis.com/R/gridpattern/dev/articles/developing-patterns.html#package-registration) vignette
+  (`vignette("developing-patterns", package = "gridpattern")`) for a template.
+* Patterns can always be referred to by their qualified name `"owner::name"`
+  e.g. `"pkg::name"`, `"gridpattern::stripe"`, or `"R_GlobalEnv::name"` (for patterns registered by the user).
+* A bare name `"name"` resolves to the pattern the user has preferred with
+  `gridpattern::prefer_pattern()` (if any) and otherwise to the pattern of the only owner
+  (the user, `{gridpattern}`, or a package) with that name.
+  If more than one owner has a pattern with that name and no preference has been declared
+  there is a conflict and using the bare name throws an error.
+  Resolve it with either a qualified name or a preference e.g.
+  `prefer_pattern("R_GlobalEnv::stripe")` lets `pattern = "stripe"` use a user's custom "stripe" pattern
+  instead of the builtin one.
+  `gridpattern::conflicting_patterns()` lists the conflicting pattern names.
+* `register_pattern()`'s `defaults` argument may set pattern-specific default parameter values
+  e.g. `defaults = list(pattern_type = "running", pattern_spacing = 0.1)`.
+  Most `{ggpattern}` pattern aesthetics are unset by default (internally `NaN`, see the table above)
+  so these pattern-specific defaults apply under `{ggpattern}` too
+  (as do defaults for any parameter `{ggpattern}` doesn't know about)
+  and a pattern that declares no default for one of these gets `{gridpattern}`'s generic default.
+  The exceptions are `pattern_key_scale_factor` (which `{ggpattern}` needs to scale the pattern in the legend)
+  as well as `pattern_aspect_ratio` and `pattern_res` (which `{ggpattern}` computes itself when unset)
+  so pattern-specific defaults for these only apply when the pattern is called directly by `gridpattern::patternGrob()`.
+* `gridpattern::registered_patterns()` lists all the available patterns,
+  `gridpattern::has_pattern()` checks whether a pattern name resolves to a pattern,
+  `gridpattern::unregister_pattern()` removes a registration,
+  and `gridpattern::local_pattern()` registers a pattern only until the current function (or test) exits.
+* The legacy `ggpattern_geometry_funcs` / `ggpattern_array_funcs` global options
+  (named lists of pattern functions) are still supported but we no longer recommend them
+  since setting them may clobber patterns registered by other packages.
 
 <a name="geometry-example-2"></a> Example: Three-color polygon tilings (adapting `{ggplot2}` aesthetics)
 ---------------------------------------------------------------------------------------------------------
@@ -218,14 +248,12 @@ tiling3_pattern <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
 
 ```
 
-A global option `ggpattern_geometry_funcs` is a named list which contains 
-geometry-based pattern creating functions to use outside of `ggpattern`.
-
-The **name** used in this list corresponds to the `pattern` name used with 
-the geom - in this case we will be using `pattern = 'complex'`.
+We register the function with `gridpattern::register_pattern()`.
+The **name** corresponds to the `pattern` name used with 
+the geom - in this case we will be using `pattern = 'tiling3'`.
 
 ```{r}
-options(ggpattern_geometry_funcs = list(tiling3 = tiling3_pattern))
+gridpattern::register_pattern("tiling3", tiling3_pattern)
 ```
 
 ```{r tiling3_pattern, fig.alt = "ggplot2 plot using a custom polygon tiling pattern fill."}

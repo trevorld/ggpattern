@@ -56,13 +56,13 @@ suppressPackageStartupMessages({
 
 | aesthetic                  | description                           | default   |
 |----------------------------|---------------------------------------|-----------|
-| `pattern_fill`             | Noise colour                          | 'grey80'  |
-| `pattern_fill2`            | Second colour ('ambient', 'gradient') | '#4169E1' |
-| `pattern_scale`            | Extra scaling                         | 1         |
-| `pattern_alpha`            | Alpha                                 | NA        |
-| `pattern_type`             | Type of noise ('ambient')             | 'simplex' |
-| `pattern_frequency`        | Granularity of features in noise      | 0.1       |
-| `pattern_aspect_ratio`     | Override aspect ratio                 | NA        |
+| `pattern_fill`             | Noise colour                          | 'grey80'           |
+| `pattern_fill2`            | Second colour ('ambient', 'gradient') | '#4169E1'           |
+| `pattern_scale`            | Extra scaling                         | 1           |
+| `pattern_alpha`            | Alpha                                 | NA           |
+| `pattern_type`             | Type of noise ('ambient')             | 'simplex'    |
+| `pattern_frequency`        | Granularity of features in noise      | 0.01          |
+| `pattern_aspect_ratio`     | Override aspect ratio                 | plot / key aspect ratio |
 | `pattern_key_scale_factor` | Additional scale factor for legend    | 1         |
 
 ## Example Data
