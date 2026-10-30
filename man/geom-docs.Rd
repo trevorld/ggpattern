@@ -499,38 +499,45 @@ that they can be filled with patterns.
 
 Not all arguments apply to all patterns.
 
+Most pattern aesthetics default to the pattern's own default
+(see the documentation of the corresponding \verb{gridpattern::grid.pattern_<name>()} function)
+which for most patterns is \code{{gridpattern}}'s generic default (listed below as "generic").
+Internally these unset aesthetics have the value \code{NaN}, which \code{{gridpattern}} treats as unset
+(whereas \code{NA} may be meaningful e.g. a transparent colour or a "pch" shape that draws nothing).
+
 \describe{
 \item{\strong{\code{pattern}}}{Pattern name string e.g. 'stripe' (default), 'crosshatch', 'point', 'circle', 'none'}
-\item{\strong{\code{pattern_alpha}}}{ Alpha transparency for pattern. default: 1}
-\item{\strong{\code{pattern_angle}}}{ Orientation of the pattern in degrees. default: 30}
-\item{\strong{\code{pattern_aspect_ratio}}}{ Aspect ratio adjustment. }
-\item{\strong{\code{pattern_colour}}}{ Colour used for strokes and points. default: 'black'}
-\item{\strong{\code{pattern_density}}}{ Approximate fill fraction of the pattern. Usually in range [0, 1], but can be higher. default: 0.2}
-\item{\strong{\code{pattern_filename}}}{ Image filename/URL. }
-\item{\strong{\code{pattern_fill}}}{ Fill colour (or \code{\link[grid:pattern]{grid::pattern()}}/gradient fill). default: 'grey80'}
-\item{\strong{\code{pattern_fill2}}}{ Second fill colour (or \code{\link[grid:pattern]{grid::pattern()}}/gradient fill). default: '#4169E1'}
-\item{\strong{\code{pattern_filter}}}{ (Image scaling) filter. default: 'lanczos' }
-\item{\strong{\code{pattern_frequency}}}{ Frequency. default: 0.1 }
-\item{\strong{\code{pattern_gravity}}}{ Image placement. default: 'center' }
-\item{\strong{\code{pattern_grid}}}{ Pattern grid type. default: 'square' }
-\item{\strong{\code{pattern_key_scale_factor}}}{ Scale factor for pattern in legend. default: 1 }
-\item{\strong{\code{pattern_linetype}}}{ Stroke linetype. default: 1}
-\item{\strong{\code{pattern_option_1}}}{ Generic user value for custom patterns. }
-\item{\strong{\code{pattern_option_2}}}{ Generic user value for custom patterns. }
-\item{\strong{\code{pattern_option_3}}}{ Generic user value for custom patterns. }
-\item{\strong{\code{pattern_option_4}}}{ Generic user value for custom patterns. }
-\item{\strong{\code{pattern_option_5}}}{ Generic user value for custom patterns. }
-\item{\strong{\code{pattern_orientation}}}{ 'vertical', 'horizontal', or 'radial'. default: 'vertical' }
-\item{\strong{\code{pattern_res}}}{ Pattern resolution (pixels per inch). }
-\item{\strong{\code{pattern_rot}}}{ Rotation angle (shape within pattern). default: 0 }
-\item{\strong{\code{pattern_scale}}}{ Scale. default: 1}
-\item{\strong{\code{pattern_shape}}}{ Plotting shape. default: 1}
-\item{\strong{\code{pattern_size}}}{ Stroke line width. default: 1}
-\item{\strong{\code{pattern_spacing}}}{ Spacing of the pattern as a fraction of the plot size. default: 0.05}
-\item{\strong{\code{pattern_type}}}{ Generic control option }
-\item{\strong{\code{pattern_subtype}}}{ Generic control option }
-\item{\strong{\code{pattern_xoffset}}}{Offset the origin of the pattern. Range [0, 1]. default: 0.  Use this to slightly shift the origin of the pattern. For most patterns, the user should limit the offset value to be less than the pattern spacing.}
-\item{\strong{\code{pattern_yoffset}}}{Offset the origin of the pattern. Range [0, 1]. default: 0.  Use this to slightly shift the origin of the pattern. For most patterns, the user should limit the offset value to be less than the pattern spacing.}
+\item{\strong{\code{pattern_alpha}}}{ Alpha transparency for pattern. default: pattern default (generic: \code{NA} i.e. keep the colours' alpha) }
+\item{\strong{\code{pattern_angle}}}{ Orientation of the pattern in degrees. default: pattern default (generic: 30) }
+\item{\strong{\code{pattern_aspect_ratio}}}{ Aspect ratio adjustment. default: the aspect ratio of the plot panel / legend key }
+\item{\strong{\code{pattern_colour}}}{ Colour used for strokes and points. default: pattern default (generic: 'grey20') }
+\item{\strong{\code{pattern_density}}}{ Approximate fill fraction of the pattern. Usually in range [0, 1], but can be higher. default: pattern default (generic: 0.2) }
+\item{\strong{\code{pattern_filename}}}{ Image filename/URL. default: pattern default (generic: '') }
+\item{\strong{\code{pattern_fill}}}{ Fill colour (or \code{\link[grid:pattern]{grid::pattern()}}/gradient fill). default: pattern default (generic: 'grey80') }
+\item{\strong{\code{pattern_fill2}}}{ Second fill colour (or \code{\link[grid:pattern]{grid::pattern()}}/gradient fill). default: pattern default (generic: '#4169E1') }
+\item{\strong{\code{pattern_filter}}}{ (Image scaling) filter. default: pattern default (generic: 'lanczos') }
+\item{\strong{\code{pattern_frequency}}}{ Frequency. default: pattern default (generic: 0.1) }
+\item{\strong{\code{pattern_gravity}}}{ Image placement. default: pattern default (generic: 'center') }
+\item{\strong{\code{pattern_grid}}}{ Pattern grid type. default: pattern default (generic: 'square') }
+\item{\strong{\code{pattern_key_scale_factor}}}{ Scale factor for pattern in legend (multiplies the size of relative i.e. 'snpc' lengths relative to the key, absolute lengths are unaffected). default: 1 }
+\item{\strong{\code{pattern_linetype}}}{ Stroke linetype. default: pattern default (generic: 1) }
+\item{\strong{\code{pattern_option_1}}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
+\item{\strong{\code{pattern_option_2}}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
+\item{\strong{\code{pattern_option_3}}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
+\item{\strong{\code{pattern_option_4}}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
+\item{\strong{\code{pattern_option_5}}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
+\item{\strong{\code{pattern_orientation}}}{ 'vertical', 'horizontal', or 'radial'. default: pattern default (generic: 'vertical') }
+\item{\strong{\code{pattern_phase}}}{ Phase (generic user value for custom patterns). default: pattern default (generic: 0) }
+\item{\strong{\code{pattern_res}}}{ Pattern resolution (pixels per inch). default: \code{getOption("ggpattern_res")} if set else slightly above the device resolution (72 ppi for vector devices such as PDF/SVG); legend keys use a higher resolution so that pixel-based patterns look like they do in the plot }
+\item{\strong{\code{pattern_rot}}}{ Rotation angle (shape within pattern). default: pattern default (generic: 0) }
+\item{\strong{\code{pattern_scale}}}{ Scale. default: pattern default (generic: 1) }
+\item{\strong{\code{pattern_shape}}}{ Plotting shape. default: pattern default (generic: 1) }
+\item{\strong{\code{pattern_size}}}{ Stroke line width (or fontsize). default: pattern default (generic: 0.5) }
+\item{\strong{\code{pattern_spacing}}}{ Spacing of the pattern as a fraction of the plot size. default: pattern default (generic: 0.05) }
+\item{\strong{\code{pattern_type}}}{ Generic control option. default: pattern default (generic: \code{NA}) }
+\item{\strong{\code{pattern_subtype}}}{ Generic control option. default: pattern default (generic: \code{NA}) }
+\item{\strong{\code{pattern_xoffset}}}{Offset the origin of the pattern. Range [0, 1]. default: pattern default (generic: 0).  Use this to slightly shift the origin of the pattern. For most patterns, the user should limit the offset value to be less than the pattern spacing.}
+\item{\strong{\code{pattern_yoffset}}}{Offset the origin of the pattern. Range [0, 1]. default: pattern default (generic: 0).  Use this to slightly shift the origin of the pattern. For most patterns, the user should limit the offset value to be less than the pattern spacing.}
 }
 }
 

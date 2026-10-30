@@ -1,9 +1,55 @@
 # ggpattern 1.3.2
 
+## Breaking changes
+
+* Most pattern aesthetics are now unset by default (internally `NaN`)
+  so the pattern's own default applies (falling back to `{gridpattern}`'s generic defaults)
+  instead of `{ggpattern}`'s one-size-fits-all values.
+  The exceptions are `pattern` and `pattern_key_scale_factor`
+  (and `pattern_aspect_ratio` / `pattern_res` which we compute ourselves when unset).
+  The generic defaults match our previous defaults so most patterns render the same as before
+  but this changes the default appearance of a few patterns:
+
+  + "wave" now uses a frequency of `1 / pattern_spacing` (previously `0.1`) so its lines are visibly wavy by default.
+  + "ambient" now uses a frequency of `0.01` (previously `0.1`).
+  + "regular_polygon" star shapes (e.g. `"star5"`) now use a scale of `0.5` (previously `1` which drew them as convex polygons with twice as many vertices).
+  + "text" now uses the shape `"X"` (previously `1`) and a fontsize of `12` (previously `0.5`).
+
+  Set the aesthetic explicitly to restore the previous appearance.
+  Custom patterns registered with `gridpattern::register_pattern()` may now declare their own defaults
+  for any of these aesthetics.
+* Legend keys are now scaled by `{gridpattern}` (using its new numeric `legend` argument)
+  which draws the key's pattern in a viewport larger than the key
+  instead of us rescaling `pattern_spacing`, `pattern_xoffset`, and `pattern_yoffset`.
+  All relative ("snpc") lengths now scale together in legend keys
+  (including those of custom patterns e.g. a "wave" amplitude or a pattern-specific spacing default).
+  Absolute lengths (e.g. "cm" `pattern_units`) are no longer scaled by `pattern_key_scale_factor`
+  and "npc" `pattern_units` are now scaled like "snpc" units.
+  Legend keys look essentially the same as before.
+* A numeric `pattern_shape` is no longer silently replaced with `"convex6"` for the "regular_polygon" pattern
+  and instead throws an error.
+  This most likely affects plots that map `pattern_shape` while also mapping `pattern` to a mix of
+  "pch" and "regular_polygon" patterns (e.g. with `scale_pattern_identity()`)
+  since the default shape scale supplies numeric `pch` shapes;
+  use `scale_pattern_shape_manual()` to supply valid shapes for each pattern instead.
+  The default "regular_polygon" shape is still `"convex6"`.
+* An `NA` value of an aesthetic is now always passed on to `{gridpattern}` where it may be meaningful
+  e.g. an `NA` `pattern_fill2` is now a transparent colour (previously replaced by the default `pattern_fill2`)
+  and an `NA` `pattern_shape` still draws nothing for the "pch" pattern.
+
 ## Bug fixes and minor improvements
 
-* Bumps required version of `{gridpattern}` to v1.4.2 which should fix a bug with patterns sometimes not showing up in the legend with larger `pattern_key_scale_factor` values (#86).
+* Bumps required version of `{gridpattern}` to v1.6.0:
+
+  + This should fix a bug with patterns sometimes not showing up in the legend with larger `pattern_key_scale_factor` values (#86).
+  + We now recommend registering custom patterns with `gridpattern::register_pattern()`
+    instead of setting the `ggpattern_geometry_funcs` / `ggpattern_array_funcs` global options
+    (which still work but may clobber other registrations).
+    The *Developing Patterns* vignette has been updated accordingly.
+
 * New *Other {gridpattern} Patterns* vignette (not included with CRAN version) (#79).
+* The documentation of the pattern aesthetics' defaults has been updated
+  (e.g. the default `pattern_alpha` is `NA` i.e. keep the colours' alpha rather than `1`).
 
 # ggpattern 1.3.1
 

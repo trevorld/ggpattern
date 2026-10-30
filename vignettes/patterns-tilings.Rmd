@@ -45,12 +45,12 @@ those pixel patterns to fill the geom.
 
 | Aesthetic                  | Description                        | Default   |
 |----------------------------|------------------------------------|-----------|
-| `pattern_type`             | Image scaling type                 | 'fit'     |
-| `pattern_fill`             | Colour (or grid pattern/gradient)  | 'grey20'  |
-| `pattern_scale`            | Extra scaling                      | 1         |
-| `pattern_filter`           | Filter to use when scaling         | 'box    ' |
-| `pattern_alpha`            | Alpha                              | NA        |
-| `pattern_aspect_ratio`     | Override aspect ratio              | NA        |
+| `pattern_type`             | Imagemagick pattern name           | 'hexagons'   |
+| `pattern_fill`             | Colour (or grid pattern/gradient)  | 'grey80'           |
+| `pattern_scale`            | Extra scaling                      | 1           |
+| `pattern_filter`           | Filter to use when scaling         | 'box'        |
+| `pattern_alpha`            | Alpha                              | NA           |
+| `pattern_aspect_ratio`     | Override aspect ratio              | plot / key aspect ratio |
 | `pattern_key_scale_factor` | Additional scale factor for legend | 1         |
 
 
@@ -155,17 +155,17 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
 
 | aesthetic                | description                                   | default   | possible values                   |
 |--------------------------|-----------------------------------------------|-----------|-----------------------------------|
-| pattern\_colour           | Stroke colour                                 | 'grey20'  | colour                            |
-| pattern\_fill             | Fill colour                                   | 'grey80'  | colour                            |
-| pattern\_angle            | Rotation angle                                | 30        | angle in degrees                  |
+| pattern\_colour           | Stroke colour                                 | 'grey20'           | colour                            |
+| pattern\_fill             | Fill colour                                   | 'grey80'           | colour                            |
+| pattern\_angle            | Rotation angle                                | 30           | angle in degrees                  |
 | pattern\_spacing          | Spacing between repetitions of pattern        | 0.05      | value in  `pattern_units` grid units |
 | pattern\_xoffset          | Shift pattern along x axis                    | 0         | value in  `pattern_units` grid units |
 | pattern\_yoffset          | Shift pattern along y axis                    | 0         | value in  `pattern_units` grid units |
 | pattern\_units            | Pattern grid unit                             | 'snpc'     | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
-| pattern\_alpha            | Alpha                                         | NA        | value in range [0, 1] or NA |
-| pattern\_linetype         | Stroke linetype                               | 1         | linetype                          |
-| pattern\_size             | Stroke linewidth                              | 1         | linewidth                         |
-| pattern\_type             | Pattern type                                  | NA        | `gridpattern::names_polygon_tiling`.  See [polygon_tiling](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_polygon\_tiling.html) pattern documentation for more info. |
+| pattern\_alpha            | Alpha                                         | NA           | value in range [0, 1] or NA |
+| pattern\_linetype         | Stroke linetype                               | 1           | linetype                          |
+| pattern\_size             | Stroke linewidth                              | 0.5           | linewidth                         |
+| pattern\_type             | Pattern type                                  | 'square'     | `gridpattern::names_polygon_tiling`.  See [polygon_tiling](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_polygon\_tiling.html) pattern documentation for more info. |
 
 ### `pattern = 'polygon_tiling'` - `pattern_type` options
 

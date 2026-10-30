@@ -147,39 +147,43 @@ for which aesthetics it uses, or see the first vignette on developing user-defin
 patterns for a [table of aesthetic use by pattern](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns.html#aes-by-pattern),
 or see the individual vignettes for each pattern.
 
+A default of "pattern (x)" means the aesthetic is unset by default (internally `NaN`)
+so the pattern's own default applies, which for most patterns is `{gridpattern}`'s generic default `x`
+(see the documentation of the corresponding `gridpattern::grid.pattern_<name>()` function).
+
 <details>
 <summary> <span style="color: blue;"> Click to show/hide list of new aesthetics </span> </summary>
 
 | aesthetic                | description                                   | default    | possible values                    |
 |--------------------------|-----------------------------------------------|------------|------------------------------------|
 | `pattern`                  | Name of the pattern to draw                   | 'stripe'   | stripe, crosshatch, circle, image, placeholder, magick, gradient, plasma        |
-| `pattern_type`             | Generic control option                        | NA         | pattern-dependent                  |
-| `pattern_subtype`          | Generic control option                        | NA         | pattern-dependent                  |
-| `pattern_alpha`            | Alpha                                         | 1          | value in range [0, 1] (npc units)  |
-| `pattern_linetype`         | Stroke linetype                               | 1          | linetype                           |
-| `pattern_size`             | Stroke linewidth                              | 1          | linewidth                          |
-| `pattern_shape`            | Plotting shape                                | 1          | shapes                             |
-| `pattern_colour`           | Stroke colour                                 | 'grey20'   | colour                             |
-| `pattern_fill`             | Fill colour                                   | 'grey80'   | colour                             |
-| `pattern_fill2`            | Second fill colour                            | '#4169E1'  | colour                             |
-| `pattern_angle`            | Rotation angle                                | 30         | angle in degrees                   |
-| `pattern_density`          | Approx. fraction of area the pattern fills    | 0.2        | value in range [0, 1] (fraction)   |
-| `pattern_spacing`          | Spacing between repetitions of pattern        | 0.05       | value in range [0, 1] (npc units)  |
-| `pattern_xoffset`          | Shift pattern along x axis                    | 0          | value in range [0, 1] (npc units)  |
-| `pattern_yoffset`          | Shift pattern along y axis                    | 0          | value in range [0, 1] (npc units)  |
-| `pattern_aspect_ratio`     | Aspect ratio adjustment                       | NA         | usual range [0.01, 10]             |
+| `pattern_type`             | Generic control option                        | pattern (NA) | pattern-dependent                  |
+| `pattern_subtype`          | Generic control option                        | pattern (NA) | pattern-dependent                  |
+| `pattern_alpha`            | Alpha                                         | pattern (NA) | value in range [0, 1] (npc units)  |
+| `pattern_linetype`         | Stroke linetype                               | pattern (1) | linetype                           |
+| `pattern_size`             | Stroke linewidth                              | pattern (0.5) | linewidth                          |
+| `pattern_shape`            | Plotting shape                                | pattern (1) | shapes                             |
+| `pattern_colour`           | Stroke colour                                 | pattern ('grey20') | colour                             |
+| `pattern_fill`             | Fill colour                                   | pattern ('grey80') | colour                             |
+| `pattern_fill2`            | Second fill colour                            | pattern ('#4169E1') | colour                             |
+| `pattern_angle`            | Rotation angle                                | pattern (30) | angle in degrees                   |
+| `pattern_density`          | Approx. fraction of area the pattern fills    | pattern (0.2) | value in range [0, 1] (fraction)   |
+| `pattern_spacing`          | Spacing between repetitions of pattern        | pattern (0.05) | value in range [0, 1] (npc units)  |
+| `pattern_xoffset`          | Shift pattern along x axis                    | pattern (0) | value in range [0, 1] (npc units)  |
+| `pattern_yoffset`          | Shift pattern along y axis                    | pattern (0) | value in range [0, 1] (npc units)  |
+| `pattern_aspect_ratio`     | Aspect ratio adjustment                       | plot / key aspect ratio | usual range [0.01, 10]             |
 | `pattern_key_scale_factor` | Scale factor for pattern in legend            | 1          |                                    |
-| `pattern_filename`         | Image filename/URL                            | ''         | Filename/URL                       |
-| `pattern_gravity`          | Image placement                               | 'center'   | `ggpattern::magick_gravity_names`  |
-| `pattern_filter`           | Image scaling filter                          | 'lanczos'  | `ggpattern::magick_filter_names`   |
-| `pattern_scale`            | Scale                                         | 1          | Multiplier                         |
-| `pattern_orientation`      | Orientation                                   | 'vertical' | 'vertical', 'horizontal', 'radial' |
-| `pattern_phase`            | Phase                                         | 0          |                                    |
-| `pattern_frequency`        | Frequency                                     | 0.1        |                                    |
-| `pattern_option_1 - 5`     | Generic options for expansion                 | 0          |                                    |
-| `pattern_grid`             | Grid type                                     | 'square'   | 'square', 'hex', 'hex\_circle'     |
-| `pattern_res`              | Pattern resolution (pixels per inch)          | NA         | Resolution                         |
-| `pattern_rot`              | Shape rotation angle (within pattern)         | 0          | angle in degrees                   |
+| `pattern_filename`         | Image filename/URL                            | pattern ('') | Filename/URL                       |
+| `pattern_gravity`          | Image placement                               | pattern ('center') | `magick::gravity_types()`          |
+| `pattern_filter`           | Image scaling filter                          | pattern ('lanczos') | `magick::filter_types()`           |
+| `pattern_scale`            | Scale                                         | pattern (1) | Multiplier                         |
+| `pattern_orientation`      | Orientation                                   | pattern ('vertical') | 'vertical', 'horizontal', 'radial' |
+| `pattern_phase`            | Phase                                         | pattern (0) |                                    |
+| `pattern_frequency`        | Frequency                                     | pattern (0.1) |                                    |
+| `pattern_option_1 - 5`     | Generic options for expansion                 | pattern (0) |                                    |
+| `pattern_grid`             | Grid type                                     | pattern ('square') | 'square', 'hex', 'hex\_circle'     |
+| `pattern_res`              | Pattern resolution (pixels per inch)          | ≈ device resolution | Resolution                         |
+| `pattern_rot`              | Shape rotation angle (within pattern)         | pattern (0) | angle in degrees                   |
 
 </summary>
 </details>
@@ -188,6 +192,7 @@ or see the individual vignettes for each pattern.
 
 Users can write their own pattern functions and ask `ggpattern` to use them, 
 without having to include the pattern in the package.
+Register them with `gridpattern::register_pattern()`.
 
 See the vignette on developing patterns: [`vignette("developing-patterns", package = "ggpattern")`](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns.html).
 
