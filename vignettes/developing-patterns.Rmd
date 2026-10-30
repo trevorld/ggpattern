@@ -198,9 +198,6 @@ gridpattern::register_pattern("your_pattern_name", your_array_pattern_function, 
   so these pattern-specific defaults apply under `{ggpattern}` too
   (as do defaults for any parameter `{ggpattern}` doesn't know about)
   and a pattern that declares no default for one of these gets `{gridpattern}`'s generic default.
-  The exceptions are `pattern_key_scale_factor` (which `{ggpattern}` needs to scale the pattern in the legend)
-  as well as `pattern_res` (which `{ggpattern}` computes itself when unset)
-  so pattern-specific defaults for these only apply when the pattern is called directly by `gridpattern::patternGrob()`.
 * `gridpattern::registered_patterns()` lists all the available patterns,
   `gridpattern::has_pattern()` checks whether a pattern name resolves to a pattern,
   `gridpattern::unregister_pattern()` removes a registration,

@@ -54,13 +54,6 @@ create_pattern_grobs <- function(all_params, boundaries) {
         abort("boundary must either be a grob or 'polygon_df'")
     }
 
-    if (is.null(params$pattern_res) || is.na(params$pattern_res)) {
-        width <- diff(range(boundary_df$x))
-        native <- grid::convertWidth(unit(width, "npc"), "native", valueOnly = TRUE)
-        inches <- grid::convertWidth(unit(width, "npc"), "in", valueOnly = TRUE)
-        params$pattern_res <- 1.14 * native / inches
-    }
-
     grob <- gridpattern_pattern(params, boundary_df, legend = FALSE)
     if (is.grob(boundary)) {
         if (inherits(grob, "alpha_mask")) {
