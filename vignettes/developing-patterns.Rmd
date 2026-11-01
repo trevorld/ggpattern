@@ -97,7 +97,7 @@ so the pattern's own default applies, which for most patterns is `{gridpattern}`
 | `pattern_spacing`          | Spacing between repetitions of pattern        | pattern (0.05) | value in  `pattern_units` grid units |
 | `pattern_subtype`          | Generic control option                        | pattern (NA) | pattern-dependent                  |
 | `pattern_type`             | Generic control option                        | pattern (NA) | pattern-dependent                  |
-| `pattern_units`            | Pattern grid unit                             | pattern ('snpc') | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
+| `pattern_units`            | Pattern grid unit                             | pattern ('snpc') | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' (not 'npc', 'native', or 'null') |
 | `pattern_xoffset`          | Shift pattern along x axis                    | pattern (0) | value in  `pattern_units` grid units |
 | `pattern_yoffset`          | Shift pattern along y axis                    | pattern (0) | value in  `pattern_units` grid units |
 

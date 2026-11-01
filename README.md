@@ -159,7 +159,7 @@ so the pattern's own default applies, which for most patterns is `{gridpattern}`
 | `pattern`                  | Name of the pattern to draw                   | 'stripe'   | stripe, crosshatch, circle, image, placeholder, magick, gradient, plasma        |
 | `pattern_type`             | Generic control option                        | pattern (NA) | pattern-dependent                  |
 | `pattern_subtype`          | Generic control option                        | pattern (NA) | pattern-dependent                  |
-| `pattern_alpha`            | Alpha                                         | pattern (NA) | value in range [0, 1] (npc units)  |
+| `pattern_alpha`            | Alpha                                         | pattern (NA) | value in range [0, 1]              |
 | `pattern_linetype`         | Stroke linetype                               | pattern (1) | linetype                           |
 | `pattern_size`             | Stroke linewidth                              | pattern (0.5) | linewidth                          |
 | `pattern_shape`            | Plotting shape                                | pattern (1) | shapes                             |
@@ -168,9 +168,10 @@ so the pattern's own default applies, which for most patterns is `{gridpattern}`
 | `pattern_fill2`            | Second fill colour                            | pattern ('#4169E1') | colour                             |
 | `pattern_angle`            | Rotation angle                                | pattern (30) | angle in degrees                   |
 | `pattern_density`          | Approx. fraction of area the pattern fills    | pattern (0.2) | value in range [0, 1] (fraction)   |
-| `pattern_spacing`          | Spacing between repetitions of pattern        | pattern (0.05) | value in range [0, 1] (npc units)  |
-| `pattern_xoffset`          | Shift pattern along x axis                    | pattern (0) | value in range [0, 1] (npc units)  |
-| `pattern_yoffset`          | Shift pattern along y axis                    | pattern (0) | value in range [0, 1] (npc units)  |
+| `pattern_spacing`          | Spacing between repetitions of pattern        | pattern (0.05) | value in `pattern_units` grid units |
+| `pattern_xoffset`          | Shift pattern along x axis                    | pattern (0) | value in `pattern_units` grid units |
+| `pattern_yoffset`          | Shift pattern along y axis                    | pattern (0) | value in `pattern_units` grid units |
+| `pattern_units`            | Pattern grid unit                             | pattern ('snpc') | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' (not 'npc', 'native', or 'null') |
 | `pattern_aspect_ratio`     | Aspect ratio adjustment                       | plot / key aspect ratio | usual range [0.01, 10]             |
 | `pattern_key_scale_factor` | Scale factor for pattern in legend            | 1          |                                    |
 | `pattern_filename`         | Image filename/URL                            | pattern ('') | Filename/URL                       |
