@@ -36,7 +36,7 @@ See \code{\link[ggplot2:scale_alpha]{ggplot2::scale_alpha()}} for details.
       geom_col_pattern(
         aes(level, outcome, pattern_fill = level, pattern_alpha = outcome),
         pattern_density = 0.6,
-        pattern_size = 1.5,
+        pattern_linewidth = 1.5,
         pattern = 'stripe',
         fill    = 'white',
         colour  = 'black',

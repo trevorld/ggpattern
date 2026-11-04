@@ -94,6 +94,49 @@ test_that("pattern-specific defaults registered with {gridpattern} apply", {
     expect_na_not_nan(params$pattern_shape)
 })
 
+test_that("`pattern_linewidth` supersedes `pattern_size` for line widths", {
+    name <- "ggpattern_test_capture"
+    capture_params <- local_capture_pattern(name)
+
+    # neither set: {gridpattern}'s generic default
+    params <- capture_params(ggplot(df, aes(trt, outcome)) + geom_col_pattern(pattern = name))
+    expect_equal(params$pattern_linewidth, 0.5)
+    expect_equal(params$pattern_size, 0.5)
+
+    # only `pattern_size` set: `pattern_linewidth` falls back to it (backwards compatibility)
+    params <- capture_params(ggplot(df, aes(trt, outcome)) +
+        geom_col_pattern(pattern = name, pattern_size = 2))
+    expect_equal(params$pattern_linewidth, 2)
+    expect_equal(params$pattern_size, 2)
+
+    # only `pattern_linewidth` set
+    params <- capture_params(ggplot(df, aes(trt, outcome)) +
+        geom_col_pattern(pattern = name, pattern_linewidth = 3))
+    expect_equal(params$pattern_linewidth, 3)
+    expect_equal(params$pattern_size, 0.5)
+
+    # both set: each keeps its own value
+    params <- capture_params(ggplot(df, aes(trt, outcome)) +
+        geom_col_pattern(pattern = name, pattern_linewidth = 3, pattern_size = 2))
+    expect_equal(params$pattern_linewidth, 3)
+    expect_equal(params$pattern_size, 2)
+
+    # a mapped `pattern_linewidth` goes through its scale
+    params <- capture_params(ggplot(df, aes(trt, outcome, pattern_linewidth = outcome)) +
+        geom_col_pattern(pattern = name) +
+        scale_pattern_linewidth(range = c(1, 4)))
+    expect_equal(params$pattern_linewidth, 4) # last drawn (largest) bar
+
+    # a pattern using `pattern_size` as a fontsize (like "text") keeps its own default
+    capture_params <- local_capture_pattern(name, defaults = list(
+        pattern_size = function(params, gp) gp$fontsize %||% 12
+    ))
+    params <- capture_params(ggplot(df, aes(trt, outcome)) +
+        geom_col_pattern(pattern = name, pattern_linewidth = 3))
+    expect_equal(params$pattern_linewidth, 3)
+    expect_equal(params$pattern_size, 12)
+})
+
 test_that("unset aesthetics use {gridpattern}'s defaults", {
     name <- "ggpattern_test_capture"
     capture_params <- local_capture_pattern(name)

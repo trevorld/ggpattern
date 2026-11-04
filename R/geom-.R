@@ -16,6 +16,7 @@ pattern_aesthetics <- aes(
 
   pattern_alpha            = NaN,
   pattern_linetype         = NaN,
+  pattern_linewidth        = NaN,
   pattern_size             = NaN,
   pattern_shape            = NaN,
   pattern_colour           = NaN,

@@ -33,7 +33,7 @@ line types.
       geom_col_pattern(
         aes(level, outcome, pattern_fill = level, pattern_linetype = level),
         pattern_density = 0.6,
-        pattern_size = 1.5,
+        pattern_linewidth = 1.5,
         pattern = 'stripe',
         fill    = 'white',
         colour  = 'black',

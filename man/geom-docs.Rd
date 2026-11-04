@@ -521,6 +521,7 @@ Internally these unset aesthetics have the value \code{NaN}, which \code{{gridpa
 \item{\strong{\code{pattern_grid}}}{ Pattern grid type. default: pattern default (generic: 'square') }
 \item{\strong{\code{pattern_key_scale_factor}}}{ Zoom factor for the pattern in the legend key (multiplies the size of relative i.e. 'snpc' lengths relative to the key as well as the spacing and offsets of absolute lengths). default: 1 }
 \item{\strong{\code{pattern_linetype}}}{ Stroke linetype. default: pattern default (generic: 1) }
+\item{\strong{\code{pattern_linewidth}}}{ Stroke line width. default: pattern default (generic: \code{pattern_size} if set else 0.5) }
 \item{\strong{\code{pattern_option_1}}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
 \item{\strong{\code{pattern_option_2}}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
 \item{\strong{\code{pattern_option_3}}}{ Generic user value for custom patterns. default: pattern default (generic: 0) }
@@ -532,7 +533,7 @@ Internally these unset aesthetics have the value \code{NaN}, which \code{{gridpa
 \item{\strong{\code{pattern_rot}}}{ Rotation angle (shape within pattern). default: pattern default (generic: 0) }
 \item{\strong{\code{pattern_scale}}}{ Scale. default: pattern default (generic: 1) }
 \item{\strong{\code{pattern_shape}}}{ Plotting shape. default: pattern default (generic: 1) }
-\item{\strong{\code{pattern_size}}}{ Stroke line width (or fontsize). default: pattern default (generic: 0.5) }
+\item{\strong{\code{pattern_size}}}{ Fontsize ("text" pattern) or legacy stroke line width (superseded by \code{pattern_linewidth}). default: pattern default (generic: 0.5) }
 \item{\strong{\code{pattern_spacing}}}{ Spacing of the pattern as a fraction of the plot size. default: pattern default (generic: 0.05) }
 \item{\strong{\code{pattern_type}}}{ Generic control option. default: pattern default (generic: \code{NA}) }
 \item{\strong{\code{pattern_subtype}}}{ Generic control option. default: pattern default (generic: \code{NA}) }

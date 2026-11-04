@@ -161,7 +161,8 @@ so the pattern's own default applies, which for most patterns is `{gridpattern}`
 | `pattern_subtype`          | Generic control option                        | pattern (NA) | pattern-dependent                  |
 | `pattern_alpha`            | Alpha                                         | pattern (NA) | value in range [0, 1]              |
 | `pattern_linetype`         | Stroke linetype                               | pattern (1) | linetype                           |
-| `pattern_size`             | Stroke linewidth                              | pattern (0.5) | linewidth                          |
+| `pattern_linewidth`        | Stroke linewidth                              | pattern (0.5) | linewidth                          |
+| `pattern_size`             | Fontsize (or legacy stroke linewidth)         | pattern (0.5) | fontsize (or linewidth)            |
 | `pattern_shape`            | Plotting shape                                | pattern (1) | shapes                             |
 | `pattern_colour`           | Stroke colour                                 | pattern ('grey20') | colour                             |
 | `pattern_fill`             | Fill colour                                   | pattern ('grey80') | colour                             |

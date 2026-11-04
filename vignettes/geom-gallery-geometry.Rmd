@@ -350,7 +350,7 @@ p <- ggplot(plot_df) +
       pattern_angle   = I(angle),
       pattern_colour  = I(pcolour),
       pattern_spacing = I(pspace),
-      pattern_size    = I(size)
+      pattern_linewidth = I(size)
     ),
     pattern         = 'circle',
     fill            = 'white',

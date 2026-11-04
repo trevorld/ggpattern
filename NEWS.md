@@ -36,6 +36,22 @@
   e.g. an `NA` `pattern_fill2` is now a transparent colour (previously replaced by the default `pattern_fill2`)
   and an `NA` `pattern_shape` still draws nothing for the "pch" pattern.
 
+## New features
+
+* New `pattern_linewidth` aesthetic for the stroke line width of patterns
+  (matching `{ggplot2}`'s renaming of the `size` aesthetic to `linewidth` for line widths)
+  with new `scale_pattern_linewidth()`, `scale_pattern_linewidth_continuous()`,
+  `scale_pattern_linewidth_discrete()`, `scale_pattern_linewidth_ordinal()`,
+  `scale_pattern_linewidth_manual()`, and `scale_pattern_linewidth_identity()` scales (#83).
+  Using `pattern_size` for line widths is now superseded (but not deprecated)
+  and remains the fontsize of the "text" pattern:
+
+  + If `pattern_linewidth` is unset it falls back to `pattern_size` so existing plots render unchanged.
+  + If both are set `pattern_linewidth` is the line width while `pattern_size` is the fontsize
+    (custom patterns may use both via `params$pattern_linewidth` and `params$pattern_size`).
+  + Unlike `scale_pattern_size()` (which uses `scales::area_pal()`)
+    the new continuous scale maps linearly to the range like `ggplot2::scale_linewidth()`.
+
 ## Bug fixes and minor improvements
 
 * Bumps required version of `{gridpattern}` to v1.6.0:

@@ -5,7 +5,7 @@
 \alias{scale_pattern_size}
 \alias{scale_pattern_size_discrete}
 \alias{scale_pattern_size_ordinal}
-\title{Scales for area or radius}
+\title{Scales for fontsize (or legacy line width)}
 \usage{
 scale_pattern_size_continuous(
   name = waiver(),
@@ -35,34 +35,36 @@ scale_pattern_size(
 \item{name, breaks, labels, limits, trans, guide, ..., transform}{See \code{\link[ggplot2:scale_size]{ggplot2::scale_size()}} for more information}
 
 \item{range}{a numeric vector of length 2 that specifies the minimum and
-maximum size of the plotting symbol after transformation.}
+maximum size after transformation.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.
 }
 \description{
-Scales for area or radius
+\code{scale_pattern_size()} scales the fontsize of the "text" pattern.
+Using \code{pattern_size} for the line widths of other patterns is superseded by
+the \code{pattern_linewidth} aesthetic and \code{\link[=scale_pattern_linewidth]{scale_pattern_linewidth()}}
+(an unset \code{pattern_linewidth} still falls back to \code{pattern_size} for backwards compatibility).
 }
 \examples{
   if (require("ggplot2")) {
-    # 'circle' pattern example
+    # 'text' pattern example
     df <- data.frame(level = c("a", "b", "c", 'd'), outcome = c(2.3, 1.9, 3.2, 1))
     gg <- ggplot(df) +
       geom_col_pattern(
-        aes(level, outcome, pattern_fill = level,
-            linewidth = outcome, pattern_size = outcome),
-        pattern_density = 0.4,
-        pattern_spacing = 0.3,
-        pattern = 'circle',
+        aes(level, outcome, pattern_colour = level, pattern_size = outcome),
+        pattern_spacing = 0.08,
+        pattern_angle   = 0,
+        pattern = 'text',
         fill    = 'white',
         colour  = 'black'
       ) +
       theme_bw(18) +
       theme(legend.position = 'none') +
-      scale_pattern_size() +
+      scale_pattern_size(range = c(6, 18)) +
       labs(
         title    = "ggpattern::geom_col_pattern()",
-        subtitle = "pattern = 'circle'"
+        subtitle = "pattern = 'text'"
       )
     plot(gg)
   }
