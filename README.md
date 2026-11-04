@@ -230,6 +230,5 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 
 * Legend keys draw a zoomed-in version of the pattern.
   Use `pattern_key_scale_factor` to adjust the zoom.
-* Array-based patterns (e.g. 'image', 'magick', 'placeholder') are rasterized at `pattern_res`
-  and can be slow to draw, especially on interactive devices such as the RStudio plot pane.
-  It is often faster to save directly to PNG or PDF and view that.
+* The RStudio graphics device may be slow for plots with patterns.
+  It may be faster to render directly to PNG or PDF and view that.
