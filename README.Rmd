@@ -261,9 +261,6 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 
 # Limitations
 
-* Self-intersecting polygons may be incompletely filled by geometry-based patterns
-  (e.g. a "bow-tie" polygon only gets stripes in one of its two lobes).
-  Array-based patterns (and the `fill` colour) are not affected.
 * Legend keys draw a zoomed-in version of the pattern.
   Use `pattern_key_scale_factor` to adjust the zoom.
 * Array-based patterns (e.g. 'image', 'magick', 'placeholder') are rasterized at `pattern_res`
