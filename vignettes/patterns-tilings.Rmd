@@ -164,7 +164,7 @@ ggplot(df2, aes(x="", y = value, pattern_angle = group))+
 | pattern\_units            | Pattern grid unit                             | 'snpc'     | `grid::unit()` unit i.e. 'snpc', 'cm', and 'inches' |
 | pattern\_alpha            | Alpha                                         | NA           | value in range [0, 1] or NA |
 | pattern\_linetype         | Stroke linetype                               | 1           | linetype                          |
-| pattern\_size             | Stroke linewidth                              | 0.5           | linewidth                         |
+| pattern\_linewidth        | Stroke linewidth                              | 0.5           | linewidth                         |
 | pattern\_type             | Pattern type                                  | 'square'     | `gridpattern::names_polygon_tiling`.  See [polygon_tiling](https://trevorldavis.com/R/gridpattern/dev/reference/grid.pattern\_polygon\_tiling.html) pattern documentation for more info. |
 
 ### `pattern = 'polygon_tiling'` - `pattern_type` options
