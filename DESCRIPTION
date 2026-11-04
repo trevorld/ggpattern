@@ -1,7 +1,7 @@
 Package: ggpattern
 Type: Package
 Title: 'ggplot2' Pattern Geoms
-Version: 1.4.0-2
+Version: 1.4.0-3
 Authors@R: c(person("Mike", "FC", role = "aut"),
              person("Trevor L.", "Davis", role = c("aut", "cre"),
                     email = "trevor.l.davis@gmail.com",
@@ -81,6 +81,7 @@ Collate:
     'scale-pattern-grey.R'
     'scale-pattern-hue.R'
     'scale-pattern-linetype.R'
+    'scale-pattern-linewidth.R'
     'scale-pattern-shape.R'
     'scale-pattern-size.R'
     'scale-pattern-viridis.R'

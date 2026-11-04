@@ -11,6 +11,7 @@ pattern_yoffset          |             | continuous | c(0.01, 0.1)
 
 pattern_alpha            | alpha       | continuous | c(0.1, 1)
 pattern_linetype         | linetype    | discrete   | NULL
+pattern_linewidth        | linewidth   | continuous | NULL
 pattern_size             | size        | continuous | NULL
 pattern_shape            | shape       | continuous | NULL
 pattern_colour           | colour      | discrete   | NULL

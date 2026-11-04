@@ -12,6 +12,7 @@
 \alias{scale_pattern_yoffset_identity}
 \alias{scale_pattern_alpha_identity}
 \alias{scale_pattern_linetype_identity}
+\alias{scale_pattern_linewidth_identity}
 \alias{scale_pattern_size_identity}
 \alias{scale_pattern_shape_identity}
 \alias{scale_pattern_colour_identity}
@@ -50,6 +51,8 @@ scale_pattern_yoffset_identity(..., guide = "none")
 scale_pattern_alpha_identity(..., guide = "none")
 
 scale_pattern_linetype_identity(..., guide = "none")
+
+scale_pattern_linewidth_identity(..., guide = "none")
 
 scale_pattern_size_identity(..., guide = "none")
 

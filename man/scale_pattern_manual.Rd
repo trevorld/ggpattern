@@ -12,6 +12,7 @@
 \alias{scale_pattern_yoffset_manual}
 \alias{scale_pattern_alpha_manual}
 \alias{scale_pattern_linetype_manual}
+\alias{scale_pattern_linewidth_manual}
 \alias{scale_pattern_size_manual}
 \alias{scale_pattern_shape_manual}
 \alias{scale_pattern_colour_manual}
@@ -50,6 +51,8 @@ scale_pattern_yoffset_manual(..., values, breaks = waiver())
 scale_pattern_alpha_manual(..., values, breaks = waiver())
 
 scale_pattern_linetype_manual(..., values, breaks = waiver())
+
+scale_pattern_linewidth_manual(..., values, breaks = waiver())
 
 scale_pattern_size_manual(..., values, breaks = waiver())
 

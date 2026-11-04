@@ -1284,6 +1284,13 @@ scale_pattern_linetype_manual <- function(..., values, breaks = waiver()) {
 #' @rdname scale_pattern_manual
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_linewidth_manual <- function(..., values, breaks = waiver()) {
+  manual_scale('pattern_linewidth', values, breaks, ...)
+}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_manual
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scale_pattern_size_manual <- function(..., values, breaks = waiver()) {
   manual_scale('pattern_size', values, breaks, ...)
 }
@@ -1553,6 +1560,19 @@ scale_pattern_linetype_identity <- function(..., guide = 'none') {
     ...,
     guide      = guide,
     super      = ScaleDiscreteIdentity
+  )
+}
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' @rdname scale_pattern_identity
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+scale_pattern_linewidth_identity <- function(..., guide = 'none') {
+  continuous_scale(
+    aesthetics = 'pattern_linewidth',
+    palette    = identity_pal(),
+    ...,
+    guide      = guide,
+    super      = ScaleContinuousIdentity
   )
 }
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

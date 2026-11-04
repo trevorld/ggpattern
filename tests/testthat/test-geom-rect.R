@@ -26,7 +26,7 @@ test_that("`geom_rect_pattern()` works as expected", {
               pattern_angle   = I(angle),
               pattern_colour  = I(pcolour),
               pattern_spacing = I(pspace),
-              pattern_size    = I(size)
+              pattern_linewidth = I(size)
             ),
             pattern         = 'circle',
             fill            = 'white',
