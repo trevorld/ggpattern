@@ -261,10 +261,11 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 
 # Limitations
 
-* Use `pattern_aspect_ratio` to override the internal aspect ratio calculation.
-* Legend rendering for patterns is still not great.
-    * Use `pattern_key_scale_factor` to adjust legend appearance.
-* The Rstudio output device can be quite slow for plots with lots of patterns. It is
-  often faster to save directly to PNG or PDF and view that.
-* Self intersecting geometry can be an issue.  
-* Non-linear coordinate systems have not been tested.
+* Self-intersecting polygons may be incompletely filled by geometry-based patterns
+  (e.g. a "bow-tie" polygon only gets stripes in one of its two lobes).
+  Array-based patterns (and the `fill` colour) are not affected.
+* Legend keys draw a zoomed-in version of the pattern.
+  Use `pattern_key_scale_factor` to adjust the zoom.
+* Array-based patterns (e.g. 'image', 'magick', 'placeholder') are rasterized at `pattern_res`
+  and can be slow to draw, especially on interactive devices such as the RStudio plot pane.
+  It is often faster to save directly to PNG or PDF and view that.
