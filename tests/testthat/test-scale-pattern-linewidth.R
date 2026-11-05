@@ -3,12 +3,6 @@ test_that("`scale_pattern_linewidth_continuous()` works", {
   expect_true(is_scale(scale_pattern_linewidth()))
 })
 
-test_that("`scale_pattern_linewidth_continuous()` warns on deprecated `trans`", {
-  rlang::local_options(lifecycle_verbosity = "warning")
-  expect_warning(scale_pattern_linewidth_continuous(trans = "identity"),
-                 class = "lifecycle_warning_deprecated")
-})
-
 test_that("`scale_pattern_linewidth_ordinal()` works", {
   expect_true(is_scale(scale_pattern_linewidth_ordinal()))
 })

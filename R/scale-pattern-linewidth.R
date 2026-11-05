@@ -7,7 +7,7 @@
 #' (if `pattern_linewidth` is unset it falls back to `pattern_size`).
 #' Use [scale_pattern_size()] for the fontsize of the "text" pattern.
 #'
-#' @param name,breaks,labels,limits,trans,guide,...,transform See [ggplot2::scale_linewidth()] for more information
+#' @param name,breaks,labels,limits,guide,...,transform See [ggplot2::scale_linewidth()] for more information
 #' @param range a numeric vector of length 2 that specifies the minimum and
 #'   maximum line width after transformation.
 #' @return A [ggplot2::Scale] object.
@@ -39,14 +39,8 @@
 #-----------------------------------------------------------------------------
 scale_pattern_linewidth_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
                                                limits = NULL, range = c(1, 6),
-                                               trans = deprecated(), guide = "legend",
+                                               guide = "legend",
                                                ..., transform = "identity") {
-  if (lifecycle::is_present(trans)) {
-     lifecycle::deprecate_warn('1.1.1',
-                               'scale_pattern_linewidth_continuous(trans)',
-                               'scale_pattern_linewidth_continuous(transform)')
-     transform <- trans
-  }
   continuous_scale("pattern_linewidth", palette = scales::rescale_pal(range), name = name,
     breaks = breaks, labels = labels, limits = limits, transform = transform,
     guide = guide, ...)

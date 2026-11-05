@@ -13,7 +13,6 @@ scale_pattern_linewidth_continuous(
   labels = waiver(),
   limits = NULL,
   range = c(1, 6),
-  trans = deprecated(),
   guide = "legend",
   ...,
   transform = "identity"
@@ -25,14 +24,13 @@ scale_pattern_linewidth(
   labels = waiver(),
   limits = NULL,
   range = c(1, 6),
-  trans = deprecated(),
   guide = "legend",
   ...,
   transform = "identity"
 )
 }
 \arguments{
-\item{name, breaks, labels, limits, trans, guide, ..., transform}{See \code{\link[ggplot2:scale_linewidth]{ggplot2::scale_linewidth()}} for more information}
+\item{name, breaks, labels, limits, guide, ..., transform}{See \code{\link[ggplot2:scale_linewidth]{ggplot2::scale_linewidth()}} for more information}
 
 \item{range}{a numeric vector of length 2 that specifies the minimum and
 maximum line width after transformation.}
