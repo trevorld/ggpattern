@@ -1,26 +1,3 @@
-gridpattern_pattern <- function(params, boundary_df, legend = FALSE) {
-
-    args <- munge_params(params)
-    args$prefix <- ""
-    args$legend <- legend
-    args$x <- boundary_df$x
-    args$y <- boundary_df$y
-    args$id <- boundary_df$id
-    do.call(gridpattern::patternGrob, args)
-}
-
-# unlist to support e.g. multi-valued pattern args
-munge_params <- function(params) {
-    l <- as.list(params)
-    nms <- grep("^pattern_", names(l), value = TRUE)
-    # must avoid unlisting `grid::pattern()` fill values
-    nms <- grep("^pattern_fill", nms, invert = TRUE, value = TRUE)
-    for (nm in nms) {
-        l[[nm]] <- unlist(l[[nm]])
-    }
-    l
-}
-
 get_aspect_ratio <- function() {
     width <- as.numeric(convertWidth(unit(1, "npc"), "in"))
     height <- as.numeric(convertHeight(unit(1, "npc"), "in"))
@@ -28,46 +5,28 @@ get_aspect_ratio <- function() {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Generate all the pattern grobs for this geom
+#' Fill each area of a grob with the pattern of its row of `params`
 #'
-#' @param all_params parameters for all the elements
-#' @param boundaries boundary_df objects for each of the elements
-#'                   and/or grid grobs to use as an alpha mask
+#' A wrapper around [gridpattern::with_pattern()] taking our pattern aesthetics.
 #'
-#' @return grobTree containing all the pattern grobs
+#' @param grob A grid grob (usually the grob drawn by the parent `{ggplot2}` geom).
+#' @param params A data frame of (pattern) aesthetics with either
+#'               one row per area of `grob` (in the order of [gridpattern::area_boundaries()])
+#'               (or per unique value of `group`) or a single row used for every area.
+#' @param group,legend Passed to [gridpattern::with_pattern()].
+#' @return A grob.
 #' @noRd
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-create_pattern_grobs <- function(all_params, boundaries) {
+with_pattern_rows <- function(grob, params, group = NULL, legend = FALSE) {
+    # (`gridpattern::with_pattern()` checks there is one row per area (or group) or a single row)
+    args <- c(list(grob, pattern = params$pattern %||% "stripe"),
+              as.list(params[grep("^pattern_", names(params))]),
+              list(group = group, legend = legend, prefix = ""))
+    do.call(gridpattern::with_pattern, args)
+}
 
-  # There might be a number of polygons coming in.
-  # There should be one row in the 'all_params' data.frame for each polygon
-  # There should be the matching 'id' for the polygon in the 'boundaries'
-  pattern_grobs <- lapply(seq(nrow(all_params)), function(i) {
-    params      <- all_params[i,]
-    boundary <- boundaries[[i]]
-
-    if (is.grob(boundary)) {
-        boundary_df <- convert_grob_to_polygon_df(boundary)
-    } else if (is_polygon_df(boundary)) {
-        boundary_df <- boundary
-    } else {
-        abort("boundary must either be a grob or 'polygon_df'")
-    }
-
-    grob <- gridpattern_pattern(params, boundary_df, legend = FALSE)
-    if (is.grob(boundary)) {
-        if (inherits(grob, "alpha_mask")) {
-            grob <- editGrob(grob, masker = boundary)
-        } else {
-            grob <- gridpattern::alphaMaskGrob(grob, boundary,
-                                               res = params$pattern_res)
-        }
-    }
-    grob
-  })
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Wrap the list of pattern grob objects into a grobTree
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  pattern_grobs <- do.call(grid::grobTree, pattern_grobs)
+# The first row of each group of `data` (in the order {ggplot2} draws its groups' polygons)
+first_rows_by_group <- function(data) {
+    data <- data[!duplicated(data$group), , drop = FALSE]
+    data[order(data$group), , drop = FALSE]
 }

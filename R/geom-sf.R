@@ -20,63 +20,22 @@ GeomSfPattern <- ggproto("GeomSfPattern", GeomSf,
   draw_panel = function(self, data, panel_params, coord, legend = NULL,
                         lineend = "butt", linejoin = "round", linemitre = 10,
                         arrow = NULL, arrow.fill = NULL, na.rm = TRUE) {
-    if (!inherits(coord, "CoordSf")) {
-      cli::cli_abort("{.fn {snake_class(self)}} can only be used with {.fn coord_sf}.")
-    }
-    data$shape <- translate_shape_string(data$shape)
-
-    data <- coord$transform(data, panel_params)
-
-    type <- sf_types[sf::st_geometry_type(data$geometry)]
-    is_point <- type == "point"
-    is_line  <- type == "line"
-    is_collection <- type == "collection"
-
-    fill <- fill_alpha(data$fill %||% rep(NA, nrow(data)), data$alpha)
-    fill[is_line] <- arrow.fill %||% fill[is_line]
-
-    colour <- data$colour
-    colour[is_point | is_line] <-
-      alpha(colour[is_point | is_line], data$alpha[is_point | is_line])
-
-    point_size <- data$size
-    point_size[!(is_point | is_collection)] <-
-      data$linewidth[!(is_point | is_collection)]
-
-    stroke <- (data$stroke %||% rep(0.5, nrow(data))) * .stroke / 2
-    font_size <- point_size * .pt + stroke
-
-    linewidth <- data$linewidth * .pt
-    linewidth[is_point] <- stroke[is_point]
-
-    # Render pattern grobs for polygon geometries
-    pattern_grobs_list <- list()
-    gp_boundary <- gpar(col = NA, lwd = 0, fill = "white")
-    for (idx in seq_len(nrow(data))) {
-      geom_obj <- data$geometry[[idx]]
-      if (inherits(geom_obj, 'MULTIPOLYGON') || inherits(geom_obj, 'POLYGON')) {
-        boundary_grob <- sf::st_as_grob(geom_obj, gp = gp_boundary, default.units = "npc")
-        if (inherits(boundary_grob, "null")) next
-        pattern_grobs_list <- append(
-          pattern_grobs_list,
-          list(create_pattern_grobs(data[idx, ], list(boundary_grob)))
-        )
-      }
-    }
-    pattern_grobs <- do.call(grid::grobTree, pattern_grobs_list)
-
-    gp_fill <- gpar(
-      col = NA, fill = fill, fontsize = font_size, lwd = 0, lty = data$linetype,
-      lineend = lineend, linejoin = linejoin, linemitre = linemitre
+    grob <- ggproto_parent(GeomSf, self)$draw_panel(
+      data, panel_params, coord, legend = legend, lineend = lineend,
+      linejoin = linejoin, linemitre = linemitre, arrow = arrow,
+      arrow.fill = arrow.fill, na.rm = na.rm
     )
-    gp_border <- gpar(
-      col = colour, fill = NA, fontsize = font_size, lwd = linewidth, lty = data$linetype,
-      lineend = lineend, linejoin = linejoin, linemitre = linemitre
-    )
-    grob_fill   <- sf::st_as_grob(data$geometry, pch = data$shape, gp = gp_fill)
-    grob_border <- sf::st_as_grob(data$geometry, pch = data$shape, gp = gp_border, arrow = arrow)
+    # (a `gList` so that `points` (e.g. of a `MULTIPOINT` layer) aren't patterned)
+    if (is.grob(grob)) grob <- gList(grob)
 
-    grid::grobTree(grob_fill, pattern_grobs, grob_border)
+    # One pattern per row filling all its polygons as a single region
+    # (except the polygons of a geometry collection which are each their own grob)
+    rows <- sf_area_rows(grob, data$geometry)
+    if (length(rows) > 0L) {
+      group <- sf_area_groups(rows, data$geometry)
+      grob <- with_pattern_rows(grob, data[rows[!duplicated(group)], , drop = FALSE], group = group)
+    }
+    ggname("geom_sf_pattern", gTree(children = grob))
   },
 
   draw_key = function(data, params, size) {
@@ -112,11 +71,37 @@ geom_sf_pattern <- function(mapping = aes(), data = NULL, stat = "sf",
   )
 }
 
+# The row of each area (in the order of `gridpattern::area_boundaries()`)
+# of the `gList` `grobs` that `sf::st_as_grob()` drew for `geometry`
+sf_area_rows <- function(grobs, geometry) {
+  if (length(grobs) == length(geometry)) {
+    # (a grob per row)
+    n_row <- vapply(grobs, function(g) length(gridpattern::area_boundaries(gList(g))), integer(1L))
+  } else {
+    # a single `pathgrob` of every non-empty (multi)polygon with a path per polygon
+    if (length(grobs) != 1L || !inherits(grobs[[1L]], "pathgrob")) abort_sf_areas(grobs, geometry)
+    path <- grobs[[1L]]
+    n_row <- ifelse(sf::st_is_empty(geometry), 0L,
+                    ifelse(sf::st_is(geometry, "MULTIPOLYGON"), lengths(geometry), 1L))
+    n_paths <- length(path$pathId.lengths %||% unique(path$pathId %||% 1L))
+    if (sum(n_row) != n_paths) abort_sf_areas(grobs, geometry)
+  }
+  rep(seq_along(geometry), n_row)
+}
 
-sf_types <- c(GEOMETRY = "other", POINT = "point", LINESTRING = "line",
-              POLYGON = "other", MULTIPOINT = "point", MULTILINESTRING = "line",
-              MULTIPOLYGON = "other", GEOMETRYCOLLECTION = "collection",
-              CIRCULARSTRING = "line", COMPOUNDCURVE = "line", CURVEPOLYGON = "other",
-              MULTICURVE = "line", MULTISURFACE = "other", CURVE = "line",
-              SURFACE = "other", POLYHEDRALSURFACE = "other", TIN = "other",
-              TRIANGLE = "other")
+# (`sf::st_as_grob()` drew `geometry` in a way we don't know how to match to its rows)
+abort_sf_areas <- function(grobs, geometry) {
+  cli::cli_abort(c(
+    "Can't match the areas drawn by {.fn sf::st_as_grob} to the rows of the data.",
+    i = "It drew {length(grobs)} grob{?s} for {length(geometry)} geometr{?y/ies} of class {.cls {class(geometry)[1L]}}.",
+    i = "Please report this at {.url https://github.com/trevorld/ggpattern/issues}."
+  ))
+}
+
+# The `group` of each area: its row except areas of a geometry collection (each their own grob)
+sf_area_groups <- function(rows, geometry) {
+  is_collection <- sf::st_is(geometry, "GEOMETRYCOLLECTION")[rows]
+  group <- as.character(rows)
+  group[is_collection] <- paste(rows[is_collection], seq_along(rows)[is_collection], sep = ".")
+  vec_group_id(group)
+}

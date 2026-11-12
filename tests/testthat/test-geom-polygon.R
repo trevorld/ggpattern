@@ -50,3 +50,13 @@ test_that("`geom_polygon_pattern()` works as expected", {
         geom_polygon_pattern(fill="lightblue", color="black")
     })
 })
+
+test_that("each polygon gets the pattern of its group", {
+    # polygons are drawn sorted by group
+    df <- data.frame(x = c(0, 1, 1, 2, 3, 3), y = c(0, 0, 1, 0, 0, 1),
+                     g = rep(c("z", "y"), each = 3))
+    p <- ggplot(df, aes(x, y, group = g, pattern = g)) +
+        geom_polygon_pattern() +
+        scale_pattern_manual(values = c(y = "circle", z = "gradient"))
+    expect_equal(pattern_names(layer_grob(p)[[1]]), c("circle", "gradient"))
+})

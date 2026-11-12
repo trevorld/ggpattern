@@ -170,3 +170,15 @@ test_that("unset aesthetics use {gridpattern}'s defaults", {
     fontsizes <- unique(unlist(lapply(text_grobs, function(x) x$gp$fontsize)))
     expect_equal(fontsizes, 12)
 })
+
+test_that("`with_pattern_rows()` checks there is a row per area", {
+    grob <- grid::rectGrob(x = c(0.25, 0.75), width = 0.4)
+    params <- data.frame(pattern = c("stripe", "circle", "none"))
+    expect_error(with_pattern_rows(grob, params), "one value per area")
+    expect_equal(pattern_names(with_pattern_rows(grob, params[2:3, , drop = FALSE])), c("circle", "none"))
+    # a single row is used for every area
+    expect_equal(pattern_names(with_pattern_rows(grob, params[2L, , drop = FALSE])), c("circle", "circle"))
+    # grobs without areas are left alone
+    lines <- grid::linesGrob()
+    expect_identical(with_pattern_rows(lines, params), lines)
+})

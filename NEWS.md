@@ -54,6 +54,32 @@
 
 ## Bug fixes and minor improvements
 
+* Our geoms now draw the grob of the `{ggplot2}` geom they extend and fill each of its areas with a pattern in place
+  (using `gridpattern::with_pattern()`, #158)
+  instead of copying its grob-construction logic.
+  Each area keeps the pattern of its row (e.g. each bar, polygon group, or contiguous piece of a ribbon
+  gets its own gradient or image) and lines, points, and text (e.g. boxplot outliers, whiskers, and medians) are left alone.
+  Each area's fill, pattern, and border are now drawn in turn (like `{ggplot2}` draws its areas)
+  instead of every border being drawn above every pattern
+  so overlapping areas stack correctly and the border shared by neighbouring areas (e.g. tiles) is partly covered by the later area.
+  Requires `{gridpattern}` (>= 1.6.0-11).
+* `draw_key_polygon_pattern()`, `draw_key_boxplot_pattern()`, and `draw_key_crossbar_pattern()`
+  now fill the area of `{ggplot2}`'s `draw_key_polygon()`, `draw_key_boxplot()`, and `draw_key_crossbar()` key glyphs
+  with a pattern (using `gridpattern::with_pattern()`, #158) instead of drawing their own glyphs.
+  So legend key borders now have the same width as the geom's borders (previously thinner),
+  the border of boxplot and crossbar keys is drawn above the pattern,
+  and boxplot and crossbar keys now respect `orientation` and the whisker, median, box, and staple graphical parameters.
+* `geom_ribbon_pattern()`, `geom_area_pattern()`, and `geom_density_pattern()` now support a `fill` or `alpha`
+  that varies along the ribbon (drawn as a gradient by `{ggplot2}`) in linear coordinates.
+  Only the pattern aesthetics must be constant.
+* The patterns of `geom_polygon_pattern()` polygons with a `subgroup` (i.e. holes) and of `geom_sf_pattern()`
+  are now positioned the same as those of other polygons
+  (their bounding box was previously measured in the wrong viewport).
+* `geom_sf_pattern()` still draws one pattern per row (filling all the polygons of a `MULTIPOLYGON` as one region)
+  and now also fills each polygon of a `GEOMETRYCOLLECTION` (with the pattern of its row).
+  Each row's fill, pattern, and border are now drawn together (in row order like `{ggplot2}`)
+  and its lines and points are no longer edited (so e.g. closed arrow heads are no longer hollowed out).
+
 * Bumps required version of `{gridpattern}` to v1.6.0:
 
   + This should fix a bug with patterns sometimes not showing up in the legend with larger `pattern_key_scale_factor` values (#86).
