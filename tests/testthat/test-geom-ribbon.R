@@ -45,7 +45,7 @@ test_that("each piece of a ribbon gets its pattern", {
     p <- ggplot(df, aes(x, ymin = ymin, ymax = ymax)) + geom_ribbon_pattern(pattern = "circle")
     expect_equal(pattern_names(suppressWarnings(layer_grob(p))[[1]]), c("circle", "circle"))
     expect_error(
-        print(ggplot(df, aes(x, ymin = 0, ymax = 1, pattern_angle = x)) + geom_ribbon_pattern()),
+        layer_grob(ggplot(df, aes(x, ymin = 0, ymax = 1, pattern_angle = x)) + geom_ribbon_pattern()),
         "Pattern aesthetics can not vary along a ribbon"
     )
 
