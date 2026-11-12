@@ -2,7 +2,7 @@
 % Please edit documentation in R/geom-rect.R, R/geom-bar.R, R/geom-tile.R,
 %   R/geom-bin2d.R, R/geom-boxplot.R, R/geom-col.R, R/geom-crossbar.R,
 %   R/geom-ribbon.R, R/geom-density.R, R/geom-polygon.R, R/geom-map.R,
-%   R/geom-sf.R, R/geom-violin.R
+%   R/geom-point.R, R/geom-sf.R, R/geom-violin.R
 \name{GeomRectPattern}
 \alias{GeomRectPattern}
 \alias{ggpattern-ggproto}
@@ -17,6 +17,7 @@
 \alias{GeomDensityPattern}
 \alias{GeomPolygonPattern}
 \alias{GeomMapPattern}
+\alias{GeomPointPattern}
 \alias{GeomSfPattern}
 \alias{GeomViolinPattern}
 \title{Geom ggproto objects}

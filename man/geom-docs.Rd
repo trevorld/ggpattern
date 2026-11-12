@@ -2,7 +2,8 @@
 % Please edit documentation in R/a-geom-docs.R, R/geom-rect.R, R/geom-bar.R,
 %   R/geom-tile.R, R/geom-bin2d.R, R/geom-boxplot.R, R/geom-col.R,
 %   R/geom-crossbar.R, R/geom-ribbon.R, R/geom-density.R, R/geom-histogram.R,
-%   R/geom-polygon.R, R/geom-map.R, R/geom-sf.R, R/geom-violin.R
+%   R/geom-polygon.R, R/geom-map.R, R/geom-point.R, R/geom-sf.R,
+%   R/geom-violin.R
 \name{geom-docs}
 \alias{geom-docs}
 \alias{geom_rect_pattern}
@@ -19,6 +20,7 @@
 \alias{geom_histogram_pattern}
 \alias{geom_polygon_pattern}
 \alias{geom_map_pattern}
+\alias{geom_point_pattern}
 \alias{geom_sf_pattern}
 \alias{geom_violin_pattern}
 \title{ggplot2 geoms with support for pattern fills}
@@ -248,6 +250,17 @@ geom_map_pattern(
   stat = "identity",
   ...,
   map,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
+
+geom_point_pattern(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  ...,
   na.rm = FALSE,
   show.legend = NA,
   inherit.aes = TRUE
@@ -493,6 +506,14 @@ A \link[ggplot2:Geom]{ggplot2::Geom} object.
 \description{
 All geoms in this package are identical to their counterparts in ggplot2 except
 that they can be filled with patterns.
+}
+\details{
+\code{geom_point_pattern()} fills each point with a filled symbol (\code{shape} 21 to 25, its default is 21)
+with its own pattern (e.g. a different image per point) and requires R (>= 4.2.0).
+Points with other shapes are drawn as by \code{\link[ggplot2:geom_point]{ggplot2::geom_point()}}.
+Pattern lengths (e.g. \code{pattern_spacing}) are relative to the plot panel by default
+so for finer geometry patterns within (small) points use an absolute unit
+e.g. \code{pattern_units = "mm"} with a small \code{pattern_spacing}.
 }
 \section{Pattern Arguments}{
 

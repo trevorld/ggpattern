@@ -3,6 +3,13 @@
 #' All geoms in this package are identical to their counterparts in ggplot2 except
 #' that they can be filled with patterns.
 #'
+#' `geom_point_pattern()` fills each point with a filled symbol (`shape` 21 to 25, its default is 21)
+#' with its own pattern (e.g. a different image per point) and requires R (>= 4.2.0).
+#' Points with other shapes are drawn as by [ggplot2::geom_point()].
+#' Pattern lengths (e.g. `pattern_spacing`) are relative to the plot panel by default
+#' so for finer geometry patterns within (small) points use an absolute unit
+#' e.g. `pattern_units = "mm"` with a small `pattern_spacing`.
+#'
 #' @section Pattern Arguments:
 #'
 #' Not all arguments apply to all patterns.
@@ -53,6 +60,7 @@
 #' @inheritParams ggplot2::geom_crossbar
 #' @inheritParams ggplot2::geom_histogram
 #' @inheritParams ggplot2::geom_map
+#' @inheritParams ggplot2::geom_point
 #' @inheritParams ggplot2::geom_polygon
 #' @inheritParams ggplot2::geom_rect
 #' @inheritParams ggplot2::geom_ribbon

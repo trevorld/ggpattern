@@ -66,6 +66,7 @@ Collate:
     'geom-histogram.R'
     'geom-polygon.R'
     'geom-map.R'
+    'geom-point.R'
     'geom-sf.R'
     'geom-violin.R'
     'ggpattern-defunct.R'
