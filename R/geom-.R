@@ -48,12 +48,14 @@ pattern_aesthetics <- aes(
 )
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Create the patterned area to be used in the legend key
+#' The numeric `legend` (zoom) of the pattern of a legend key
+#'
+#' So the pattern of a legend key looks like the pattern drawn on the plot.
 #' @inheritParams  draw_key_polygon_pattern
-#' @param boundary_df the boundary of the pattern in npc coordinates
+#' @return A number (`NA` for a zero-size key).
 #' @noRd
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
+key_legend_factor <- function(size, aspect_ratio) {
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   # Convert the width/height of the key into npc sizes
@@ -67,7 +69,7 @@ create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
 
   # Nothing to draw in a zero-size key (and its scale factor would be infinite)
   if (!isTRUE(key_npc_x > 0 && key_npc_y > 0)) {
-    return(grid::nullGrob())
+    return(NA_real_)
   }
 
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,7 +104,16 @@ create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
   # (for absolute units by scaling the spacing and offsets)
   # and scales an unset `pattern_res` to match.
   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  gridpattern_pattern(data, boundary_df, legend = geometric_factor)
+  geometric_factor
+}
+
+# `grob` (a `{ggplot2}` key glyph) with each of its areas filled with the key's pattern
+key_with_pattern <- function(grob, data, size, aspect_ratio) {
+  legend <- key_legend_factor(size, aspect_ratio)
+  # (nothing to draw in a zero-size key)
+  if (is.na(legend)) return(grob)
+  if (!is.data.frame(data)) data <- vctrs::new_data_frame(as.list(data))
+  with_pattern_rows(grob, data[1L, , drop = FALSE], legend = legend)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -145,58 +156,7 @@ create_key_pattern_grob <- function(data, size, aspect_ratio, boundary_df) {
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
-
-  lwd <- min(data$linewidth %||% data$size, min(size) / 4) #* .pt
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Currently not sure, why, but the key_grob is drawn slightly undersized
-  # with an offset of "lwd" mm.
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  w <- grid::convertWidth (unit(lwd, "mm"), 'npc')
-  h <- grid::convertHeight(unit(lwd, "mm"), 'npc')
-  w <- as.numeric(w)
-  h <- as.numeric(h)
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # This is a boundary_df polygong the size of the key in npc coordinates in
-  # it's own viewport. This is approximately a 1x1 npc unit square.
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  boundary_df <- create_polygon_df(c(h, 1-h, 1-h, h), c(h, h, 1-h, 1-h))
-
-
-  key_pattern_grob <- create_key_pattern_grob(data, size, aspect_ratio, boundary_df)
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # `lineend` is a workaround for Windows and intentionally kept unexposed
-  # as an argument. (c.f. https://github.com/tidyverse/ggplot2/issues/3037#issuecomment-457504667)
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_grob_fn <- function(col, fill, lwd) {
-      rectGrob(
-        width  = unit(1, "npc"), #- unit(lwd, "mm"),
-        height = unit(1, "npc"), #- unit(lwd, "mm"),
-        gp = gpar(
-          col      = col,
-          fill     = fill,
-          lty      = data$linetype %||% 1,
-          lwd      = lwd,
-          linejoin = params$linejoin %||% "mitre",
-          lineend  = if (identical(params$linejoin, "round")) "round" else "square"
-        ))
-  }
-  col <- data$colour %||% NA
-  fill <- fill_alpha(data$fill %||% "grey20", data$alpha)
-  key_grob_fill <- key_grob_fn(NA, fill, 0)
-  key_grob_border <- key_grob_fn(col, NA, lwd)
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Assemble grob to return
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  grid::grobTree(
-    key_grob_fill,
-    # verboseGrob("legend"),
-    key_pattern_grob,
-    key_grob_border
-  )
+  key_with_pattern(ggplot2::draw_key_polygon(data, params, size), data, size, aspect_ratio)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -204,52 +164,7 @@ draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = get_aspe
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Create the boundary_df for the rectangular region of the crossbar.
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  xmin <- 0.5 - 0.75/2
-  xmax <- 0.5 + 0.75/2
-  ymin <- 0.5 - 0.5 /2
-  ymax <- 0.5 + 0.5 /2
-  boundary_df <- create_polygon_df(c(xmin, xmax, xmax, xmin), c(ymin, ymin, ymax, ymax))
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Create the pattern in this region
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_pattern_grob <- create_key_pattern_grob(data, size, aspect_ratio, boundary_df)
-
-  key_grob_box <- grobTree(
-    rectGrob(height = 0.5, width = 0.75),
-    gp = gpar(
-      col = data$colour %||% "grey20",
-      fill = fill_alpha(data$fill %||% "white", data$alpha),
-      lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
-      lty = data$linetype %||% 1
-    )
-  )
-
-
-  key_grob_line <- grobTree(
-    linesGrob(0.5, c(0.1, 0.25)),
-    linesGrob(0.5, c(0.75, 0.9)),
-    linesGrob(c(0.125, 0.875), 0.5),
-    gp = gpar(
-      col = data$colour %||% "grey20",
-      fill = fill_alpha(data$fill %||% "white", data$alpha),
-      lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
-      lty = data$linetype %||% 1
-    )
-  )
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Assemble grob to return
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  grid::grobTree(
-    key_grob_box,
-    key_pattern_grob,
-    key_grob_line
-  )
+  key_with_pattern(ggplot2::draw_key_boxplot(data, params, size), data, size, aspect_ratio)
 }
 
 
@@ -259,61 +174,5 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = get_aspe
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Create the boundary_df for the rectangular region of the crossbar.
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  xmin <- 0.5 - 0.75/2
-  xmax <- 0.5 + 0.75/2
-  ymin <- 0.5 - 0.5 /2
-  ymax <- 0.5 + 0.5 /2
-  boundary_df <- create_polygon_df(c(xmin, xmax, xmax, xmin), c(ymin, ymin, ymax, ymax))
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Create the pattern in this region
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_pattern_grob <- create_key_pattern_grob(data, size, aspect_ratio, boundary_df)
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Generate the box and the line for the crossbar grob separately, as the
-  # pattern goes in between the two
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  key_grob_box <- grobTree(
-    rectGrob(height = 0.5, width = 0.75),
-    gp = gpar(
-      col = data$colour %||% "grey20",
-      fill = fill_alpha(data$fill %||% "white", data$alpha),
-      lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
-      lty = data$linetype %||% 1
-    )
-  )
-
-  key_grob_line <- grobTree(
-    linesGrob(c(0.125, 0.875), 0.5),
-    gp = gpar(
-      col = data$colour %||% "grey20",
-      fill = fill_alpha(data$fill %||% "white", data$alpha),
-      lwd = (data$linewidth %||% data$size %||% 0.5) * .pt,
-      lty = data$linetype %||% 1
-    )
-  )
-
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  # Assemble grob to return
-  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  grid::grobTree(
-    key_grob_box,
-    key_pattern_grob,
-    key_grob_line
-  )
-}
-
-fix_linewidth <- function(data, name) {
-  if (is.null(data$linewidth) && !is.null(data$size)) {
-    lifecycle::deprecate_warn("1.0.1",
-                              I(paste0("Using the `size` aesthetic with ", name)),
-                              I("the `linewidth` aesthetic"))
-    data$linewidth <- data$size
-  }
-  data
+  key_with_pattern(ggplot2::draw_key_crossbar(data, params, size), data, size, aspect_ratio)
 }

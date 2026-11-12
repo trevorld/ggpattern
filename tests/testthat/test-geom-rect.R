@@ -38,3 +38,15 @@ test_that("`geom_rect_pattern()` works as expected", {
           theme(legend.key.size = unit(1.5, 'cm'))
     })
 })
+
+test_that("each rectangle gets the pattern of its row", {
+    # bars are drawn in row order
+    df <- data.frame(trt = c("a", "b", "c"), outcome = c(2, 3, 1))
+    p <- ggplot(df, aes(trt, outcome, pattern = trt)) +
+        geom_col_pattern() +
+        scale_pattern_manual(values = c(a = "circle", b = "gradient", c = "none"))
+    expect_equal(pattern_names(layer_grob(p)[[1]]), c("circle", "gradient", "none"))
+
+    # also in a non-linear coord (where rectangles are drawn as polygons)
+    expect_equal(pattern_names(layer_grob(p + coord_polar())[[1]]), c("circle", "gradient", "none"))
+})

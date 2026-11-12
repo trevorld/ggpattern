@@ -133,107 +133,15 @@ GeomBoxplotPattern <- ggproto("GeomBoxplotPattern", GeomBoxplot,
                         whisker_gp = NULL, staple_gp = NULL, median_gp = NULL,
                         box_gp = NULL, notch = FALSE, notchwidth = 0.5,
                         staplewidth = 0, varwidth = FALSE, flipped_aes = FALSE) {
-    data <- fix_linewidth(data, snake_class(self))
-    data <- flip_data(data, flipped_aes)
-    # this may occur when using geom_boxplot(stat = "identity")
-    if (nrow(data) != 1) {
-      cli::cli_abort(c(
-        "Can only draw one boxplot per group.",
-        "i"= "Did you forget {.code aes(group = ...)}?"
-      ))
-    }
-
-    common <- list(fill = fill_alpha(data$fill, data$alpha), group = data$group)
-
-    whiskers <- data_frame0(
-        x = c(data$x, data$x),
-        xend = c(data$x, data$x),
-        y = c(data$upper, data$lower),
-        yend = c(data$ymax, data$ymin),
-        colour = rep(whisker_gp$colour %||% data$colour, 2),
-        linetype = rep(whisker_gp$linetype %||% data$linetype, 2),
-        linewidth = rep(whisker_gp$linewidth %||% data$linewidth, 2),
-      alpha = c(NA_real_, NA_real_),
-      !!!common,
-      .size = 2
+    grob <- ggproto_parent(GeomBoxplot, self)$draw_group(
+      data, panel_params, coord, lineend = lineend, linejoin = linejoin,
+      fatten = fatten, outlier_gp = outlier_gp, whisker_gp = whisker_gp,
+      staple_gp = staple_gp, median_gp = median_gp, box_gp = box_gp,
+      notch = notch, notchwidth = notchwidth, staplewidth = staplewidth,
+      varwidth = varwidth, flipped_aes = flipped_aes
     )
-    whiskers <- flip_data(whiskers, flipped_aes)
-
-    box <- transform(
-	  data,
-	  y = middle,
-	  ymax = upper,
-	  ymin = lower,
-      ynotchlower = ifelse(notch, notchlower, NA),
-      ynotchupper = ifelse(notch, notchupper, NA),
-      notchwidth = notchwidth
-    )
-
-    # Copy across all the pattern aesthetics
-    for (varname in names(pattern_aesthetics)) {
-      box[[varname]] <- data[[varname]]
-    }
-
-    box <- flip_data(box, flipped_aes)
-
-    if (!is.null(data$outliers) && length(data$outliers[[1]]) >= 1) {
-      outliers <- data_frame0(
-        y = data$outliers[[1]],
-        x = data$x[1],
-        colour = outlier_gp$colour %||% data$colour[1],
-        fill = outlier_gp$fill %||% data$fill[1],
-        shape = outlier_gp$shape %||% data$shape[1] %||% 19,
-        size = outlier_gp$size %||% data$size[1] %||% 1.5,
-        stroke = outlier_gp$stroke %||% data$stroke[1] %||% 0.5,
-        fill = NA,
-        alpha = outlier_gp$alpha %||% data$alpha[1],
-        .size = length(data$outliers[[1]])
-      )
-      outliers <- flip_data(outliers, flipped_aes)
-
-      outliers_grob <- GeomPoint$draw_panel(outliers, panel_params, coord)
-    } else {
-      outliers_grob <- NULL
-    }
-
-    if (staplewidth != 0) {
-      staples <- data_frame0(
-        x    = rep((data$xmin - data$x) * staplewidth + data$x, 2),
-        xend = rep((data$xmax - data$x) * staplewidth + data$x, 2),
-        y    = c(data$ymax, data$ymin),
-        yend = c(data$ymax, data$ymin),
-        linetype = rep(staple_gp$linetype %||% data$linetype, 2),
-        linewidth = rep(staple_gp$linewidth %||% data$linewidth, 2),
-        colour = rep(staple_gp$colour %||% data$colour, 2),
-        alpha = c(NA_real_, NA_real_),
-        !!!common,
-        .size = 2
-      )
-      staples <- flip_data(staples, flipped_aes)
-      staple_grob <- GeomSegment$draw_panel(
-        staples, panel_params, coord,
-        lineend = lineend
-      )
-    } else {
-      staple_grob <- NULL
-    }
-
-    ggname("geom_boxplot_pattern", grobTree(
-      outliers_grob,
-      staple_grob,
-      GeomSegment$draw_panel(whiskers, panel_params, coord, lineend = lineend),
-      GeomCrossbarPattern$draw_panel(
-        box,
-        fatten = fatten,
-        panel_params,
-        coord,
-        lineend = lineend,
-        linejoin = linejoin,
-        flipped_aes = flipped_aes,
-        middle_gp = median_gp,
-        box_gp = box_gp
-      )
-    ))
+    # the box is the only area (outliers, whiskers, staples, and median have none)
+    ggname("geom_boxplot_pattern", with_pattern_rows(grob, data))
   },
 
   # {covr} can't cover `draw_key_boxplot_pattern()` if directly assign it

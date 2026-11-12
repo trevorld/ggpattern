@@ -71,46 +71,11 @@ geom_violin_pattern <- function(mapping = NULL, data = NULL,
 GeomViolinPattern <- ggproto("GeomViolinPattern", GeomViolin,
 
   draw_group = function(self, data, ..., quantile_gp = list(linetype = 0), flipped_aes = FALSE) {
-    data <- flip_data(data, flipped_aes)
-    # Find the points for the line to go all the way around
-    data <- transform(data,
-                      xminv = x - violinwidth * (x - xmin),
-                      xmaxv = x + violinwidth * (xmax - x)
+    grob <- ggproto_parent(GeomViolin, self)$draw_group(
+      data, ..., quantile_gp = quantile_gp, flipped_aes = flipped_aes
     )
-
-    # Make sure it's sorted properly to draw the outline
-    newdata <- vec_rbind(
-      transform(data, x = xminv)[order(data$y), ],
-      transform(data, x = xmaxv)[order(data$y, decreasing = TRUE), ]
-    )
-
-    # Close the polygon: set first and last point the same
-    # Needed for coord_polar and such
-    newdata <- vec_rbind(newdata, newdata[1,])
-    newdata <- flip_data(newdata, flipped_aes)
-
-	violin_grob <- GeomPolygonPattern$draw_panel(newdata, ...)
-
-    if (!"quantile" %in% names(newdata) ||
-        all(quantile_gp$linetype == 0) ||
-        all(quantile_gp$linetype == "blank")) {
-      return(ggname("geom_violin_pattern", violin_grob))
-    }
-
-    # Draw quantiles if requested, so long as there is non-zero y range
-      quantiles <- newdata[!is.na(newdata$quantile),]
-      quantiles$group <- match(quantiles$quantile, unique(quantiles$quantile))
-      quantiles$linetype <- quantile_gp$linetype %||% quantiles$linetype
-      quantiles$linewidth <- quantile_gp$linewidth %||% quantiles$linewidth
-      quantiles$colour <- quantile_gp$colour %||% quantiles$colour
-
-      quantile_grob <- if (nrow(quantiles) == 0) {
-        zeroGrob()
-      } else {
-        GeomPath$draw_panel(quantiles, ...)
-      }
-
-      ggname("geom_violin_pattern", grobTree(violin_grob, quantile_grob))
+    # the violin is the only area (the quantile lines have none)
+    ggname("geom_violin_pattern", with_pattern_rows(grob, data[1L, , drop = FALSE]))
   },
 
   draw_key = draw_key_polygon_pattern,

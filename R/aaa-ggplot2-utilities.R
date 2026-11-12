@@ -40,8 +40,5 @@ binned_pal <- function(palette) {
   }
 }
 
-# Wrapping vctrs data_frame constructor with no name repair
-data_frame0 <- function(...) data_frame(..., .name_repair = "minimal")
-
 # Wrapping unique0() to accept NULL
 unique0 <- function(x, ...) if (is.null(x)) x else vec_unique(x, ...)

@@ -38,3 +38,20 @@ test_that("`geom_ribbon_pattern()` works as expected", {
           labs(title = "ggpattern::geom_ribbon_pattern()")
     })
 })
+
+test_that("each piece of a ribbon gets its pattern", {
+    # a ribbon broken by missing values is one area per run of values with the same pattern
+    df <- data.frame(x = 1:5, ymin = 0, ymax = c(1, 2, NA, 2, 1))
+    p <- ggplot(df, aes(x, ymin = ymin, ymax = ymax)) + geom_ribbon_pattern(pattern = "circle")
+    expect_equal(pattern_names(suppressWarnings(layer_grob(p))[[1]]), c("circle", "circle"))
+    expect_error(
+        print(ggplot(df, aes(x, ymin = 0, ymax = 1, pattern_angle = x)) + geom_ribbon_pattern()),
+        "Pattern aesthetics can not vary along a ribbon"
+    )
+
+    # flipped ribbons with `na.rm = TRUE` (as `geom_ribbon()`)
+    dfy <- data.frame(y = 1:5, xmin = 0, xmax = c(1, 2, NA, 2, 1))
+    p <- ggplot(dfy, aes(y = y, xmin = xmin, xmax = xmax)) +
+        geom_ribbon_pattern(na.rm = TRUE, orientation = "y", pattern = "circle")
+    expect_equal(pattern_names(layer_grob(p)[[1]]), c("circle", "circle"))
+})
