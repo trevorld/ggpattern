@@ -75,9 +75,10 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #'
 #' @param geom A [ggplot2::Geom] object e.g. `ggplot2::GeomRect`.
 #' @param name The class name of the pattern geom.
-#' @param rows How the rows of the data frame the geom's `draw_group()` method is given
+#' @param area_by How the areas of the grob the geom draws are matched to the rows of the data frame
+#'             its `draw_group()` method is given
 #'             (or else its `draw_panel()` method if it doesn't have its own `draw_group()` method)
-#'             are matched to the areas of the grob it draws. One of:
+#'             i.e. which rows give the areas their patterns and in what order. One of:
 #'
 #'   * `"trace"`: works for most geoms without knowing how they draw their areas (but is the slowest).
 #'     The geom is given a different `fill` for each kind of row
@@ -87,29 +88,30 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #'     Needs the geom to draw a row's area with its (character) `fill` (possibly with an alpha).
 #'     If there are no such areas when the panel is drawn this is tried again when the grob is drawn
 #'     (so `delay` isn't needed).
-#'   * `"all"`: the geom draws an area per row (in row order) e.g. `ggplot2::GeomRect`.
-#'   * `"group"`: the geom draws an area per group (sorted by group) e.g. `ggplot2::GeomPolygon`.
-#'   * `"constant"`: the geom's areas all have the pattern of the first row
-#'     (it is an error if the pattern aesthetics vary) e.g. `ggplot2::GeomRibbon`.
+#'   * `"row"`: the geom draws an area per row (in row order) e.g. `ggplot2::GeomRect`.
+#'   * `"group"`: the geom draws an area per group (sorted by group) with the pattern of its first row
+#'     (it is an error if the pattern aesthetics vary within a group)
+#'     e.g. `ggplot2::GeomPolygon` or a geom whose `draw_group()` method draws a single area
+#'     e.g. `ggplot2::GeomRibbon`.
 #'   * A function of the data frame returning the rows of the areas
 #'     (in the order of [gridpattern::area_boundaries()]) or a single row for every area.
 #'
 #'   By default what we know the draw method of `geom` needs (if it is a `{ggplot2}` one) or else `"trace"`.
 #' @param delay Use `TRUE` for a geom whose grob only has its areas when it is drawn (see [with_pattern_aes()]).
-#'              Not needed if `rows` is `"trace"`
+#'              Not needed if `area_by` is `"trace"`
 #'              nor for `ggplot2::GeomDotplot` (whose `dotstackGrob` is always filled when drawn).
 #' @return A [ggplot2::Geom] object.
 #' @noRd
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), rows = NULL, delay = FALSE) {
+make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), area_by = NULL, delay = FALSE) {
     if (!inherits(geom, "Geom")) {
         cli::cli_abort("{.arg geom} must be a {.cls Geom} object, not {.obj_type_friendly {geom}}.")
     }
     stopifnot(is.logical(delay), length(delay) == 1L, !is.na(delay))
-    rows <- rows %||% known_rows(geom)
-    if (!is.function(rows)) {
-        rows <- arg_match0(rows, c("trace", names(rows_functions)), "rows")
-        if (rows != "trace") rows <- rows_functions[[rows]]
+    area_by <- area_by %||% known_area_by(geom)
+    if (!is.function(area_by)) {
+        area_by <- arg_match0(area_by, c("trace", names(area_by_functions)), "area_by")
+        if (area_by != "trace") area_by <- area_by_functions[[area_by]]
     }
     # wrap the method that draws the areas: `draw_group()` if `geom` has its own else `draw_panel()`
     has_draw_group <- !identical(ggproto_fn(geom$draw_group), ggproto_fn(Geom$draw_group))
@@ -127,7 +129,7 @@ make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), ro
     draw <- call("function", as.pairlist(set_names(alist(x = ), args[1L])), parent_call)
     body <- bquote({
         draw <- .(draw)
-        draw_with_pattern(draw, .(data_arg), rows, delay)
+        draw_with_pattern(draw, .(data_arg), area_by, delay)
     })
     members <- list(
         default_aes = defaults(geom$default_aes, pattern_aesthetics),
@@ -142,42 +144,43 @@ make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), ro
 # the function of a ggproto method
 ggproto_fn <- function(method) environment(method)$f %||% method
 
-# The rows of the areas a geom draws for `data` (see the `rows` of `make_GeomPattern()`)
-rows_functions <- list(
-    all = function(data) data,
-    group = function(data) first_rows_by_group(data),
-    constant = function(data) {
-        if (nrow(unique0(data[names(data) %in% names(pattern_aesthetics)])) > 1L) {
+# The rows of the areas a geom draws for `data` (see the `area_by` of `make_GeomPattern()`)
+area_by_functions <- list(
+    row = function(data) data,
+    group = function(data) {
+        params <- data[names(data) %in% c("group", names(pattern_aesthetics))]
+        if (nrow(unique0(params)) > length(unique0(data$group))) {
             cli::cli_abort("Pattern aesthetics can not vary within an area.")
         }
-        data[1L, , drop = FALSE]
+        first_rows_by_group(data)
     }
 )
 
-# The `{ggplot2}` geoms whose draw methods we know the `rows` of
-known_rows_geoms <- c(
-    GeomRect = "all", GeomTile = "all", GeomBar = "all", GeomCol = "all", GeomBin2d = "all",
-    GeomCrossbar = "all", GeomBoxplot = "all", GeomHex = "all", GeomLabel = "all", GeomDotplot = "all",
+# The `{ggplot2}` geoms whose draw methods we know the `area_by` of
+known_area_by_geoms <- c(
+    GeomRect = "row", GeomTile = "row", GeomBar = "row", GeomCol = "row", GeomBin2d = "row",
+    GeomCrossbar = "row", GeomBoxplot = "row", GeomHex = "row", GeomLabel = "row", GeomDotplot = "row",
     GeomPolygon = "group", GeomContourFilled = "group", GeomDensity2dFilled = "group",
-    GeomRibbon = "constant", GeomArea = "constant", GeomDensity = "constant", GeomViolin = "constant"
+    # (their `draw_group()` method draws a single area)
+    GeomRibbon = "group", GeomArea = "group", GeomDensity = "group", GeomViolin = "group"
 )
 
-# The `rows` of `geom` if it draws with the methods of a `{ggplot2}` geom we know them for else "trace"
-known_rows <- function(geom) {
-    for (name in intersect(class(geom), names(known_rows_geoms))) {
+# The `area_by` of `geom` if it draws with the methods of a `{ggplot2}` geom we know it for else "trace"
+known_area_by <- function(geom) {
+    for (name in intersect(class(geom), names(known_area_by_geoms))) {
         known <- getExportedValue("ggplot2", name)
         if (identical(ggproto_fn(geom$draw_panel), ggproto_fn(known$draw_panel)) &&
             identical(ggproto_fn(geom$draw_group), ggproto_fn(known$draw_group))) {
-            return(known_rows_geoms[[name]])
+            return(known_area_by_geoms[[name]])
         }
     }
     "trace"
 }
 
 # The grob `draw(data)` draws with its areas filled with the patterns of their rows
-draw_with_pattern <- function(draw, data, rows, delay = FALSE) {
-    if (is.function(rows)) {
-        with_pattern_aes(draw(data), rows(data), delay = delay)
+draw_with_pattern <- function(draw, data, area_by, delay = FALSE) {
+    if (is.function(area_by)) {
+        with_pattern_aes(draw(data), area_by(data), delay = delay)
     } else {
         draw_traced(draw, data)
     }
@@ -292,12 +295,12 @@ makeContent.ggpattern_traced <- function(x) {
 #' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_rect()`.
 #' @param ... Pattern aesthetics set to a constant e.g. `pattern = "circle"` or `pattern_fill = "blue"`.
 #' @param mapping Pattern aesthetic mappings (created by [ggplot2::aes()]) added to those of the layer.
-#' @param rows,delay Passed to [make_GeomPattern()] (if given the pattern geom is always made by it).
+#' @param area_by,delay Passed to [make_GeomPattern()] (if given the pattern geom is always made by it).
 #' @return A `{ggplot2}` layer.
 #' @noRd
 #' @exportS3Method gridpattern::with_pattern
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-with_pattern.Layer <- function(x, ..., mapping = NULL, rows = NULL, delay = FALSE) {
+with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL, delay = FALSE) {
     aes_params <- list2(...)
     unknown <- setdiff(names2(aes_params), names(pattern_aesthetics))
     if (length(unknown) > 0L) {
@@ -306,8 +309,8 @@ with_pattern.Layer <- function(x, ..., mapping = NULL, rows = NULL, delay = FALS
             x = "Not {cli::qty(length(unknown))} {?a/} pattern aesthetic{?s}: {.val {unknown}}."
         ))
     }
-    geom <- if (is.null(rows) && isFALSE(delay)) our_pattern_geom(x$geom)
-    geom <- geom %||% make_GeomPattern(x$geom, rows = rows, delay = delay)
+    geom <- if (is.null(area_by) && isFALSE(delay)) our_pattern_geom(x$geom)
+    geom <- geom %||% make_GeomPattern(x$geom, area_by = area_by, delay = delay)
     out <- ggproto(NULL, x, geom = geom)
     out$aes_params <- c(x$aes_params[setdiff(names(x$aes_params), names(aes_params))], aes_params)
     if (!is.null(mapping)) {

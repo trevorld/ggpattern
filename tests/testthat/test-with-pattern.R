@@ -73,7 +73,7 @@ test_that("`make_GeomPattern()` makes a pattern geom from a geom", {
     expect_equal(pattern_names(layer_grob(p)[[1]]), c("stripe", "circle", "crosshatch"))
 
     # a geom drawing an area per group
-    GeomPolygonPattern2 <- make_GeomPattern(GeomPolygon, "GeomPolygonPattern2", rows = "group")
+    GeomPolygonPattern2 <- make_GeomPattern(GeomPolygon, "GeomPolygonPattern2", area_by = "group")
     df <- data.frame(x = c(0, 1, 1, 2, 3, 3), y = c(0, 0, 1, 0, 0, 1), g = rep(c("b", "a"), each = 3))
     p <- ggplot(df, aes(x, y, group = g, pattern = g)) +
         layer(geom = GeomPolygonPattern2, stat = "identity", position = "identity") + scale
@@ -99,18 +99,18 @@ test_that("`make_GeomPattern()` works with a geom from another package", {
     expect_colours(area_fills(grob), c("green", "blue", "red"))
 })
 
-test_that("`make_GeomPattern()` knows the `rows` of `{ggplot2}` geoms", {
-    expect_equal(known_rows(GeomRect), "all")
-    expect_equal(known_rows(GeomCol), "all")
-    expect_equal(known_rows(GeomPolygon), "group")
-    expect_equal(known_rows(GeomArea), "constant")
+test_that("`make_GeomPattern()` knows the `area_by` of `{ggplot2}` geoms", {
+    expect_equal(known_area_by(GeomRect), "row")
+    expect_equal(known_area_by(GeomCol), "row")
+    expect_equal(known_area_by(GeomPolygon), "group")
+    expect_equal(known_area_by(GeomArea), "group")
     # a geom that draws like one we know (e.g. a layer's geom with its own key glyph)
-    expect_equal(known_rows(ggproto(NULL, GeomRect, draw_key = draw_key_point)), "all")
+    expect_equal(known_area_by(ggproto(NULL, GeomRect, draw_key = draw_key_point)), "row")
     # but not one with its own draw method nor a geom we don't know
     GeomRect2 <- ggproto("GeomRect2", GeomRect, draw_panel = function(self, data, panel_params, coord) NULL)
-    expect_equal(known_rows(GeomRect2), "trace")
-    expect_equal(known_rows(GeomSf), "trace")
-    expect_error(make_GeomPattern(GeomRect, rows = "rows"), "`rows` must be one of")
+    expect_equal(known_area_by(GeomRect2), "trace")
+    expect_equal(known_area_by(GeomSf), "trace")
+    expect_error(make_GeomPattern(GeomRect, area_by = "rows"), "`area_by` must be one of")
 
     skip_if(getRversion() < "4.2.0")
     # so e.g. the pattern aesthetics can't vary along a ribbon
@@ -135,7 +135,7 @@ test_that("`make_GeomPattern()` traces the row of each area by its fill", {
             grid::grobTree(grob, grid::rectGrob(width = 0.1, height = 0.1, gp = grid::gpar(fill = "grey")))
         }
     )
-    expect_equal(known_rows(GeomRev), "trace")
+    expect_equal(known_area_by(GeomRev), "trace")
     GeomRevPattern <- make_GeomPattern(GeomRev)
     df <- data.frame(x = 1:4, k = c("a", "b", "c", "d"), f = c("red", "green", NA, "blue"))
     p <- ggplot(df, aes(xmin = x, xmax = x + 0.9, ymin = 0, ymax = x, pattern = k, fill = I(f))) +
@@ -150,7 +150,7 @@ test_that("`make_GeomPattern()` traces the row of each area by its fill", {
 
     # rows that only differ by position have the same tracer fill
     # so a geom that needs constant aesthetics (e.g. a ribbon) is still drawn as one area
-    GeomRibbonTraced <- make_GeomPattern(GeomRibbon, "GeomRibbonTraced", rows = "trace")
+    GeomRibbonTraced <- make_GeomPattern(GeomRibbon, "GeomRibbonTraced", area_by = "trace")
     p <- ggplot(data.frame(x = 1:4), aes(x, ymin = 0, ymax = x)) +
         layer(geom = GeomRibbonTraced, stat = "identity", position = "identity",
               params = list(pattern = "circle", fill = "red"))
@@ -191,7 +191,7 @@ test_that("areas that only exist when drawn are filled then", {
     GeomLazy <- ggproto("GeomLazy", Geom, required_aes = "x",
                         draw_panel = function(data, panel_params, coord) lazy,
                         draw_key = draw_key_rect)
-    GeomLazyPattern <- make_GeomPattern(GeomLazy, rows = function(data) data[1L, ], delay = TRUE)
+    GeomLazyPattern <- make_GeomPattern(GeomLazy, area_by = function(data) data[1L, ], delay = TRUE)
     p <- ggplot(df, aes(x)) +
         layer(geom = GeomLazyPattern, stat = "identity", position = "identity", params = list(pattern = "circle"))
     expect_equal(pattern_names(grid::forceGrob(layer_grob(p)[[1]])), "circle")
