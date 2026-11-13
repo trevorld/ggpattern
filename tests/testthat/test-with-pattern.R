@@ -112,6 +112,16 @@ test_that("`make_GeomPattern()` knows the `area_by` of `{ggplot2}` geoms", {
     expect_equal(known_area_by(GeomSf), "trace")
     expect_error(make_GeomPattern(GeomRect, area_by = "rows"), "`area_by` must be one of")
 
+    # a geom that doesn't draw its areas the way its `area_by` says
+    GeomRectPattern3 <- make_GeomPattern(GeomRect, "GeomRectPattern3", area_by = "group")
+    df <- data.frame(xmin = 1:3, xmax = 2:4, ymin = 0, ymax = 1, k = c("a", "a", "b"), g = c(1, 1, 2))
+    p <- ggplot(df, aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, pattern = k, group = g)) +
+        layer(geom = GeomRectPattern3, stat = "identity", position = "identity")
+    expect_error(layer_grob(p), "drew 3 areas but `area_by = \"group\"` gave 2 rows",
+                 class = "ggpattern_area_mismatch")
+    # (with the error of `{gridpattern}` as its parent)
+    expect_error(layer_grob(p), class = "gridpattern_area_mismatch")
+
     skip_if(getRversion() < "4.2.0")
     # so e.g. the pattern aesthetics can't vary along a ribbon
     GeomRibbonPattern2 <- make_GeomPattern(GeomRibbon, "GeomRibbonPattern2")
@@ -195,6 +205,13 @@ test_that("areas that only exist when drawn are filled then", {
     p <- ggplot(df, aes(x)) +
         layer(geom = GeomLazyPattern, stat = "identity", position = "identity", params = list(pattern = "circle"))
     expect_equal(pattern_names(grid::forceGrob(layer_grob(p)[[1]])), "circle")
+    # (a wrong number of rows is only an error when the grob is drawn)
+    GeomLazyPattern2 <- make_GeomPattern(GeomLazy, area_by = function(data) data[c(1L, 1L), ], delay = TRUE)
+    p <- ggplot(df, aes(x)) +
+        layer(geom = GeomLazyPattern2, stat = "identity", position = "identity", params = list(pattern = "circle"))
+    grob <- layer_grob(p)[[1]]
+    expect_error(grid::forceGrob(grob), "drew 1 area but the `area_by` function gave 2 rows",
+                 class = "ggpattern_area_mismatch")
 
     # tracing is tried again when the grob is drawn if there were no traced areas when the panel was drawn
     registerS3method("makeContent", "ggpattern_test_lazy_fill",
