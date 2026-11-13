@@ -92,6 +92,31 @@ test_that("`make_GeomPattern()` makes a pattern geom from a geom", {
     expect_error(make_GeomPattern(geom_tile()), "must be a <Geom> object")
 })
 
+test_that("`area_by` functions are given the draw method's parameters they have arguments for", {
+    GeomRev <- ggproto("GeomRev", GeomRect,
+        draw_panel = function(self, data, panel_params, coord, lineend = "butt", linejoin = "mitre", rev = FALSE) {
+            if (rev) data <- data[rev(seq_len(nrow(data))), ]
+            ggproto_parent(GeomRect, self)$draw_panel(data, panel_params, coord, lineend = lineend, linejoin = linejoin)
+        }
+    )
+    df <- data.frame(x = 1:3, k = c("a", "b", "c"))
+    plot <- function(geom) {
+        ggplot(df, aes(xmin = x, xmax = x + 0.9, ymin = 0, ymax = 1, pattern = k)) +
+            layer(geom = geom, stat = "identity", position = "identity", params = list(rev = TRUE)) +
+            scale_pattern_manual(values = c("stripe", "circle", "crosshatch"))
+    }
+    by_rev <- function(data, rev) if (rev) data[rev(seq_len(nrow(data))), ] else data
+    p <- plot(make_GeomPattern(GeomRev, area_by = by_rev))
+    expect_equal(pattern_names(layer_grob(p)[[1]]), c("crosshatch", "circle", "stripe"))
+    # (or all of them with `...`)
+    by_dots <- function(data, ...) by_rev(data, list(...)$rev)
+    p <- plot(make_GeomPattern(GeomRev, area_by = by_dots))
+    expect_equal(pattern_names(layer_grob(p)[[1]]), c("crosshatch", "circle", "stripe"))
+    # (and none if it has no arguments for them)
+    p <- plot(make_GeomPattern(GeomRev, area_by = function(data) data))
+    expect_equal(pattern_names(layer_grob(p)[[1]]), c("stripe", "circle", "crosshatch"))
+})
+
 test_that("`make_GeomPattern()` works with a geom from another package", {
     skip_if(getRversion() < "4.2.0")
     skip_if_not_installed("treemapify")
@@ -200,7 +225,7 @@ test_that("areas that only exist when drawn are filled then", {
     expect_no_error(print(p))
     expect_equal(pattern_names(grid::forceGrob(grob)), rep("circle", nrow(df)))
 
-    # any other such grob needs `delay = TRUE`
+    # `with_pattern_aes()` needs `delay = TRUE` for any other such grob
     registerS3method("makeContent", "ggpattern_test_lazy",
                      function(x) grid::setChildren(x, grid::gList(grid::rectGrob())),
                      envir = asNamespace("grid"))
@@ -208,16 +233,16 @@ test_that("areas that only exist when drawn are filled then", {
     data <- data.frame(pattern = "circle")
     expect_length(find_pattern_grobs(grid::forceGrob(with_pattern_aes(lazy, data))), 0L)
     expect_equal(pattern_names(grid::forceGrob(with_pattern_aes(lazy, data, delay = TRUE))), "circle")
-    # which `make_GeomPattern()` passes on
+    # which `make_GeomPattern()` uses for a grob with no areas when the panel is drawn
     GeomLazy <- ggproto("GeomLazy", Geom, required_aes = "x",
                         draw_panel = function(data, panel_params, coord) lazy,
                         draw_key = draw_key_rect)
-    GeomLazyPattern <- make_GeomPattern(GeomLazy, area_by = function(data) data[1L, ], delay = TRUE)
+    GeomLazyPattern <- make_GeomPattern(GeomLazy, area_by = function(data) data[1L, ])
     p <- ggplot(df, aes(x)) +
         layer(geom = GeomLazyPattern, stat = "identity", position = "identity", params = list(pattern = "circle"))
     expect_equal(pattern_names(grid::forceGrob(layer_grob(p)[[1]])), "circle")
     # (a wrong number of rows is only an error when the grob is drawn)
-    GeomLazyPattern2 <- make_GeomPattern(GeomLazy, area_by = function(data) data[c(1L, 1L), ], delay = TRUE)
+    GeomLazyPattern2 <- make_GeomPattern(GeomLazy, area_by = function(data) data[c(1L, 1L), ])
     p <- ggplot(df, aes(x)) +
         layer(geom = GeomLazyPattern2, stat = "identity", position = "identity", params = list(pattern = "circle"))
     grob <- layer_grob(p)[[1]]

@@ -74,6 +74,7 @@ Collate:
     'ggpattern-package.R'
     'pattern.R'
     'polygon_df.R'
+    'reexports.R'
     'scale-pattern-alpha.R'
     'scale-pattern-auto.R'
     'scale-pattern-brewer.R'
