@@ -1,14 +1,12 @@
-# Helpers to write a pattern geom from an existing `{ggplot2}` geom.
-# They aren't exported (yet):
+# Helpers to write a pattern geom from an existing `{ggplot2}` geom:
 #
-# * `make_GeomPattern()` makes a pattern `Geom` from a `Geom`
+# * `make_GeomPattern()` (exported) makes a pattern `Geom` from a `Geom`
 #   (whose `geom_*_pattern()` function is then made by `ggplot2::make_constructor()`),
-# * the `Layer` method of `gridpattern::with_pattern()` makes a pattern layer from a layer
-#   e.g. `with_pattern(geom_rect(), pattern_fill = "blue")`
-#   (it is registered but we don't re-export `with_pattern()` (yet)),
+# * the `Layer` method of `gridpattern::with_pattern()` (which we re-export) makes a pattern layer from a layer
+#   e.g. `with_pattern(geom_rect(), pattern_fill = "blue")`,
 #   and its `dotstackGrob` method fills the dots of `ggplot2::geom_dotplot()` when they are drawn,
-# * `with_pattern_aes()` fills the areas of a grob within a `draw_panel()` / `draw_group()` method,
-# * `with_pattern_key()` fills the areas of a key glyph within a `draw_key()` method.
+# * `with_pattern_aes()` (not exported yet) fills the areas of a grob within a `draw_panel()` / `draw_group()` method,
+# * `with_pattern_key()` (not exported yet) fills the areas of a key glyph within a `draw_key()` method.
 
 # Columns that can't be passed on as pattern parameters:
 # `gridpattern::with_pattern()` rejects these names (they're its (or `patternGrob()`'s) own arguments)
@@ -67,18 +65,19 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Make a pattern geom from a geom
 #'
-#' The pattern geom draws the grob of `geom` and fills each of its areas with a pattern,
-#' has our pattern aesthetics as well as those of `geom`,
+#' `make_GeomPattern()` makes a pattern geom from a geom:
+#' it draws the grob of `geom` and fills each of its areas with a pattern,
+#' has the pattern aesthetics as well as those of `geom`,
 #' and draws the key glyph of `geom` filled with the key's pattern.
 #' Use [ggplot2::make_constructor()] to make its `geom_*_pattern()` function
-#' (after assigning it to a variable named `name`).
+#' or [with_pattern()] to make a pattern layer from a layer.
 #'
-#' @param geom A [ggplot2::Geom] object e.g. `ggplot2::GeomRect`.
+#' @param geom A [ggplot2::Geom] object e.g. `ggplot2::GeomContourFilled`.
 #' @param name The class name of the pattern geom.
 #' @param area_by How the areas of the grob the geom draws are matched to the rows of the data frame
-#'             its `draw_group()` method is given
-#'             (or else its `draw_panel()` method if it doesn't have its own `draw_group()` method)
-#'             i.e. which rows give the areas their patterns and in what order. One of:
+#'   its `draw_group()` method is given
+#'   (or else its `draw_panel()` method if it doesn't have its own `draw_group()` method)
+#'   i.e. which rows give the areas their patterns and in what order. One of:
 #'
 #'   * `"trace"`: works for most geoms without knowing how they draw their areas (but is the slowest).
 #'     The geom is given a different `fill` for each kind of row
@@ -86,28 +85,38 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #'     (and given back its actual `fill`).
 #'     Areas that weren't drawn with a row's `fill` are left alone.
 #'     Needs the geom to draw a row's area with its (character) `fill` (possibly with an alpha).
-#'     If there are no such areas when the panel is drawn this is tried again when the grob is drawn
-#'     (so `delay` isn't needed).
 #'   * `"row"`: the geom draws an area per row (in row order) e.g. `ggplot2::GeomRect`.
 #'   * `"group"`: the geom draws an area per group (sorted by group) with the pattern of its first row
 #'     (it is an error if the pattern aesthetics vary within a group)
 #'     e.g. `ggplot2::GeomPolygon` or a geom whose `draw_group()` method draws a single area
 #'     e.g. `ggplot2::GeomRibbon`.
-#'   * A function of the data frame returning the rows of the areas
+#'   * A function returning the rows of the areas
 #'     (in the order of [gridpattern::area_boundaries()]) or a single row for every area.
+#'     It is given the data frame (as its first argument)
+#'     and the draw method's other parameters (e.g. `lineend`) by name
+#'     if it has an argument of that name (or `...`).
 #'
 #'   By default what we know the draw method of `geom` needs (if it is a `{ggplot2}` one) or else `"trace"`.
-#' @param delay Use `TRUE` for a geom whose grob only has its areas when it is drawn (see [with_pattern_aes()]).
-#'              Not needed if `area_by` is `"trace"`
-#'              nor for `ggplot2::GeomDotplot` (whose `dotstackGrob` is always filled when drawn).
+#'   A grob whose areas are only made when it is drawn (e.g. in a `makeContent()` method)
+#'   is filled when it is drawn.
+#'
+#'   Filling areas other than those of a [grid::polygonGrob()], [grid::pathGrob()], or [grid::rectGrob()]
+#'   (e.g. the round rectangles of a `{treemapify}` treemap) requires R (>= 4.2.0)
+#'   (see [gridpattern::with_pattern()]).
 #' @return A [ggplot2::Geom] object.
-#' @noRd
+#' @seealso [with_pattern()] to make a pattern layer from a layer.
+#' @examples
+#' library("ggplot2")
+#' GeomContourFilledPattern <- make_GeomPattern(GeomContourFilled)
+#' geom_contour_filled_pattern <- make_constructor(GeomContourFilledPattern, stat = "contour_filled")
+#' ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
+#'     geom_contour_filled_pattern(bins = 4, pattern_density = 0.2, pattern_fill = "white")
+#' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), area_by = NULL, delay = FALSE) {
+make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), area_by = NULL) {
     if (!inherits(geom, "Geom")) {
         cli::cli_abort("{.arg geom} must be a {.cls Geom} object, not {.obj_type_friendly {geom}}.")
     }
-    stopifnot(is.logical(delay), length(delay) == 1L, !is.na(delay))
     area_by <- area_by %||% known_area_by(geom)
     if (!is.function(area_by)) {
         area_by <- arg_match0(area_by, c("trace", names(area_by_functions)), "area_by")
@@ -133,13 +142,15 @@ make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), ar
     dots <- match("...", args, nomatch = length(args) + 1L)
     by_position <- args == "..." | (seq_along(args) <= 3L & seq_along(args) < dots)
     names(passed) <- ifelse(by_position, "", args)
+    # (the draw method's parameters passed by name to an `area_by` function)
+    params_call <- as.call(c(list(as.name("list")), set_names(passed[!by_position], args[!by_position])))
     parent_call <- as.call(c(call("$", quote(ggproto_parent(geom, self)), as.name(method)), passed))
     data_arg <- as.name(args[1L])
     # (the parent's method as a function of its data since tracing draws it with other fills)
     draw <- call("function", as.pairlist(set_names(alist(x = ), args[1L])), parent_call)
     body <- bquote({
         draw <- .(draw)
-        draw_with_pattern(draw, .(data_arg), area_by, delay, geom = class(self)[1L], label = label)
+        draw_with_pattern(draw, .(data_arg), area_by, .(params_call), geom = class(self)[1L], label = label)
     })
     members <- list(
         default_aes = defaults(geom$default_aes, pattern_aesthetics),
@@ -205,12 +216,22 @@ known_area_by <- function(geom) {
 }
 
 # The grob `draw(data)` draws with its areas filled with the patterns of their rows
-# (`geom` and `label` (the `area_by` preset or `NULL` for a function) are for error messages)
-draw_with_pattern <- function(draw, data, area_by, delay = FALSE, geom = "Geom", label = NULL) {
+# (`params` are the draw method's parameters for an `area_by` function,
+#  `geom` and `label` (the `area_by` preset or `NULL` for a function) are for error messages)
+draw_with_pattern <- function(draw, data, area_by, params = list(), geom = "Geom", label = NULL) {
     if (!is.function(area_by)) return(draw_traced(draw, data))
     grob <- draw(data)
-    rows <- area_by(data)
+    rows <- call_area_by(area_by, data, params)
+    # (a grob that only makes its areas when it is drawn is filled then)
+    delay <- length(gridpattern::area_boundaries(grob)) == 0L
     with_area_mismatch_context(with_pattern_aes(grob, rows, delay = delay), geom, label, delay)
+}
+
+# `area_by(data)` also given the `params` it has an argument for (or all of them if it has `...`)
+call_area_by <- function(area_by, data, params) {
+    fmls <- names(formals(args(area_by)))[-1L]
+    if (!"..." %in% fmls) params <- params[names(params) %in% fmls]
+    inject(area_by(data, !!!params))
 }
 
 # `expr` (a grob) with `{gridpattern}`'s wrong number of rows per area error
@@ -342,21 +363,24 @@ makeContent.ggpattern_traced <- function(x) {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Make a pattern layer from a layer
 #'
-#' The `Layer` method of [gridpattern::with_pattern()]
-#' e.g. `with_pattern(geom_rect(), pattern_fill = "blue")`:
+#' The `Layer` method of [with_pattern()] makes a pattern layer from a `{ggplot2}` layer:
 #' the layer's geom is replaced by our pattern geom for it if we have one
 #' (e.g. `GeomRectPattern` for `ggplot2::GeomRect`)
 #' or else by the pattern geom [make_GeomPattern()] makes from it.
 #'
-#' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_rect()`.
+#' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_contour_filled()`.
 #' @param ... Pattern aesthetics set to a constant e.g. `pattern = "circle"` or `pattern_fill = "blue"`.
 #' @param mapping Pattern aesthetic mappings (created by [ggplot2::aes()]) added to those of the layer.
-#' @param area_by,delay Passed to [make_GeomPattern()] (if given the pattern geom is always made by it).
+#' @param area_by Passed to [make_GeomPattern()] (if given the pattern geom is always made by it).
 #' @return A `{ggplot2}` layer.
-#' @noRd
+#' @seealso [make_GeomPattern()] to make a pattern geom from a geom.
+#' @examples
+#' library("ggplot2")
+#' ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
+#'     with_pattern(geom_contour_filled(bins = 4), pattern = "circle", pattern_fill = "white")
 #' @exportS3Method gridpattern::with_pattern
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL, delay = FALSE) {
+with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL) {
     aes_params <- list2(...)
     unknown <- setdiff(names2(aes_params), names(pattern_aesthetics))
     if (length(unknown) > 0L) {
@@ -365,8 +389,8 @@ with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL, delay = F
             x = "Not {cli::qty(length(unknown))} {?a/} pattern aesthetic{?s}: {.val {unknown}}."
         ))
     }
-    geom <- if (is.null(area_by) && isFALSE(delay)) our_pattern_geom(x$geom)
-    geom <- geom %||% make_GeomPattern(x$geom, area_by = area_by, delay = delay)
+    geom <- if (is.null(area_by)) our_pattern_geom(x$geom)
+    geom <- geom %||% make_GeomPattern(x$geom, area_by = area_by)
     out <- ggproto(NULL, x, geom = geom)
     out$aes_params <- c(x$aes_params[setdiff(names(x$aes_params), names(aes_params))], aes_params)
     if (!is.null(mapping)) {

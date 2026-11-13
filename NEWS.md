@@ -38,6 +38,16 @@
 
 ## New features
 
+* New `make_GeomPattern()` makes a pattern geom from (almost) any `{ggplot2}` (or extension) geom:
+  it draws the geom's grob and fills each of its areas with the pattern of its row
+  (use `ggplot2::make_constructor()` to make its `geom_*_pattern()` function).
+  Its `area_by` argument says how the areas are matched to the rows of the data
+  (`"row"`, `"group"`, or a function) or else (by default for a geom we don't know)
+  each area is traced back to its row by the fill it was drawn with (`"trace"`).
+  Filling areas other than rectangles, polygons, and paths (e.g. circles or round rectangles) requires R (>= 4.2.0).
+* We now re-export `gridpattern::with_pattern()` whose new `Layer` method makes a pattern layer from a layer
+  e.g. `with_pattern(geom_contour_filled(), pattern_fill = "white")`
+  (using our pattern geom for the layer's geom if we have one else `make_GeomPattern()`).
 * New `geom_point_pattern()` which fills each point with a filled symbol (`shape` 21 to 25, its default is 21)
   with its own pattern (e.g. a different image per point using the "image" pattern and `pattern_filename`)
   and its `draw_key_point_pattern()` legend key glyph.

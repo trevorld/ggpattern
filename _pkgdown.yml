@@ -25,9 +25,15 @@ reference:
   - title: "New geom development functions"
     desc: "various functions mainly intended for developing new geoms"
     contents:
+        - make_GeomPattern
+        - with_pattern.Layer
         - create_polygon_df
         - is_polygon_df
         - draw_key_polygon_pattern
+  - title: "Re-exported functions"
+    desc: "Functions re-exported from other packages"
+    contents:
+        - reexports
   - title: "Defunct functions"
     desc: "Defunct functions that were removed from a previous version"
     contents:
