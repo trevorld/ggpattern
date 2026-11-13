@@ -1,0 +1,158 @@
+---
+title: "Developing Pattern Geoms"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Developing Pattern Geoms}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  dev = "ragg_png",
+  fig.width = 6,
+  fig.height = 3.5,
+  comment = "#>"
+)
+has_hexbin <- requireNamespace("hexbin", quietly = TRUE)
+```
+
+```{r setup}
+library("ggplot2")
+library("ggpattern")
+```
+
+## Overview
+
+`{ggpattern}` provides a pattern version of most `{ggplot2}` geoms (e.g. `geom_rect_pattern()`).
+For any other geom (from `{ggplot2}` or an extension package) there are three ways to fill its areas with patterns,
+from the least to the most work:
+
+1. `with_pattern()` makes a pattern layer from a layer, for a one-off plot.
+2. `make_GeomPattern()` makes a pattern geom from a geom, for a reusable `geom_*_pattern()` function.
+3. Writing the pattern geom's draw methods yourself with `with_pattern_aes()` and `with_pattern_key()`,
+   for full control.
+
+All three draw the parent geom's grob as usual and then fill each of its areas
+with the pattern of its row of the layer's data using `gridpattern::with_pattern()`.
+Each area's fill, pattern, and border are drawn in turn (like `{ggplot2}` draws its areas)
+so overlapping areas stack as they would without patterns.
+
+To write a new *pattern* (rather than a new geom) see `vignette("developing-patterns", package = "ggpattern")`.
+
+## `with_pattern()`: a pattern layer from a layer
+
+`with_pattern()` (re-exported from `{gridpattern}`) takes a layer
+and pattern aesthetics set to constants (in `...`) or mapped (in `mapping`):
+
+```{r with-pattern}
+ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
+  with_pattern(geom_contour_filled(bins = 4),
+               pattern = "circle", pattern_fill = "white", pattern_density = 0.3)
+```
+
+If `{ggpattern}` has a pattern geom for the layer's geom (e.g. `GeomRectPattern` for `geom_rect()`) it is used,
+otherwise the pattern geom is made by `make_GeomPattern()`.
+
+## `make_GeomPattern()`: a pattern geom from a geom
+
+`make_GeomPattern()` makes a pattern `Geom` from a `Geom`:
+it has the geom's aesthetics plus the pattern aesthetics,
+draws the geom's grob with its areas filled with patterns,
+and draws the geom's legend key glyph filled with the key's pattern.
+Use `ggplot2::make_constructor()` to make its `geom_*_pattern()` function:
+
+```{r make-geom-pattern}
+GeomContourFilledPattern <- make_GeomPattern(GeomContourFilled)
+geom_contour_filled_pattern <- make_constructor(GeomContourFilledPattern, stat = "contour_filled")
+
+ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
+  geom_contour_filled_pattern(aes(fill = after_stat(level), pattern = after_stat(level)),
+                              bins = 4, pattern_density = 0.3, pattern_fill = "white",
+                              pattern_spacing = 0.03)
+```
+
+### Matching areas to rows: `area_by`
+
+The pattern geom needs to know which row of the data each area of the grob was drawn for.
+`area_by` says how:
+
+* `"row"`: the geom draws an area per row in row order (e.g. `GeomRect` and `GeomHex`).
+* `"group"`: the geom draws an area per group sorted by group (e.g. `GeomPolygon`)
+  or its `draw_group()` method draws a single area (e.g. `GeomRibbon` and `GeomViolin`).
+* `"trace"`: the geom is drawn with a different `fill` per row
+  and each area gets the pattern of the row whose `fill` it was drawn with (and then its actual `fill` back).
+  This works for most geoms without knowing how they draw their areas
+  (e.g. one that draws its areas in a different order than its rows)
+  but it draws the geom twice and needs it to draw each area with its row's (character) `fill`.
+  Areas not drawn with a row's `fill` (e.g. decorations) are left alone.
+* A function of the data frame returning the rows of the areas in drawing order
+  (or a single row for every area).
+  It is also given the draw method's other parameters (e.g. `lineend`) by name
+  if it has an argument of that name (or `...`),
+  since some geoms' drawing order depends on them.
+
+By default `make_GeomPattern()` uses what it knows the `{ggplot2}` geoms need and otherwise `"trace"`,
+so `area_by` is mainly for speed or for a geom that tracing can't handle.
+If the geom's grob doesn't have as many areas as `area_by` gives rows
+the error says which geom and `area_by` and suggests trying `area_by = "trace"`.
+
+A grob that only makes its areas when it is drawn (e.g. in a `makeContent()` method)
+is filled when it is drawn.
+
+## Writing a pattern geom's draw methods
+
+For full control write the pattern geom's methods yourself:
+
+* `default_pattern_aes()` gives the default pattern aesthetics to add to the geom's `default_aes`.
+  Most are `NaN` ("unset") so that each pattern's own defaults apply:
+  copy them with `default_pattern_aes()` rather than writing your own values.
+* `with_pattern_aes(grob, data)` fills each area of `grob` with the pattern of its row of `data`
+  within a `draw_panel()` or `draw_group()` method.
+* `with_pattern_key(key, data, size)` fills each area of a key glyph with the key's pattern
+  within a `draw_key()` method
+  (scaling it so the key's pattern looks like the plot's).
+
+For example a pattern version of `ggplot2::GeomHex`
+(whose `draw_group()` method draws a hexagon per row, in row order):
+
+```{r hex, eval = has_hexbin}
+GeomHexPattern <- ggproto("GeomHexPattern", GeomHex,
+  default_aes = aes(!!!GeomHex$default_aes, !!!default_pattern_aes()),
+  draw_group = function(self, data, panel_params, coord, ...) {
+    grob <- ggproto_parent(GeomHex, self)$draw_group(data, panel_params, coord, ...)
+    with_pattern_aes(grob, data) # one row per hexagon
+  },
+  draw_key = function(data, params, size) {
+    with_pattern_key(draw_key_polygon(data, params, size), data, size)
+  }
+)
+
+ggplot(diamonds, aes(carat, price)) +
+  stat_bin_hex(aes(pattern_fill = after_stat(count) > 1000),
+               geom = GeomHexPattern, bins = 12, pattern_density = 0.3) +
+  labs(pattern_fill = "count > 1000")
+```
+
+Things to watch out for:
+
+* **Row order.** `data` must have a row per area in the order the grob draws them
+  (the order of `gridpattern::area_boundaries(grob)`)
+  or a single row for every area.
+  E.g. `ggplot2::GeomPolygon` draws its groups' polygons sorted by `group`
+  and `ggplot2::GeomPoint` only has areas for its filled shapes (`shape` 21 to 25).
+  Areas that should be filled as one (e.g. the polygons of a `MULTIPOLYGON` geometry)
+  can be given the same value of `pool` (with a row per unique value).
+* **Areas made when drawn.** If the grob only makes its areas when it is drawn
+  use `with_pattern_aes(grob, data, delay = TRUE)`.
+* **Other columns.** Besides the pattern aesthetics the other columns of `data` (e.g. `fill`)
+  are passed on to the pattern (for custom patterns that use them)
+  except `x`, `y`, `PANEL`, and the names of `gridpattern::with_pattern()`'s own arguments.
+* **Key size.** Call `with_pattern_key()` within the `draw_key()` method.
+  `{ggplot2}` may enlarge a key whose glyph has no size attributes after `draw_key()` returns
+  so the `size` it is given can be too small
+  (e.g. `draw_key_point_pattern()` uses the larger of `size` and the point's size).
+
+Alternatively subclass one of `{ggpattern}`'s pattern geoms (e.g. `GeomRectPattern` or `GeomPolygonPattern`)
+to inherit its default aesthetics, draw methods, and legend key.
