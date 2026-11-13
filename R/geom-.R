@@ -107,15 +107,6 @@ key_legend_factor <- function(size, aspect_ratio) {
   geometric_factor
 }
 
-# `grob` (a `{ggplot2}` key glyph) with each of its areas filled with the key's pattern
-key_with_pattern <- function(grob, data, size, aspect_ratio) {
-  legend <- key_legend_factor(size, aspect_ratio)
-  # (nothing to draw in a zero-size key)
-  if (is.na(legend)) return(grob)
-  if (!is.data.frame(data)) data <- vctrs::new_data_frame(as.list(data))
-  with_pattern_rows(grob, data[1L, , drop = FALSE], legend = legend)
-}
-
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' Key glyphs for legends
 #'
@@ -156,7 +147,7 @@ key_with_pattern <- function(grob, data, size, aspect_ratio) {
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
-  key_with_pattern(ggplot2::draw_key_polygon(data, params, size), data, size, aspect_ratio)
+  with_pattern_key(ggplot2::draw_key_polygon(data, params, size), data, size, aspect_ratio)
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -164,7 +155,7 @@ draw_key_polygon_pattern <- function(data, params, size, aspect_ratio = get_aspe
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
-  key_with_pattern(ggplot2::draw_key_boxplot(data, params, size), data, size, aspect_ratio)
+  with_pattern_key(ggplot2::draw_key_boxplot(data, params, size), data, size, aspect_ratio)
 }
 
 
@@ -174,5 +165,5 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = get_aspe
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
-  key_with_pattern(ggplot2::draw_key_crossbar(data, params, size), data, size, aspect_ratio)
+  with_pattern_key(ggplot2::draw_key_crossbar(data, params, size), data, size, aspect_ratio)
 }

@@ -75,7 +75,7 @@ GeomViolinPattern <- ggproto("GeomViolinPattern", GeomViolin,
       data, ..., quantile_gp = quantile_gp, flipped_aes = flipped_aes
     )
     # the violin is the only area (the quantile lines have none)
-    ggname("geom_violin_pattern", with_pattern_rows(grob, data[1L, , drop = FALSE]))
+    ggname("geom_violin_pattern", with_pattern_aes(grob, data[1L, , drop = FALSE]))
   },
 
   draw_key = draw_key_polygon_pattern,

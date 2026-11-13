@@ -30,7 +30,7 @@ GeomRibbonPattern <- ggproto("GeomRibbonPattern", GeomRibbon,
       flipped_aes = flipped_aes, outline.type = outline.type
     )
     # one polygon per run of non-missing values: all with the same pattern
-    ggname("geom_ribbon_pattern", with_pattern_rows(grob, pattern_params))
+    ggname("geom_ribbon_pattern", with_pattern_aes(grob, data[1L, , drop = FALSE]))
   },
 
   rename_size = TRUE

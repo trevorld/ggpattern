@@ -32,8 +32,8 @@ GeomSfPattern <- ggproto("GeomSfPattern", GeomSf,
     # (except the polygons of a geometry collection which are each their own grob)
     rows <- sf_area_rows(grob, data$geometry)
     if (length(rows) > 0L) {
-      group <- sf_area_groups(rows, data$geometry)
-      grob <- with_pattern_rows(grob, data[rows[!duplicated(group)], , drop = FALSE], group = group)
+      pool <- sf_area_pools(rows, data$geometry)
+      grob <- with_pattern_aes(grob, data[rows[!duplicated(pool)], , drop = FALSE], pool = pool)
     }
     ggname("geom_sf_pattern", gTree(children = grob))
   },
@@ -98,10 +98,11 @@ abort_sf_areas <- function(grobs, geometry) {
   ))
 }
 
-# The `group` of each area: its row except areas of a geometry collection (each their own grob)
-sf_area_groups <- function(rows, geometry) {
+# The `pool` of each area (areas with the same `pool` are filled as one region by the same pattern):
+# its row except areas of a geometry collection (each their own grob)
+sf_area_pools <- function(rows, geometry) {
   is_collection <- sf::st_is(geometry, "GEOMETRYCOLLECTION")[rows]
-  group <- as.character(rows)
-  group[is_collection] <- paste(rows[is_collection], seq_along(rows)[is_collection], sep = ".")
-  vec_group_id(group)
+  pool <- as.character(rows)
+  pool[is_collection] <- paste(rows[is_collection], seq_along(rows)[is_collection], sep = ".")
+  vec_group_id(pool)
 }

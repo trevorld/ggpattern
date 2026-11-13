@@ -11,7 +11,7 @@ GeomPointPattern <- ggproto("GeomPointPattern", GeomPoint,
     # only the filled symbols have an area (in row order): the other symbols are left alone
     # (each point's fill, pattern, and border are drawn in turn so overlapping points stack)
     is_filled <- is_filled_shape(data$shape)
-    if (any(is_filled)) grob <- with_pattern_rows(grob, data[is_filled, , drop = FALSE])
+    if (any(is_filled)) grob <- with_pattern_aes(grob, data[is_filled, , drop = FALSE])
     ggname("geom_point_pattern", grob)
   },
 
@@ -32,7 +32,7 @@ draw_key_point_pattern <- function(data, params, size, aspect_ratio = get_aspect
   # {ggplot2} enlarges a point's key (whose glyph has no size attributes) to fit the point
   # (see `ggplot2:::set_key_size()`) after drawing it so `size` may be too small
   point_size <- (data$size %||% 1.5) + (data$linewidth %||% 0)
-  key_with_pattern(key, data, pmax(size, point_size), aspect_ratio)
+  with_pattern_key(key, data, pmax(size, point_size), aspect_ratio)
 }
 
 # Whether point `shape`s are filled symbols (`pch` 21 to 25) i.e. have an area to fill with a pattern
