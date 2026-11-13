@@ -111,7 +111,10 @@ make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), ar
     area_by <- area_by %||% known_area_by(geom)
     if (!is.function(area_by)) {
         area_by <- arg_match0(area_by, c("trace", names(area_by_functions)), "area_by")
+        label <- area_by
         if (area_by != "trace") area_by <- area_by_functions[[area_by]]
+    } else {
+        label <- NULL
     }
     # wrap the method that draws the areas: `draw_group()` if `geom` has its own else `draw_panel()`
     has_draw_group <- !identical(ggproto_fn(geom$draw_group), ggproto_fn(Geom$draw_group))
@@ -129,7 +132,7 @@ make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), ar
     draw <- call("function", as.pairlist(set_names(alist(x = ), args[1L])), parent_call)
     body <- bquote({
         draw <- .(draw)
-        draw_with_pattern(draw, .(data_arg), area_by, delay)
+        draw_with_pattern(draw, .(data_arg), area_by, delay, geom = class(self)[1L], label = label)
     })
     members <- list(
         default_aes = defaults(geom$default_aes, pattern_aesthetics),
@@ -178,12 +181,41 @@ known_area_by <- function(geom) {
 }
 
 # The grob `draw(data)` draws with its areas filled with the patterns of their rows
-draw_with_pattern <- function(draw, data, area_by, delay = FALSE) {
-    if (is.function(area_by)) {
-        with_pattern_aes(draw(data), area_by(data), delay = delay)
-    } else {
-        draw_traced(draw, data)
-    }
+# (`geom` and `label` (the `area_by` preset or `NULL` for a function) are for error messages)
+draw_with_pattern <- function(draw, data, area_by, delay = FALSE, geom = "Geom", label = NULL) {
+    if (!is.function(area_by)) return(draw_traced(draw, data))
+    grob <- draw(data)
+    rows <- area_by(data)
+    with_area_mismatch_context(with_pattern_aes(grob, rows, delay = delay), geom, label, delay)
+}
+
+# `expr` (a grob) with `{gridpattern}`'s wrong number of rows per area error
+# re-raised to say which geom and `area_by` (when `delay` the error is only raised when drawn)
+with_area_mismatch_context <- function(expr, geom, label, delay = FALSE) {
+    grob <- try_fetch(expr, gridpattern_area_mismatch = function(cnd) {
+        abort_area_mismatch(cnd, geom, label)
+    })
+    if (!delay) return(grob)
+    gTree(children = gList(grob), geom = geom, label = label, cl = "ggpattern_area_mismatch_context")
+}
+
+#' @export
+makeContent.ggpattern_area_mismatch_context <- function(x) {
+    grob <- try_fetch(grid::forceGrob(x$children[[1L]]), gridpattern_area_mismatch = function(cnd) {
+        abort_area_mismatch(cnd, x$geom, x$label)
+    })
+    setChildren(x, gList(grob))
+}
+
+abort_area_mismatch <- function(cnd, geom, label) {
+    # (with `pool = TRUE` {gridpattern} counts grobs not areas)
+    units <- paste0(cnd$unit, if (cnd$n_expected != 1L) "s")
+    area_by <- if (is.null(label)) "the {.arg area_by} function" else "{.code area_by = \"{label}\"}"
+    cli::cli_abort(c(
+        paste0("{.cls {geom}} drew {cnd$n_expected} {units} but ", area_by,
+               " gave {cnd$n_given} row{?s}."),
+        i = "Does it draw its areas in a different way? Try {.code area_by = \"trace\"}."
+    ), parent = cnd, call = NULL, class = "ggpattern_area_mismatch")
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -67,7 +67,7 @@
   Each area's fill, pattern, and border are now drawn in turn (like `{ggplot2}` draws its areas)
   instead of every border being drawn above every pattern
   so overlapping areas stack correctly and the border shared by neighbouring areas (e.g. tiles) is partly covered by the later area.
-  Requires `{gridpattern}` (>= 1.6.0-14).
+  Requires `{gridpattern}` (>= 1.6.0-15).
 * `draw_key_polygon_pattern()`, `draw_key_boxplot_pattern()`, and `draw_key_crossbar_pattern()`
   now fill the area of `{ggplot2}`'s `draw_key_polygon()`, `draw_key_boxplot()`, and `draw_key_crossbar()` key glyphs
   with a pattern (using `gridpattern::with_pattern()`, #158) instead of drawing their own glyphs.
