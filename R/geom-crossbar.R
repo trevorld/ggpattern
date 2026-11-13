@@ -77,6 +77,6 @@ GeomCrossbarPattern <- ggproto("GeomCrossbarPattern", GeomCrossbar,
       middle_gp = middle_gp, box_gp = box_gp
     )
     # one box polygon per row (the middle segments have no area)
-    ggname("geom_crossbar_pattern", with_pattern_rows(grob, data))
+    ggname("geom_crossbar_pattern", with_pattern_aes(grob, data))
   }
 )

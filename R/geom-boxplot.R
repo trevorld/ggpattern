@@ -141,7 +141,7 @@ GeomBoxplotPattern <- ggproto("GeomBoxplotPattern", GeomBoxplot,
       varwidth = varwidth, flipped_aes = flipped_aes
     )
     # the box is the only area (outliers, whiskers, staples, and median have none)
-    ggname("geom_boxplot_pattern", with_pattern_rows(grob, data))
+    ggname("geom_boxplot_pattern", with_pattern_aes(grob, data))
   },
 
   # {covr} can't cover `draw_key_boxplot_pattern()` if directly assign it

@@ -10,7 +10,7 @@ GeomPolygonPattern <- ggproto("GeomPolygonPattern", GeomPolygon,
       lineend = lineend, linejoin = linejoin, linemitre = linemitre
     )
     # one polygon (or path) per group (sorted by group)
-    ggname("geom_polygon_pattern", with_pattern_rows(grob, first_rows_by_group(data)))
+    ggname("geom_polygon_pattern", with_pattern_aes(grob, first_rows_by_group(data)))
   },
 
   default_aes = defaults(aes(

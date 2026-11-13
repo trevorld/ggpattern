@@ -18,3 +18,40 @@ pattern_names <- function(x) {
 grob_classes <- function(x) {
     if (inherits(x, "gTree")) unlist(lapply(x$children, grob_classes)) else class(x)[1L]
 }
+
+# Registers (until the end of the calling test) a pattern that records the params it is called with.
+# Returns a function that prints a plot and returns the recorded params.
+local_capture_pattern <- function(name, defaults = list(), .local_envir = parent.frame()) {
+    captured <- new.env()
+    capture_pattern <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
+        captured$params <- params
+        grid::nullGrob()
+    }
+    gridpattern::local_pattern(name, capture_pattern, defaults = defaults,
+                               env = globalenv(), .local_envir = .local_envir)
+    withr::local_pdf(NULL, .local_envir = .local_envir)
+    function(p) {
+        print(p)
+        captured$params
+    }
+}
+
+# the fills of the (non-gTree) grobs within `x` (in drawing order)
+all_fills <- function(x) {
+    if (inherits(x, "pattern")) return(NULL)
+    if (inherits(x, "gTree")) {
+        return(unname(unlist(lapply(x$children[x$childrenOrder], all_fills))))
+    }
+    unname(x$gp$fill)
+}
+
+# the fills of the areas within `x` (in drawing order)
+area_fills <- function(x) {
+    fills <- unname(all_fills(x))
+    fills[!is.na(fills) & fills != "transparent"]
+}
+
+# expects the colours `object` to be the same colours as `expected` (however they are written)
+expect_colours <- function(object, expected) {
+    expect_equal(grDevices::col2rgb(object, alpha = TRUE), grDevices::col2rgb(expected, alpha = TRUE))
+}

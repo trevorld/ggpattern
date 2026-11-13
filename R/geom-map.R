@@ -56,7 +56,7 @@ GeomMapPattern <- ggproto("GeomMapPattern", GeomPolygonPattern,
     grob_id <- match(coords$group, unique0(coords$group))
     data_rows <- match(coords$id[!duplicated(grob_id)], data$map_id)
 
-    ggname("geom_map_pattern", with_pattern_rows(grob, data[data_rows, , drop = FALSE]))
+    ggname("geom_map_pattern", with_pattern_aes(grob, data[data_rows, , drop = FALSE]))
   },
 
   required_aes = c("map_id")

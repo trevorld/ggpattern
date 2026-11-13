@@ -1,20 +1,3 @@
-# Registers (until the end of the calling test) a pattern that records the params it is called with.
-# Returns a function that prints a plot and returns the recorded params.
-local_capture_pattern <- function(name, defaults = list(), .local_envir = parent.frame()) {
-    captured <- new.env()
-    capture_pattern <- function(params, boundary_df, aspect_ratio, legend = FALSE) {
-        captured$params <- params
-        grid::nullGrob()
-    }
-    gridpattern::local_pattern(name, capture_pattern, defaults = defaults,
-                               env = globalenv(), .local_envir = .local_envir)
-    withr::local_pdf(NULL, .local_envir = .local_envir)
-    function(p) {
-        print(p)
-        captured$params
-    }
-}
-
 expect_na_not_nan <- function(x) expect_true(is.na(x) && !is.nan(x))
 
 df <- data.frame(trt = c("a", "b"), outcome = c(2, 3))
@@ -169,16 +152,4 @@ test_that("unset aesthetics use {gridpattern}'s defaults", {
     expect_equal(labels, "X")
     fontsizes <- unique(unlist(lapply(text_grobs, function(x) x$gp$fontsize)))
     expect_equal(fontsizes, 12)
-})
-
-test_that("`with_pattern_rows()` checks there is a row per area", {
-    grob <- grid::rectGrob(x = c(0.25, 0.75), width = 0.4)
-    params <- data.frame(pattern = c("stripe", "circle", "none"))
-    expect_error(with_pattern_rows(grob, params), "one value per area")
-    expect_equal(pattern_names(with_pattern_rows(grob, params[2:3, , drop = FALSE])), c("circle", "none"))
-    # a single row is used for every area
-    expect_equal(pattern_names(with_pattern_rows(grob, params[2L, , drop = FALSE])), c("circle", "circle"))
-    # grobs without areas are left alone
-    lines <- grid::linesGrob()
-    expect_identical(with_pattern_rows(lines, params), lines)
 })

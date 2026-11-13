@@ -17,7 +17,7 @@ GeomRectPattern <- ggproto( "GeomRectPattern", GeomRect,
       data, panel_params, coord, lineend = lineend, linejoin = linejoin
     )
     # one rectangle (or polygon if the coord is non-linear) per row
-    ggname("geom_rect_pattern", with_pattern_rows(grob, data))
+    ggname("geom_rect_pattern", with_pattern_aes(grob, data))
   },
 
   draw_key = draw_key_polygon_pattern,
