@@ -122,10 +122,17 @@ make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), ar
     # with the formals of the parent's method (which `Geom$parameters()` reads) all passed on to it
     fmls <- formals(ggproto_fn(geom[[method]]))
     if (!"self" %in% names(fmls)) fmls <- c(alist(self = ), fmls)
+    # (the data, panel parameters, and coord renamed to `{ggplot2}`'s names
+    #  which `Geom$parameters()` and `make_constructor()` leave out
+    #  e.g. for a geom written for `{ggplot2}` (< 3.0.0) which called them `panel_scales`)
+    fmls <- standardize_draw_formals(fmls)
     args <- setdiff(names(fmls), "self")
-    # (the data, panel parameters, and coord by position since their names may differ)
+    # (the data, panel parameters, and coord by position since their names may differ
+    #  unless after `...` e.g. `GeomViolin$draw_group(self, data, ..., quantile_gp, flipped_aes)`)
     passed <- lapply(args, as.name)
-    names(passed) <- ifelse(args == "..." | seq_along(args) <= 3L, "", args)
+    dots <- match("...", args, nomatch = length(args) + 1L)
+    by_position <- args == "..." | (seq_along(args) <= 3L & seq_along(args) < dots)
+    names(passed) <- ifelse(by_position, "", args)
     parent_call <- as.call(c(call("$", quote(ggproto_parent(geom, self)), as.name(method)), passed))
     data_arg <- as.name(args[1L])
     # (the parent's method as a function of its data since tracing draws it with other fills)
@@ -142,6 +149,23 @@ make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), ar
     )
     members[[method]] <- new_function(fmls, body, env = environment())
     inject(ggproto(name, geom, !!!members))
+}
+
+# The formals of a draw method with its data, panel parameters, and coord
+# (its first three arguments after `self` before any `...`, passed by position) given `{ggplot2}`'s names
+standardize_draw_formals <- function(fmls) {
+    nms <- names(fmls)
+    args <- which(nms != "self")
+    dots <- match("...", nms[args], nomatch = length(args) + 1L)
+    n <- min(3L, dots - 1L)
+    if (n < 1L) return(fmls)
+    standard <- c("data", "panel_params", "coord")[seq_len(n)]
+    old <- nms[args[seq_len(n)]]
+    # (unless one of the names is already the name of another argument)
+    if (any(standard %in% setdiff(nms, old))) return(fmls)
+    nms[args[seq_len(n)]] <- standard
+    names(fmls) <- nms
+    fmls
 }
 
 # the function of a ggproto method

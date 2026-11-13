@@ -79,6 +79,15 @@ test_that("`make_GeomPattern()` makes a pattern geom from a geom", {
         layer(geom = GeomPolygonPattern2, stat = "identity", position = "identity") + scale
     expect_equal(pattern_names(layer_grob(p)[[1]]), c("stripe", "circle"))
 
+    # the draw method's parameters after its `...` are still passed on by name
+    GeomViolinPattern2 <- make_GeomPattern(GeomViolin, "GeomViolinPattern2")
+    p <- ggplot(ggplot2::mpg, aes(drv, hwy)) +
+        layer(geom = GeomViolinPattern2, stat = "ydensity", position = "dodge",
+              params = list(quantiles = 0.5, quantile_gp = list(linetype = 3, colour = "red")))
+    quantiles <- layer_grob(p)[[1]]$children[[1L]]$children[[2L]]
+    expect_equal(quantiles$gp$lty, 3)
+    expect_colours(quantiles$gp$col, "red")
+
     expect_equal(class(make_GeomPattern(GeomTile))[1L], "GeomTilePattern")
     expect_error(make_GeomPattern(geom_tile()), "must be a <Geom> object")
 })
@@ -87,8 +96,10 @@ test_that("`make_GeomPattern()` works with a geom from another package", {
     skip_if(getRversion() < "4.2.0")
     skip_if_not_installed("treemapify")
     GeomTreemapPattern <- make_GeomPattern(treemapify::GeomTreemap)
-    # (its `draw_panel()` method names its panel parameters `panel_scales`)
-    geom_treemap_pattern <- make_constructor(GeomTreemapPattern, omit = "panel_scales")
+    # (its `draw_panel()` method names its panel parameters `panel_scales` (as `{ggplot2}` (< 3.0.0) did)
+    #  which our draw method calls `panel_params` so `make_constructor()` leaves it out)
+    expect_false("panel_scales" %in% GeomTreemapPattern$parameters())
+    expect_no_warning(geom_treemap_pattern <- make_constructor(GeomTreemapPattern))
     # it draws its tiles from the largest to the smallest (not in row order)
     df <- data.frame(area = c(1, 5, 2), k = c("a", "b", "c"))
     p <- ggplot(df, aes(area = area, pattern = k, fill = k)) + geom_treemap_pattern() +
