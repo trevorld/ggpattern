@@ -27,6 +27,8 @@ reference:
     contents:
         - make_GeomPattern
         - with_pattern.Layer
+        - with_pattern_aes
+        - default_pattern_aes
         - create_polygon_df
         - is_polygon_df
         - draw_key_polygon_pattern

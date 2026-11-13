@@ -5,8 +5,8 @@
 # * the `Layer` method of `gridpattern::with_pattern()` (which we re-export) makes a pattern layer from a layer
 #   e.g. `with_pattern(geom_rect(), pattern_fill = "blue")`,
 #   and its `dotstackGrob` method fills the dots of `ggplot2::geom_dotplot()` when they are drawn,
-# * `with_pattern_aes()` (not exported yet) fills the areas of a grob within a `draw_panel()` / `draw_group()` method,
-# * `with_pattern_key()` (not exported yet) fills the areas of a key glyph within a `draw_key()` method.
+# * `with_pattern_aes()` (exported) fills the areas of a grob within a `draw_panel()` / `draw_group()` method,
+# * `with_pattern_key()` (exported) fills the areas of a key glyph within a `draw_key()` method.
 
 # Columns that can't be passed on as pattern parameters:
 # `gridpattern::with_pattern()` rejects these names (they're its (or `patternGrob()`'s) own arguments)
@@ -16,27 +16,52 @@ with_pattern_reserved <- c("x", "y", "id", "name", "gp", "vp", "boundary", "defa
                            "pool", "layers", "delay", "leaves", "legend", "prefix", "PANEL")
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Fill each area of a grob with the pattern of its row of `data`
+#' Fill the areas of a grob with the patterns of their rows of aesthetics
 #'
-#' A wrapper around [gridpattern::with_pattern()] taking a layer's data:
-#' its pattern aesthetics (e.g. `pattern` and `pattern_fill`) are the pattern parameters
-#' and its other columns (e.g. `fill` and `colour`) are passed on as well
-#' for the (custom) patterns that use them
-#' (except the `x` and `y` positions, `PANEL`, and the names [gridpattern::with_pattern()] reserves).
+#' `with_pattern_aes()` fills each area of a grob
+#' (e.g. the grob drawn by a `{ggplot2}` geom's draw method)
+#' with the pattern of its row of a layer's data
+#' and `with_pattern_key()` fills each area of a legend key glyph with the key's pattern.
+#' They are wrappers around [gridpattern::with_pattern()] for writing the
+#' `draw_panel()` / `draw_group()` and `draw_key()` methods of a pattern geom
+#' (see `vignette("developing-pattern-geoms", package = "ggpattern")`).
+#'
+#' The pattern aesthetics (e.g. `pattern` and `pattern_fill`) are the pattern parameters
+#' and the other columns (e.g. `fill` and `colour`) are passed on as well
+#' for the (custom) patterns that use them,
+#' except the `x` and `y` positions, `PANEL`,
+#' and the names of the arguments of [gridpattern::with_pattern()] and [gridpattern::patternGrob()]
+#' (`id`, `name`, `gp`, `vp`, `boundary`, `default.units`, `draw`, `pool`, `layers`, `delay`,
+#' `leaves`, `legend`, and `prefix`).
+#' The `pattern` column is the pattern's name (`"stripe"` if there isn't one).
 #'
 #' @param grob A grid grob (usually the grob drawn by the parent `{ggplot2}` geom).
 #' @param data A data frame of aesthetics with either
-#'             one row per area of `grob` (in the order of [gridpattern::area_boundaries()])
-#'             (or per unique value of `pool`) or a single row used for every area.
+#'   one row per area of `grob` (in the order of [gridpattern::area_boundaries()])
+#'   (or per unique value of `pool`) or a single row used for every area.
+#'   For `with_pattern_key()` the key's (single row) data.
 #' @param pool,legend Passed to [gridpattern::with_pattern()].
 #' @param delay If `TRUE` the areas of `grob` are only filled when it is drawn:
-#'              for a grob whose areas only exist then
-#'              (e.g. one that makes its children in a `makeContent()` method).
-#'              The `dotstackGrob` of [ggplot2::geom_dotplot()] (whose dots are made when it is drawn)
-#'              is always filled when it is drawn.
-#'              Then a wrong number of rows is only an error when the grob is drawn.
+#'   for a grob whose areas only exist then
+#'   (e.g. one that makes its children in a `makeContent()` method).
+#'   The `dotstackGrob` of [ggplot2::geom_dotplot()] (whose dots are made when it is drawn)
+#'   is always filled when it is drawn.
+#'   Then a wrong number of rows is only an error when the grob is drawn.
 #' @return A grob.
-#' @noRd
+#' @seealso [make_GeomPattern()] to make a pattern geom from a geom without writing its draw methods.
+#'   [default_pattern_aes()] for the default pattern aesthetics.
+#' @examples
+#' grob <- grid::rectGrob(x = c(0.25, 0.75), width = 0.4, height = 0.8,
+#'                        gp = grid::gpar(fill = c("grey80", "grey60")))
+#' data <- data.frame(pattern = c("stripe", "circle"), pattern_fill = c("blue", "red"))
+#' grid::grid.newpage()
+#' grid::grid.draw(with_pattern_aes(grob, data))
+#'
+#' # e.g. the `draw_key()` method of a pattern geom
+#' draw_key <- function(data, params, size) {
+#'     with_pattern_key(ggplot2::draw_key_polygon(data, params, size), data, size)
+#' }
+#' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 with_pattern_aes <- function(grob, data, pool = FALSE, legend = FALSE, delay = FALSE) {
     if (!is.data.frame(data)) data <- vctrs::new_data_frame(as.list(data))
@@ -47,12 +72,13 @@ with_pattern_aes <- function(grob, data, pool = FALSE, legend = FALSE, delay = F
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#' Fill each area of a key glyph with the pattern of its key
-#'
+#' @rdname with_pattern_aes
 #' @param key A grid grob: a `{ggplot2}` key glyph e.g. as drawn by [ggplot2::draw_key_polygon()].
-#' @param data,size,aspect_ratio As in [draw_key_polygon_pattern()].
-#' @return A grob.
-#' @noRd
+#' @param size,aspect_ratio As in [draw_key_polygon_pattern()]:
+#'   the key's width and height (in mm) and the plot's aspect ratio.
+#'   Call `with_pattern_key()` within a `draw_key()` method
+#'   (when `{ggplot2}` draws the legend) so the default `aspect_ratio` is right.
+#' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio()) {
     legend <- key_legend_factor(size, aspect_ratio)

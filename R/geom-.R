@@ -48,6 +48,27 @@ pattern_aesthetics <- aes(
 )
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' The default pattern aesthetics
+#'
+#' `default_pattern_aes()` returns the default values of the pattern aesthetics
+#' (e.g. `pattern` and `pattern_fill`) for the `default_aes` of a pattern geom.
+#' Most are `NaN` which means "unset":
+#' the pattern's own (registered) default applies (or else `{gridpattern}`'s generic default)
+#' unlike `NA` which may be meaningful (e.g. a transparent colour).
+#' The only exception is `pattern` which defaults to `"stripe"`.
+#'
+#' @return A [ggplot2::aes()] mapping of constant values.
+#' @seealso [make_GeomPattern()] which adds them to a geom's `default_aes` for you.
+#'   See `vignette("developing-pattern-geoms", package = "ggpattern")` for writing a pattern geom.
+#' @examples
+#' names(default_pattern_aes())
+#' # e.g. for the `default_aes` of a pattern geom made from `ggplot2::GeomHex`
+#' default_aes <- ggplot2::aes(!!!ggplot2::GeomHex$default_aes, !!!default_pattern_aes())
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+default_pattern_aes <- function() pattern_aesthetics
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' The numeric `legend` (zoom) of the pattern of a legend key
 #'
 #' So the pattern of a legend key looks like the pattern drawn on the plot.
