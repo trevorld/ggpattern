@@ -1,3 +1,36 @@
+test_that("our pattern geoms and their constructors match their `{ggplot2}` counterparts", {
+    # Our pattern geoms copy the aesthetics and the draw method arguments of their `{ggplot2}` counterpart
+    # and their constructors its arguments so this fails when `{ggplot2}` changes them
+    # (i.e. we should update ours): not a bug for users of the released package so skipped on CRAN
+    # (but run by our scheduled check against the development `{ggplot2}`).
+    skip_on_cran()
+    ggplot2_exports <- getNamespaceExports("ggplot2")
+    ggproto_fn <- function(method) environment(method)$f %||% method
+    draw_args <- function(method) setdiff(names(formals(ggproto_fn(method))), "self")
+
+    geoms <- sort(grep("^Geom.+Pattern$", getNamespaceExports("ggpattern"), value = TRUE))
+    expect_in(sub("Pattern$", "", geoms), ggplot2_exports)
+    for (name in geoms) {
+        ours <- getExportedValue("ggpattern", name)
+        theirs <- getExportedValue("ggplot2", sub("Pattern$", "", name))
+        expect_setequal(names(ours$default_aes), c(names(theirs$default_aes), names(default_pattern_aes())))
+        for (method in c("draw_panel", "draw_group")) {
+            expect_equal(draw_args(ours[[method]]), draw_args(theirs[[method]]), info = paste(name, method))
+        }
+        for (field in c("required_aes", "optional_aes", "non_missing_aes", "rename_size")) {
+            expect_equal(ours[[field]], theirs[[field]], info = paste(name, field))
+        }
+    }
+
+    constructors <- sort(grep("^geom_.+_pattern$", getNamespaceExports("ggpattern"), value = TRUE))
+    expect_in(sub("_pattern$", "", constructors), ggplot2_exports)
+    for (name in constructors) {
+        ours <- getExportedValue("ggpattern", name)
+        theirs <- getExportedValue("ggplot2", sub("_pattern$", "", name))
+        expect_equal(names(formals(ours)), names(formals(theirs)), info = name)
+    }
+})
+
 test_that("zero-size legend keys don't draw a pattern", {
 
     df <- data.frame(trt = c("a", "b"), outcome = c(2, 3))

@@ -117,6 +117,32 @@ the error says which geom and `area_by` and suggests trying `area_by = "trace"`.
 A grob that only makes its areas when it is drawn (e.g. in a `makeContent()` method)
 is filled when it is drawn.
 
+### Using `make_GeomPattern()` in a package
+
+Code at the top level of a package's `R/` files is run when the package is *built*, not when it is loaded.
+So a pattern geom made there by `make_GeomPattern()` stores a copy of the geom it was made from
+(its methods, default aesthetics, and draw method arguments) as it was when your package was built.
+If that geom is from another package (e.g. `{ggplot2}`) which is later updated without your package being reinstalled
+the pattern geom keeps using the old copy:
+it won't have any new aesthetics or parameters and its old methods may fail with the updated package.
+(This doesn't affect `with_pattern()` or `make_GeomPattern()` used in a script or within a function,
+nor a geom from your own package.)
+
+Either make the pattern geom (and its constructor) when your package is loaded:
+
+```{r onload, eval = FALSE}
+GeomSmoothPattern <- NULL
+geom_smooth_pattern <- NULL
+
+.onLoad <- function(libname, pkgname) {
+  GeomSmoothPattern <<- ggpattern::make_GeomPattern(ggplot2::GeomSmooth)
+  geom_smooth_pattern <<- ggplot2::make_constructor(GeomSmoothPattern, stat = "smooth")
+}
+```
+
+or write the pattern geom's draw methods yourself (see the next section) as `{ggpattern}` does for its own geoms:
+a geom made by `ggplot2::ggproto()` looks up the geom it extends each time it is used.
+
 ## Writing a pattern geom's draw methods
 
 For full control write the pattern geom's methods yourself:
@@ -150,6 +176,15 @@ ggplot(diamonds, aes(carat, price)) +
                geom = GeomHexPattern2, bins = 12, pattern_density = 0.3) +
   labs(pattern_fill = "count > 1000")
 ```
+
+Such a geom always uses the installed version of the geom it extends
+but whatever it copies from it is only as up to date as your code (or your package's last build):
+here the `default_aes` (evaluated when the geom is made)
+and in general the arguments of a draw method that names them instead of using `...`.
+If the parent geom gains an aesthetic or a draw parameter the pattern geom won't have it until it is updated
+so it is worth testing that they still match
+(e.g. `{ggpattern}` tests its geoms' aesthetics, draw method arguments, and constructor arguments
+against their `{ggplot2}` counterparts, also weekly against the development version of `{ggplot2}`).
 
 Things to watch out for:
 

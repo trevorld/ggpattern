@@ -84,6 +84,7 @@
 
 ## Bug fixes and minor improvements
 
+* `GeomTilePattern` (and so `GeomBin2dPattern`) now has the same `non_missing_aes` as `ggplot2::GeomTile`.
 * Our geoms now draw the grob of the `{ggplot2}` geom they extend and fill each of its areas with a pattern in place
   (using `gridpattern::with_pattern()`, #158)
   instead of copying its grob-construction logic.

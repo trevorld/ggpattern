@@ -19,7 +19,9 @@ GeomTilePattern <- ggproto(
     pattern_aesthetics
   ),
 
-  required_aes = c("x", "y")
+  required_aes = c("x", "y"),
+
+  non_missing_aes = c("xmin", "xmax", "ymin", "ymax")
 )
 
 #' @rdname geom-docs

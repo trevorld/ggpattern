@@ -104,6 +104,13 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #' (otherwise the layer may fail with an error about missing aesthetics the stat would have computed).
 #' [with_pattern()] keeps those of the layer it is given.
 #'
+#' The pattern geom stores a copy of `geom` as it is when `make_GeomPattern()` is called.
+#' So if you call it at the top level of a package's code (which is run when the package is built)
+#' with a geom from another package the pattern geom won't pick up later updates of that geom
+#' until your package is reinstalled:
+#' call it in your package's `.onLoad()` instead or write the pattern geom's draw methods yourself
+#' with [with_pattern_aes()] (see `vignette("developing-pattern-geoms", package = "ggpattern")`).
+#'
 #' @param geom A [ggplot2::Geom] object e.g. `ggplot2::GeomSmooth`.
 #' @param name The class name of the pattern geom.
 #' @param area_by How the areas of the grob the geom draws are matched to the rows of the data frame
