@@ -58,6 +58,20 @@ test_that("`make_GeomPattern()` makes a pattern geom from a geom", {
     df <- data.frame(x = c("a", "b", "c"), y = 3:1)
     p <- ggplot(df, aes(x, y, pattern = x)) + geom_col_pattern2() + scale
     expect_equal(pattern_names(layer_grob(p)[[1]]), c("stripe", "circle", "crosshatch"))
+    # its grob is named after the geom (like `{ggplot2}` names the grobs of its geoms)
+    expect_match(layer_grob(p)[[1]]$name, "^geom_col_pattern2\\.")
+    # (also that of a geom extending it or one made by tracing but not a `gList`)
+    GeomColPattern3 <- ggproto("GeomColPattern3", GeomColPattern2)
+    p3 <- ggplot(df, aes(x, y)) + layer(geom = GeomColPattern3, stat = "identity", position = "stack")
+    expect_match(layer_grob(p3)[[1]]$name, "^geom_col_pattern3\\.")
+    GeomColTraced <- make_GeomPattern(GeomCol, "GeomColTraced", area_by = "trace")
+    p3 <- ggplot(df, aes(x, y)) + layer(geom = GeomColTraced, stat = "identity", position = "stack")
+    expect_match(layer_grob(p3)[[1]]$name, "^geom_col_traced\\.")
+    GeomList <- ggproto("GeomList", Geom, required_aes = "x", draw_key = draw_key_rect,
+                        draw_panel = function(data, panel_params, coord) grid::gList(grid::rectGrob()))
+    p3 <- ggplot(df[1L, ], aes(x)) + layer(geom = make_GeomPattern(GeomList), stat = "identity", position = "identity")
+    expect_s3_class(layer_grob(p3)[[1]], "gList")
+    expect_equal(snakeize("GeomDensity2dFilledPattern"), "geom_density2d_filled_pattern")
     # its key glyph is filled with the key's pattern
     withr::local_pdf(NULL)
     key <- GeomColPattern2$draw_key(data.frame(fill = "white", colour = "black", linewidth = 0.5,
