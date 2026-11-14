@@ -441,6 +441,9 @@ test_that("`with_pattern()` makes a pattern layer from a layer", {
     patterned <- with_pattern(c(list(geom_col()), others), pattern = "circle")
     expect_identical(patterned[[1L]]$geom, GeomColPattern)
     expect_identical(patterned[-1L], others)
+    # (as is a `NULL` in a list e.g. from an `if ()` without an `else`)
+    patterned <- with_pattern(list(geom_col(), if (FALSE) coord_flip(), others[[1L]]), pattern = "circle")
+    expect_identical(patterned[-1L], list(NULL, others[[1L]]))
     expect_no_error(ggplot_build(ggplot(df, aes(x, y)) + patterned))
     # but not a plot
     expect_error(with_pattern(ggplot(df, aes(x, y)) + geom_col(), pattern = "circle"),

@@ -418,7 +418,8 @@ makeContent.ggpattern_traced <- function(x) {
 #' The `list` method of [with_pattern()] makes a pattern layer from each layer in such a list
 #' and the `gg` method leaves any other `{ggplot2}` object (which has no areas to fill)
 #' as it is (whatever the other arguments)
-#' e.g. a coord, scale, facet, theme, `ggplot2::labs()`, or `ggplot2::guides()`.
+#' e.g. a coord, scale, facet, theme, `ggplot2::labs()`, or `ggplot2::guides()`
+#' (a `NULL` in the list is left as it is too).
 #' So e.g. `with_pattern(geom_sf(), pattern = "circle")` works too.
 #' It is an error to give it a plot: give it the plot's layers instead
 #' e.g. `ggplot(df, aes(x, y)) + with_pattern(geom_col())`.

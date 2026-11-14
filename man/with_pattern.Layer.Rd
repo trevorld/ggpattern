@@ -37,7 +37,8 @@ e.g. \code{ggplot2::geom_sf()} returns a list of a layer and a \code{ggplot2::co
 The \code{list} method of \code{\link[=with_pattern]{with_pattern()}} makes a pattern layer from each layer in such a list
 and the \code{gg} method leaves any other \code{{ggplot2}} object (which has no areas to fill)
 as it is (whatever the other arguments)
-e.g. a coord, scale, facet, theme, \code{ggplot2::labs()}, or \code{ggplot2::guides()}.
+e.g. a coord, scale, facet, theme, \code{ggplot2::labs()}, or \code{ggplot2::guides()}
+(a \code{NULL} in the list is left as it is too).
 So e.g. \code{with_pattern(geom_sf(), pattern = "circle")} works too.
 It is an error to give it a plot: give it the plot's layers instead
 e.g. \code{ggplot(df, aes(x, y)) + with_pattern(geom_col())}.
