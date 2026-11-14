@@ -26,3 +26,4 @@
 ^Rplots.pdf$
 ^vignettes/precompute_vignettes.R$
 ^vignettes/*.Rmd.orig$
+^tests/testthat/test-with-pattern-treemapify\.R$
