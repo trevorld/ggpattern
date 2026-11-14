@@ -10,6 +10,10 @@
 #' so for finer geometry patterns within (small) points use an absolute unit
 #' e.g. `pattern_units = "mm"` with a small `pattern_spacing`.
 #'
+#' `geom_dotplot_pattern()` fills each dot with its own pattern and requires R (>= 4.2.0).
+#' Like [ggplot2::geom_dotplot()] its default `fill` is the theme's `ink` colour.
+#' `geom_hex_pattern()` requires the suggested package `{hexbin}`.
+#'
 #' @section Pattern Arguments:
 #'
 #' Not all arguments apply to all patterns.
@@ -57,7 +61,11 @@
 #' }
 #' @inheritParams ggplot2::geom_bar
 #' @inheritParams ggplot2::geom_boxplot
+#' @inheritParams ggplot2::geom_contour_filled
 #' @inheritParams ggplot2::geom_crossbar
+#' @inheritParams ggplot2::geom_density_2d_filled
+#' @inheritParams ggplot2::geom_dotplot
+#' @inheritParams ggplot2::geom_hex
 #' @inheritParams ggplot2::geom_histogram
 #' @inheritParams ggplot2::geom_map
 #' @inheritParams ggplot2::geom_point

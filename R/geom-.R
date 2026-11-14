@@ -62,8 +62,8 @@ pattern_aesthetics <- aes(
 #'   See `vignette("developing-pattern-geoms", package = "ggpattern")` for writing a pattern geom.
 #' @examples
 #' names(default_pattern_aes())
-#' # e.g. for the `default_aes` of a pattern geom made from `ggplot2::GeomHex`
-#' default_aes <- ggplot2::aes(!!!ggplot2::GeomHex$default_aes, !!!default_pattern_aes())
+#' # e.g. for the `default_aes` of a pattern geom made from `ggplot2::GeomSmooth`
+#' default_aes <- ggplot2::aes(!!!ggplot2::GeomSmooth$default_aes, !!!default_pattern_aes())
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 default_pattern_aes <- function() pattern_aesthetics

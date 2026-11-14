@@ -19,8 +19,8 @@ The only exception is \code{pattern} which defaults to \code{"stripe"}.
 }
 \examples{
 names(default_pattern_aes())
-# e.g. for the `default_aes` of a pattern geom made from `ggplot2::GeomHex`
-default_aes <- ggplot2::aes(!!!ggplot2::GeomHex$default_aes, !!!default_pattern_aes())
+# e.g. for the `default_aes` of a pattern geom made from `ggplot2::GeomSmooth`
+default_aes <- ggplot2::aes(!!!ggplot2::GeomSmooth$default_aes, !!!default_pattern_aes())
 }
 \seealso{
 \code{\link[=make_GeomPattern]{make_GeomPattern()}} which adds them to a geom's \code{default_aes} for you.
