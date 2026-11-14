@@ -61,11 +61,7 @@
 #' }
 #' @inheritParams ggplot2::geom_bar
 #' @inheritParams ggplot2::geom_boxplot
-#' @inheritParams ggplot2::geom_contour_filled
 #' @inheritParams ggplot2::geom_crossbar
-#' @inheritParams ggplot2::geom_density_2d_filled
-#' @inheritParams ggplot2::geom_dotplot
-#' @inheritParams ggplot2::geom_hex
 #' @inheritParams ggplot2::geom_histogram
 #' @inheritParams ggplot2::geom_map
 #' @inheritParams ggplot2::geom_point
@@ -74,6 +70,19 @@
 #' @inheritParams ggplot2::geom_ribbon
 #' @inheritParams ggplot2::geom_tile
 #' @inheritParams ggplot2::geom_violin
+#' @inheritParams ggplot2::geom_contour_filled
+#' @inheritParams ggplot2::geom_density_2d_filled
+#' @inheritParams ggplot2::geom_dotplot
+#' @inheritParams ggplot2::geom_hex
+#' @param bins For `geom_histogram_pattern()` the number of bins (overridden by `binwidth`, defaults to 30)
+#'   and for `geom_contour_filled_pattern()` the number of contour bins (overridden by `breaks`).
+#' @param breaks For `geom_contour_filled_pattern()` the contour breaks:
+#'   a numeric vector or a function of the range of the data and the `binwidth` returning them
+#'   (see [ggplot2::geom_contour_filled()]). Overrides `binwidth` and `bins`.
+#' @param binwidth For `geom_histogram_pattern()` the width of the bins (see [ggplot2::geom_histogram()]),
+#'   for `geom_dotplot_pattern()` the maximum bin width when `method` is `"dotdensity"`
+#'   or else the bin width (see [ggplot2::geom_dotplot()]),
+#'   and for `geom_contour_filled_pattern()` the width of the contour bins (overridden by `bins`).
 #' @examples
 #'   if (require("ggplot2")) {
 #'

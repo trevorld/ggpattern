@@ -416,14 +416,14 @@ makeContent.ggpattern_traced <- function(x) {
 #' Some `{ggplot2}` functions return a list instead of a layer
 #' e.g. `ggplot2::geom_sf()` returns a list of a layer and a `ggplot2::coord_sf()`.
 #' The `list` method of [with_pattern()] makes a pattern layer from each layer in such a list
-#' and the `Coord` method leaves a coord as it is
+#' and the `Coord` and `Scale` methods leave a coord or scale as it is (whatever the other arguments)
 #' so e.g. `with_pattern(geom_sf(), pattern = "circle")` works too.
 #'
-#' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_smooth()` (or a coord, which is returned as it is).
+#' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_smooth()` (or a coord or scale, which is returned as it is).
 #' @param ... Pattern aesthetics set to a constant e.g. `pattern = "circle"` or `pattern_fill = "blue"`.
 #' @param mapping Pattern aesthetic mappings (created by [ggplot2::aes()]) added to those of the layer.
 #' @param area_by Passed to [make_GeomPattern()] (if given the pattern geom is always made by it).
-#' @return A `{ggplot2}` layer (or the coord).
+#' @return A `{ggplot2}` layer (or the coord or scale).
 #' @seealso [make_GeomPattern()] to make a pattern geom from a geom.
 #' @examples
 #' library("ggplot2")
@@ -453,12 +453,16 @@ with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL) {
     out
 }
 
-# A coord has no areas to fill: returned as it is
-# so that `gridpattern::with_pattern()`'s `list` method can be given a list of a layer and a coord
+# A coord or scale has no areas to fill: returned as it is (whatever the other arguments)
+# so that `gridpattern::with_pattern()`'s `list` method can be given a list of layers, coords, and scales
 # (e.g. what `ggplot2::geom_sf()` returns).
 #' @rdname with_pattern.Layer
 #' @exportS3Method gridpattern::with_pattern
 with_pattern.Coord <- function(x, ...) x
+
+#' @rdname with_pattern.Layer
+#' @exportS3Method gridpattern::with_pattern
+with_pattern.Scale <- function(x, ...) x
 
 # Our pattern geom for the `{ggplot2}` geom `geom` (`NULL` if we don't have one)
 our_pattern_geom <- function(geom) {

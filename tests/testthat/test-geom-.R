@@ -12,7 +12,6 @@ test_that("our pattern geoms and their constructors match their `{ggplot2}` coun
     # 3. Once that `{ggplot2}` is released bump the `{ggplot2}` version we import and remove the skip.
     skip_on_cran()
     ggplot2_exports <- getNamespaceExports("ggplot2")
-    ggproto_fn <- function(method) environment(method)$f %||% method
     draw_args <- function(method) setdiff(names(formals(ggproto_fn(method))), "self")
 
     geoms <- sort(grep("^Geom.+Pattern$", getNamespaceExports("ggpattern"), value = TRUE))

@@ -6,6 +6,11 @@ GeomPointPattern <- ggproto("GeomPointPattern", GeomPoint,
   # only the filled symbols (`shape` 21 to 25) have an area to fill with a pattern
   default_aes = defaults(aes(shape = 21), defaults(GeomPoint$default_aes, pattern_aesthetics)),
 
+  setup_params = function(self, data, params) {
+    check_r_version("geom_point_pattern")
+    ggproto_parent(GeomPoint, self)$setup_params(data, params)
+  },
+
   draw_panel = function(self, data, panel_params, coord, na.rm = FALSE) {
     grob <- ggproto_parent(GeomPoint, self)$draw_panel(data, panel_params, coord, na.rm = na.rm)
     # only the filled symbols have an area (in row order): the other symbols are left alone

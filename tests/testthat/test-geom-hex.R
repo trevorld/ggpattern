@@ -5,9 +5,6 @@ test_that("`geom_hex_pattern()` patterns each hexagon with its row's pattern", {
     expect_s3_class(p$layers[[1L]]$geom, c("GeomHexPattern", "GeomHex"))
     expect_equal(pattern_names(layer_grob(p)[[1L]]), df$pattern)
     expect_s3_class(geom_hex_pattern()$stat, "StatBinhex")
-    expect_named(formals(geom_hex_pattern), names(formals(ggplot2::geom_hex)))
-    expect_setequal(names(GeomHexPattern$default_aes),
-                    c(names(ggplot2::GeomHex$default_aes), names(default_pattern_aes())))
 
     withr::local_pdf(NULL)
     data <- data.frame(colour = "black", fill = "white", linewidth = 0.5, linetype = 1, alpha = NA,

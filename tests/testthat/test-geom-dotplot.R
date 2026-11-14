@@ -12,12 +12,14 @@ test_that("`geom_dotplot_pattern()` patterns each dot with its row's pattern whe
     expect_equal(pattern_names(grid::forceGrob(grob)), c("stripe", "stripe", "circle", "crosshatch"))
     expect_no_error(print(p))
 
-    expect_named(formals(geom_dotplot_pattern), names(formals(ggplot2::geom_dotplot)))
-    expect_setequal(names(GeomDotplotPattern$default_aes),
-                    c(names(ggplot2::GeomDotplot$default_aes), names(default_pattern_aes())))
     expect_message(geom_dotplot_pattern(position = "stack"), "doesn't work properly")
     expect_message(geom_dotplot_pattern(stackgroups = TRUE), "binpositions")
     expect_error(geom_dotplot_pattern(stackdir = "sideways"), "stackdir")
+
+    # R must be new enough to fill circles
+    expect_error(check_r_version("geom_dotplot_pattern", version = numeric_version("4.1.3")),
+                 "`geom_dotplot_pattern\\(\\)` requires R \\(>= 4.2.0\\)")
+    expect_null(check_r_version("geom_dotplot_pattern", version = numeric_version("4.2.0")))
 
     # the key's dot is filled with the key's pattern
     data <- data.frame(colour = "black", fill = "white", linetype = 1, alpha = NA, pattern = "circle")

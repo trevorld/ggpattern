@@ -198,9 +198,8 @@ test_that("the areas `{ggplot2}`'s geoms draw have the rows we assume they do", 
         GeomCrossbar = spec(rows, aes(x, y, ymin = y - 1, ymax = y + 1, pattern = pat)),
         GeomBoxplot = spec(rows, aes(x, ymin = y - 2, lower = y - 1, middle = y, upper = y + 1, ymax = y + 2,
                                      group = g, pattern = pat)),
-        # (a single group so that their `draw_group()` method is given all of the rows)
-        GeomHex = spec(rows, aes(x, y, group = 1, pattern = pat)),
-        # (with a pattern per bin since the stat drops the aesthetics that vary within a group)
+        # (a single group so that its `draw_group()` method is given all of the rows
+        #  with a pattern per bin since the stat drops the aesthetics that vary within a group)
         GeomDotplot = spec(rows, aes(x, group = 1, pattern = after_stat(pats[seq_along(count)])), stat = "bindot",
                            params = list(binwidth = 0.5)),
         GeomLabel = spec(rows, aes(x, y, label = g, pattern = pat)),
@@ -220,6 +219,12 @@ test_that("the areas `{ggplot2}`'s geoms draw have the rows we assume they do", 
         GeomDensity = spec(groups, aes(y, group = g, pattern = pat), stat = "density"),
         GeomViolin = spec(groups, aes(g, y, pattern = pat), stat = "ydensity")
     )
+    # (the specs of geoms that need a suggested package)
+    suggested <- c(GeomHex = "hexbin", GeomSf = "sf")
+    if (requireNamespace("hexbin", quietly = TRUE)) {
+        # (a single group so that its `draw_group()` method is given all of the rows)
+        specs$GeomHex <- spec(rows, aes(x, y, group = 1, pattern = pat))
+    }
     if (requireNamespace("sf", quietly = TRUE)) {
         square <- function(x) sf::st_polygon(list(cbind(x + c(0, 1, 1, 0, 0), c(0, 0, 1, 1, 0))))
         # (the point doesn't have an area and the squares of the multipolygon are filled as one area)
@@ -238,7 +243,8 @@ test_that("the areas `{ggplot2}`'s geoms draw have the rows we assume they do", 
     our_geoms <- grep("^Geom.+Pattern$", getNamespaceExports("ggpattern"), value = TRUE)
     our_geoms <- set_names(our_geoms, sub("Pattern$", "", our_geoms))
     # (every geom whose areas we assume the rows of has a spec)
-    expect_in(setdiff(c(names(known_area_by_geoms), names(our_geoms)), "GeomSf"), names(specs))
+    expect_in(setdiff(c(names(known_area_by_geoms), names(our_geoms)), names(suggested)), names(specs))
+    expect_in(names(suggested), c(names(known_area_by_geoms), names(our_geoms)))
 
     for (name in names(specs)) {
         spec <- specs[[name]]
@@ -427,9 +433,14 @@ test_that("`with_pattern()` makes a pattern layer from a layer", {
 
     expect_error(with_pattern(geom_col(), fill = "red"), "must be named pattern aesthetics")
 
-    # a coord is returned as it is
+    # a coord or scale is returned as it is (whatever the other arguments)
     coord <- coord_polar()
-    expect_identical(with_pattern(coord, pattern = "circle"), coord)
+    expect_identical(with_pattern(coord, pattern = "circle", fill = "red"), coord)
+    scale <- scale_fill_grey()
+    expect_identical(with_pattern(scale, pattern = "circle"), scale)
+    patterned <- with_pattern(list(geom_col(), scale), pattern = "circle")
+    expect_identical(patterned[[1L]]$geom, GeomColPattern)
+    expect_identical(patterned[[2L]], scale)
     # so a list of a layer and a coord (e.g. what `geom_sf()` returns) can be given
     skip_if_not_installed("sf")
     layers <- geom_sf(fill = "red")

@@ -533,20 +533,17 @@ an explanation.}
 
 \item{linemitre}{Line mitre limit (number greater than 1).}
 
-\item{bins}{Number of contour bins. Overridden by \code{breaks}.}
+\item{bins}{For \code{geom_histogram_pattern()} the number of bins (overridden by \code{binwidth}, defaults to 30)
+and for \code{geom_contour_filled_pattern()} the number of contour bins (overridden by \code{breaks}).}
 
-\item{binwidth}{The width of the contour bins. Overridden by \code{bins}.}
+\item{binwidth}{For \code{geom_histogram_pattern()} the width of the bins (see \code{\link[ggplot2:geom_histogram]{ggplot2::geom_histogram()}}),
+for \code{geom_dotplot_pattern()} the maximum bin width when \code{method} is \code{"dotdensity"}
+or else the bin width (see \code{\link[ggplot2:geom_dotplot]{ggplot2::geom_dotplot()}}),
+and for \code{geom_contour_filled_pattern()} the width of the contour bins (overridden by \code{bins}).}
 
-\item{breaks}{One of:
-\itemize{
-\item Numeric vector to set the contour breaks
-\item A function that takes the range of the data and binwidth as input
-and returns breaks as output. A function can be created from a formula
-(e.g. ~ fullseq(.x, .y)).
-}
-
-Overrides \code{binwidth} and \code{bins}. By default, this is a vector of length
-ten with \code{\link[=pretty]{pretty()}} breaks.}
+\item{breaks}{For \code{geom_contour_filled_pattern()} the contour breaks:
+a numeric vector or a function of the range of the data and the \code{binwidth} returning them
+(see \code{\link[ggplot2:geom_contour_filled]{ggplot2::geom_contour_filled()}}). Overrides \code{binwidth} and \code{bins}.}
 
 \item{middle.colour, middle.color, middle.linetype, middle.linewidth}{Default aesthetics for the middle line. Set to \code{NULL} to inherit from the
 data's aesthetics.}
@@ -593,7 +590,11 @@ on the right (a, b], or not [a, b)}
 \item{width}{When \code{binaxis} is "y", the spacing of the dot stacks
 for dodging.}
 
-\item{drop}{If TRUE, remove all bins with zero counts}
+\item{drop}{Treatment of zero count bins. If \code{"none"} (default), such
+bins are kept as-is. If \code{"all"}, all zero count bins are filtered out.
+If \code{"extremes"} only zero count bins at the flanks are filtered out, but
+not in the middle. \code{TRUE} is shorthand for \code{"all"} and \code{FALSE} is shorthand
+for \code{"none"}.}
 
 \item{map}{Data frame that contains the map coordinates.  This will
 typically be created using \code{\link[ggplot2:fortify]{fortify()}} on a spatial object.
