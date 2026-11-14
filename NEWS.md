@@ -36,6 +36,13 @@
   e.g. an `NA` `pattern_fill2` is now a transparent colour (previously replaced by the default `pattern_fill2`)
   and an `NA` `pattern_shape` still draws nothing for the "pch" pattern.
 
+## Deprecated features
+
+* `create_polygon_df()` and `is_polygon_df()` are (soft-)deprecated (#161)
+  since nothing exported accepts a `polygon_df`
+  (a data frame with `x`, `y`, and `id` columns).
+  To fill the areas of a grob with patterns see the new `with_pattern_aes()`.
+
 ## New features
 
 * New `make_GeomPattern()` makes a pattern geom from (almost) any `{ggplot2}` (or extension) geom:

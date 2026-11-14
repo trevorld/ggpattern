@@ -2,26 +2,33 @@
 % Please edit documentation in R/polygon_df.R
 \name{create_polygon_df}
 \alias{create_polygon_df}
-\title{Create a \code{polygon_df} object from the given coordinates}
+\alias{is_polygon_df}
+\title{Create a \code{polygon_df} object (deprecated)}
 \usage{
 create_polygon_df(x, y, id = 1L)
+
+is_polygon_df(x)
 }
 \arguments{
-\item{x, y}{coordinates of polygon. not necessarily closed.}
+\item{x, y}{For \code{create_polygon_df()} the coordinates of the polygon (not necessarily closed).
+For \code{is_polygon_df()} \code{x} is an object.}
 
 \item{id}{a numeric vector used to separate locations in x,y into multiple polygons}
 }
 \value{
-data.frame with x, y, id columns.
+\code{create_polygon_df()} returns a data frame with \code{x}, \code{y}, and \code{id} columns.
+\code{is_polygon_df()} returns \code{TRUE} if \code{x} is a \code{polygon_df} or \code{NULL}.
 }
 \description{
-code using \code{polygon_df} should not assume that the first and last point
-within each id are the same.  i.e. they may have to manulaly set a final
-point equal to the initial point if that is what their graphics system
-desires
+\code{create_polygon_df()} and \code{is_polygon_df()} are deprecated since nothing exported accepts a \code{polygon_df}.
+A \code{polygon_df} is just a data frame with \code{x}, \code{y}, and \code{id} columns
+(e.g. the \code{boundary_df} that \code{{gridpattern}} passes to a custom geometry pattern function).
+To fill the areas of a grob with patterns see \code{\link[=with_pattern_aes]{with_pattern_aes()}}.
 }
-\examples{
-  df <- create_polygon_df(x = c(0, 0, 1, 1), y = c(0, 1, 1, 0))
-  is_polygon_df(df)
-
+\details{
+\code{create_polygon_df()} creates a \code{polygon_df} object from the given coordinates.
+Code using \code{polygon_df} should not assume that the first and last point
+within each id are the same i.e. it may have to manually set a final
+point equal to the initial point if that is what its graphics system desires.
 }
+\keyword{internal}
