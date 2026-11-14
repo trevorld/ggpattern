@@ -2,12 +2,15 @@
 % Please edit documentation in R/with-pattern.R
 \name{with_pattern.Layer}
 \alias{with_pattern.Layer}
+\alias{with_pattern.Coord}
 \title{Make a pattern layer from a layer}
 \usage{
 \method{with_pattern}{Layer}(x, ..., mapping = NULL, area_by = NULL)
+
+\method{with_pattern}{Coord}(x, ...)
 }
 \arguments{
-\item{x}{A \code{{ggplot2}} layer e.g. \code{ggplot2::geom_smooth()}.}
+\item{x}{A \code{{ggplot2}} layer e.g. \code{ggplot2::geom_smooth()} (or a coord, which is returned as it is).}
 
 \item{...}{Pattern aesthetics set to a constant e.g. \code{pattern = "circle"} or \code{pattern_fill = "blue"}.}
 
@@ -16,13 +19,20 @@
 \item{area_by}{Passed to \code{\link[=make_GeomPattern]{make_GeomPattern()}} (if given the pattern geom is always made by it).}
 }
 \value{
-A \code{{ggplot2}} layer.
+A \code{{ggplot2}} layer (or the coord).
 }
 \description{
 The \code{Layer} method of \code{\link[=with_pattern]{with_pattern()}} makes a pattern layer from a \code{{ggplot2}} layer:
 the layer's geom is replaced by our pattern geom for it if we have one
 (e.g. \code{GeomRectPattern} for \code{ggplot2::GeomRect})
 or else by the pattern geom \code{\link[=make_GeomPattern]{make_GeomPattern()}} makes from it.
+}
+\details{
+Some \code{{ggplot2}} functions return a list instead of a layer
+e.g. \code{ggplot2::geom_sf()} returns a list of a layer and a \code{ggplot2::coord_sf()}.
+The \code{list} method of \code{\link[=with_pattern]{with_pattern()}} makes a pattern layer from each layer in such a list
+and the \code{Coord} method leaves a coord as it is
+so e.g. \code{with_pattern(geom_sf(), pattern = "circle")} works too.
 }
 \examples{
 library("ggplot2")

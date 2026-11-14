@@ -55,6 +55,9 @@
 * We now re-export `gridpattern::with_pattern()` whose new `Layer` method makes a pattern layer from a layer
   e.g. `with_pattern(geom_smooth(), pattern_fill = "white")`
   (using our pattern geom for the layer's geom if we have one else `make_GeomPattern()`).
+  It also has a new `Coord` method (which returns the coord as it is) so that it can be given
+  the list of a layer and a coord that e.g. `geom_sf()` returns: `with_pattern(geom_sf(), pattern = "circle")`.
+  Requires `{gridpattern}` (>= 1.6.0-16).
 * The grob a `make_GeomPattern()` geom draws is named after the geom
   (e.g. `"geom_smooth_pattern"` for `GeomSmoothPattern`) like `{ggplot2}` names the grobs of its geoms.
 * New `with_pattern_aes()`, `with_pattern_key()`, and `default_pattern_aes()`

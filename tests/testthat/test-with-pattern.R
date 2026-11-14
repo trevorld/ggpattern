@@ -426,4 +426,21 @@ test_that("`with_pattern()` makes a pattern layer from a layer", {
     expect_equal(pattern_names(grid::forceGrob(layer_grob(p)[[1]])), rep("circle", 4L))
 
     expect_error(with_pattern(geom_col(), fill = "red"), "must be named pattern aesthetics")
+
+    # a coord is returned as it is
+    coord <- coord_polar()
+    expect_identical(with_pattern(coord, pattern = "circle"), coord)
+    # so a list of a layer and a coord (e.g. what `geom_sf()` returns) can be given
+    skip_if_not_installed("sf")
+    layers <- geom_sf(fill = "red")
+    patterned <- with_pattern(layers, pattern = "circle", mapping = aes(pattern_fill = k))
+    expect_length(patterned, length(layers))
+    expect_identical(patterned[[1L]]$geom, GeomSfPattern)
+    expect_equal(patterned[[1L]]$aes_params$pattern, "circle")
+    expect_identical(patterned[[2L]], layers[[2L]])
+    square <- function(x) sf::st_polygon(list(cbind(x + c(0, 1, 1, 0, 0), c(0, 0, 1, 1, 0))))
+    df <- sf::st_sf(k = c("a", "b"), geometry = sf::st_sfc(square(0), square(2)))
+    p <- ggplot(df) + patterned
+    expect_equal(pattern_names(layer_grob(p)[[1]]), c("circle", "circle"))
+    expect_no_error(print(p))
 })
