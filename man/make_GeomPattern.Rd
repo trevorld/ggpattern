@@ -63,6 +63,13 @@ so pass them to \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor(
 e.g. \code{stat = "smooth"} for \code{ggplot2::geom_smooth()}
 (otherwise the layer may fail with an error about missing aesthetics the stat would have computed).
 \code{\link[=with_pattern]{with_pattern()}} keeps those of the layer it is given.
+
+The pattern geom stores a copy of \code{geom} as it is when \code{make_GeomPattern()} is called.
+So if you call it at the top level of a package's code (which is run when the package is built)
+with a geom from another package the pattern geom won't pick up later updates of that geom
+until your package is reinstalled:
+call it in your package's \code{.onLoad()} instead or write the pattern geom's draw methods yourself
+with \code{\link[=with_pattern_aes]{with_pattern_aes()}} (see \code{vignette("developing-pattern-geoms", package = "ggpattern")}).
 }
 \examples{
 library("ggplot2")
