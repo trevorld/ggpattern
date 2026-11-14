@@ -59,7 +59,8 @@
   (e.g. a coord, scale, facet, theme, `labs()`, or `guides()`) so that it can be given a list of them and layers
   e.g. what `geom_sf()` returns: `with_pattern(geom_sf(), pattern = "circle")`.
   It is an error to give it a plot.
-  Requires `{gridpattern}` (>= 1.6.0-16).
+  A `NULL` in such a list is also left as it is e.g. `with_pattern(list(geom_col(), if (flip) coord_flip()))`.
+  Requires `{gridpattern}` (>= 1.6.0-17).
 * The grob a `make_GeomPattern()` geom draws is named after the geom
   (e.g. `"geom_smooth_pattern"` for `GeomSmoothPattern`) like `{ggplot2}` names the grobs of its geoms.
 * New `with_pattern_aes()`, `with_pattern_key()`, and `default_pattern_aes()`
