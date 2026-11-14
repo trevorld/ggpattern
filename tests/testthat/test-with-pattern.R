@@ -433,14 +433,18 @@ test_that("`with_pattern()` makes a pattern layer from a layer", {
 
     expect_error(with_pattern(geom_col(), fill = "red"), "must be named pattern aesthetics")
 
-    # a coord or scale is returned as it is (whatever the other arguments)
+    # any other `{ggplot2}` object is returned as it is (whatever the other arguments)
     coord <- coord_polar()
     expect_identical(with_pattern(coord, pattern = "circle", fill = "red"), coord)
-    scale <- scale_fill_grey()
-    expect_identical(with_pattern(scale, pattern = "circle"), scale)
-    patterned <- with_pattern(list(geom_col(), scale), pattern = "circle")
+    others <- list(scale_fill_grey(), facet_wrap(vars(x)), theme_bw(), labs(x = "x"), guides(fill = "none"))
+    for (other in others) expect_identical(with_pattern(other, pattern = "circle"), other)
+    patterned <- with_pattern(c(list(geom_col()), others), pattern = "circle")
     expect_identical(patterned[[1L]]$geom, GeomColPattern)
-    expect_identical(patterned[[2L]], scale)
+    expect_identical(patterned[-1L], others)
+    expect_no_error(ggplot_build(ggplot(df, aes(x, y)) + patterned))
+    # but not a plot
+    expect_error(with_pattern(ggplot(df, aes(x, y)) + geom_col(), pattern = "circle"),
+                 "can't make a pattern plot from a plot")
     # so a list of a layer and a coord (e.g. what `geom_sf()` returns) can be given
     skip_if_not_installed("sf")
     layers <- geom_sf(fill = "red")

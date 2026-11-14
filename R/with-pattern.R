@@ -416,14 +416,24 @@ makeContent.ggpattern_traced <- function(x) {
 #' Some `{ggplot2}` functions return a list instead of a layer
 #' e.g. `ggplot2::geom_sf()` returns a list of a layer and a `ggplot2::coord_sf()`.
 #' The `list` method of [with_pattern()] makes a pattern layer from each layer in such a list
-#' and the `Coord` and `Scale` methods leave a coord or scale as it is (whatever the other arguments)
-#' so e.g. `with_pattern(geom_sf(), pattern = "circle")` works too.
+#' and the `gg` method leaves any other `{ggplot2}` object (which has no areas to fill)
+#' as it is (whatever the other arguments)
+#' e.g. a coord, scale, facet, theme, `ggplot2::labs()`, or `ggplot2::guides()`.
+#' So e.g. `with_pattern(geom_sf(), pattern = "circle")` works too.
+#' It is an error to give it a plot: give it the plot's layers instead
+#' e.g. `ggplot(df, aes(x, y)) + with_pattern(geom_col())`.
 #'
-#' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_smooth()` (or a coord or scale, which is returned as it is).
+#' To combine it with a `{ggfx}` filter make the pattern layer first
+#' e.g. `ggfx::with_blur(with_pattern(geom_col()))`:
+#' the layer of `with_pattern(ggfx::with_blur(geom_col()))` is drawn without its patterns
+#' (since `{ggfx}` draws the layer with the draw methods of the geom it was given).
+#'
+#' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_smooth()`
+#'   (or another `{ggplot2}` object, which is returned as it is).
 #' @param ... Pattern aesthetics set to a constant e.g. `pattern = "circle"` or `pattern_fill = "blue"`.
 #' @param mapping Pattern aesthetic mappings (created by [ggplot2::aes()]) added to those of the layer.
 #' @param area_by Passed to [make_GeomPattern()] (if given the pattern geom is always made by it).
-#' @return A `{ggplot2}` layer (or the coord or scale).
+#' @return A `{ggplot2}` layer (or the other `{ggplot2}` object).
 #' @seealso [make_GeomPattern()] to make a pattern geom from a geom.
 #' @examples
 #' library("ggplot2")
@@ -453,16 +463,23 @@ with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL) {
     out
 }
 
-# A coord or scale has no areas to fill: returned as it is (whatever the other arguments)
-# so that `gridpattern::with_pattern()`'s `list` method can be given a list of layers, coords, and scales
+# Any other `{ggplot2}` object (e.g. a coord, scale, facet, theme, labels, or guides) has no areas to fill:
+# returned as it is (whatever the other arguments)
+# so that `gridpattern::with_pattern()`'s `list` method can be given a list of them and layers
 # (e.g. what `ggplot2::geom_sf()` returns).
 #' @rdname with_pattern.Layer
 #' @exportS3Method gridpattern::with_pattern
-with_pattern.Coord <- function(x, ...) x
+with_pattern.gg <- function(x, ...) x
 
+# (but a plot is most likely a mistake rather than something to leave as it is)
 #' @rdname with_pattern.Layer
 #' @exportS3Method gridpattern::with_pattern
-with_pattern.Scale <- function(x, ...) x
+with_pattern.ggplot <- function(x, ...) {
+    cli::cli_abort(c(
+        "{.fn with_pattern} can't make a pattern plot from a plot.",
+        i = "Give it the plot's layers instead e.g. {.code ggplot(df, aes(x, y)) + with_pattern(geom_col())}."
+    ))
+}
 
 # Our pattern geom for the `{ggplot2}` geom `geom` (`NULL` if we don't have one)
 our_pattern_geom <- function(geom) {
