@@ -3,6 +3,13 @@ test_that("our pattern geoms and their constructors match their `{ggplot2}` coun
     # and their constructors its arguments so this fails when `{ggplot2}` changes them
     # (i.e. we should update ours): not a bug for users of the released package so skipped on CRAN
     # (but run by our scheduled check against the development `{ggplot2}`).
+    #
+    # When it fails against the development `{ggplot2}` (whose version ends in `.9000`):
+    # 1. Update ours to match (in a way that still works with the released `{ggplot2}`
+    #    e.g. a draw method that passes on whichever argument the installed `{ggplot2}`'s method has).
+    # 2. Skip this test for earlier versions (which ours no longer match)
+    #    e.g. `skip_if(packageVersion("ggplot2") < "4.0.3.9000")`.
+    # 3. Once that `{ggplot2}` is released bump the `{ggplot2}` version we import and remove the skip.
     skip_on_cran()
     ggplot2_exports <- getNamespaceExports("ggplot2")
     ggproto_fn <- function(method) environment(method)$f %||% method
