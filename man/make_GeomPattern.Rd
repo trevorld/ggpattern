@@ -57,6 +57,13 @@ and draws the key glyph of \code{geom} filled with the key's pattern.
 Use \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} to make its \verb{geom_*_pattern()} function
 or \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a layer.
 }
+\details{
+A geom doesn't know the default \code{stat} and \code{position} of its \verb{geom_*()} function
+so pass them to \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} if they aren't \code{"identity"}
+e.g. \code{stat = "contour_filled"} for \code{ggplot2::geom_contour_filled()}
+(otherwise the layer may fail with an error about missing aesthetics the stat would have computed).
+\code{\link[=with_pattern]{with_pattern()}} keeps those of the layer it is given.
+}
 \examples{
 library("ggplot2")
 GeomContourFilledPattern <- make_GeomPattern(GeomContourFilled)
