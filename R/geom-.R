@@ -188,3 +188,11 @@ draw_key_boxplot_pattern <- function(data, params, size, aspect_ratio = get_aspe
 draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_aspect_ratio()) {
   with_pattern_key(ggplot2::draw_key_crossbar(data, params, size), data, size, aspect_ratio)
 }
+
+# Aborts if R is too old for `what` (e.g. to fill areas other than rectangles, polygons, and paths)
+check_r_version <- function(what, required = "4.2.0", version = getRversion()) {
+  if (version < required) {
+    cli::cli_abort("{.fn {what}} requires R (>= {required}) but this is R {version}.", call = NULL)
+  }
+  invisible(NULL)
+}

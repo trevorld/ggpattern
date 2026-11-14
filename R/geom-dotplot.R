@@ -15,6 +15,11 @@ GeomDotplotPattern <- ggproto("GeomDotplotPattern", GeomDotplot,
     pattern_aesthetics
   ),
 
+  setup_params = function(self, data, params) {
+    check_r_version("geom_dotplot_pattern")
+    ggproto_parent(GeomDotplot, self)$setup_params(data, params)
+  },
+
   draw_group = function(self, data, panel_params, coord, lineend = "butt", na.rm = FALSE,
                         binaxis = "x", stackdir = "up", stackratio = 1,
                         dotsize = 1, stackgroups = FALSE) {
@@ -54,7 +59,7 @@ geom_dotplot_pattern <- function(mapping = NULL, data = NULL,
                                  show.legend = NA,
                                  inherit.aes = TRUE) {
   # If identical(position, "stack") or position is position_stack(), tell them
-  # to use stackgroups and set position to "identity"
+  # to use stackgroups instead
   if (!is.null(position) &&
       (identical(position, "stack") || (inherits(position, "PositionStack")))) {
     cli::cli_inform(

@@ -55,8 +55,8 @@
 * We now re-export `gridpattern::with_pattern()` whose new `Layer` method makes a pattern layer from a layer
   e.g. `with_pattern(geom_smooth(), pattern_fill = "white")`
   (using our pattern geom for the layer's geom if we have one else `make_GeomPattern()`).
-  It also has a new `Coord` method (which returns the coord as it is) so that it can be given
-  the list of a layer and a coord that e.g. `geom_sf()` returns: `with_pattern(geom_sf(), pattern = "circle")`.
+  It also has new `Coord` and `Scale` methods (which return the coord or scale as it is) so that it can be given
+  a list of layers, coords, and scales e.g. what `geom_sf()` returns: `with_pattern(geom_sf(), pattern = "circle")`.
   Requires `{gridpattern}` (>= 1.6.0-16).
 * The grob a `make_GeomPattern()` geom draws is named after the geom
   (e.g. `"geom_smooth_pattern"` for `GeomSmoothPattern`) like `{ggplot2}` names the grobs of its geoms.
@@ -68,6 +68,7 @@
   (and their `GeomContourFilledPattern`, `GeomDensity2dFilledPattern`, `GeomDotplotPattern`,
   and `GeomHexPattern` geoms) (#162).
   `geom_dotplot_pattern()` requires R (>= 4.2.0) and `geom_hex_pattern()` requires `{hexbin}`.
+  `geom_dotplot_pattern()` and `geom_point_pattern()` now throw an error if R is older than that.
 * New `geom_point_pattern()` which fills each point with a filled symbol (`shape` 21 to 25, its default is 21)
   with its own pattern (e.g. a different image per point using the "image" pattern and `pattern_filename`)
   and its `draw_key_point_pattern()` legend key glyph.
