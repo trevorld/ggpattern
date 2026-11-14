@@ -54,6 +54,7 @@ A \link[ggplot2:Geom]{ggplot2::Geom} object.
 it draws the grob of \code{geom} and fills each of its areas with a pattern,
 has the pattern aesthetics as well as those of \code{geom},
 and draws the key glyph of \code{geom} filled with the key's pattern.
+The grob it draws is named after the pattern geom (e.g. \code{"geom_smooth_pattern"} for \code{GeomSmoothPattern}).
 Use \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} to make its \verb{geom_*_pattern()} function
 or \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a layer.
 }

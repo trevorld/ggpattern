@@ -95,6 +95,7 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #' it draws the grob of `geom` and fills each of its areas with a pattern,
 #' has the pattern aesthetics as well as those of `geom`,
 #' and draws the key glyph of `geom` filled with the key's pattern.
+#' The grob it draws is named after the pattern geom (e.g. `"geom_smooth_pattern"` for `GeomSmoothPattern`).
 #' Use [ggplot2::make_constructor()] to make its `geom_*_pattern()` function
 #' or [with_pattern()] to make a pattern layer from a layer.
 #'
@@ -190,7 +191,11 @@ make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), ar
     draw <- call("function", as.pairlist(set_names(alist(x = ), args[1L])), parent_call)
     body <- bquote({
         draw <- .(draw)
-        draw_with_pattern(draw, .(data_arg), area_by, .(params_call), geom = class(self)[1L], label = label)
+        grob <- draw_with_pattern(draw, .(data_arg), area_by, .(params_call),
+                                  geom = class(self)[1L], label = label)
+        # named after the pattern geom like `{ggplot2}` names the grobs of its geoms e.g. "geom_rect_pattern"
+        # (unless it isn't a single grob e.g. the `gList` `ggplot2::GeomSf` may draw)
+        if (is.grob(grob)) ggname(snake_class(self), grob) else grob
     })
     members <- list(
         default_aes = defaults(geom$default_aes, pattern_aesthetics),
