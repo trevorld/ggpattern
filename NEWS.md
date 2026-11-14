@@ -70,13 +70,13 @@
   (and its alias `geom_density2d_filled_pattern()`), `geom_dotplot_pattern()`, and `geom_hex_pattern()`
   (and their `GeomContourFilledPattern`, `GeomDensity2dFilledPattern`, `GeomDotplotPattern`,
   and `GeomHexPattern` geoms) (#162).
-  `geom_dotplot_pattern()` requires R (>= 4.2.0) and `geom_hex_pattern()` requires `{hexbin}`.
-  `geom_dotplot_pattern()` and `geom_point_pattern()` now throw an error if R is older than that.
+  `geom_dotplot_pattern()` requires R (>= 4.2.0) (it is an error otherwise)
+  and `geom_hex_pattern()` requires `{hexbin}`.
 * New `geom_point_pattern()` which fills each point with a filled symbol (`shape` 21 to 25, its default is 21)
   with its own pattern (e.g. a different image per point using the "image" pattern and `pattern_filename`)
   and its `draw_key_point_pattern()` legend key glyph.
   Points with other shapes are drawn as by `geom_point()`.
-  Requires R (>= 4.2.0).
+  Requires R (>= 4.2.0) (it is an error otherwise).
 * New `pattern_linewidth` aesthetic for the stroke line width of patterns
   (matching `{ggplot2}`'s renaming of the `size` aesthetic to `linewidth` for line widths)
   with new `scale_pattern_linewidth()`, `scale_pattern_linewidth_continuous()`,

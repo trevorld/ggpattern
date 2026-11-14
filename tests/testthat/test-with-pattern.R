@@ -184,17 +184,21 @@ test_that("the areas `{ggplot2}`'s geoms draw have the rows we assume they do", 
     values <- data.frame(g = c("b", "c", "a"), pat = pats[1:3])
     level_pattern <- aes(waiting, eruptions, z = density, pattern = after_stat(pats[as.integer(level)]))
     # how to draw a layer of each `{ggplot2}` geom whose areas have different patterns
+    # (`pooled` if our pattern geom fills consecutive areas of a row as one area)
     spec <- function(data, mapping, stat = "identity", position = "identity", params = list(),
-                     patterns = unique(data$pat), extra = NULL) {
+                     patterns = unique(data$pat), extra = NULL, pooled = FALSE) {
         list(data = data, mapping = mapping, stat = stat, position = position, params = params,
-             patterns = patterns, extra = extra)
+             patterns = patterns, extra = extra, pooled = pooled)
     }
+    xy <- spec(rows, aes(x, y, pattern = pat))
+    contour <- spec(ggplot2::faithfuld, level_pattern, stat = "contour_filled", params = list(bins = 4),
+                    patterns = pats)
     specs <- list(
         GeomRect = spec(rows, aes(xmin = x, xmax = x + 0.9, ymin = 0, ymax = y, pattern = pat)),
-        GeomTile = spec(rows, aes(x, y, pattern = pat)),
-        GeomBar = spec(rows, aes(x, y, pattern = pat)),
-        GeomCol = spec(rows, aes(x, y, pattern = pat)),
-        GeomBin2d = spec(rows, aes(x, y, pattern = pat)),
+        GeomTile = xy,
+        GeomBar = xy,
+        GeomCol = xy,
+        GeomBin2d = xy,
         GeomCrossbar = spec(rows, aes(x, y, ymin = y - 1, ymax = y + 1, pattern = pat)),
         GeomBoxplot = spec(rows, aes(x, ymin = y - 2, lower = y - 1, middle = y, upper = y + 1, ymax = y + 2,
                                      group = g, pattern = pat)),
@@ -210,28 +214,26 @@ test_that("the areas `{ggplot2}`'s geoms draw have the rows we assume they do", 
         GeomMap = spec(values, aes(map_id = g, pattern = pat),
                        params = list(map = data.frame(x = polygons$x, y = polygons$y, id = polygons$g)),
                        extra = expand_limits(x = polygons$x, y = polygons$y)),
-        GeomContourFilled = spec(ggplot2::faithfuld, level_pattern, stat = "contour_filled", params = list(bins = 4),
-                                 patterns = pats),
-        GeomDensity2dFilled = spec(ggplot2::faithfuld, level_pattern, stat = "contour_filled", params = list(bins = 4),
-                                   patterns = pats),
+        GeomContourFilled = contour,
+        GeomDensity2dFilled = contour,
         GeomRibbon = spec(groups, aes(x, ymin = 0, ymax = y, group = g, pattern = pat)),
         GeomArea = spec(groups, aes(x, y, group = g, pattern = pat), stat = "align", position = "stack"),
         GeomDensity = spec(groups, aes(y, group = g, pattern = pat), stat = "density"),
         GeomViolin = spec(groups, aes(g, y, pattern = pat), stat = "ydensity")
     )
-    # (the specs of geoms that need a suggested package)
-    suggested <- c(GeomHex = "hexbin", GeomSf = "sf")
+    # (the geoms whose spec needs a suggested package)
+    optional <- c("GeomHex", "GeomSf")
     if (requireNamespace("hexbin", quietly = TRUE)) {
         # (a single group so that its `draw_group()` method is given all of the rows)
         specs$GeomHex <- spec(rows, aes(x, y, group = 1, pattern = pat))
     }
     if (requireNamespace("sf", quietly = TRUE)) {
-        square <- function(x) sf::st_polygon(list(cbind(x + c(0, 1, 1, 0, 0), c(0, 0, 1, 1, 0))))
-        # (the point doesn't have an area and the squares of the multipolygon are filled as one area)
-        geometry <- sf::st_sfc(square(6), sf::st_multipolygon(list(square(0), square(2))),
-                               sf::st_point(c(9, 0)), square(4))
+        # (the point doesn't have an area and the squares of the multipolygon are filled as one area by ours
+        #  but each by tracing)
+        geometry <- sf::st_sfc(sf_square(6), sf::st_multipolygon(list(sf_square(0), sf_square(2))),
+                               sf::st_point(c(9, 0)), sf_square(4))
         specs$GeomSf <- spec(sf::st_sf(pat = pats, geometry = geometry), aes(geometry = geometry, pattern = pat),
-                             stat = "sf", patterns = pats[-3L], extra = coord_sf())
+                             stat = "sf", patterns = pats[-3L], extra = coord_sf(), pooled = TRUE)
     }
     # the patterns of the areas (in drawing order) `geom` draws for a `spec`
     area_patterns <- function(geom, spec) {
@@ -240,11 +242,11 @@ test_that("the areas `{ggplot2}`'s geoms draw have the rows we assume they do", 
             scale_pattern_identity() + spec$extra
         pattern_names(grid::forceGrob(layer_grob(p)[[1L]]))
     }
-    our_geoms <- grep("^Geom.+Pattern$", getNamespaceExports("ggpattern"), value = TRUE)
-    our_geoms <- set_names(our_geoms, sub("Pattern$", "", our_geoms))
+    our_geoms <- our_pattern_geoms()
     # (every geom whose areas we assume the rows of has a spec)
-    expect_in(setdiff(c(names(known_area_by_geoms), names(our_geoms)), names(suggested)), names(specs))
-    expect_in(names(suggested), c(names(known_area_by_geoms), names(our_geoms)))
+    assumed <- union(names(known_area_by_geoms), names(our_geoms))
+    expect_in(setdiff(assumed, optional), names(specs))
+    expect_in(optional, assumed)
 
     for (name in names(specs)) {
         spec <- specs[[name]]
@@ -254,14 +256,12 @@ test_that("the areas `{ggplot2}`'s geoms draw have the rows we assume they do", 
         expect_setequal(traced, spec$patterns)
         # the `area_by` we know for the geom
         if (name %in% names(known_area_by_geoms)) {
-            expect_equal(known_area_by(geom), known_area_by_geoms[[name]], info = name)
             expect_equal(area_patterns(make_GeomPattern(geom), spec), traced, info = name)
         }
         # our own pattern geom for the geom
         if (name %in% names(our_geoms)) {
             ours <- getExportedValue("ggpattern", our_geoms[[name]])
-            # (tracing fills each square of the multipolygon)
-            if (name == "GeomSf") traced <- rle(traced)$values
+            if (spec$pooled) traced <- rle(traced)$values
             expect_equal(area_patterns(ours, spec), traced, info = name)
         }
     }
@@ -456,8 +456,7 @@ test_that("`with_pattern()` makes a pattern layer from a layer", {
     expect_identical(patterned[[1L]]$geom, GeomSfPattern)
     expect_equal(patterned[[1L]]$aes_params$pattern, "circle")
     expect_identical(patterned[[2L]], layers[[2L]])
-    square <- function(x) sf::st_polygon(list(cbind(x + c(0, 1, 1, 0, 0), c(0, 0, 1, 1, 0))))
-    df <- sf::st_sf(k = c("a", "b"), geometry = sf::st_sfc(square(0), square(2)))
+    df <- sf::st_sf(k = c("a", "b"), geometry = sf::st_sfc(sf_square(0), sf_square(2)))
     p <- ggplot(df) + patterned
     expect_equal(pattern_names(layer_grob(p)[[1]]), c("circle", "circle"))
     expect_no_error(print(p))

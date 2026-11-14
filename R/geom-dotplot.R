@@ -3,17 +3,7 @@
 #' @usage NULL
 #' @export
 GeomDotplotPattern <- ggproto("GeomDotplotPattern", GeomDotplot,
-  default_aes = defaults(aes(
-    colour = from_theme(colour %||% ink),
-    fill = from_theme(fill %||% ink),
-    alpha = NA,
-    stroke = from_theme(borderwidth * 2),
-    linetype = from_theme(linetype),
-    weight = 1,
-    width = 0.9
-  ),
-    pattern_aesthetics
-  ),
+  default_aes = defaults(GeomDotplot$default_aes, pattern_aesthetics),
 
   setup_params = function(self, data, params) {
     check_r_version("geom_dotplot_pattern")
