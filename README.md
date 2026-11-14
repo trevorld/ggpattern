@@ -222,6 +222,10 @@ See the vignette on developing patterns: [`vignette("developing-patterns", packa
 
 * [Developing Patterns](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns.html): `vignette("developing-patterns", package = "ggpattern")`
 
+#### Developing your own pattern geom
+
+* [Developing Pattern Geoms](https://trevorldavis.com/R/ggpattern/dev/articles/developing-pattern-geoms.html): `vignette("developing-pattern-geoms", package = "ggpattern")`
+
 #### Other examples
 
 * [Animating Patterns with `{gganimate}`](https://trevorldavis.com/R/ggpattern/dev/articles/gganimate.html): `vignette("gganimate", package = "ggpattern")`
