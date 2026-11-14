@@ -14,6 +14,10 @@ reference:
     desc: "patterned geom functions to use with {ggplot2}"
     contents:
         - starts_with("geom")
+  - title: "Patterned layers"
+    desc: "add patterns to (almost) any {ggplot2} (or extension) layer"
+    contents:
+        - with_pattern.Layer
   - title: "Scale functions"
     desc: "patterned scale functions to use with {ggplot2}"
     contents:
@@ -26,11 +30,6 @@ reference:
     desc: "various functions mainly intended for developing new geoms"
     contents:
         - make_GeomPattern
-        - with_pattern.Layer
         - with_pattern_aes
         - default_pattern_aes
         - draw_key_polygon_pattern
-  - title: "Re-exported functions"
-    desc: "Functions re-exported from other packages"
-    contents:
-        - reexports
