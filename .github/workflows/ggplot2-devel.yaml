@@ -1,0 +1,39 @@
+# Checks the package against the development version of {ggplot2}
+# to get early warning of changes that break us
+# e.g. to the order its geoms draw their areas in (which the pattern geoms rely on).
+# The visual snapshot tests all `skip_on_ci()` so unrelated changes in how {ggplot2} draws don't fail it.
+on:
+  schedule:
+    - cron: '0 6 * * 1' # weekly (Mondays)
+  workflow_dispatch:
+
+name: ggplot2-devel
+
+jobs:
+  ggplot2-devel:
+    runs-on: ubuntu-latest
+
+    name: ubuntu-latest (release) with the development ggplot2
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: release
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: github::tidyverse/ggplot2, any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
