@@ -1,9 +1,8 @@
 # the grobs of `class` within `x` (in drawing order, not looking within them)
 find_grobs <- function(x, class) {
     if (inherits(x, class)) return(list(x))
-    if (inherits(x, "gTree")) {
-        unlist(lapply(x$children[x$childrenOrder], find_grobs, class = class), recursive = FALSE)
-    }
+    if (inherits(x, "gTree")) x <- x$children[x$childrenOrder]
+    if (inherits(x, "gList")) unlist(lapply(x, find_grobs, class = class), recursive = FALSE)
 }
 
 # the pattern grobs within `x` (in drawing order)
