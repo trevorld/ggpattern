@@ -54,6 +54,7 @@ ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
 
 If `{ggpattern}` has a pattern geom for the layer's geom (e.g. `GeomRectPattern` for `geom_rect()`) it is used,
 otherwise the pattern geom is made by `make_GeomPattern()`.
+Only the layer's geom is replaced so it keeps its stat, position, and other parameters.
 
 ## `make_GeomPattern()`: a pattern geom from a geom
 
@@ -71,6 +72,20 @@ ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
   geom_contour_filled_pattern(aes(fill = after_stat(level), pattern = after_stat(level)),
                               bins = 4, pattern_density = 0.3, pattern_fill = "white",
                               pattern_spacing = 0.03)
+```
+
+A `Geom` doesn't know the default `stat` and `position` of its `geom_*()` function
+(they are arguments of that function) so pass them to `make_constructor()` if they aren't `"identity"`,
+as with `stat = "contour_filled"` above.
+Without the stat the layer may fail with an error about missing aesthetics the stat would have computed
+e.g. `ggridges::geom_density_ridges()` needs `stat = "density_ridges"` (which computes `height`)
+and `position = "points_sina"`:
+
+```{r make-constructor-stat, eval = FALSE}
+library("ggridges")
+GeomDensityRidgesPattern <- make_GeomPattern(GeomDensityRidges)
+geom_density_ridges_pattern <- make_constructor(GeomDensityRidgesPattern,
+                                                stat = "density_ridges", position = "points_sina")
 ```
 
 ### Matching areas to rows: `area_by`

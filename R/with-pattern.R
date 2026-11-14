@@ -98,6 +98,12 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #' Use [ggplot2::make_constructor()] to make its `geom_*_pattern()` function
 #' or [with_pattern()] to make a pattern layer from a layer.
 #'
+#' A geom doesn't know the default `stat` and `position` of its `geom_*()` function
+#' so pass them to [ggplot2::make_constructor()] if they aren't `"identity"`
+#' e.g. `stat = "contour_filled"` for `ggplot2::geom_contour_filled()`
+#' (otherwise the layer may fail with an error about missing aesthetics the stat would have computed).
+#' [with_pattern()] keeps those of the layer it is given.
+#'
 #' @param geom A [ggplot2::Geom] object e.g. `ggplot2::GeomContourFilled`.
 #' @param name The class name of the pattern geom.
 #' @param area_by How the areas of the grob the geom draws are matched to the rows of the data frame
