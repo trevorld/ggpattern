@@ -34,7 +34,3 @@ reference:
     desc: "Functions re-exported from other packages"
     contents:
         - reexports
-  - title: "Defunct functions"
-    desc: "Defunct functions that were removed from a previous version"
-    contents:
-        - ggpattern-defunct

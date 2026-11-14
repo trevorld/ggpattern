@@ -70,8 +70,6 @@ Collate:
     'geom-point.R'
     'geom-sf.R'
     'geom-violin.R'
-    'ggpattern-defunct.R'
-    'ggpattern-deprecated.R'
     'ggpattern-package.R'
     'pattern.R'
     'polygon_df.R'
