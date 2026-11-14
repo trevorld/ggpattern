@@ -14,11 +14,11 @@ test_that("our pattern geoms and their constructors match their `{ggplot2}` coun
     ggplot2_exports <- getNamespaceExports("ggplot2")
     draw_args <- function(method) setdiff(names(formals(ggproto_fn(method))), "self")
 
-    geoms <- sort(grep("^Geom.+Pattern$", getNamespaceExports("ggpattern"), value = TRUE))
-    expect_in(sub("Pattern$", "", geoms), ggplot2_exports)
-    for (name in geoms) {
-        ours <- getExportedValue("ggpattern", name)
-        theirs <- getExportedValue("ggplot2", sub("Pattern$", "", name))
+    geoms <- our_pattern_geoms()
+    expect_in(names(geoms), ggplot2_exports)
+    for (name in names(geoms)) {
+        ours <- getExportedValue("ggpattern", geoms[[name]])
+        theirs <- getExportedValue("ggplot2", name)
         expect_setequal(names(ours$default_aes), c(names(theirs$default_aes), names(default_pattern_aes())))
         for (method in c("draw_panel", "draw_group")) {
             expect_equal(draw_args(ours[[method]]), draw_args(theirs[[method]]), info = paste(name, method))

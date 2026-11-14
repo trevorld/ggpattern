@@ -3,15 +3,7 @@
 #' @usage NULL
 #' @export
 GeomHexPattern <- ggproto("GeomHexPattern", GeomHex,
-  default_aes = defaults(aes(
-    colour = from_theme(colour %||% NA),
-    fill = from_theme(fill %||% col_mix(ink, paper)),
-    linewidth = from_theme(borderwidth),
-    linetype = from_theme(bordertype),
-    alpha = NA
-  ),
-    pattern_aesthetics
-  ),
+  default_aes = defaults(GeomHex$default_aes, pattern_aesthetics),
 
   draw_group = function(self, data, panel_params, coord, lineend = "butt",
                         linejoin = "mitre", linemitre = 10) {

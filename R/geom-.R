@@ -190,9 +190,9 @@ draw_key_crossbar_pattern <- function(data, params, size, aspect_ratio = get_asp
 }
 
 # Aborts if R is too old for `what` (e.g. to fill areas other than rectangles, polygons, and paths)
-check_r_version <- function(what, required = "4.2.0", version = getRversion()) {
-  if (version < required) {
-    cli::cli_abort("{.fn {what}} requires R (>= {required}) but this is R {version}.", call = NULL)
+check_r_version <- function(what, version = getRversion()) {
+  if (version < "4.2.0") {
+    cli::cli_abort("{.fn {what}} requires R (>= 4.2.0) but this is R {version}.", call = NULL)
   }
   invisible(NULL)
 }

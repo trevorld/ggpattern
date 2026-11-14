@@ -54,3 +54,13 @@ area_fills <- function(x) {
 expect_colours <- function(object, expected) {
     expect_equal(grDevices::col2rgb(object, alpha = TRUE), grDevices::col2rgb(expected, alpha = TRUE))
 }
+
+# the names of our exported pattern geoms named by their `{ggplot2}` counterpart
+# e.g. `c(GeomRect = "GeomRectPattern")`
+our_pattern_geoms <- function() {
+    geoms <- sort(grep("^Geom.+Pattern$", getNamespaceExports("ggpattern"), value = TRUE))
+    stats::setNames(geoms, sub("Pattern$", "", geoms))
+}
+
+# a unit square `sf` polygon whose lower left corner is at `(x, 0)`
+sf_square <- function(x) sf::st_polygon(list(cbind(x + c(0, 1, 1, 0, 0), c(0, 0, 1, 1, 0))))
