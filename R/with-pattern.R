@@ -100,11 +100,11 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #'
 #' A geom doesn't know the default `stat` and `position` of its `geom_*()` function
 #' so pass them to [ggplot2::make_constructor()] if they aren't `"identity"`
-#' e.g. `stat = "contour_filled"` for `ggplot2::geom_contour_filled()`
+#' e.g. `stat = "smooth"` for `ggplot2::geom_smooth()`
 #' (otherwise the layer may fail with an error about missing aesthetics the stat would have computed).
 #' [with_pattern()] keeps those of the layer it is given.
 #'
-#' @param geom A [ggplot2::Geom] object e.g. `ggplot2::GeomContourFilled`.
+#' @param geom A [ggplot2::Geom] object e.g. `ggplot2::GeomSmooth`.
 #' @param name The class name of the pattern geom.
 #' @param area_by How the areas of the grob the geom draws are matched to the rows of the data frame
 #'   its `draw_group()` method is given
@@ -139,10 +139,11 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #' @seealso [with_pattern()] to make a pattern layer from a layer.
 #' @examples
 #' library("ggplot2")
-#' GeomContourFilledPattern <- make_GeomPattern(GeomContourFilled)
-#' geom_contour_filled_pattern <- make_constructor(GeomContourFilledPattern, stat = "contour_filled")
-#' ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
-#'     geom_contour_filled_pattern(bins = 4, pattern_density = 0.2, pattern_fill = "white")
+#' GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
+#' geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth")
+#' ggplot(mtcars, aes(mpg, wt)) +
+#'     geom_point() +
+#'     geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "crosshatch", pattern_colour = "grey40")
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), area_by = NULL) {
@@ -400,7 +401,7 @@ makeContent.ggpattern_traced <- function(x) {
 #' (e.g. `GeomRectPattern` for `ggplot2::GeomRect`)
 #' or else by the pattern geom [make_GeomPattern()] makes from it.
 #'
-#' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_contour_filled()`.
+#' @param x A `{ggplot2}` layer e.g. `ggplot2::geom_smooth()`.
 #' @param ... Pattern aesthetics set to a constant e.g. `pattern = "circle"` or `pattern_fill = "blue"`.
 #' @param mapping Pattern aesthetic mappings (created by [ggplot2::aes()]) added to those of the layer.
 #' @param area_by Passed to [make_GeomPattern()] (if given the pattern geom is always made by it).
@@ -408,8 +409,9 @@ makeContent.ggpattern_traced <- function(x) {
 #' @seealso [make_GeomPattern()] to make a pattern geom from a geom.
 #' @examples
 #' library("ggplot2")
-#' ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
-#'     with_pattern(geom_contour_filled(bins = 4), pattern = "circle", pattern_fill = "white")
+#' ggplot(mtcars, aes(mpg, wt)) +
+#'     geom_point() +
+#'     with_pattern(geom_smooth(method = "lm", formula = y ~ x), pattern = "crosshatch", pattern_colour = "grey40")
 #' @exportS3Method gridpattern::with_pattern
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL) {

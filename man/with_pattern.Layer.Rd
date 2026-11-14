@@ -7,7 +7,7 @@
 \method{with_pattern}{Layer}(x, ..., mapping = NULL, area_by = NULL)
 }
 \arguments{
-\item{x}{A \code{{ggplot2}} layer e.g. \code{ggplot2::geom_contour_filled()}.}
+\item{x}{A \code{{ggplot2}} layer e.g. \code{ggplot2::geom_smooth()}.}
 
 \item{...}{Pattern aesthetics set to a constant e.g. \code{pattern = "circle"} or \code{pattern_fill = "blue"}.}
 
@@ -26,8 +26,9 @@ or else by the pattern geom \code{\link[=make_GeomPattern]{make_GeomPattern()}} 
 }
 \examples{
 library("ggplot2")
-ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
-    with_pattern(geom_contour_filled(bins = 4), pattern = "circle", pattern_fill = "white")
+ggplot(mtcars, aes(mpg, wt)) +
+    geom_point() +
+    with_pattern(geom_smooth(method = "lm", formula = y ~ x), pattern = "crosshatch", pattern_colour = "grey40")
 }
 \seealso{
 \code{\link[=make_GeomPattern]{make_GeomPattern()}} to make a pattern geom from a geom.

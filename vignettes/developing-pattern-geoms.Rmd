@@ -47,9 +47,10 @@ To write a new *pattern* (rather than a new geom) see `vignette("developing-patt
 and pattern aesthetics set to constants (in `...`) or mapped (in `mapping`):
 
 ```{r with-pattern}
-ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
-  with_pattern(geom_contour_filled(bins = 4),
-               pattern = "circle", pattern_fill = "white", pattern_density = 0.3)
+ggplot(mtcars, aes(mpg, wt)) +
+  geom_point() +
+  with_pattern(geom_smooth(method = "lm", formula = y ~ x),
+               pattern = "crosshatch", pattern_colour = "grey40")
 ```
 
 If `{ggpattern}` has a pattern geom for the layer's geom (e.g. `GeomRectPattern` for `geom_rect()`) it is used,
@@ -65,18 +66,18 @@ and draws the geom's legend key glyph filled with the key's pattern.
 Use `ggplot2::make_constructor()` to make its `geom_*_pattern()` function:
 
 ```{r make-geom-pattern}
-GeomContourFilledPattern <- make_GeomPattern(GeomContourFilled)
-geom_contour_filled_pattern <- make_constructor(GeomContourFilledPattern, stat = "contour_filled")
+GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
+geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth")
 
-ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
-  geom_contour_filled_pattern(aes(fill = after_stat(level), pattern = after_stat(level)),
-                              bins = 4, pattern_density = 0.3, pattern_fill = "white",
-                              pattern_spacing = 0.03)
+ggplot(mtcars, aes(mpg, wt, colour = factor(am), pattern = factor(am))) +
+  geom_point() +
+  geom_smooth_pattern(method = "lm", formula = y ~ x,
+                      pattern_colour = "grey40", pattern_spacing = 0.03)
 ```
 
 A `Geom` doesn't know the default `stat` and `position` of its `geom_*()` function
 (they are arguments of that function) so pass them to `make_constructor()` if they aren't `"identity"`,
-as with `stat = "contour_filled"` above.
+as with `stat = "smooth"` above.
 Without the stat the layer may fail with an error about missing aesthetics the stat would have computed
 e.g. `ggridges::geom_density_ridges()` needs `stat = "density_ridges"` (which computes `height`)
 and `position = "points_sina"`:
@@ -129,11 +130,11 @@ For full control write the pattern geom's methods yourself:
   within a `draw_key()` method
   (scaling it so the key's pattern looks like the plot's).
 
-For example a pattern version of `ggplot2::GeomHex`
-(whose `draw_group()` method draws a hexagon per row, in row order):
+For example this is essentially how our `GeomHexPattern` is written
+(the `draw_group()` method of `ggplot2::GeomHex` draws a hexagon per row, in row order):
 
 ```{r hex, eval = has_hexbin}
-GeomHexPattern <- ggproto("GeomHexPattern", GeomHex,
+GeomHexPattern2 <- ggproto("GeomHexPattern2", GeomHex,
   default_aes = aes(!!!GeomHex$default_aes, !!!default_pattern_aes()),
   draw_group = function(self, data, panel_params, coord, ...) {
     grob <- ggproto_parent(GeomHex, self)$draw_group(data, panel_params, coord, ...)
@@ -146,7 +147,7 @@ GeomHexPattern <- ggproto("GeomHexPattern", GeomHex,
 
 ggplot(diamonds, aes(carat, price)) +
   stat_bin_hex(aes(pattern_fill = after_stat(count) > 1000),
-               geom = GeomHexPattern, bins = 12, pattern_density = 0.3) +
+               geom = GeomHexPattern2, bins = 12, pattern_density = 0.3) +
   labs(pattern_fill = "count > 1000")
 ```
 

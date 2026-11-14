@@ -154,10 +154,15 @@ See the vignette galleries for examples of all the available geoms filled with
 | geom_bin2d     | geom_bin2d_pattern            |
 | geom_boxplot   | geom_boxplot_pattern          |
 | geom_col       | geom_col_pattern              |
+| geom_contour_filled | geom_contour_filled_pattern |
 | geom_crossbar  | geom_crossbar_pattern         |
 | geom_density   | geom_density_pattern          |
+| geom_density_2d_filled | geom_density_2d_filled_pattern |
+| geom_dotplot   | geom_dotplot_pattern          |
+| geom_hex       | geom_hex_pattern              |
 | geom_histogram | geom_histogram_pattern        |
 | geom_map       | geom_map_pattern              |
+| geom_point     | geom_point_pattern            |
 | geom_polygon   | geom_polygon_pattern          |
 | geom_rect      | geom_rect_pattern             |
 | geom_ribbon    | geom_ribbon_pattern           |

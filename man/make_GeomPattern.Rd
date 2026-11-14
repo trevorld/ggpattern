@@ -11,7 +11,7 @@ make_GeomPattern(
 )
 }
 \arguments{
-\item{geom}{A \link[ggplot2:Geom]{ggplot2::Geom} object e.g. \code{ggplot2::GeomContourFilled}.}
+\item{geom}{A \link[ggplot2:Geom]{ggplot2::Geom} object e.g. \code{ggplot2::GeomSmooth}.}
 
 \item{name}{The class name of the pattern geom.}
 
@@ -60,16 +60,17 @@ or \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a la
 \details{
 A geom doesn't know the default \code{stat} and \code{position} of its \verb{geom_*()} function
 so pass them to \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} if they aren't \code{"identity"}
-e.g. \code{stat = "contour_filled"} for \code{ggplot2::geom_contour_filled()}
+e.g. \code{stat = "smooth"} for \code{ggplot2::geom_smooth()}
 (otherwise the layer may fail with an error about missing aesthetics the stat would have computed).
 \code{\link[=with_pattern]{with_pattern()}} keeps those of the layer it is given.
 }
 \examples{
 library("ggplot2")
-GeomContourFilledPattern <- make_GeomPattern(GeomContourFilled)
-geom_contour_filled_pattern <- make_constructor(GeomContourFilledPattern, stat = "contour_filled")
-ggplot(faithfuld, aes(waiting, eruptions, z = density)) +
-    geom_contour_filled_pattern(bins = 4, pattern_density = 0.2, pattern_fill = "white")
+GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
+geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth")
+ggplot(mtcars, aes(mpg, wt)) +
+    geom_point() +
+    geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "crosshatch", pattern_colour = "grey40")
 }
 \seealso{
 \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a layer.

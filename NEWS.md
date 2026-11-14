@@ -53,11 +53,16 @@
   each area is traced back to its row by the fill it was drawn with (`"trace"`).
   Filling areas other than rectangles, polygons, and paths (e.g. circles or round rectangles) requires R (>= 4.2.0).
 * We now re-export `gridpattern::with_pattern()` whose new `Layer` method makes a pattern layer from a layer
-  e.g. `with_pattern(geom_contour_filled(), pattern_fill = "white")`
+  e.g. `with_pattern(geom_smooth(), pattern_fill = "white")`
   (using our pattern geom for the layer's geom if we have one else `make_GeomPattern()`).
 * New `with_pattern_aes()`, `with_pattern_key()`, and `default_pattern_aes()`
   for writing the draw methods of a pattern geom (#156)
   and a new "Developing Pattern Geoms" vignette.
+* New `geom_contour_filled_pattern()`, `geom_density_2d_filled_pattern()`
+  (and its alias `geom_density2d_filled_pattern()`), `geom_dotplot_pattern()`, and `geom_hex_pattern()`
+  (and their `GeomContourFilledPattern`, `GeomDensity2dFilledPattern`, `GeomDotplotPattern`,
+  and `GeomHexPattern` geoms) (#162).
+  `geom_dotplot_pattern()` requires R (>= 4.2.0) and `geom_hex_pattern()` requires `{hexbin}`.
 * New `geom_point_pattern()` which fills each point with a filled symbol (`shape` 21 to 25, its default is 21)
   with its own pattern (e.g. a different image per point using the "image" pattern and `pattern_filename`)
   and its `draw_key_point_pattern()` legend key glyph.
