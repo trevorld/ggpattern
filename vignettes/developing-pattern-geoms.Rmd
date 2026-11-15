@@ -177,14 +177,10 @@ ggplot(diamonds, aes(carat, price)) +
   labs(pattern_fill = "count > 1000")
 ```
 
-Such a geom always uses the installed version of the geom it extends
-but whatever it copies from it is only as up to date as your code (or your package's last build):
-here the `default_aes` (evaluated when the geom is made)
-and in general the arguments of a draw method that names them instead of using `...`.
-If the parent geom gains an aesthetic or a draw parameter the pattern geom won't have it until it is updated
-so it is worth testing that they still match
-(e.g. `{ggpattern}` tests its geoms' aesthetics, draw method arguments, and constructor arguments
-against their `{ggplot2}` counterparts, also weekly against the development version of `{ggplot2}`).
+Whatever such a geom copies from the geom it extends
+(here its `default_aes` and in general the arguments of a draw method that names them instead of using `...`)
+is only as up to date as your package's last build
+so it is worth testing that they still match.
 
 Things to watch out for:
 
