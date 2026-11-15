@@ -20,6 +20,7 @@ probably the best way to get started.
 ## Feature Summary
 
 * Custom versions of (almost) all the **geoms** from ggplot2 which have a region which can be filled.
+* `with_pattern()` and `make_GeomPattern()` to fill the areas of **other geoms** (e.g. from ggplot2 extension packages) with patterns.
 * A suite of **aesthetics** for controlling the pattern appearance (e.g. `pattern_alpha`) 
 * The ability to include **user-defined patterns** 
 
@@ -109,33 +110,45 @@ See the vignette galleries for examples of all the available geoms filled with
 [geometry-based patterns](https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-geometry.html) and 
 [image-based/array-based patterns](https://trevorldavis.com/R/ggpattern/dev/articles/geom-gallery-array.html).
 
+Geoms without a `geom_*_pattern()` function (including many from ggplot2 extension packages)
+can usually be filled with patterns too:
+wrap the layer in `with_pattern()` e.g. `with_pattern(geom_smooth(), pattern = "crosshatch")`
+or make a reusable pattern geom with `make_GeomPattern()`.
+See the [developing pattern geoms](https://trevorldavis.com/R/ggpattern/dev/articles/developing-pattern-geoms.html) vignette.
+
 
 <details>
 <summary> <span style="color: blue;"> Click to show/hide list of supported geoms </span> </summary>
 
 
-| ggplot2        | ggpattern                     |
-|----------------|-------------------------------|
-| geom_area      | geom_area_pattern             |
-| geom_bar       | geom_bar_pattern              |
-| geom_bin2d     | geom_bin2d_pattern            |
-| geom_boxplot   | geom_boxplot_pattern          |
-| geom_col       | geom_col_pattern              |
-| geom_contour_filled | geom_contour_filled_pattern |
-| geom_crossbar  | geom_crossbar_pattern         |
-| geom_density   | geom_density_pattern          |
-| geom_density_2d_filled | geom_density_2d_filled_pattern |
-| geom_dotplot   | geom_dotplot_pattern          |
-| geom_hex       | geom_hex_pattern              |
-| geom_histogram | geom_histogram_pattern        |
-| geom_map       | geom_map_pattern              |
-| geom_point     | geom_point_pattern            |
-| geom_polygon   | geom_polygon_pattern          |
-| geom_rect      | geom_rect_pattern             |
-| geom_ribbon    | geom_ribbon_pattern           |
-| geom_sf        | geom_sf_pattern               |
-| geom_tile      | geom_tile_pattern             |
-| geom_violin    | geom_violin_pattern           |
+
+
+|ggplot2                |ggpattern                      |
+|:----------------------|:------------------------------|
+|geom_area              |geom_area_pattern              |
+|geom_bar               |geom_bar_pattern               |
+|geom_bin_2d            |geom_bin_2d_pattern            |
+|geom_bin2d             |geom_bin2d_pattern             |
+|geom_boxplot           |geom_boxplot_pattern           |
+|geom_col               |geom_col_pattern               |
+|geom_contour_filled    |geom_contour_filled_pattern    |
+|geom_crossbar          |geom_crossbar_pattern          |
+|geom_density           |geom_density_pattern           |
+|geom_density_2d_filled |geom_density_2d_filled_pattern |
+|geom_density2d_filled  |geom_density2d_filled_pattern  |
+|geom_dotplot           |geom_dotplot_pattern           |
+|geom_hex               |geom_hex_pattern               |
+|geom_histogram         |geom_histogram_pattern         |
+|geom_map               |geom_map_pattern               |
+|geom_point             |geom_point_pattern             |
+|geom_polygon           |geom_polygon_pattern           |
+|geom_rect              |geom_rect_pattern              |
+|geom_ribbon            |geom_ribbon_pattern            |
+|geom_sf                |geom_sf_pattern                |
+|geom_tile              |geom_tile_pattern              |
+|geom_violin            |geom_violin_pattern            |
+
+
 
 </details>
 
