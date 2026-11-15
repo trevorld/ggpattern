@@ -54,9 +54,12 @@ the layer of \code{with_pattern(ggfx::with_blur(geom_col()))} is drawn without i
 }
 \examples{
 library("ggplot2")
-ggplot(mtcars, aes(mpg, wt)) +
-    geom_point() +
-    with_pattern(geom_smooth(method = "lm", formula = y ~ x), pattern = "crosshatch", pattern_colour = "grey40")
+if (requireNamespace("magick", quietly = TRUE)) {
+  magick::magick_set_seed(42)
+  ggplot(mtcars, aes(mpg, wt)) +
+      geom_point() +
+      with_pattern(geom_smooth(method = "lm", formula = y ~ x), pattern = "plasma", pattern_alpha = 0.7)
+}
 }
 \seealso{
 \code{\link[=make_GeomPattern]{make_GeomPattern()}} to make a pattern geom from a geom.
