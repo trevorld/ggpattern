@@ -46,11 +46,11 @@ To write a new *pattern* (rather than a new geom) see `vignette("developing-patt
 `with_pattern()` (re-exported from `{gridpattern}`) takes a layer
 and pattern aesthetics set to constants (in `...`) or mapped (in `mapping`):
 
-```{r with-pattern}
+```{r with-pattern, eval = requireNamespace("magick", quietly = TRUE)}
 ggplot(mtcars, aes(mpg, wt)) +
   geom_point() +
   with_pattern(geom_smooth(method = "lm", formula = y ~ x),
-               pattern = "crosshatch", pattern_colour = "grey40")
+               pattern = "plasma", pattern_alpha = 0.7)
 ```
 
 If `{ggpattern}` has a pattern geom for the layer's geom (e.g. `GeomRectPattern` for `geom_rect()`) it is used,
@@ -67,7 +67,7 @@ Use `ggplot2::make_constructor()` to make its `geom_*_pattern()` function:
 
 ```{r make-geom-pattern}
 GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
-geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth")
+geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
 
 ggplot(mtcars, aes(mpg, wt, colour = factor(am), pattern = factor(am))) +
   geom_point() +
@@ -78,6 +78,10 @@ ggplot(mtcars, aes(mpg, wt, colour = factor(am), pattern = factor(am))) +
 A `Geom` doesn't know the default `stat` and `position` of its `geom_*()` function
 (they are arguments of that function) so pass them to `make_constructor()` if they aren't `"identity"`,
 as with `stat = "smooth"` above.
+Likewise a constructor argument's default is taken from the geom's draw method
+which may differ from that of its `geom_*()` function:
+`GeomSmooth` only draws its confidence band (the area to fill) if `se = TRUE`
+which is the default of `geom_smooth()` but not of `GeomSmooth$draw_group()`, hence `se = TRUE` above.
 Without the stat the layer may fail with an error about missing aesthetics the stat would have computed
 e.g. `ggridges::geom_density_ridges()` needs `stat = "density_ridges"` (which computes `height`)
 and `position = "points_sina"`:
@@ -136,7 +140,7 @@ geom_smooth_pattern <- NULL
 
 .onLoad <- function(libname, pkgname) {
   GeomSmoothPattern <<- ggpattern::make_GeomPattern(ggplot2::GeomSmooth)
-  geom_smooth_pattern <<- ggplot2::make_constructor(GeomSmoothPattern, stat = "smooth")
+  geom_smooth_pattern <<- ggplot2::make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
 }
 ```
 

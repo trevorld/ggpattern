@@ -148,10 +148,13 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #' @examples
 #' library("ggplot2")
 #' GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
-#' geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth")
-#' ggplot(mtcars, aes(mpg, wt)) +
-#'     geom_point() +
-#'     geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "crosshatch", pattern_colour = "grey40")
+#' geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
+#' if (requireNamespace("magick", quietly = TRUE)) {
+#'   magick::magick_set_seed(42)
+#'   ggplot(mtcars, aes(mpg, wt)) +
+#'       geom_point() +
+#'       geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "plasma", pattern_alpha = 0.6)
+#' }
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), area_by = NULL) {
@@ -439,9 +442,12 @@ makeContent.ggpattern_traced <- function(x) {
 #' @seealso [make_GeomPattern()] to make a pattern geom from a geom.
 #' @examples
 #' library("ggplot2")
-#' ggplot(mtcars, aes(mpg, wt)) +
-#'     geom_point() +
-#'     with_pattern(geom_smooth(method = "lm", formula = y ~ x), pattern = "crosshatch", pattern_colour = "grey40")
+#' if (requireNamespace("magick", quietly = TRUE)) {
+#'   magick::magick_set_seed(42)
+#'   ggplot(mtcars, aes(mpg, wt)) +
+#'       geom_point() +
+#'       with_pattern(geom_smooth(method = "lm", formula = y ~ x), pattern = "plasma", pattern_alpha = 0.7)
+#' }
 #' @exportS3Method gridpattern::with_pattern
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL) {

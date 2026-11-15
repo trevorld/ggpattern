@@ -75,10 +75,13 @@ with \code{\link[=with_pattern_aes]{with_pattern_aes()}} (see \code{vignette("de
 \examples{
 library("ggplot2")
 GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
-geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth")
-ggplot(mtcars, aes(mpg, wt)) +
-    geom_point() +
-    geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "crosshatch", pattern_colour = "grey40")
+geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
+if (requireNamespace("magick", quietly = TRUE)) {
+  magick::magick_set_seed(42)
+  ggplot(mtcars, aes(mpg, wt)) +
+      geom_point() +
+      geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "plasma", pattern_alpha = 0.6)
+}
 }
 \seealso{
 \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a layer.
