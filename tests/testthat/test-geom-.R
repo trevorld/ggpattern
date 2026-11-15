@@ -15,11 +15,17 @@ test_that("our pattern geoms and their constructors match their `{ggplot2}` coun
     draw_args <- function(method) setdiff(names(formals(ggproto_fn(method))), "self")
 
     geoms <- our_pattern_geoms()
+    # (only the filled symbols have an area to fill with a pattern)
+    our_defaults <- list(GeomPoint = "shape")
     expect_in(names(geoms), ggplot2_exports)
     for (name in names(geoms)) {
         ours <- getExportedValue("ggpattern", geoms[[name]])
         theirs <- getExportedValue("ggplot2", name)
         expect_setequal(names(ours$default_aes), c(names(theirs$default_aes), names(default_pattern_aes())))
+        # (with the same defaults except for those we change on purpose)
+        same <- setdiff(names(theirs$default_aes), our_defaults[[name]])
+        expect_equal(lapply(ours$default_aes[same], deparse), lapply(theirs$default_aes[same], deparse),
+                     info = name)
         for (method in c("draw_panel", "draw_group")) {
             expect_equal(draw_args(ours[[method]]), draw_args(theirs[[method]]), info = paste(name, method))
         }

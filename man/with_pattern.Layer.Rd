@@ -3,12 +3,15 @@
 \name{with_pattern.Layer}
 \alias{with_pattern.Layer}
 \alias{with_pattern.gg}
+\alias{with_pattern.Geom}
 \alias{with_pattern.ggplot}
 \title{Make a pattern layer from a layer}
 \usage{
 \method{with_pattern}{Layer}(x, ..., mapping = NULL, area_by = NULL)
 
 \method{with_pattern}{gg}(x, ...)
+
+\method{with_pattern}{Geom}(x, ...)
 
 \method{with_pattern}{ggplot}(x, ...)
 }
@@ -42,6 +45,7 @@ e.g. a coord, scale, facet, theme, \code{ggplot2::labs()}, or \code{ggplot2::gui
 So e.g. \code{with_pattern(geom_sf(), pattern = "circle")} works too.
 It is an error to give it a plot: give it the plot's layers instead
 e.g. \code{ggplot(df, aes(x, y)) + with_pattern(geom_col())}.
+It is also an error to give it a geom (e.g. \code{ggplot2::GeomCol}): use \code{\link[=make_GeomPattern]{make_GeomPattern()}} instead.
 
 To combine it with a \code{{ggfx}} filter make the pattern layer first
 e.g. \code{ggfx::with_blur(with_pattern(geom_col()))}:

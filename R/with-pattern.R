@@ -423,6 +423,7 @@ makeContent.ggpattern_traced <- function(x) {
 #' So e.g. `with_pattern(geom_sf(), pattern = "circle")` works too.
 #' It is an error to give it a plot: give it the plot's layers instead
 #' e.g. `ggplot(df, aes(x, y)) + with_pattern(geom_col())`.
+#' It is also an error to give it a geom (e.g. `ggplot2::GeomCol`): use [make_GeomPattern()] instead.
 #'
 #' To combine it with a `{ggfx}` filter make the pattern layer first
 #' e.g. `ggfx::with_blur(with_pattern(geom_col()))`:
@@ -472,7 +473,16 @@ with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL) {
 #' @exportS3Method gridpattern::with_pattern
 with_pattern.gg <- function(x, ...) x
 
-# (but a plot is most likely a mistake rather than something to leave as it is)
+# (but a geom or a plot is most likely a mistake rather than something to leave as it is)
+#' @rdname with_pattern.Layer
+#' @exportS3Method gridpattern::with_pattern
+with_pattern.Geom <- function(x, ...) {
+    cli::cli_abort(c(
+        "{.fn with_pattern} can't make a pattern geom from a geom.",
+        i = "Use {.fn make_GeomPattern} instead or give it a layer e.g. {.code with_pattern(geom_col())}."
+    ))
+}
+
 #' @rdname with_pattern.Layer
 #' @exportS3Method gridpattern::with_pattern
 with_pattern.ggplot <- function(x, ...) {

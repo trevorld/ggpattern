@@ -10,7 +10,7 @@ GeomSfPattern <- ggproto("GeomSfPattern", GeomSf,
     fill = NULL,
     size = NULL,
     linewidth = NULL,
-    linetype = NULL,
+    linetype = from_theme(linetype),
     alpha = NA,
     stroke = 0.5
   ),
