@@ -4,18 +4,8 @@
 #' @format NULL
 GeomSfPattern <- ggproto("GeomSfPattern", GeomSf,
   required_aes = "geometry",
-  default_aes = defaults(aes(
-    shape = NULL,
-    colour = NULL,
-    fill = NULL,
-    size = NULL,
-    linewidth = NULL,
-    linetype = from_theme(linetype),
-    alpha = NA,
-    stroke = 0.5
-  ),
-    pattern_aesthetics
-  ),
+  # (`{ggplot2}` (> 4.0.4) changes the default `linetype` from the theme's to `NULL`)
+  default_aes = defaults(GeomSf$default_aes, pattern_aesthetics),
 
   draw_panel = function(self, data, panel_params, coord, legend = NULL,
                         lineend = "butt", linejoin = "round", linemitre = 10,
