@@ -2,6 +2,20 @@
 #'
 #' Geom ggproto objects that could be extended to create a new geom.
 #'
+#' @details
+#' Each of these extends a `{ggplot2}` geom, either directly (e.g. `GeomRectPattern` extends [ggplot2::GeomRect])
+#' or through another of these (e.g. `GeomColPattern` extends `GeomBarPattern` which extends `GeomRectPattern`),
+#' and uses the methods (e.g. the draw method) of the `{ggplot2}` that is loaded.
+#'
+#' However, a few things are copied from `{ggplot2}` when `{ggpattern}` is installed:
+#'
+#' * The default aesthetics of `GeomDotplotPattern`, `GeomHexPattern`, `GeomPointPattern`, and `GeomSfPattern`
+#'   are those of their `{ggplot2}` geom (plus the pattern aesthetics).
+#' * The arguments of the `geom_*_pattern()` functions made by [ggplot2::make_constructor()]
+#'   (e.g. [geom_hex_pattern()]) are those of the geom and stat's parameters.
+#'
+#' So after upgrading `{ggplot2}`, reinstall `{ggpattern}` to pick up any new default aesthetics or arguments.
+#'
 #' @seealso [ggplot2::Geom]
 #'
 #' @name ggpattern-ggproto
