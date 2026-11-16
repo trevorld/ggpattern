@@ -96,6 +96,10 @@
 ## Bug fixes and minor improvements
 
 * `GeomTilePattern` (and so `GeomBin2dPattern`) now has the same `non_missing_aes` as `ggplot2::GeomTile`.
+* The `setup_data()` of `GeomBarPattern`, `GeomColPattern`, and `GeomTilePattern` now uses their own
+  (or their subclass's) default `width` and `height` (previously that of `ggplot2::GeomBar` or `ggplot2::GeomTile`).
+  They and `GeomAreaPattern` now call the `setup_data()` and `setup_params()` of the `{ggplot2}` geom they copy
+  when the plot is drawn instead of a copy of them made when `{ggpattern}` was installed.
 * `GeomSfPattern` now has the same default aesthetics as `ggplot2::GeomSf`
   e.g. its default `linetype` is now the theme's `linetype` (previously that of a polygon i.e. the theme's `bordertype`).
 * Our geoms now draw the grob of the `{ggplot2}` geom they extend and fill each of its areas with a pattern in place

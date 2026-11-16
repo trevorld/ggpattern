@@ -44,9 +44,9 @@ GeomAreaPattern <- ggproto("GeomAreaPattern", GeomRibbonPattern,
 
 	required_aes = c("x", "y"),
 
-	setup_params = GeomArea$setup_params,
+	setup_params = function(self, data, params) ggproto_parent(GeomArea, self)$setup_params(data, params),
 
-	setup_data = GeomArea$setup_data
+	setup_data = function(self, data, params) ggproto_parent(GeomArea, self)$setup_data(data, params)
 )
 
 #' @rdname geom-docs

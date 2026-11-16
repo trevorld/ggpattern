@@ -78,3 +78,14 @@ test_that("legend keys pattern the area of {ggplot2}'s key glyph", {
     # a zero-size key is {ggplot2}'s key without a pattern
     expect_length(find_pattern_grobs(draw_key_polygon_pattern(data, list(), c(0, 0))), 0L)
 })
+
+test_that("our geoms' `setup_data()` uses the default aesthetics of their subclasses", {
+    data <- data.frame(x = 1:2, y = 1, PANEL = 1L, group = 1:2)
+    for (geom in list(GeomBarPattern, GeomTilePattern)) {
+        default_aes <- geom$default_aes
+        default_aes$width <- 0.3
+        Subclass <- ggproto(NULL, geom, default_aes = default_aes)
+        out <- Subclass$setup_data(data, Subclass$setup_params(data, list()))
+        expect_equal(out$xmax - out$xmin, c(0.3, 0.3), info = class(geom)[1L])
+    }
+})
