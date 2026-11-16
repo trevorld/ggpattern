@@ -29,6 +29,21 @@
 \description{
 Geom ggproto objects that could be extended to create a new geom.
 }
+\details{
+Each of these extends a \code{{ggplot2}} geom, either directly (e.g. \code{GeomRectPattern} extends \link[ggplot2:GeomRect]{ggplot2::GeomRect})
+or through another of these (e.g. \code{GeomColPattern} extends \code{GeomBarPattern} which extends \code{GeomRectPattern}),
+and uses the methods (e.g. the draw method) of the \code{{ggplot2}} that is loaded.
+
+However, a few things are copied from \code{{ggplot2}} when \code{{ggpattern}} is installed:
+\itemize{
+\item The default aesthetics of \code{GeomDotplotPattern}, \code{GeomHexPattern}, \code{GeomPointPattern}, and \code{GeomSfPattern}
+are those of their \code{{ggplot2}} geom (plus the pattern aesthetics).
+\item The arguments of the \verb{geom_*_pattern()} functions made by \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}}
+(e.g. \code{\link[=geom_hex_pattern]{geom_hex_pattern()}}) are those of the geom and stat's parameters.
+}
+
+So after upgrading \code{{ggplot2}}, reinstall \code{{ggpattern}} to pick up any new default aesthetics or arguments.
+}
 \seealso{
 \link[ggplot2:Geom]{ggplot2::Geom}
 }
