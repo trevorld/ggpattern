@@ -42,7 +42,9 @@ are those of their \code{{ggplot2}} geom (plus the pattern aesthetics).
 (e.g. \code{\link[=geom_hex_pattern]{geom_hex_pattern()}}) are those of the geom and stat's parameters.
 }
 
-So after upgrading \code{{ggplot2}}, reinstall \code{{ggpattern}} to pick up any new default aesthetics or arguments.
+So after upgrading \code{{ggplot2}} you can reinstall \code{{ggpattern}} from source
+(e.g. \code{install.packages("ggpattern", type = "source")}) to pick up any new default aesthetics or arguments
+(a binary package has those of the \code{{ggplot2}} it was built with).
 }
 \seealso{
 \link[ggplot2:Geom]{ggplot2::Geom}

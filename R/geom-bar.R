@@ -14,7 +14,9 @@
 #' * The arguments of the `geom_*_pattern()` functions made by [ggplot2::make_constructor()]
 #'   (e.g. [geom_hex_pattern()]) are those of the geom and stat's parameters.
 #'
-#' So after upgrading `{ggplot2}`, reinstall `{ggpattern}` to pick up any new default aesthetics or arguments.
+#' So after upgrading `{ggplot2}` you can reinstall `{ggpattern}` from source
+#' (e.g. `install.packages("ggpattern", type = "source")`) to pick up any new default aesthetics or arguments
+#' (a binary package has those of the `{ggplot2}` it was built with).
 #'
 #' @seealso [ggplot2::Geom]
 #'
