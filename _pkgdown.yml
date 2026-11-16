@@ -30,6 +30,7 @@ reference:
     desc: "various functions mainly intended for developing new geoms"
     contents:
         - make_GeomPattern
+        - make_geom_pattern
         - with_pattern_aes
         - default_pattern_aes
         - draw_key_polygon_pattern

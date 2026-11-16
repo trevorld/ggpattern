@@ -23,7 +23,8 @@
 
 \item{mapping}{Pattern aesthetic mappings (created by \code{\link[ggplot2:aes]{ggplot2::aes()}}) added to those of the layer.}
 
-\item{area_by}{Passed to \code{\link[=make_GeomPattern]{make_GeomPattern()}} (if given the pattern geom is always made by it).}
+\item{area_by}{Passed to \code{\link[=make_GeomPattern]{make_GeomPattern()}} (if given the pattern geom is always made by it).
+It is an error to set it for a layer that already is a pattern layer.}
 }
 \value{
 A \code{{ggplot2}} layer (or the other \code{{ggplot2}} object).
@@ -58,7 +59,8 @@ if (requireNamespace("magick", quietly = TRUE)) {
   magick::magick_set_seed(42)
   ggplot(mtcars, aes(mpg, wt)) +
       geom_point() +
-      with_pattern(geom_smooth(method = "lm", formula = y ~ x), pattern = "plasma", pattern_alpha = 0.7)
+      with_pattern(geom_smooth(method = "lm", formula = y ~ x),
+                   pattern = "plasma", pattern_alpha = 0.7)
 }
 }
 \seealso{

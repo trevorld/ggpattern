@@ -103,7 +103,97 @@ test_that("`make_GeomPattern()` makes a pattern geom from a geom", {
     expect_colours(quantiles$gp$col, "red")
 
     expect_equal(class(make_GeomPattern(GeomTile))[1L], "GeomTilePattern")
-    expect_error(make_GeomPattern(geom_tile()), "must be a <Geom> object")
+    withr::with_options(list(cli.num_colors = 1L),
+                        expect_error(make_GeomPattern(geom_tile()), "must be a <Geom> object"))
+})
+
+test_that("`make_GeomPattern()` returns a pattern geom as it is", {
+    expect_identical(make_GeomPattern(GeomRectPattern), GeomRectPattern)
+    GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
+    expect_identical(make_GeomPattern(GeomSmoothPattern), GeomSmoothPattern)
+    expect_error(make_GeomPattern(GeomRectPattern, area_by = "trace"), "`area_by` can.t be set")
+    renamed <- make_GeomPattern(GeomRectPattern, name = "GeomRectPattern4")
+    expect_equal(class(renamed)[1:2], c("GeomRectPattern4", "GeomRectPattern"))
+    # (as does `with_pattern()` for a pattern layer)
+    expect_error(with_pattern(geom_rect_pattern(), area_by = "trace"), "`area_by` can.t be set")
+    expect_error(make_geom_pattern(geom_rect_pattern, area_by = "trace")(), "`area_by` can.t be set")
+    # and so does `with_pattern()` for a pattern layer
+    layer <- with_pattern(geom_rect_pattern(), pattern = "circle")
+    expect_identical(layer$geom, GeomRectPattern)
+    expect_equal(layer$aes_params$pattern, "circle")
+})
+
+test_that("`make_geom_pattern()` makes a pattern geom function from a geom function", {
+    geom_smooth_pattern <- make_geom_pattern(geom_smooth)
+    expect_named(formals(geom_smooth_pattern), c("mapping", "..."))
+    # the pattern aesthetics are held back from `geom_smooth()` (which would warn about them)
+    expect_no_warning(
+        layer <- geom_smooth_pattern(aes(pattern = g, linetype = g), method = "lm", formula = y ~ x,
+                                     pattern_color = "red", linewidth = 2)
+    )
+    expect_equal(class(layer$geom)[1L], "GeomSmoothPattern")
+    expect_named(layer$mapping, c("linetype", "pattern"), ignore.order = TRUE)
+    expect_equal(layer$aes_params, list(linewidth = 2, pattern_colour = "red"))
+    expect_equal(layer$stat_params$method, "lm")
+    # it keeps the defaults of `geom_smooth()` e.g. its stat and `se = TRUE` (so there is a band to fill)
+    expect_s3_class(layer$stat, "StatSmooth")
+    expect_true(layer$geom_params$se)
+    df <- data.frame(x = 1:6, y = c(1, 3, 2, 5, 4, 6))
+    p <- ggplot(df, aes(x, y)) + geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "circle")
+    expect_length(find_grobs(layer_grob(p)[[1L]], "pattern"), 1L)
+
+    # only pattern aesthetics mapped, no mapping, and `mapping` by name
+    expect_named(geom_smooth_pattern(aes(pattern = g))$mapping, "pattern")
+    expect_null(geom_smooth_pattern()$mapping)
+    expect_named(geom_smooth_pattern(mapping = aes(x = x, pattern = g))$mapping, c("x", "pattern"))
+
+    # we use our pattern geom if we have one and `area_by` isn't set
+    expect_identical(make_geom_pattern(geom_col)()$geom, GeomColPattern)
+    traced <- make_geom_pattern(geom_col, area_by = "trace")()$geom
+    expect_false(identical(traced, GeomColPattern))
+    expect_error(make_geom_pattern(geom_col, stat = "identity"), "must be empty")
+
+    # only the pattern aesthetics are renamed and `mapping` needn't be the first argument
+    seen <- NULL
+    geom_spy <- function(data = NULL, mapping = NULL, ..., max = 3, colormap = "a") {
+        seen <<- list(mapping = mapping, max = max, colormap = colormap)
+        geom_col(mapping, data, ...)
+    }
+    make_geom_pattern(geom_spy)(aes(x = x, pattern = g), max = 5, colormap = "b", pattern_fill = "red")
+    expect_equal(seen[c("max", "colormap")], list(max = 5, colormap = "b"))
+    expect_named(seen$mapping, "x")
+    expect_error(make_geom_pattern(geom_col)(pattern_color = "red", pattern_colour = "blue"), "more than once")
+    # the original function's conditions name it
+    for (f in list(make_geom_pattern(geom_col), make_geom_pattern(ggplot2::geom_col))) {
+        w <- tryCatch(f(bogus = 1), warning = identity)
+        expect_match(conditionMessage(w), "unknown parameters")
+        expect_equal(as.character(conditionCall(w)[[1L]]), "geom_col")
+    }
+
+    # a function that returns a list e.g. `geom_sf()`
+    skip_if_not_installed("sf")
+    out <- make_geom_pattern(geom_sf)(pattern = "circle")
+    expect_identical(out[[1L]]$geom, GeomSfPattern)
+    expect_equal(out[[1L]]$aes_params$pattern, "circle")
+    expect_s3_class(out[[2L]], "CoordSf")
+})
+
+test_that("`make_geom_pattern()` makes a pattern geom function from a geom", {
+    geom_smooth_pattern <- make_geom_pattern(GeomSmooth, stat = "smooth", se = TRUE)
+    expect_true(all(c("mapping", "data", "stat", "se") %in% names(formals(geom_smooth_pattern))))
+    layer <- geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "circle")
+    expect_equal(class(layer$geom)[1L], "GeomSmoothPattern")
+    expect_s3_class(layer$stat, "StatSmooth")
+    expect_true(layer$geom_params$se)
+    expect_equal(layer$aes_params$pattern, "circle")
+
+    # our pattern geom if we have one, a pattern geom as it is
+    expect_identical(make_geom_pattern(GeomRect)()$geom, GeomRectPattern)
+    expect_identical(make_geom_pattern(GeomRectPattern)()$geom, GeomRectPattern)
+    expect_false(identical(make_geom_pattern(GeomRect, area_by = "trace")()$geom, GeomRectPattern))
+
+    withr::with_options(list(cli.num_colors = 1L),
+                        expect_error(make_geom_pattern("geom_rect"), "must be a function or a <Geom> object"))
 })
 
 test_that("`area_by` functions are given the draw method's parameters they have arguments for", {

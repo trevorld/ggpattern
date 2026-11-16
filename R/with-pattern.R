@@ -96,7 +96,8 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #' has the pattern aesthetics as well as those of `geom`,
 #' and draws the key glyph of `geom` filled with the key's pattern.
 #' The grob it draws is named after the pattern geom (e.g. `"geom_smooth_pattern"` for `GeomSmoothPattern`).
-#' Use [ggplot2::make_constructor()] to make its `geom_*_pattern()` function
+#' Use [ggplot2::make_constructor()] to make its `geom_*_pattern()` function,
+#' [make_geom_pattern()] to make a `geom_*_pattern()` function from a `geom_*()` function,
 #' or [with_pattern()] to make a pattern layer from a layer.
 #'
 #' A geom doesn't know the default `stat` and `position` of its `geom_*()` function
@@ -144,7 +145,11 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #'   (e.g. the round rectangles of a `{treemapify}` treemap) requires R (>= 4.2.0)
 #'   (see [gridpattern::with_pattern()]).
 #' @return A [ggplot2::Geom] object.
-#' @seealso [with_pattern()] to make a pattern layer from a layer.
+#'   A geom that is already a pattern geom (its `default_aes` has all the pattern aesthetics)
+#'   is returned as it is (or as a subclass of it called `name` if that is given)
+#'   and it is an error to set its `area_by`.
+#' @seealso [make_geom_pattern()] to make a `geom_*_pattern()` function from a `geom_*()` function or a geom.
+#'   [with_pattern()] to make a pattern layer from a layer.
 #' @examples
 #' library("ggplot2")
 #' GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
@@ -160,6 +165,14 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 make_GeomPattern <- function(geom, name = paste0(class(geom)[1L], "Pattern"), area_by = NULL) {
     if (!inherits(geom, "Geom")) {
         cli::cli_abort("{.arg geom} must be a {.cls Geom} object, not {.obj_type_friendly {geom}}.")
+    }
+    if (is_pattern_geom(geom)) {
+        if (!is.null(area_by)) {
+            cli::cli_abort("{.arg area_by} can't be set for {.cls {class(geom)[1L]}} which is already a pattern geom.")
+        }
+        # (a subclass if it was asked for another name)
+        if (!missing(name) && !identical(name, class(geom)[1L])) geom <- ggproto(name, geom)
+        return(geom)
     }
     area_by <- area_by %||% known_area_by(geom)
     if (!is.function(area_by)) {
@@ -438,6 +451,7 @@ makeContent.ggpattern_traced <- function(x) {
 #' @param ... Pattern aesthetics set to a constant e.g. `pattern = "circle"` or `pattern_fill = "blue"`.
 #' @param mapping Pattern aesthetic mappings (created by [ggplot2::aes()]) added to those of the layer.
 #' @param area_by Passed to [make_GeomPattern()] (if given the pattern geom is always made by it).
+#'   It is an error to set it for a layer that already is a pattern layer.
 #' @return A `{ggplot2}` layer (or the other `{ggplot2}` object).
 #' @seealso [make_GeomPattern()] to make a pattern geom from a geom.
 #' @examples
@@ -446,7 +460,8 @@ makeContent.ggpattern_traced <- function(x) {
 #'   magick::magick_set_seed(42)
 #'   ggplot(mtcars, aes(mpg, wt)) +
 #'       geom_point() +
-#'       with_pattern(geom_smooth(method = "lm", formula = y ~ x), pattern = "plasma", pattern_alpha = 0.7)
+#'       with_pattern(geom_smooth(method = "lm", formula = y ~ x),
+#'                    pattern = "plasma", pattern_alpha = 0.7)
 #' }
 #' @exportS3Method gridpattern::with_pattern
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -457,6 +472,13 @@ with_pattern.Layer <- function(x, ..., mapping = NULL, area_by = NULL) {
         cli::cli_abort(c(
             "{.arg ...} must be named pattern aesthetics.",
             x = "Not {cli::qty(length(unknown))} {?a/} pattern aesthetic{?s}: {.val {unknown}}."
+        ))
+    }
+    # (a layer that already is a pattern layer keeps its geom)
+    if (is_pattern_geom(x$geom) && !is.null(area_by)) {
+        cli::cli_abort(c(
+            "{.arg area_by} can't be set for a layer that is already a pattern layer.",
+            x = "The layer's geom is {.cls {class(x$geom)[1L]}}."
         ))
     }
     geom <- if (is.null(area_by)) our_pattern_geom(x$geom)
@@ -496,6 +518,114 @@ with_pattern.ggplot <- function(x, ...) {
         "{.fn with_pattern} can't make a pattern plot from a plot.",
         i = "Give it the plot's layers instead e.g. {.code ggplot(df, aes(x, y)) + with_pattern(geom_col())}."
     ))
+}
+
+# Is `geom` already a pattern geom i.e. a geom with all of the pattern aesthetics?
+is_pattern_geom <- function(geom) {
+    inherits(geom, "Geom") && all(names(pattern_aesthetics) %in% names(geom$default_aes))
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Make a pattern geom function
+#'
+#' `make_geom_pattern()` makes a `geom_*_pattern()` function
+#' from a `geom_*()` function (e.g. `ggplot2::geom_smooth`) or from a geom (e.g. `ggplot2::GeomSmooth`).
+#' Prefer giving it the `geom_*()` function if there is one.
+#'
+#' * Given a **function** it returns a function which calls `x` and then [with_pattern()] on what it returns
+#'   so it keeps the stat, position, and every other default (and check) of `x`.
+#'   Its arguments are `mapping` and `...`:
+#'   the pattern aesthetics among them (set to a constant in `...` or mapped in `mapping`)
+#'   are held back for [with_pattern()] and all of the others are passed on to `x`
+#'   (`mapping` by name if `x` has an argument of that name or else as its first argument).
+#'   The pattern geom is made each time the function is called
+#'   so (unlike a geom made by [make_GeomPattern()]) it always uses the installed version of the geom.
+#' * Given a **geom** it returns the function made by [ggplot2::make_constructor()]
+#'   for the pattern geom made by [make_GeomPattern()]
+#'   (our own pattern geom if `x` is a `{ggplot2}` geom we have one for or `x` itself if it already is a pattern geom).
+#'   A geom doesn't know the defaults of its `geom_*()` function
+#'   so its `stat` and `position` (if they aren't `"identity"`)
+#'   and any other argument whose default differs from that of the geom's draw method
+#'   must be given in `...` e.g. `stat = "smooth", se = TRUE` for `ggplot2::GeomSmooth`.
+#'   The function stores the pattern geom (see the note on packages in [make_GeomPattern()]).
+#'
+#' @param x A function that returns a layer (or a list of layers and other `{ggplot2}` objects)
+#'   e.g. `ggplot2::geom_smooth` or a [ggplot2::Geom] object e.g. `ggplot2::GeomSmooth`.
+#' @param ... For a function must be empty.
+#'   For a geom passed on to [ggplot2::make_constructor()] e.g. `stat = "smooth"`.
+#' @param area_by How the areas the geom draws are matched to the rows of its data,
+#'   see [make_GeomPattern()].
+#'   It is an error (when the function made is called) if the layer of a function already is a pattern layer.
+#' @param env For a geom the `env` of [ggplot2::make_constructor()].
+#' @return A function that returns a layer
+#'   (or whatever `x` returns with its layers made pattern layers).
+#' @seealso [with_pattern()] to make a pattern layer from a layer
+#'   and [make_GeomPattern()] to make a pattern geom from a geom.
+#' @examples
+#' library("ggplot2")
+#' geom_smooth_pattern <- make_geom_pattern(geom_smooth)
+#' ggplot(mtcars, aes(mpg, wt)) +
+#'     geom_point() +
+#'     geom_smooth_pattern(aes(pattern = factor(am)), method = "lm", formula = y ~ x,
+#'                         pattern_colour = "grey40", pattern_spacing = 0.03)
+#'
+#' # from a geom: we must give the defaults of `geom_smooth()` ourselves
+#' geom_smooth_pattern2 <- make_geom_pattern(GeomSmooth, stat = "smooth", se = TRUE)
+#' @rdname make_geom_pattern_function
+#' @export
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make_geom_pattern <- function(x, ...) {
+    UseMethod("make_geom_pattern")
+}
+
+#' @export
+make_geom_pattern.default <- function(x, ...) {
+    cli::cli_abort("{.arg x} must be a function or a {.cls Geom} object, not {.obj_type_friendly {x}}.")
+}
+
+#' @rdname make_geom_pattern_function
+#' @export
+make_geom_pattern.function <- function(x, ..., area_by = NULL) {
+    check_dots_empty()
+    force(area_by)
+    # `x` is called by its name (if it was given by one) so its errors and warnings say which function
+    expr <- substitute(x)
+    if (is_call(expr, c("::", ":::"))) expr <- expr[[3L]]
+    fn <- if (is.symbol(expr)) as.character(expr) else "geom"
+    has_mapping <- "mapping" %in% names(formals(args(x)))
+    function(mapping = NULL, ...) {
+        args <- list2(...)
+        # (only the pattern aesthetics are renamed e.g. "pattern_color" to "pattern_colour")
+        std <- standardise_aes_names(names2(args))
+        is_pattern <- std %in% names(pattern_aesthetics)
+        names(args)[is_pattern] <- std[is_pattern]
+        if (anyDuplicated(std[is_pattern])) {
+            dups <- unique(std[is_pattern][duplicated(std[is_pattern])])
+            cli::cli_abort("Pattern aesthetic{?s} {.arg {dups}} {?was/were} given more than once.")
+        }
+        pattern_mapping <- NULL
+        if (inherits(mapping, "uneval")) {
+            mapped <- names(mapping) %in% names(pattern_aesthetics)
+            if (any(mapped)) pattern_mapping <- mapping[mapped]
+            mapping <- if (all(mapped)) NULL else mapping[!mapped]
+        }
+        # (`mapping` by name if `x` has an argument of that name else as its first argument)
+        first <- list(quote(mapping))
+        if (has_mapping) names(first) <- "mapping"
+        call <- call2(fn, !!!first, !!!args[!is_pattern])
+        out <- eval(call, env(!!fn := x, mapping = mapping))
+        inject(with_pattern(out, !!!args[is_pattern], mapping = pattern_mapping, area_by = area_by))
+    }
+}
+
+#' @rdname make_geom_pattern_function
+#' @export
+make_geom_pattern.Geom <- function(x, ..., area_by = NULL, env = caller_env()) {
+    geom <- if (is.null(area_by)) our_pattern_geom(x)
+    geom <- geom %||% make_GeomPattern(x, area_by = area_by)
+    # (the function looks its geom up by name)
+    env <- new_environment(set_names(list(geom), class(geom)[1L]), parent = env)
+    make_constructor(geom, ..., env = env)
 }
 
 # Our pattern geom for the `{ggplot2}` geom `geom` (`NULL` if we don't have one)
