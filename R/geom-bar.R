@@ -23,11 +23,11 @@ GeomBarPattern <- ggproto(
 
   default_aes = aes(!!!GeomRectPattern$default_aes, width = 0.9),
 
-  setup_params = GeomBar$setup_params,
+  setup_params = function(self, data, params) ggproto_parent(GeomBar, self)$setup_params(data, params),
 
   extra_params = c("just", "na.rm", "orientation"),
 
-  setup_data = GeomBar$setup_data,
+  setup_data = function(self, data, params) ggproto_parent(GeomBar, self)$setup_data(data, params),
 
   rename_size = FALSE
 )

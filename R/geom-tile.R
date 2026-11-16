@@ -7,7 +7,7 @@ GeomTilePattern <- ggproto(
   "GeomTilePattern", GeomRectPattern,
   extra_params = c("na.rm"),
 
-  setup_data = GeomTile$setup_data,
+  setup_data = function(self, data, params) ggproto_parent(GeomTile, self)$setup_data(data, params),
 
   default_aes = defaults(aes(
 	  fill = from_theme(fill %||% col_mix(ink, paper, 0.2)),
