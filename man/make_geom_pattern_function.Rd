@@ -14,10 +14,10 @@ make_geom_pattern(x, ...)
 }
 \arguments{
 \item{x}{A function that returns a layer (or a list of layers and other \code{{ggplot2}} objects)
-e.g. \code{ggplot2::geom_smooth} or a \link[ggplot2:Geom]{ggplot2::Geom} object e.g. \code{ggplot2::GeomSmooth}.}
+e.g. \code{ggplot2::geom_smooth} or a \link[ggplot2:Geom]{ggplot2::Geom} object e.g. \code{ggridges::GeomDensityRidges}.}
 
 \item{...}{For a function must be empty.
-For a geom passed on to \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} e.g. \code{stat = "smooth"}.}
+For a geom passed on to \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} e.g. \code{stat = ggridges::StatDensityRidges}.}
 
 \item{area_by}{How the areas the geom draws are matched to the rows of its data,
 see \code{\link[=make_GeomPattern]{make_GeomPattern()}}.
@@ -31,7 +31,7 @@ A function that returns a layer
 }
 \description{
 \code{make_geom_pattern()} makes a \verb{geom_*_pattern()} function
-from a \verb{geom_*()} function (e.g. \code{ggplot2::geom_smooth}) or from a geom (e.g. \code{ggplot2::GeomSmooth}).
+from a \verb{geom_*()} function (e.g. \code{ggplot2::geom_smooth}) or from a geom (e.g. \code{ggridges::GeomDensityRidges}).
 Prefer giving it the \verb{geom_*()} function if there is one.
 }
 \details{
@@ -50,7 +50,12 @@ for the pattern geom made by \code{\link[=make_GeomPattern]{make_GeomPattern()}}
 A geom doesn't know the defaults of its \verb{geom_*()} function
 so its \code{stat} and \code{position} (if they aren't \code{"identity"})
 and any other argument whose default differs from that of the geom's draw method
-must be given in \code{...} e.g. \verb{stat = "smooth", se = TRUE} for \code{ggplot2::GeomSmooth}.
+must be given in \code{...}
+e.g. \verb{stat = ggridges::StatDensityRidges, position = ggridges::position_points_sina()}
+for \code{ggridges::GeomDensityRidges}.
+Some defaults can't be given this way
+e.g. \code{ggplot2::geom_smooth()} in the development version of \code{{ggplot2}} hides the outline of its confidence band
+which a pattern geom made from \code{ggplot2::GeomSmooth} would draw.
 The function stores the pattern geom (see the note on packages in \code{\link[=make_GeomPattern]{make_GeomPattern()}}).
 }
 }
@@ -62,8 +67,14 @@ ggplot(mtcars, aes(mpg, wt)) +
     geom_smooth_pattern(aes(pattern = factor(am)), method = "lm", formula = y ~ x,
                         pattern_colour = "grey40", pattern_spacing = 0.03)
 
-# from a geom: we must give the defaults of `geom_smooth()` ourselves
-geom_smooth_pattern2 <- make_geom_pattern(GeomSmooth, stat = "smooth", se = TRUE)
+# from a geom: we must give the defaults of its `geom_*()` function ourselves
+if (requireNamespace("ggridges", quietly = TRUE)) {
+  geom_density_ridges_pattern <- make_geom_pattern(ggridges::GeomDensityRidges,
+                                                   stat = ggridges::StatDensityRidges,
+                                                   position = ggridges::position_points_sina())
+  ggplot(iris, aes(Sepal.Length, Species, pattern = Species)) +
+      geom_density_ridges_pattern(pattern_spacing = 0.03)
+}
 }
 \seealso{
 \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a layer

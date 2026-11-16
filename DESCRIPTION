@@ -29,6 +29,7 @@ Suggests:
     ambient,
     dplyr,
     gganimate,
+    ggridges,
     hexbin,
     knitr (>= 1.47),
     magick,

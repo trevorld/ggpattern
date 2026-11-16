@@ -102,12 +102,15 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #'
 #' A geom doesn't know the default `stat` and `position` of its `geom_*()` function
 #' so pass them to [ggplot2::make_constructor()] if they aren't `"identity"`
-#' e.g. `stat = "smooth"` for `ggplot2::geom_smooth()`
+#' e.g. `stat = ggridges::StatDensityRidges, position = ggridges::position_points_sina()`
+#' for `ggridges::geom_density_ridges()`
 #' (otherwise the layer may fail with an error about missing aesthetics the stat would have computed).
-#' [with_pattern()] keeps those of the layer it is given.
+#' Nor does it know any other defaults its `geom_*()` function passes to its draw method
+#' e.g. `ggplot2::geom_smooth()` passes `se = TRUE` (to draw its confidence band).
+#' [with_pattern()] and [make_geom_pattern()] given the `geom_*()` function keep all of them.
 #'
 #' The pattern geom stores a copy of `geom` as it is when `make_GeomPattern()` is called.
-#' So if you call it at the top level of a package's code (which is run when the package is built)
+#' So if you call it at the top level of a package's code (which is run when the package is installed)
 #' with a geom from another package the pattern geom won't pick up later updates of that geom
 #' until your package is reinstalled:
 #' call it in your package's `.onLoad()` instead or write the pattern geom's draw methods yourself
@@ -152,13 +155,13 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #'   [with_pattern()] to make a pattern layer from a layer.
 #' @examples
 #' library("ggplot2")
-#' GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
-#' geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
-#' if (requireNamespace("magick", quietly = TRUE)) {
-#'   magick::magick_set_seed(42)
-#'   ggplot(mtcars, aes(mpg, wt)) +
-#'       geom_point() +
-#'       geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "plasma", pattern_alpha = 0.6)
+#' if (requireNamespace("ggridges", quietly = TRUE)) {
+#'   GeomDensityRidgesPattern <- make_GeomPattern(ggridges::GeomDensityRidges)
+#'   geom_density_ridges_pattern <- make_constructor(GeomDensityRidgesPattern,
+#'                                                   stat = ggridges::StatDensityRidges,
+#'                                                   position = ggridges::position_points_sina())
+#'   ggplot(iris, aes(Sepal.Length, Species, pattern = Species)) +
+#'       geom_density_ridges_pattern(pattern_spacing = 0.03)
 #' }
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -529,7 +532,7 @@ is_pattern_geom <- function(geom) {
 #' Make a pattern geom function
 #'
 #' `make_geom_pattern()` makes a `geom_*_pattern()` function
-#' from a `geom_*()` function (e.g. `ggplot2::geom_smooth`) or from a geom (e.g. `ggplot2::GeomSmooth`).
+#' from a `geom_*()` function (e.g. `ggplot2::geom_smooth`) or from a geom (e.g. `ggridges::GeomDensityRidges`).
 #' Prefer giving it the `geom_*()` function if there is one.
 #'
 #' * Given a **function** it returns a function which calls `x` and then [with_pattern()] on what it returns
@@ -546,13 +549,18 @@ is_pattern_geom <- function(geom) {
 #'   A geom doesn't know the defaults of its `geom_*()` function
 #'   so its `stat` and `position` (if they aren't `"identity"`)
 #'   and any other argument whose default differs from that of the geom's draw method
-#'   must be given in `...` e.g. `stat = "smooth", se = TRUE` for `ggplot2::GeomSmooth`.
+#'   must be given in `...`
+#'   e.g. `stat = ggridges::StatDensityRidges, position = ggridges::position_points_sina()`
+#'   for `ggridges::GeomDensityRidges`.
+#'   Some defaults can't be given this way
+#'   e.g. `ggplot2::geom_smooth()` in the development version of `{ggplot2}` hides the outline of its confidence band
+#'   which a pattern geom made from `ggplot2::GeomSmooth` would draw.
 #'   The function stores the pattern geom (see the note on packages in [make_GeomPattern()]).
 #'
 #' @param x A function that returns a layer (or a list of layers and other `{ggplot2}` objects)
-#'   e.g. `ggplot2::geom_smooth` or a [ggplot2::Geom] object e.g. `ggplot2::GeomSmooth`.
+#'   e.g. `ggplot2::geom_smooth` or a [ggplot2::Geom] object e.g. `ggridges::GeomDensityRidges`.
 #' @param ... For a function must be empty.
-#'   For a geom passed on to [ggplot2::make_constructor()] e.g. `stat = "smooth"`.
+#'   For a geom passed on to [ggplot2::make_constructor()] e.g. `stat = ggridges::StatDensityRidges`.
 #' @param area_by How the areas the geom draws are matched to the rows of its data,
 #'   see [make_GeomPattern()].
 #'   It is an error (when the function made is called) if the layer of a function already is a pattern layer.
@@ -569,8 +577,14 @@ is_pattern_geom <- function(geom) {
 #'     geom_smooth_pattern(aes(pattern = factor(am)), method = "lm", formula = y ~ x,
 #'                         pattern_colour = "grey40", pattern_spacing = 0.03)
 #'
-#' # from a geom: we must give the defaults of `geom_smooth()` ourselves
-#' geom_smooth_pattern2 <- make_geom_pattern(GeomSmooth, stat = "smooth", se = TRUE)
+#' # from a geom: we must give the defaults of its `geom_*()` function ourselves
+#' if (requireNamespace("ggridges", quietly = TRUE)) {
+#'   geom_density_ridges_pattern <- make_geom_pattern(ggridges::GeomDensityRidges,
+#'                                                    stat = ggridges::StatDensityRidges,
+#'                                                    position = ggridges::position_points_sina())
+#'   ggplot(iris, aes(Sepal.Length, Species, pattern = Species)) +
+#'       geom_density_ridges_pattern(pattern_spacing = 0.03)
+#' }
 #' @rdname make_geom_pattern_function
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

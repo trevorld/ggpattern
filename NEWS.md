@@ -64,7 +64,8 @@
 * New `make_geom_pattern()` makes a `geom_*_pattern()` function (#168)
   from a `geom_*()` function e.g. `geom_smooth_pattern <- make_geom_pattern(geom_smooth)`
   (it keeps the function's stat, position, and other defaults)
-  or from a geom e.g. `make_geom_pattern(GeomSmooth, stat = "smooth", se = TRUE)`.
+  or from a geom e.g. `make_geom_pattern(ggridges::GeomDensityRidges, stat = ggridges::StatDensityRidges,
+  position = ggridges::position_points_sina())`.
 * New `with_pattern_aes()`, `with_pattern_key()`, and `default_pattern_aes()`
   for writing the draw methods of a pattern geom (#156)
   and a new "Developing Pattern Geoms" vignette.

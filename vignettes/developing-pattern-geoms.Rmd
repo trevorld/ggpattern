@@ -84,36 +84,32 @@ draws the geom's grob with its areas filled with patterns,
 and draws the geom's legend key glyph filled with the key's pattern.
 Use `ggplot2::make_constructor()` to make its `geom_*_pattern()` function:
 
-```{r make-geom-pattern}
-GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
-geom_smooth_pattern2 <- make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
+```{r make-geom-pattern, eval = requireNamespace("ggridges", quietly = TRUE)}
+GeomDensityRidgesPattern <- make_GeomPattern(ggridges::GeomDensityRidges)
+geom_density_ridges_pattern <- make_constructor(GeomDensityRidgesPattern,
+                                                stat = ggridges::StatDensityRidges,
+                                                position = ggridges::position_points_sina())
 
-ggplot(mtcars, aes(mpg, wt, colour = factor(am), pattern = factor(am))) +
-  geom_point() +
-  geom_smooth_pattern2(method = "lm", formula = y ~ x,
-                       pattern_colour = "grey40", pattern_spacing = 0.03)
+ggplot(iris, aes(Sepal.Length, Species, pattern = Species)) +
+  geom_density_ridges_pattern(pattern_spacing = 0.03)
 ```
 
-(`make_geom_pattern(GeomSmooth, stat = "smooth", se = TRUE)` does both steps but only returns the function.)
+(`make_geom_pattern()` given the geom and the same `stat` and `position` does both steps but only returns the function.)
 
 A `Geom` doesn't know the default `stat` and `position` of its `geom_*()` function
 (they are arguments of that function) so pass them to `make_constructor()` if they aren't `"identity"`,
-as with `stat = "smooth"` above.
+as with the stat (which computes `height`) and position of `ggridges::geom_density_ridges()` above.
+Without the stat the layer may fail with an error about missing aesthetics the stat would have computed.
+(We give them as objects rather than as strings e.g. `stat = "density_ridges"`
+since a stat or position named by a string is only found if its package is attached.)
 Likewise a constructor argument's default is taken from the geom's draw method
-which may differ from that of its `geom_*()` function:
+which may differ from what its `geom_*()` function passes to it:
 `GeomSmooth` only draws its confidence band (the area to fill) if `se = TRUE`
-which is the default of `geom_smooth()` but not of `GeomSmooth$draw_group()`, hence `se = TRUE` above.
-`make_geom_pattern()` given the `geom_*()` function avoids having to know either.
-Without the stat the layer may fail with an error about missing aesthetics the stat would have computed
-e.g. `ggridges::geom_density_ridges()` needs `stat = "density_ridges"` (which computes `height`)
-and `position = "points_sina"`:
-
-```{r make-constructor-stat, eval = FALSE}
-library("ggridges")
-GeomDensityRidgesPattern <- make_GeomPattern(GeomDensityRidges)
-geom_density_ridges_pattern <- make_constructor(GeomDensityRidgesPattern,
-                                                stat = "density_ridges", position = "points_sina")
-```
+which is the default of `geom_smooth()` but not of `GeomSmooth$draw_group()`,
+and in the development version of `{ggplot2}` `geom_smooth()` also hides the outline of the band
+which `GeomSmooth$draw_group()` draws by default.
+`make_geom_pattern()` given the `geom_*()` function avoids having to know any of these,
+so prefer it if there is a `geom_*()` function.
 
 ### Matching areas to rows: `area_by`
 
@@ -145,9 +141,10 @@ is filled when it is drawn.
 
 ### Using `make_GeomPattern()` in a package
 
-Code at the top level of a package's `R/` files is run when the package is *built*, not when it is loaded.
+Code at the top level of a package's `R/` files is run when the package is *installed*, not when it is loaded.
 So a pattern geom made there by `make_GeomPattern()` stores a copy of the geom it was made from
-(its methods, default aesthetics, and draw method arguments) as it was when your package was built.
+(its methods, default aesthetics, and draw method arguments) as it was when your package was installed
+(for a binary package when it was built).
 If that geom is from another package (e.g. `{ggplot2}`) which is later updated without your package being reinstalled
 the pattern geom keeps using the old copy:
 it won't have any new aesthetics or parameters and its old methods may fail with the updated package.
@@ -157,12 +154,14 @@ nor a geom from your own package.)
 Either make the pattern geom (and its constructor) when your package is loaded:
 
 ```{r onload, eval = FALSE}
-GeomSmoothPattern <- NULL
-geom_smooth_pattern <- NULL
+GeomDensityRidgesPattern <- NULL
+geom_density_ridges_pattern <- NULL
 
 .onLoad <- function(libname, pkgname) {
-  GeomSmoothPattern <<- ggpattern::make_GeomPattern(ggplot2::GeomSmooth)
-  geom_smooth_pattern <<- ggplot2::make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
+  GeomDensityRidgesPattern <<- ggpattern::make_GeomPattern(ggridges::GeomDensityRidges)
+  geom_density_ridges_pattern <<- ggplot2::make_constructor(GeomDensityRidgesPattern,
+                                                            stat = ggridges::StatDensityRidges,
+                                                            position = ggridges::position_points_sina())
 }
 ```
 
@@ -172,7 +171,7 @@ a geom made by `ggplot2::ggproto()` looks up the geom it extends each time it is
 If you only need the `geom_*_pattern()` function (and not a `Geom` object)
 `make_geom_pattern()` given a `geom_*()` function makes the pattern geom each time the function is called
 (given a geom it stores the pattern geom just like `make_GeomPattern()`).
-Give it a function that looks the original up when called so that it isn't stored when your package is built either
+Give it a function that looks the original up when called so that it isn't stored when your package is installed either
 e.g. `make_geom_pattern(function(...) ggplot2::geom_smooth(...))`.
 
 ## Writing a pattern geom's draw methods

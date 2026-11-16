@@ -65,12 +65,15 @@ or \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a la
 \details{
 A geom doesn't know the default \code{stat} and \code{position} of its \verb{geom_*()} function
 so pass them to \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} if they aren't \code{"identity"}
-e.g. \code{stat = "smooth"} for \code{ggplot2::geom_smooth()}
+e.g. \verb{stat = ggridges::StatDensityRidges, position = ggridges::position_points_sina()}
+for \code{ggridges::geom_density_ridges()}
 (otherwise the layer may fail with an error about missing aesthetics the stat would have computed).
-\code{\link[=with_pattern]{with_pattern()}} keeps those of the layer it is given.
+Nor does it know any other defaults its \verb{geom_*()} function passes to its draw method
+e.g. \code{ggplot2::geom_smooth()} passes \code{se = TRUE} (to draw its confidence band).
+\code{\link[=with_pattern]{with_pattern()}} and \code{\link[=make_geom_pattern]{make_geom_pattern()}} given the \verb{geom_*()} function keep all of them.
 
 The pattern geom stores a copy of \code{geom} as it is when \code{make_GeomPattern()} is called.
-So if you call it at the top level of a package's code (which is run when the package is built)
+So if you call it at the top level of a package's code (which is run when the package is installed)
 with a geom from another package the pattern geom won't pick up later updates of that geom
 until your package is reinstalled:
 call it in your package's \code{.onLoad()} instead or write the pattern geom's draw methods yourself
@@ -78,13 +81,13 @@ with \code{\link[=with_pattern_aes]{with_pattern_aes()}} (see \code{vignette("de
 }
 \examples{
 library("ggplot2")
-GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
-geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
-if (requireNamespace("magick", quietly = TRUE)) {
-  magick::magick_set_seed(42)
-  ggplot(mtcars, aes(mpg, wt)) +
-      geom_point() +
-      geom_smooth_pattern(method = "lm", formula = y ~ x, pattern = "plasma", pattern_alpha = 0.6)
+if (requireNamespace("ggridges", quietly = TRUE)) {
+  GeomDensityRidgesPattern <- make_GeomPattern(ggridges::GeomDensityRidges)
+  geom_density_ridges_pattern <- make_constructor(GeomDensityRidgesPattern,
+                                                  stat = ggridges::StatDensityRidges,
+                                                  position = ggridges::position_points_sina())
+  ggplot(iris, aes(Sepal.Length, Species, pattern = Species)) +
+      geom_density_ridges_pattern(pattern_spacing = 0.03)
 }
 }
 \seealso{
