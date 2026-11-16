@@ -26,15 +26,16 @@ library("ggpattern")
 ## Overview
 
 `{ggpattern}` provides a pattern version of most `{ggplot2}` geoms (e.g. `geom_rect_pattern()`).
-For any other geom (from `{ggplot2}` or an extension package) there are three ways to fill its areas with patterns,
+For any other geom (from `{ggplot2}` or an extension package) there are four ways to fill its areas with patterns,
 from the least to the most work:
 
 1. `with_pattern()` makes a pattern layer from a layer, for a one-off plot.
-2. `make_GeomPattern()` makes a pattern geom from a geom, for a reusable `geom_*_pattern()` function.
-3. Writing the pattern geom's draw methods yourself with `with_pattern_aes()` and `with_pattern_key()`,
+2. `make_geom_pattern()` makes a `geom_*_pattern()` function from a `geom_*()` function, for reuse.
+3. `make_GeomPattern()` makes a pattern geom from a geom, for a pattern `Geom` object of your own.
+4. Writing the pattern geom's draw methods yourself with `with_pattern_aes()` and `with_pattern_key()`,
    for full control.
 
-All three draw the parent geom's grob as usual and then fill each of its areas
+All four draw the parent geom's grob as usual and then fill each of its areas
 with the pattern of its row of the layer's data using `gridpattern::with_pattern()`.
 Each area's fill, pattern, and border are drawn in turn (like `{ggplot2}` draws its areas)
 so overlapping areas stack as they would without patterns.
@@ -57,6 +58,24 @@ If `{ggpattern}` has a pattern geom for the layer's geom (e.g. `GeomRectPattern`
 otherwise the pattern geom is made by `make_GeomPattern()`.
 Only the layer's geom is replaced so it keeps its stat, position, and other parameters.
 
+## `make_geom_pattern()`: a pattern geom function from a geom function
+
+`make_geom_pattern()` makes a `geom_*_pattern()` function from a `geom_*()` function:
+
+```{r make-geom-pattern-function}
+geom_smooth_pattern <- make_geom_pattern(geom_smooth)
+
+ggplot(mtcars, aes(mpg, wt, colour = factor(am), pattern = factor(am))) +
+  geom_point() +
+  geom_smooth_pattern(method = "lm", formula = y ~ x,
+                      pattern_colour = "grey40", pattern_spacing = 0.03)
+```
+
+The function it returns calls the original function and then `with_pattern()` on the layer it returns
+so it keeps the original's stat, position, and every other default.
+Its arguments are `mapping` and `...`:
+the pattern aesthetics among them are held back for `with_pattern()` and the others are passed on to the original function.
+
 ## `make_GeomPattern()`: a pattern geom from a geom
 
 `make_GeomPattern()` makes a pattern `Geom` from a `Geom`:
@@ -67,13 +86,15 @@ Use `ggplot2::make_constructor()` to make its `geom_*_pattern()` function:
 
 ```{r make-geom-pattern}
 GeomSmoothPattern <- make_GeomPattern(GeomSmooth)
-geom_smooth_pattern <- make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
+geom_smooth_pattern2 <- make_constructor(GeomSmoothPattern, stat = "smooth", se = TRUE)
 
 ggplot(mtcars, aes(mpg, wt, colour = factor(am), pattern = factor(am))) +
   geom_point() +
-  geom_smooth_pattern(method = "lm", formula = y ~ x,
-                      pattern_colour = "grey40", pattern_spacing = 0.03)
+  geom_smooth_pattern2(method = "lm", formula = y ~ x,
+                       pattern_colour = "grey40", pattern_spacing = 0.03)
 ```
+
+(`make_geom_pattern(GeomSmooth, stat = "smooth", se = TRUE)` does both steps but only returns the function.)
 
 A `Geom` doesn't know the default `stat` and `position` of its `geom_*()` function
 (they are arguments of that function) so pass them to `make_constructor()` if they aren't `"identity"`,
@@ -82,6 +103,7 @@ Likewise a constructor argument's default is taken from the geom's draw method
 which may differ from that of its `geom_*()` function:
 `GeomSmooth` only draws its confidence band (the area to fill) if `se = TRUE`
 which is the default of `geom_smooth()` but not of `GeomSmooth$draw_group()`, hence `se = TRUE` above.
+`make_geom_pattern()` given the `geom_*()` function avoids having to know either.
 Without the stat the layer may fail with an error about missing aesthetics the stat would have computed
 e.g. `ggridges::geom_density_ridges()` needs `stat = "density_ridges"` (which computes `height`)
 and `position = "points_sina"`:
@@ -146,6 +168,12 @@ geom_smooth_pattern <- NULL
 
 or write the pattern geom's draw methods yourself (see the next section) as `{ggpattern}` does for its own geoms:
 a geom made by `ggplot2::ggproto()` looks up the geom it extends each time it is used.
+
+If you only need the `geom_*_pattern()` function (and not a `Geom` object)
+`make_geom_pattern()` given a `geom_*()` function makes the pattern geom each time the function is called
+(given a geom it stores the pattern geom just like `make_GeomPattern()`).
+Give it a function that looks the original up when called so that it isn't stored when your package is built either
+e.g. `make_geom_pattern(function(...) ggplot2::geom_smooth(...))`.
 
 ## Writing a pattern geom's draw methods
 

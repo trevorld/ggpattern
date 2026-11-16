@@ -48,6 +48,9 @@ Filling areas other than those of a \code{\link[grid:polygonGrob]{grid::polygonG
 }
 \value{
 A \link[ggplot2:Geom]{ggplot2::Geom} object.
+A geom that is already a pattern geom (its \code{default_aes} has all the pattern aesthetics)
+is returned as it is (or as a subclass of it called \code{name} if that is given)
+and it is an error to set its \code{area_by}.
 }
 \description{
 \code{make_GeomPattern()} makes a pattern geom from a geom:
@@ -55,7 +58,8 @@ it draws the grob of \code{geom} and fills each of its areas with a pattern,
 has the pattern aesthetics as well as those of \code{geom},
 and draws the key glyph of \code{geom} filled with the key's pattern.
 The grob it draws is named after the pattern geom (e.g. \code{"geom_smooth_pattern"} for \code{GeomSmoothPattern}).
-Use \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} to make its \verb{geom_*_pattern()} function
+Use \code{\link[ggplot2:make_constructor]{ggplot2::make_constructor()}} to make its \verb{geom_*_pattern()} function,
+\code{\link[=make_geom_pattern]{make_geom_pattern()}} to make a \verb{geom_*_pattern()} function from a \verb{geom_*()} function,
 or \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a layer.
 }
 \details{
@@ -84,5 +88,6 @@ if (requireNamespace("magick", quietly = TRUE)) {
 }
 }
 \seealso{
+\code{\link[=make_geom_pattern]{make_geom_pattern()}} to make a \verb{geom_*_pattern()} function from a \verb{geom_*()} function or a geom.
 \code{\link[=with_pattern]{with_pattern()}} to make a pattern layer from a layer.
 }

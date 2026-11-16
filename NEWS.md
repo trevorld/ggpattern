@@ -61,8 +61,10 @@
   It is an error to give it a plot or a geom.
   A `NULL` in such a list is also left as it is e.g. `with_pattern(list(geom_col(), if (flip) coord_flip()))`.
   Requires `{gridpattern}` (>= 1.6.0-17).
-* The grob a `make_GeomPattern()` geom draws is named after the geom
-  (e.g. `"geom_smooth_pattern"` for `GeomSmoothPattern`) like `{ggplot2}` names the grobs of its geoms.
+* New `make_geom_pattern()` makes a `geom_*_pattern()` function (#168)
+  from a `geom_*()` function e.g. `geom_smooth_pattern <- make_geom_pattern(geom_smooth)`
+  (it keeps the function's stat, position, and other defaults)
+  or from a geom e.g. `make_geom_pattern(GeomSmooth, stat = "smooth", se = TRUE)`.
 * New `with_pattern_aes()`, `with_pattern_key()`, and `default_pattern_aes()`
   for writing the draw methods of a pattern geom (#156)
   and a new "Developing Pattern Geoms" vignette.
