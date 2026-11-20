@@ -9,6 +9,11 @@
 #' @param name,breaks,labels,limits,trans,guide,...,transform See [ggplot2::scale_size()] for more information
 #' @param range a numeric vector of length 2 that specifies the minimum and
 #'   maximum size after transformation.
+#'   If `NULL` (and `palette` is `NULL`) uses the `palette.pattern_size.<type>` theme element
+#'   (see [pattern_palettes]) else `c(1, 6)` (`c(2, 6)` for the ordinal scale).
+#' @param palette A palette function e.g. [scales::pal_rescale()] for a continuous scale
+#'   or a `function(n)` returning `n` values for a discrete scale.  Takes precedence over `range`.
+#'   For a vector of values use `range` or [scale_pattern_size_manual()].
 #' @return A [ggplot2::Scale] object.
 #' @examples
 #'   if (require("ggplot2")) {
@@ -36,16 +41,19 @@
 #' @export
 #-----------------------------------------------------------------------------
 scale_pattern_size_continuous <- function(name = waiver(), breaks = waiver(), labels = waiver(),
-                                  limits = NULL, range = c(1, 6),
+                                  limits = NULL, range = NULL,
                                   trans = deprecated(), guide = "legend",
-                                  ..., transform = "identity") {
+                                  ..., transform = "identity", palette = NULL) {
   if (lifecycle::is_present(trans)) {{
      lifecycle::deprecate_warn('1.1.1',
                                'scale_pattern_size_continuous(trans)',
                                'scale_pattern_size_continuous(transform)')
      transform <- trans
   }}
-  continuous_scale("pattern_size", palette = area_pal(range), name = name,
+  continuous_scale("pattern_size",
+    palette = as_scale_palette(palette, range, area_pal, "continuous", "pattern_size", "range"),
+    fallback.palette = area_pal(c(1, 6)),
+    name = name,
     breaks = breaks, labels = labels, limits = limits, transform = transform,
     guide = guide, ...)
 }
@@ -70,15 +78,20 @@ scale_pattern_size_discrete <- function(...) {
 #' @export
 #' @usage NULL
 #-----------------------------------------------------------------------------
-scale_pattern_size_ordinal <- function(..., range = c(2, 6)) {
-  force(range)
-
+scale_pattern_size_ordinal <- function(..., range = NULL, palette = NULL) {
   discrete_scale(
     "pattern_size",
-    palette = function(n) {
-      area <- seq(range[1] ^ 2, range[2] ^ 2, length.out = n)
-      sqrt(area)
-    },
+    palette = as_scale_palette(palette, range, pal_seq_area, "discrete", "pattern_size", "range"),
+    fallback.palette = pal_seq_area(c(2, 6)),
     ...
   )
+}
+
+# Discrete palette of sizes whose areas are evenly spaced within `range`
+pal_seq_area <- function(range) {
+  force(range)
+  function(n) {
+    area <- seq(range[1] ^ 2, range[2] ^ 2, length.out = n)
+    sqrt(area)
+  }
 }

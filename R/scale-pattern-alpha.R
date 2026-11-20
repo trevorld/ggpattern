@@ -8,6 +8,11 @@
 #'   or [ggplot2::discrete_scale()] as appropriate, to control name, limits,
 #'   breaks, labels and so forth.
 #' @param range Output range of alpha values. Must lie between 0 and 1.
+#'   If `NULL` (and `palette` is `NULL`) uses the `palette.pattern_alpha.<type>` theme element
+#'   (see [pattern_palettes]) else `c(0.1, 1)`.
+#' @param palette A palette function e.g. [scales::pal_rescale()] for a continuous scale
+#'   or a `function(n)` returning `n` values for a discrete scale.  Takes precedence over `range`.
+#'   For a vector of values use `range` or [scale_pattern_alpha_manual()].
 #' @examples
 #'   if (require("ggplot2")) {
 #'     # 'stripe' pattern example
@@ -34,8 +39,11 @@
 #' @return A [ggplot2::Scale] object.
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_alpha_continuous <- function(..., range = c(0.1, 1)) {
-  continuous_scale("pattern_alpha", palette = rescale_pal(range), ...)
+scale_pattern_alpha_continuous <- function(..., range = NULL, palette = NULL) {
+  continuous_scale("pattern_alpha",
+                   palette = as_scale_palette(palette, range, rescale_pal, "continuous", "pattern_alpha", "range"),
+                   fallback.palette = rescale_pal(c(0.1, 1)),
+                   ...)
 }
 
 #-----------------------------------------------------------------------------
@@ -65,10 +73,11 @@ scale_pattern_alpha_discrete <- function(...) {
 #' @rdname scale_pattern_alpha_continuous
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_alpha_ordinal <- function(..., range = c(0.1, 1)) {
+scale_pattern_alpha_ordinal <- function(..., range = NULL, palette = NULL) {
   discrete_scale(
     "pattern_alpha",
-    palette = function(n) seq(range[1], range[2], length.out = n),
+    palette = as_scale_palette(palette, range, pal_seq_range, "discrete", "pattern_alpha", "range"),
+    fallback.palette = pal_seq_range(c(0.1, 1)),
     ...
   )
 }

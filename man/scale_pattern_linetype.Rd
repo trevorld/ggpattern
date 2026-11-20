@@ -6,16 +6,22 @@
 \alias{scale_pattern_linetype_discrete}
 \title{Scale for line patterns}
 \usage{
-scale_pattern_linetype(..., na.value = "blank")
+scale_pattern_linetype(..., na.value = "blank", palette = NULL)
 
 scale_pattern_linetype_continuous(...)
 
-scale_pattern_linetype_discrete(..., na.value = "blank")
+scale_pattern_linetype_discrete(..., na.value = "blank", palette = NULL)
 }
 \arguments{
 \item{...}{see \code{\link[ggplot2:scale_linetype]{ggplot2::scale_linetype()}} for more information}
 
 \item{na.value}{The linetype to use for \code{NA} values.}
+
+\item{palette}{A palette function or a character vector of linetypes (see \code{\link[scales:pal_manual]{scales::pal_manual()}}).
+For numeric linetypes use e.g. \code{palette = scales::pal_manual(1:3)}
+or \code{\link[=scale_pattern_linetype_manual]{scale_pattern_linetype_manual()}}.
+If \code{NULL} uses the \code{palette.pattern_linetype.discrete} theme element (see \link{pattern_palettes})
+else \code{\link[scales:pal_linetype]{scales::pal_linetype()}}.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.

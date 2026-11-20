@@ -35,6 +35,18 @@
 * An `NA` value of an aesthetic is now always passed on to `{gridpattern}` where it may be meaningful
   e.g. an `NA` `pattern_fill2` is now a transparent colour (previously replaced by the default `pattern_fill2`)
   and an `NA` `pattern_shape` still draws nothing for the "pch" pattern.
+* The `choices` and `range` arguments of our `scale_pattern_*_discrete()` and `scale_pattern_*_continuous()` scales
+  and of `scale_pattern_alpha_ordinal()`, `scale_pattern_linewidth_ordinal()`, and `scale_pattern_size_ordinal()`
+  (and the `solid` argument of `scale_pattern_shape()`) now default to `NULL`
+  which uses the scale's `palette.<aesthetic>.<type>` theme element if set else the previous default (#172).
+  A `NULL` `choices` or `range` is no longer an error when the scale is made;
+  a scale without a default palette (e.g. `scale_pattern_type_discrete()`) instead throws an error
+  when it is used without a `choices`, `range`, `palette`, or theme palette.
+  `scale_pattern_colour_discrete()`, `scale_pattern_fill_discrete()`, and `scale_pattern_fill2_discrete()`
+  are no longer aliases of the `scale_pattern_*_hue()` scales (though they still accept their arguments)
+  and the `type` of `scale_pattern_colour_continuous()`, `scale_pattern_fill_continuous()`,
+  and `scale_pattern_fill2_continuous()` now defaults to `NULL` (previously `"gradient"` when the option was unset).
+  The default palettes are unchanged.
 
 ## Deprecated features
 
@@ -45,6 +57,16 @@
 
 ## New features
 
+* Our `scale_pattern_*_discrete()` and `scale_pattern_*_continuous()` scales
+  (and `scale_pattern_alpha_ordinal()`, `scale_pattern_linewidth_ordinal()`, `scale_pattern_size_ordinal()`,
+  `scale_pattern_linetype()`, and `scale_pattern_shape()`) have a new `palette` argument (#172)
+  e.g. `scale_pattern_type_discrete(palette = c("hexagonal", "rhombille", "pythagorean"))`.
+  It takes precedence over `choices` or `range`.
+* Like `{ggplot2}`'s own scales these scales now look up their palette in the
+  `palette.<aesthetic>.discrete` or `palette.<aesthetic>.continuous` theme element when not given one
+  e.g. `theme(palette.pattern_type.discrete = c("hexagonal", "rhombille", "pythagorean"))` (#172).
+  We register these theme elements for every pattern aesthetic with a scale when `{ggpattern}` is loaded
+  (see `?pattern_palettes`).
 * New `make_GeomPattern()` makes a pattern geom from (almost) any `{ggplot2}` (or extension) geom:
   it draws the geom's grob and fills each of its areas with the pattern of its row
   (use `ggplot2::make_constructor()` to make its `geom_*_pattern()` function).

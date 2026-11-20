@@ -22,6 +22,7 @@ reference:
     desc: "patterned scale functions to use with {ggplot2}"
     contents:
         - starts_with("scale")
+        - pattern_palettes
   - title: "Geom ggproto objects"
     desc: "Geom ggproto objects that developers could theoretically extend"
     contents:

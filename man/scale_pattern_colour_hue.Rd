@@ -4,10 +4,6 @@
 \alias{scale_pattern_colour_hue}
 \alias{scale_pattern_fill_hue}
 \alias{scale_pattern_fill2_hue}
-\alias{scale_pattern_colour_discrete}
-\alias{scale_pattern_fill_discrete}
-\alias{scale_pattern_fill2_discrete}
-\alias{scale_pattern_color_discrete}
 \alias{scale_pattern_color_hue}
 \title{Evenly spaced colours for discrete data}
 \usage{
