@@ -33,100 +33,138 @@ scale_pattern_angle_continuous(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0, 90),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_angle_discrete(..., range = c(0, 90), guide = "legend")
+scale_pattern_angle_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_density_continuous(
   name = waiver(),
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0, 0.5),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_density_discrete(..., range = c(0, 0.5), guide = "legend")
+scale_pattern_density_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_spacing_continuous(
   name = waiver(),
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0.01, 0.1),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_spacing_discrete(..., range = c(0.01, 0.1), guide = "legend")
+scale_pattern_spacing_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_xoffset_continuous(
   name = waiver(),
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0.01, 0.1),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_xoffset_discrete(..., range = c(0.01, 0.1), guide = "legend")
+scale_pattern_xoffset_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_yoffset_continuous(
   name = waiver(),
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0.01, 0.1),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_yoffset_discrete(..., range = c(0.01, 0.1), guide = "legend")
+scale_pattern_yoffset_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_aspect_ratio_continuous(
   name = waiver(),
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0.5, 2),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_aspect_ratio_discrete(..., range = c(0.5, 2), guide = "legend")
+scale_pattern_aspect_ratio_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_key_scale_factor_continuous(
   name = waiver(),
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0.5, 2),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
 scale_pattern_key_scale_factor_discrete(
   ...,
-  range = c(0.5, 2),
+  range = NULL,
+  palette = NULL,
   guide = "legend"
 )
 
@@ -135,14 +173,20 @@ scale_pattern_scale_continuous(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0.5, 2),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_scale_discrete(..., range = c(0.5, 2), guide = "legend")
+scale_pattern_scale_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_phase_continuous(
   name = waiver(),
@@ -153,10 +197,16 @@ scale_pattern_phase_continuous(
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_phase_discrete(..., range = NULL, guide = "legend")
+scale_pattern_phase_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_frequency_continuous(
   name = waiver(),
@@ -167,10 +217,16 @@ scale_pattern_frequency_continuous(
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_frequency_discrete(..., range = NULL, guide = "legend")
+scale_pattern_frequency_discrete(
+  ...,
+  range = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_res_continuous(
   name = waiver(),
@@ -181,28 +237,39 @@ scale_pattern_res_continuous(
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_res_discrete(..., range = NULL, guide = "legend")
+scale_pattern_res_discrete(..., range = NULL, palette = NULL, guide = "legend")
 
 scale_pattern_rot_continuous(
   name = waiver(),
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(0, 360),
+  range = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_rot_discrete(..., range = c(0, 360), guide = "legend")
+scale_pattern_rot_discrete(..., range = NULL, palette = NULL, guide = "legend")
 }
 \arguments{
-\item{name, breaks, labels, limits, range, trans, guide, ..., transform}{See
+\item{name, breaks, labels, limits, trans, guide, ..., transform}{See
 \code{{ggplot2}} documentation for more information on scales.}
+
+\item{range}{A numeric vector of length 2 of the minimum and maximum output values.
+If \code{NULL} (and \code{palette} is \code{NULL}) uses the \verb{palette.<aesthetic>.<type>} theme element
+(see \link{pattern_palettes}) else the default palette (see the "Default palettes" section).}
+
+\item{palette}{A palette function e.g. \code{\link[scales:pal_rescale]{scales::pal_rescale()}} for a continuous scale
+or a \verb{function(n)} returning \code{n} values for a discrete scale.
+Takes precedence over \code{range}.
+For a vector of values use \code{range} or the \verb{scale_pattern_*_manual()} scales.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.
@@ -210,6 +277,26 @@ A \link[ggplot2:Scale]{ggplot2::Scale} object.
 \description{
 Scales for continuous pattern aesthetics
 }
+\section{Default palettes}{
+
+If neither the \code{palette} nor \code{range} argument nor the \verb{palette.<aesthetic>.<type>}
+theme element is set these scales use the following \code{range}:
+\itemize{
+\item \code{pattern_angle}: \code{range = c(0, 90)}
+\item \code{pattern_density}: \code{range = c(0, 0.5)}
+\item \code{pattern_spacing}: \code{range = c(0.01, 0.1)}
+\item \code{pattern_xoffset}: \code{range = c(0.01, 0.1)}
+\item \code{pattern_yoffset}: \code{range = c(0.01, 0.1)}
+\item \code{pattern_aspect_ratio}: \code{range = c(0.5, 2)}
+\item \code{pattern_key_scale_factor}: \code{range = c(0.5, 2)}
+\item \code{pattern_scale}: \code{range = c(0.5, 2)}
+\item \code{pattern_phase}: none (\code{range}, \code{palette}, or a theme palette must be set)
+\item \code{pattern_frequency}: none (\code{range}, \code{palette}, or a theme palette must be set)
+\item \code{pattern_res}: none (\code{range}, \code{palette}, or a theme palette must be set)
+\item \code{pattern_rot}: \code{range = c(0, 360)}
+}
+}
+
 \examples{
   if (require('ggplot2')) {
 

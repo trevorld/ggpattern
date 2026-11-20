@@ -7,6 +7,11 @@
 #'
 #' @param ... see [ggplot2::scale_linetype()] for more information
 #' @param na.value The linetype to use for `NA` values.
+#' @param palette A palette function or a character vector of linetypes (see [scales::pal_manual()]).
+#'   For numeric linetypes use e.g. `palette = scales::pal_manual(1:3)`
+#'   or [scale_pattern_linetype_manual()].
+#'   If `NULL` uses the `palette.pattern_linetype.discrete` theme element (see [pattern_palettes])
+#'   else [scales::pal_linetype()].
 #' @return A [ggplot2::Scale] object.
 #' @examples
 #'   if (require("ggplot2")) {
@@ -33,9 +38,10 @@
 #'   }
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_linetype <- function(..., na.value = "blank") {
-  discrete_scale("pattern_linetype", 
-                 palette = linetype_pal(),
+scale_pattern_linetype <- function(..., na.value = "blank", palette = NULL) {
+  discrete_scale("pattern_linetype",
+                 palette = as_scale_palette(palette, type = "discrete", aesthetic = "pattern_linetype"),
+                 fallback.palette = linetype_pal(),
                  na.value = na.value,
                  ...)
 }

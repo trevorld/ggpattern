@@ -4,35 +4,92 @@
 \alias{scale_pattern_colour_continuous}
 \alias{scale_pattern_fill_continuous}
 \alias{scale_pattern_fill2_continuous}
+\alias{scale_pattern_colour_discrete}
+\alias{scale_pattern_fill_discrete}
+\alias{scale_pattern_fill2_discrete}
 \alias{scale_pattern_color_continuous}
-\title{Continuous and binned colour scales}
+\alias{scale_pattern_color_discrete}
+\title{Default colour scales}
 \usage{
 scale_pattern_colour_continuous(
   ...,
-  type = getOption("ggplot2.continuous.colour", default = "gradient")
+  palette = NULL,
+  aesthetics = "pattern_colour",
+  guide = guide_colourbar(available_aes = standardise_aes_names(aesthetics)),
+  na.value = "grey50",
+  type = getOption("ggplot2.continuous.colour")
 )
 
 scale_pattern_fill_continuous(
   ...,
-  type = getOption("ggplot2.continuous.fill", default = "gradient")
+  palette = NULL,
+  aesthetics = "pattern_fill",
+  guide = guide_colourbar(available_aes = standardise_aes_names(aesthetics)),
+  na.value = "grey50",
+  type = getOption("ggplot2.continuous.fill")
 )
 
 scale_pattern_fill2_continuous(
   ...,
-  type = getOption("ggplot2.continuous.fill", default = "gradient")
+  palette = NULL,
+  aesthetics = "pattern_fill2",
+  guide = guide_colourbar(available_aes = standardise_aes_names(aesthetics)),
+  na.value = "grey50",
+  type = getOption("ggplot2.continuous.fill")
+)
+
+scale_pattern_colour_discrete(
+  ...,
+  palette = NULL,
+  aesthetics = "pattern_colour",
+  na.value = "grey50"
+)
+
+scale_pattern_fill_discrete(
+  ...,
+  palette = NULL,
+  aesthetics = "pattern_fill",
+  na.value = "grey50"
+)
+
+scale_pattern_fill2_discrete(
+  ...,
+  palette = NULL,
+  aesthetics = "pattern_fill2",
+  na.value = "grey50"
 )
 }
 \arguments{
-\item{...}{Additional parameters passed on to the scale type}
+\item{...}{Additional parameters passed on to the scale}
 
-\item{type}{One of "gradient" (the default) or "viridis" indicating the
-colour scale to use}
+\item{palette}{A palette function (or something that \code{\link[scales:as_continuous_pal]{scales::as_continuous_pal()}}
+or \code{\link[scales:as_discrete_pal]{scales::as_discrete_pal()}} can convert into one e.g. a character vector of colours).}
+
+\item{aesthetics}{The names of the aesthetics that this scale works with.}
+
+\item{guide}{A function used to create a guide or its name.}
+
+\item{na.value}{Colour to use for missing values.}
+
+\item{type}{One of "gradient" or "viridis" indicating the
+colour scale to use.
+If \code{NULL} (the default unless the \code{ggplot2.continuous.colour} or \code{ggplot2.continuous.fill} option is set)
+uses the theme's palette else the default palette.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.
 }
 \description{
-See \code{ggplot2::scale_colour_continuous()} for more information
+These are the default scales for the \code{pattern_colour}, \code{pattern_fill}, and \code{pattern_fill2} aesthetics.
+See \code{\link[ggplot2:scale_colour_continuous]{ggplot2::scale_colour_continuous()}} and \code{\link[ggplot2:scale_colour_discrete]{ggplot2::scale_colour_discrete()}} for more information.
+}
+\details{
+The palette is the first of the \code{palette} argument,
+the scale \code{type} (or arguments of \code{\link[=scale_pattern_colour_gradient]{scale_pattern_colour_gradient()}} or \code{\link[=scale_pattern_colour_hue]{scale_pattern_colour_hue()}}),
+the \verb{palette.<aesthetic>.<type>} theme element (e.g. \code{palette.pattern_fill.discrete}, see \link{pattern_palettes}),
+and the default palette (\code{\link[scales:pal_seq_gradient]{scales::pal_seq_gradient()}} from \code{"#132B43"} to \code{"#56B1F7"} for continuous scales
+and \code{\link[scales:pal_hue]{scales::pal_hue()}} for discrete scales).
+These scales don't use the \verb{palette.colour.<type>} or \verb{palette.fill.<type>} theme elements.
 }
 \examples{
   if (require("ggplot2")) {
@@ -47,6 +104,17 @@ See \code{ggplot2::scale_colour_continuous()} for more information
       ) +
       theme_bw(18) +
       scale_pattern_fill_continuous()
+    plot(gg)
+
+    gg <- ggplot(df) +
+      geom_col_pattern(
+        aes(level, outcome, pattern_fill = level),
+        pattern = 'stripe',
+        fill    = 'white',
+        colour  = 'black'
+      ) +
+      theme_bw(18) +
+      scale_pattern_fill_discrete(palette = scales::pal_brewer(palette = "Set1"))
     plot(gg)
   }
 }
