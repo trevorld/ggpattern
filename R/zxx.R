@@ -1,11 +1,6 @@
 # Default scales -------------------------------------------------------------
 
 #' @export
-#' @rdname scale_pattern_colour_hue
-#' @usage NULL
-scale_pattern_colour_discrete <- scale_pattern_colour_hue
-
-#' @export
 #' @rdname scale_pattern_colour_viridis_d
 #' @usage NULL
 scale_pattern_colour_ordinal <- scale_pattern_colour_viridis_d
@@ -26,16 +21,6 @@ scale_pattern_color_ordinal <- scale_pattern_colour_ordinal
 # #' @rdname scale_pattern_colour_gradient
 # #' @usage NULL
 # scale_pattern_color_date <- scale_pattern_colour_date
-
-#' @export
-#' @rdname scale_pattern_colour_hue
-#' @usage NULL
-scale_pattern_fill_discrete <- scale_pattern_fill_hue
-
-#' @export
-#' @rdname scale_pattern_colour_hue
-#' @usage NULL
-scale_pattern_fill2_discrete <- scale_pattern_fill2_hue
 
 #' @export
 #' @rdname scale_pattern_colour_viridis_d
@@ -77,9 +62,9 @@ scale_pattern_color_continuous <- scale_pattern_colour_continuous
 # scale_pattern_color_binned <- scale_pattern_colour_binned
 
 #' @export
-#' @rdname scale_pattern_colour_hue
+#' @rdname scale_pattern_colour_continuous
 #' @usage NULL
-scale_pattern_color_discrete <- scale_pattern_colour_hue
+scale_pattern_color_discrete <- scale_pattern_colour_discrete
 
 #' @export
 #' @rdname scale_pattern_colour_gradient

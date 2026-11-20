@@ -31,10 +31,16 @@ scale_pattern_type_continuous(
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_type_discrete(..., choices = NULL, guide = "legend")
+scale_pattern_type_discrete(
+  ...,
+  choices = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_subtype_continuous(
   name = waiver(),
@@ -45,10 +51,16 @@ scale_pattern_subtype_continuous(
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_subtype_discrete(..., choices = NULL, guide = "legend")
+scale_pattern_subtype_discrete(
+  ...,
+  choices = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_filename_continuous(
   name = waiver(),
@@ -59,26 +71,34 @@ scale_pattern_filename_continuous(
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
-scale_pattern_filename_discrete(..., choices = NULL, guide = "legend")
+scale_pattern_filename_discrete(
+  ...,
+  choices = NULL,
+  palette = NULL,
+  guide = "legend"
+)
 
 scale_pattern_filter_continuous(
   name = waiver(),
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  choices = c("lanczos", "box", "spline", "cubic"),
+  choices = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
 scale_pattern_filter_discrete(
   ...,
-  choices = c("lanczos", "box", "spline", "cubic"),
+  choices = NULL,
+  palette = NULL,
   guide = "legend"
 )
 
@@ -87,18 +107,18 @@ scale_pattern_gravity_continuous(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  choices = c("center", "north", "south", "east", "west", "northeast", "northwest",
-    "southeast", "southwest"),
+  choices = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
 scale_pattern_gravity_discrete(
   ...,
-  choices = c("center", "north", "south", "east", "west", "northeast", "northwest",
-    "southeast", "southwest"),
+  choices = NULL,
+  palette = NULL,
   guide = "legend"
 )
 
@@ -107,16 +127,18 @@ scale_pattern_orientation_continuous(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  choices = c("horizontal", "vertical", "radial"),
+  choices = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
 scale_pattern_orientation_discrete(
   ...,
-  choices = c("horizontal", "vertical", "radial"),
+  choices = NULL,
+  palette = NULL,
   guide = "legend"
 )
 
@@ -125,16 +147,18 @@ scale_pattern_grid_continuous(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  choices = c("square", "hex"),
+  choices = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
 scale_pattern_grid_discrete(
   ...,
-  choices = c("square", "hex"),
+  choices = NULL,
+  palette = NULL,
   guide = "legend"
 )
 
@@ -143,16 +167,18 @@ scale_pattern_units_continuous(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  choices = c("snpc", "cm", "inches"),
+  choices = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
 scale_pattern_units_discrete(
   ...,
-  choices = c("snpc", "cm", "inches"),
+  choices = NULL,
+  palette = NULL,
   guide = "legend"
 )
 
@@ -161,17 +187,19 @@ scale_pattern_continuous(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  choices = c("stripe", "crosshatch", "circle"),
+  choices = NULL,
   trans = deprecated(),
   guide = "legend",
   ...,
   transform = "identity",
-  na.value = "none"
+  na.value = "none",
+  palette = NULL
 )
 
 scale_pattern_discrete(
   ...,
-  choices = c("stripe", "crosshatch", "circle"),
+  choices = NULL,
+  palette = NULL,
   guide = "legend",
   na.value = "none"
 )
@@ -180,7 +208,14 @@ scale_pattern_discrete(
 \item{name, breaks, labels, limits, trans, guide, ..., transform, na.value}{See
 \code{{ggplot2}} documentation for more information on scales.}
 
-\item{choices}{vector of values to choose from.}
+\item{choices}{vector of values to choose from.
+If \code{NULL} (and \code{palette} is \code{NULL}) uses the \verb{palette.<aesthetic>.<type>} theme element
+(see \link{pattern_palettes}) else the default palette (see the "Default palettes" section).}
+
+\item{palette}{A palette function, or for a discrete scale a character vector of values
+(used in order, see \code{\link[scales:pal_manual]{scales::pal_manual()}}).
+Takes precedence over \code{choices}.
+For a vector of values for a continuous scale use \code{choices}.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.
@@ -188,6 +223,23 @@ A \link[ggplot2:Scale]{ggplot2::Scale} object.
 \description{
 Scales for discrete pattern aesthetics
 }
+\section{Default palettes}{
+
+If neither the \code{palette} nor \code{choices} argument nor the \verb{palette.<aesthetic>.<type>}
+theme element is set these scales use the following \code{choices}:
+\itemize{
+\item \code{pattern}: \code{choices = c('stripe', 'crosshatch', 'circle')}
+\item \code{pattern_type}: none (\code{choices}, \code{palette}, or a theme palette must be set)
+\item \code{pattern_subtype}: none (\code{choices}, \code{palette}, or a theme palette must be set)
+\item \code{pattern_filename}: none (\code{choices}, \code{palette}, or a theme palette must be set)
+\item \code{pattern_filter}: \code{choices = c('lanczos', 'box', 'spline', 'cubic')}
+\item \code{pattern_gravity}: \code{choices = c('center', 'north', 'south', 'east', 'west', 'northeast', 'northwest', 'southeast', 'southwest')}
+\item \code{pattern_orientation}: \code{choices = c('horizontal', 'vertical', 'radial')}
+\item \code{pattern_grid}: \code{choices = c('square', 'hex')}
+\item \code{pattern_units}: \code{choices = c('snpc', 'cm', 'inches')}
+}
+}
+
 \examples{
   if (require('ggplot2')) {
     gg <- ggplot(mtcars) +

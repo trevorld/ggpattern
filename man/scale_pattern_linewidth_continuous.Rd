@@ -12,10 +12,11 @@ scale_pattern_linewidth_continuous(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(1, 6),
+  range = NULL,
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 
 scale_pattern_linewidth(
@@ -23,17 +24,24 @@ scale_pattern_linewidth(
   breaks = waiver(),
   labels = waiver(),
   limits = NULL,
-  range = c(1, 6),
+  range = NULL,
   guide = "legend",
   ...,
-  transform = "identity"
+  transform = "identity",
+  palette = NULL
 )
 }
 \arguments{
 \item{name, breaks, labels, limits, guide, ..., transform}{See \code{\link[ggplot2:scale_linewidth]{ggplot2::scale_linewidth()}} for more information}
 
 \item{range}{a numeric vector of length 2 that specifies the minimum and
-maximum line width after transformation.}
+maximum line width after transformation.
+If \code{NULL} (and \code{palette} is \code{NULL}) uses the \verb{palette.pattern_linewidth.<type>} theme element
+(see \link{pattern_palettes}) else \code{c(1, 6)} (\code{c(2, 6)} for the ordinal scale).}
+
+\item{palette}{A palette function e.g. \code{\link[scales:pal_rescale]{scales::pal_rescale()}} for a continuous scale
+or a \verb{function(n)} returning \code{n} values for a discrete scale.  Takes precedence over \code{range}.
+For a vector of values use \code{range} or \code{\link[=scale_pattern_linewidth_manual]{scale_pattern_linewidth_manual()}}.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.

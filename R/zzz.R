@@ -4,3 +4,7 @@
 #' @importFrom utils tail
 #' @importFrom grDevices col2rgb dev.off png rgb
 NULL
+
+.onLoad <- function(libname, pkgname) {
+  ggplot2::register_theme_elements(element_tree = pattern_palette_element_tree())
+}

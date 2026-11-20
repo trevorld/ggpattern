@@ -7,9 +7,9 @@
 \alias{scale_pattern_shape_continuous}
 \title{Scales for shapes, aka glyphs}
 \usage{
-scale_pattern_shape(..., solid = TRUE)
+scale_pattern_shape(..., solid = NULL, palette = NULL)
 
-scale_pattern_shape_discrete(..., solid = TRUE)
+scale_pattern_shape_discrete(..., solid = NULL, palette = NULL)
 
 scale_pattern_shape_ordinal(...)
 
@@ -19,7 +19,13 @@ scale_pattern_shape_continuous(...)
 \item{...}{other arguments passed to discrete_scale()}
 
 \item{solid}{Should the shapes be solid, \code{TRUE}, or hollow,
-\code{FALSE}?}
+\code{FALSE}?  If \code{NULL} (and \code{palette} is \code{NULL}) uses the \code{palette.pattern_shape.discrete}
+theme element (see \link{pattern_palettes}) else solid shapes.}
+
+\item{palette}{A palette function or a character vector of shapes (see \code{\link[scales:pal_manual]{scales::pal_manual()}}).
+For numeric (\code{pch}) shapes use e.g. \code{palette = scales::pal_manual(c(1, 2, 3))}
+or \code{\link[=scale_pattern_shape_manual]{scale_pattern_shape_manual()}}.
+Takes precedence over \code{solid}.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.

@@ -7,20 +7,26 @@
 \alias{scale_pattern_alpha_ordinal}
 \title{Alpha transparency scales}
 \usage{
-scale_pattern_alpha_continuous(..., range = c(0.1, 1))
+scale_pattern_alpha_continuous(..., range = NULL, palette = NULL)
 
-scale_pattern_alpha(..., range = c(0.1, 1))
+scale_pattern_alpha(..., range = NULL, palette = NULL)
 
 scale_pattern_alpha_discrete(...)
 
-scale_pattern_alpha_ordinal(..., range = c(0.1, 1))
+scale_pattern_alpha_ordinal(..., range = NULL, palette = NULL)
 }
 \arguments{
 \item{...}{Other arguments passed on to \code{\link[ggplot2:continuous_scale]{ggplot2::continuous_scale()}}, \code{\link[ggplot2:binned_scale]{ggplot2::binned_scale()}},
 or \code{\link[ggplot2:discrete_scale]{ggplot2::discrete_scale()}} as appropriate, to control name, limits,
 breaks, labels and so forth.}
 
-\item{range}{Output range of alpha values. Must lie between 0 and 1.}
+\item{range}{Output range of alpha values. Must lie between 0 and 1.
+If \code{NULL} (and \code{palette} is \code{NULL}) uses the \verb{palette.pattern_alpha.<type>} theme element
+(see \link{pattern_palettes}) else \code{c(0.1, 1)}.}
+
+\item{palette}{A palette function e.g. \code{\link[scales:pal_rescale]{scales::pal_rescale()}} for a continuous scale
+or a \verb{function(n)} returning \code{n} values for a discrete scale.  Takes precedence over \code{range}.
+For a vector of values use \code{range} or \code{\link[=scale_pattern_alpha_manual]{scale_pattern_alpha_manual()}}.}
 }
 \value{
 A \link[ggplot2:Scale]{ggplot2::Scale} object.

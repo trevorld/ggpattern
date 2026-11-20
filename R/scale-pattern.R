@@ -6,16 +6,14 @@ scale_pattern_continuous <- function(name = waiver(),
                                         breaks = waiver(),
                                         labels = waiver(),
                                         limits = NULL,
-                                        choices = c('stripe', 'crosshatch', 'circle'),
+                                        choices = NULL,
                                         trans = deprecated(),
                                         guide = 'legend',
                                         ...,
                                         transform = 'identity',
-                                        na.value = 'none') {
+                                        na.value = 'none',
+                                        palette = NULL) {
 
-  if (is.null(choices)) {
-     abort('scale_pattern_continuous(): must specify "choices" argument')
-  }
   if (lifecycle::is_present(trans)) {
      lifecycle::deprecate_warn('1.1.1',
                                'scale_pattern_continuous(trans)',
@@ -25,7 +23,8 @@ scale_pattern_continuous <- function(name = waiver(),
 
   ggplot2::continuous_scale(
     aesthetics = 'pattern',
-    palette    = function(x) choices[as.integer(x * (length(choices) - 1) + 1)],
+    palette    = as_scale_palette(palette, choices, pal_choices_continuous, 'continuous', 'pattern', 'choices'),
+    fallback.palette = pal_choices_continuous(c('stripe', 'crosshatch', 'circle')),
     name       = name,
     breaks     = breaks,
     labels     = labels,
@@ -38,23 +37,14 @@ scale_pattern_continuous <- function(name = waiver(),
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #' @rdname scale_discrete
-#' @importFrom utils head
 #' @export
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scale_pattern_discrete <- function(..., choices = c('stripe', 'crosshatch', 'circle'),
+scale_pattern_discrete <- function(..., choices = NULL, palette = NULL,
                                    guide = 'legend', na.value = "none") {
-  force(range)
-
-  if (is.null(choices)) {
-     abort('scale_pattern_discrete(): must specify "choices" argument')
-  }
-
   ggplot2::discrete_scale(
     aesthetics = 'pattern',
-    palette    = function(n) {
-      idx <- cut(seq(n), length(choices), labels = FALSE, include.lowest = TRUE)
-      choices[idx]
-    },
+    palette    = as_scale_palette(palette, choices, pal_choices_discrete, 'discrete', 'pattern', 'choices'),
+    fallback.palette = pal_choices_discrete(c('stripe', 'crosshatch', 'circle')),
     guide = guide,
     na.value = na.value,
     ...

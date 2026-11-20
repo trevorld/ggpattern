@@ -12,7 +12,12 @@
 #' Scales for area or radius
 #'
 #' @param solid Should the shapes be solid, `TRUE`, or hollow,
-#'   `FALSE`?
+#'   `FALSE`?  If `NULL` (and `palette` is `NULL`) uses the `palette.pattern_shape.discrete`
+#'   theme element (see [pattern_palettes]) else solid shapes.
+#' @param palette A palette function or a character vector of shapes (see [scales::pal_manual()]).
+#'   For numeric (`pch`) shapes use e.g. `palette = scales::pal_manual(c(1, 2, 3))`
+#'   or [scale_pattern_shape_manual()].
+#'   Takes precedence over `solid`.
 #' @param ... other arguments passed to discrete_scale()
 #' @return A [ggplot2::Scale] object.
 #' @examples
@@ -38,8 +43,11 @@
 #'
 #' @export
 #-----------------------------------------------------------------------------
-scale_pattern_shape <- function(..., solid = TRUE) {
-  discrete_scale("pattern_shape", palette = shape_pal(solid), ...)
+scale_pattern_shape <- function(..., solid = NULL, palette = NULL) {
+  discrete_scale("pattern_shape",
+                 palette = as_scale_palette(palette, solid, shape_pal, "discrete", "pattern_shape"),
+                 fallback.palette = shape_pal(),
+                 ...)
 }
 
 #  #-----------------------------------------------------------------------------
