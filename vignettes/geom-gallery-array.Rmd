@@ -203,6 +203,8 @@ p
 }
 #> Warning: Removed 478 rows containing non-finite outside the scale range
 #> (`stat_bin2d()`).
+#> Warning: Removed 7 rows containing missing values or values outside the scale range
+#> (`geom_bin2d_pattern()`).
 ```
 
 <img src="images/gallery-array-bin2d-1.png" alt="Example of 'geom_bin2d_pattern()'"  />
