@@ -48,6 +48,9 @@ template_discrete_roxygen_first <- "
 #' Scales for discrete pattern aesthetics
 #'
 #' @param choices vector of values to choose from.
+#'        A continuous scale splits the range of its limits into `length(choices)` equal-width bins
+#'        (a value on the edge between two bins goes in the lower bin)
+#'        and gives each bin the next choice.
 #'        If `NULL` (and `palette` is `NULL`) uses the `palette.<aesthetic>.<type>` theme element
 #'        (see [pattern_palettes]) else the default palette (see the \"Default palettes\" section).
 #' @param palette A palette function, or for a discrete scale a character vector of values

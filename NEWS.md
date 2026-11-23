@@ -47,6 +47,15 @@
   and the `type` of `scale_pattern_colour_continuous()`, `scale_pattern_fill_continuous()`,
   and `scale_pattern_fill2_continuous()` now defaults to `NULL` (previously `"gradient"` when the option was unset).
   The default palettes are unchanged.
+* `scale_pattern_continuous()` and the `scale_pattern_*_continuous()` scales that pick from `choices`
+  (`pattern_type`, `pattern_subtype`, `pattern_filename`, `pattern_filter`, `pattern_gravity`,
+  `pattern_orientation`, `pattern_grid`, and `pattern_units`) now split the data into equal-width bins (#176).
+  Like `{ggplot2}`'s binned scales a value on the edge between two bins goes in the lower bin
+  (so evenly spaced values get the same choices as the discrete scale would give them as a factor)
+  and values outside the limits (e.g. with `oob = scales::oob_keep`) are `NA`.
+  Previously the last choice was only used at the maximum
+  (e.g. `1:10` with three choices gave 5, 4, and 1 values instead of 4, 3, and 3)
+  so some values now get a different choice.
 
 ## Deprecated features
 

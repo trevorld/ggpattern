@@ -26,6 +26,25 @@ test_that("`scale_pattern_discrete()` and `scale_pattern_continuous()` take `cho
                c("none", "circle"))
 })
 
+test_that("continuous `choices` scales split the data into equal-width bins (#176)", {
+  choices <- c("stripe", "crosshatch", "circle")
+  expect_equal(scale_values(scale_pattern_continuous(choices = choices), "pattern", 1:10),
+               rep(choices, c(4, 3, 3)))
+  # Same choices as the discrete scale gives the values as a factor
+  expect_equal(scale_values(scale_pattern_continuous(choices = choices), "pattern", 1:10),
+               scale_values(scale_pattern_discrete(choices = choices), "pattern", factor(1:10)))
+  # Including values that are only on a bin edge up to rounding error (e.g. 0.6 * 5)
+  choices <- as.character(1:5)
+  x <- seq(0, 1, by = 0.1)
+  expect_equal(scale_values(scale_pattern_continuous(choices = choices), "pattern", x),
+               scale_values(scale_pattern_discrete(choices = choices), "pattern", factor(x)))
+  expect_equal(scale_values(scale_pattern_type_continuous(choices = c("a", "b")), "pattern_type",
+                            c(0, 0.5, 0.51, 1, NA)),
+               c("a", "a", "b", "b", NA))
+  # Out of bounds values are `NA` (like `{ggplot2}`'s binned scales)
+  expect_equal(pal_choices_continuous(c("a", "b"))(c(-0.1, 0, 1, 1.1)), c(NA, "a", "b", NA))
+})
+
 test_that("`scale_pattern_manual()` works", {
   expect_true(is_scale(scale_pattern_manual(values = c(a = "stripe", b = "crosshatch"))))
 })

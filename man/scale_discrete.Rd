@@ -209,6 +209,9 @@ scale_pattern_discrete(
 \code{{ggplot2}} documentation for more information on scales.}
 
 \item{choices}{vector of values to choose from.
+A continuous scale splits the range of its limits into \code{length(choices)} equal-width bins
+(a value on the edge between two bins goes in the lower bin)
+and gives each bin the next choice.
 If \code{NULL} (and \code{palette} is \code{NULL}) uses the \verb{palette.<aesthetic>.<type>} theme element
 (see \link{pattern_palettes}) else the default palette (see the "Default palettes" section).}
 

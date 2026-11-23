@@ -151,10 +151,21 @@ pal_choices_discrete <- function(choices) {
   }
 }
 
-# Continuous palette that picks from the `choices`
+# Continuous palette that picks from the `choices` by splitting [0, 1] into equal-width bins.
+# Like `{ggplot2}`'s binned scales (and `pal_choices_discrete()`) the bins are closed on the right
+# (a value on an edge goes in the lower bin) and the minimum goes in the first bin.
+# A value within rounding error of an edge counts as on it
+# (e.g. a rescaled 0.6 times 5 bins is 3.0000000000000004).
+# Like the `fuzz` of `hist()` (which defaults to 1e-7 of a bin width) this means a value
+# less than `sqrt(.Machine$double.eps)` of a bin width above an edge also goes in the lower bin.
+# Values outside [0, 1] (e.g. with `oob = scales::oob_keep`) are `NA` like in `{ggplot2}`'s binned scales.
 pal_choices_continuous <- function(choices) {
   force(choices)
-  function(x) choices[as.integer(x * (length(choices) - 1) + 1)]
+  n <- length(choices)
+  function(x) {
+    x[x < 0 | x > 1] <- NA
+    choices[pmax(ceiling(x * n - sqrt(.Machine$double.eps)), 1)]
+  }
 }
 
 # Discrete palette of evenly spaced values within `range`
