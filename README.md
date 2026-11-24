@@ -216,6 +216,14 @@ Register them with `gridpattern::register_pattern()`.
 
 See the vignette on developing patterns: [`vignette("developing-patterns", package = "ggpattern")`](https://trevorldavis.com/R/ggpattern/dev/articles/developing-patterns.html).
 
+The following packages provide patterns or pattern scales for `ggpattern`.
+
+* [`deeptime`](https://williamgearty.com/deeptime/reference/grid.pattern_geo.html)
+  provides geologic patterns defined by the FGDC. Use `pattern = "geo"` in
+  a pattern geom.
+* [`ggCheysson`](https://friendly.github.io/ggCheysson/reference/scale_pattern_cheysson.html)
+  provides color and hatching scales based on Cheysson's statistical graphics.
+
 # Vignettes
 
 **Note:** due to CRAN package size limits many of these vignettes are only available in the Github version of `{ggpattern}` and the package website.
