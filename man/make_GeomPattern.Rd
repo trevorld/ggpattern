@@ -25,7 +25,9 @@ The geom is given a different \code{fill} for each kind of row
 and each area is then filled with the pattern of the row whose \code{fill} it was drawn with
 (and given back its actual \code{fill}).
 Areas that weren't drawn with a row's \code{fill} are left alone.
-Needs the geom to draw a row's area with its (character) \code{fill} (possibly with an alpha).
+Needs the geom to draw a row's area with its \code{fill} (possibly with an alpha).
+The actual \code{fill} may also be a pattern (e.g. a gradient)
+but the geom is traced with colours so it needs to draw them the same way.
 \item \code{"row"}: the geom draws an area per row (in row order) e.g. \code{ggplot2::GeomRect}.
 \item \code{"group"}: the geom draws an area per group (sorted by group) with the pattern of its first row
 (it is an error if the pattern aesthetics vary within a group)

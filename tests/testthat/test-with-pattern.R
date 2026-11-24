@@ -391,11 +391,38 @@ test_that("`make_GeomPattern()` traces the row of each area by its fill", {
     expect_equal(pattern_names(grob), "circle")
     expect_colours(area_fills(grob), "red")
 
-    # a fill that can't be traced (e.g. a list of gradients): an area per row is assumed
+    # a list of fills (e.g. gradients) is traced too (#174)
+    # so e.g. a ribbon drawn from several rows is still one area
+    p <- ggplot(data.frame(x = 1:4), aes(x, ymin = 0, ymax = x, fill = "a")) +
+        layer(geom = GeomRibbonTraced, stat = "identity", position = "identity",
+              params = list(pattern = "circle")) +
+        scale_fill_manual(values = list(grid::linearGradient(c("red", "white"))))
+    grob <- layer_grob(p)[[1]]
+    expect_equal(pattern_names(grob), "circle")
+    expect_s3_class(find_grobs(grob, "polygon")[[1L]]$gp$fill, "GridLinearGradient")
+    # (the tracer fills are given back the actual fills of their rows with the alpha the geom gave them:
+    #  a grob with several fills one of which is a pattern gets a list of patterns
+    #  since `gpar()` doesn't allow a list with colours)
+    fills <- list(grid::linearGradient(c("black", "white")), "red", NA)
+    restore <- fill_restorer(fills, 1:3)
+    restored <- restore(c("#00000180", "#000002", "black"))
+    expect_s3_class(restored[[1L]], "GridLinearGradient")
+    expect_colours(restored[[1L]]$colours, alpha(c("black", "white"), 0.5))
+    expect_true(all(vapply(restored[-1L], inherits, logical(1L), "GridTilingPattern")))
+    expect_s3_class(restore("#000001"), "GridLinearGradient")
+    expect_colours(restore(c("#00000280", "black")), c(alpha("red", 0.5), "black"))
+    # (a missing fill stays missing whatever the alpha)
+    expect_equal(restore(c("#00000380", "black")), c(NA, "black"))
+    expect_equal(restore(c("black", NA)), c("black", NA))
+    # (any other fills can be traced too e.g. palette numbers)
+    expect_equal(fill_restorer(c(2, 3), 1:2)(c("#000002", "black")), c("3", "black"))
+
+    # without fills to trace an area per row is assumed
     data <- data.frame(pattern = c("stripe", "circle"))
-    data$fill <- list(grid::linearGradient(), "red")
-    draw <- function(data) grid::rectGrob(x = c(0.25, 0.75), width = 0.4, gp = grid::gpar(fill = c("red", "blue")))
+    draw <- function(data) grid::rectGrob(x = c(0.25, 0.75), width = 0.4)
     expect_equal(pattern_names(draw_traced(draw, data)), c("stripe", "circle"))
+    draw <- function(data) grid::rectGrob()
+    expect_error(draw_traced(draw, data, "GeomFoo"), "has no .?fill.? to trace its areas", class = "ggpattern_area_mismatch")
 })
 
 test_that("areas that only exist when drawn are filled then", {
@@ -435,6 +462,11 @@ test_that("areas that only exist when drawn are filled then", {
     grob <- layer_grob(p)[[1]]
     expect_error(grid::forceGrob(grob), "drew 1 area but the `area_by` function gave 2 rows",
                  class = "ggpattern_area_mismatch")
+    # and so does tracing a geom without fills (which assumes an area per row)
+    draw <- function(data) lazy
+    expect_equal(pattern_names(grid::forceGrob(draw_traced(draw, data))), "circle")
+    grob <- draw_traced(draw, data.frame(pattern = c("circle", "stripe")), "GeomLazy")
+    expect_error(grid::forceGrob(grob), "has no .?fill.? to trace its areas", class = "ggpattern_area_mismatch")
 
     # tracing is tried again when the grob is drawn if there were no traced areas when the panel was drawn
     registerS3method("makeContent", "ggpattern_test_lazy_fill",
