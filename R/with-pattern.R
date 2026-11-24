@@ -128,7 +128,9 @@ with_pattern_key <- function(key, data, size, aspect_ratio = get_aspect_ratio())
 #'     and each area is then filled with the pattern of the row whose `fill` it was drawn with
 #'     (and given back its actual `fill`).
 #'     Areas that weren't drawn with a row's `fill` are left alone.
-#'     Needs the geom to draw a row's area with its (character) `fill` (possibly with an alpha).
+#'     Needs the geom to draw a row's area with its `fill` (possibly with an alpha).
+#'     The actual `fill` may also be a pattern (e.g. a gradient)
+#'     but the geom is traced with colours so it needs to draw them the same way.
 #'   * `"row"`: the geom draws an area per row (in row order) e.g. `ggplot2::GeomRect`.
 #'   * `"group"`: the geom draws an area per group (sorted by group) with the pattern of its first row
 #'     (it is an error if the pattern aesthetics vary within a group)
@@ -281,9 +283,10 @@ known_area_by <- function(geom) {
 
 # The grob `draw(data)` draws with its areas filled with the patterns of their rows
 # (`params` are the draw method's parameters for an `area_by` function,
-#  `geom` and `label` (the `area_by` preset or `NULL` for a function) are for error messages)
+#  `geom` and `label` (the `area_by` preset, `NULL` for a function,
+#  or "untraced" for tracing without fills, see `draw_traced()`) are for error messages)
 draw_with_pattern <- function(draw, data, area_by, params = list(), geom = "Geom", label = NULL) {
-    if (!is.function(area_by)) return(draw_traced(draw, data))
+    if (!is.function(area_by)) return(draw_traced(draw, data, geom))
     grob <- draw(data)
     rows <- call_area_by(area_by, data, params)
     # (a grob that only makes its areas when it is drawn is filled then)
@@ -316,15 +319,20 @@ makeContent.ggpattern_area_mismatch_context <- function(x) {
     setChildren(x, gList(grob))
 }
 
+# (`label` is "untraced" when tracing had no fills to trace by so an area per row was assumed)
 abort_area_mismatch <- function(cnd, geom, label) {
     # (with `pool = TRUE` {gridpattern} counts grobs not areas)
     units <- paste0(cnd$unit, if (cnd$n_expected != 1L) "s")
-    area_by <- if (is.null(label)) "the {.arg area_by} function" else "{.code area_by = \"{label}\"}"
-    cli::cli_abort(c(
-        paste0("{.cls {geom}} drew {cnd$n_expected} {units} but ", area_by,
-               " gave {cnd$n_given} row{?s}."),
-        i = "Does it draw its areas in a different way? Try {.code area_by = \"trace\"}."
-    ), parent = cnd, call = NULL, class = "ggpattern_area_mismatch")
+    msg <- if (identical(label, "untraced")) {
+        c(paste0("{.cls {geom}} has no {.field fill} to trace its areas by so an area per row was assumed ",
+                 "but it drew {cnd$n_expected} {units} for {cnd$n_given} row{?s}."),
+          i = "Set {.arg area_by} e.g. {.code area_by = \"group\"} or an {.arg area_by} function.")
+    } else {
+        area_by <- if (is.null(label)) "the {.arg area_by} function" else "{.code area_by = \"{label}\"}"
+        c(paste0("{.cls {geom}} drew {cnd$n_expected} {units} but ", area_by, " gave {cnd$n_given} row{?s}."),
+          i = "Does it draw its areas in a different way? Try {.code area_by = \"trace\"}.")
+    }
+    cli::cli_abort(msg, parent = cnd, call = NULL, class = "ggpattern_area_mismatch")
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -367,11 +375,13 @@ map_fill <- function(grob, f) {
 }
 
 # The grob `draw(data)` draws with each area filled with the pattern of the row whose fill it was drawn with
-draw_traced <- function(draw, data) {
+# (`geom` is for error messages)
+draw_traced <- function(draw, data, geom = "Geom") {
     fill <- data$fill
-    # (can't trace other fills (e.g. a list of gradients): assume an area per row)
-    if (nrow(data) == 0L || is.null(fill) || !(is.character(fill) || all(is.na(fill)))) {
-        return(with_pattern_aes(draw(data), data))
+    # (the tracer fills don't depend on the actual fills so any fills e.g. a list of gradients can be traced)
+    # (can't trace without fills: assume an area per row (filled when drawn if it only makes its areas then))
+    if (nrow(data) == 0L || is.null(fill)) {
+        return(draw_with_pattern(draw, data, area_by_functions$row, geom = geom, label = "untraced"))
     }
     id <- vec_group_id(data[intersect(trace_aesthetics(), names(data))])
     first <- match(seq_len(attr(id, "n")), id)
@@ -391,14 +401,7 @@ draw_traced <- function(draw, data) {
 # `first` is the row of each tracer fill.
 untrace <- function(grob, data, first) {
     areas <- gridpattern::area_boundaries(grob)
-    actual <- function(fill) {
-        tracer <- tracer_id(fill)
-        row <- first[tracer$id]
-        is_traced <- !is.na(row)
-        fill[is_traced] <- ifelse(is.na(tracer$alpha[is_traced]), data$fill[row[is_traced]],
-                                  fill_alpha(data$fill[row[is_traced]], tracer$alpha[is_traced]))
-        fill
-    }
+    actual <- fill_restorer(data$fill, first)
     rows <- vapply(areas, function(area) {
         fill <- area$gp$fill
         if (is.character(fill) && length(fill) == 1L) first[tracer_id(fill)$id] else NA_integer_
@@ -416,6 +419,49 @@ untrace <- function(grob, data, first) {
     params$pattern <- as.character(params$pattern %||% "stripe")
     params$pattern[is.na(rows)] <- NA_character_
     with_pattern_aes(grob, params)
+}
+
+# A function giving the (character) `fill` of a traced grob back its actual fills:
+# each tracer fill becomes the actual fill of its row (with the alpha the geom gave the tracer fill)
+# so it returns a colour vector, a pattern, or a list of patterns (see `as_gp_fill()`).
+# `fills` are the actual fills of the rows (a colour vector or a list e.g. of gradients)
+# and `first` the row of each tracer fill.
+# (each tracer fill is only restored once since `untrace()` restores the fills of each area
+#  and then of the whole grob, many areas may share a row's tracer fill (e.g. the polygons of a map),
+#  and restoring a pattern with an alpha makes a new one, which is slow for a tiling pattern
+#  (e.g. the geologic fills of `{deeptime}`: about 0.3 ms each so seconds for thousands of polygons))
+fill_restorer <- function(fills, first) {
+    restored <- new.env(parent = emptyenv())
+    restore <- function(tracer, row, alpha) {
+        if (is.null(restored[[tracer]])) {
+            actual <- fills[[row]]
+            # (`gridpattern::update_alpha()` would make a missing fill a translucent white)
+            if (!is.na(alpha) && (inherits(actual, "GridPattern") || !is.na(actual))) {
+                actual <- gridpattern::update_alpha(actual, alpha)
+            }
+            restored[[tracer]] <- actual
+        }
+        restored[[tracer]]
+    }
+    function(fill) {
+        tracer <- tracer_id(fill)
+        row <- first[tracer$id]
+        is_traced <- !is.na(row)
+        if (!any(is_traced)) return(fill)
+        fill <- as.list(fill)
+        fill[is_traced] <- Map(restore, fill[is_traced], row[is_traced], tracer$alpha[is_traced])
+        as_gp_fill(fill)
+    }
+}
+
+# A list of fills (each a colour or a pattern) as the `fill` of a grob:
+# a colour vector, a pattern, or else a list of patterns
+# (since `gpar()` doesn't allow colours in a list they become patterns too)
+as_gp_fill <- function(fill) {
+    is_pattern <- vapply(fill, inherits, logical(1L), "GridPattern")
+    if (!any(is_pattern)) return(unlist(fill))
+    if (length(fill) == 1L) return(fill[[1L]])
+    gridpattern::update_alpha(fill, NA)
 }
 
 #' @export
